@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../home/home_screen.dart';
 import '../calendar/calendar_screen.dart';
-import '../insights/insights_screen.dart';
+import '../chat/femai_chat_screen.dart';
 import '../profile/profile_screen.dart';
 import '../../shared/widgets/universal_plus_button.dart';
 import '../../core/theme/femflow_colors.dart';
@@ -37,7 +37,7 @@ class MainShellState extends State<MainShell> {
     ),
     Navigator(
       key: _navigatorKeys[2],
-      onGenerateRoute: (settings) => MaterialPageRoute(builder: (_) => const InsightsGate()),
+      onGenerateRoute: (settings) => MaterialPageRoute(builder: (_) => const FemAIChatScreen()),
     ),
     Navigator(
       key: _navigatorKeys[3],
@@ -136,7 +136,7 @@ class MainShellState extends State<MainShell> {
                 ),
                 Expanded(child: Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: _buildNavItem(2, Icons.bar_chart_outlined, Icons.bar_chart, 'Insights'),
+                  child: _buildNavItem(2, Icons.auto_awesome_outlined, Icons.auto_awesome, 'FemAI'),
                 )),
                 Expanded(child: Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -182,7 +182,6 @@ class InsightsGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // We allow everyone into the Insights tab now, but the screen will handle partial data gating.
-    return const InsightsScreen();
+    return const FemAIChatScreen();
   }
 }

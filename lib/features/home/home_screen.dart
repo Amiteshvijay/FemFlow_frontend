@@ -16,10 +16,10 @@ import '../premium/premium_feature_preview_screen.dart';
 import '../community/community_home_screen.dart';
 import '../exercises/screens/exercise_home_screen.dart';
 import '../pill_reminder/pill_reminder_list_screen.dart';
-import '../doctor_consultation/doctor_consultation_home_screen.dart' deferred as doctor_consultation;
+import '../doctor_consultation/doctor_consultation_home_screen.dart';
 import '../journal/journal_screen.dart';
-import '../chat/femai_chat_screen.dart';
 import '../calendar/date_detail_screen.dart';
+import '../health_vault/health_vault_screen.dart';
 import '../tips/widgets/everyday_tips_section.dart';
 import '../tips/providers/tips_provider.dart';
 import '../exercises/widgets/recommended_exercise_section.dart';
@@ -638,7 +638,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         _quickActionCard(
           context,
-          icon: Icons.bloodtype_outlined,
+          icon: Icons.opacity,
           label: 'Period',
           color: FemFlowColors.period,
           onTap: () async {
@@ -655,18 +655,6 @@ class _HomeScreenState extends State<HomeScreen> {
             final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const SymptomsScreen()));
             if (result == true) _handleRefresh();
           },
-        ),
-        _quickActionCard(
-          context,
-          icon: Icons.chat_bubble_outline,
-          label: 'FemAI',
-          color: FemFlowColors.aiWellness,
-          isPremium: true,
-          onTap: () => PremiumGuard.openPremiumFeature(
-            context: context, 
-            featureKey: 'ai_chat', 
-            premiumScreen: const FemAIChatScreen()
-          ),
         ),
         _quickActionCard(
           context,
@@ -694,10 +682,22 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         _quickActionCard(
           context,
-          icon: Icons.calendar_month_outlined,
-          label: 'Calendar',
-          color: FemFlowColors.primary,
-          onTap: () => const SwitchTabNotification(1).dispatch(context),
+          icon: Icons.shield_outlined,
+          label: 'Vault',
+          color: Colors.blue,
+          isPremium: true,
+          onTap: () => PremiumGuard.openPremiumFeature(
+            context: context, 
+            featureKey: 'health_vault', 
+            premiumScreen: const HealthVaultScreen()
+          ),
+        ),
+        _quickActionCard(
+          context,
+          icon: Icons.insights_outlined,
+          label: 'Insights',
+          color: FemFlowColors.aiWellness,
+          onTap: () => const SwitchTabNotification(2).dispatch(context),
         ),
         _quickActionCard(
           context,
@@ -705,34 +705,10 @@ class _HomeScreenState extends State<HomeScreen> {
           label: 'Doctors',
           color: Colors.blue,
           isPremium: false,
-          onTap: () async {
-            // Show a brief loading indicator while the library loads
-            if (context.mounted) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const Center(child: CircularProgressIndicator(color: FemFlowColors.primary)),
-              );
-            }
-
-            try {
-              await doctor_consultation.loadLibrary();
-              if (context.mounted) {
-                Navigator.pop(context); // Close loading dialog
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => doctor_consultation.DoctorConsultationHomeScreen()),
-                );
-              }
-            } catch (e) {
-              if (context.mounted) {
-                Navigator.pop(context); // Close loading dialog
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Failed to load feature. Please try again.')),
-                );
-              }
-            }
-          },
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DoctorConsultationHomeScreen()),
+          ),
         ),
         _quickActionCard(
           context,

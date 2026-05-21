@@ -20,20 +20,9 @@ import 'package:femflow/core/services/background_sync_service.dart';
 import 'package:femflow/core/navigation/navigator_service.dart';
 import 'package:femflow/features/auth/providers/auth_provider.dart';
 
-import 'package:flutter/services.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Enable Edge-to-Edge Full Screen for a premium look
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark, // Dark icons for light theme
-    systemNavigationBarColor: Colors.transparent,
-    systemNavigationBarIconBrightness: Brightness.dark,
-  ));
-
   // Initialize notifications
   final notificationService = NotificationService();
   await notificationService.init();
