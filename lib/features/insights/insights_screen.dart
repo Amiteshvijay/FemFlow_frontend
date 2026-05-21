@@ -286,8 +286,6 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
         children: [
           Row(
             children: [
-              const Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 20),
-              const SizedBox(width: 10),
               const Text(
                 'Advanced Health Logs',
                 style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness, fontSize: 16),

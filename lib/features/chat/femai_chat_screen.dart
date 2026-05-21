@@ -195,7 +195,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
         title: const Column(
           children: [
             Text(
-              'FemAI ✨',
+              'FemAI',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

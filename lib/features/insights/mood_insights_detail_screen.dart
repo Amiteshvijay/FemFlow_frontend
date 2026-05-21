@@ -205,10 +205,8 @@ class _MoodInsightsDetailScreenState extends State<MoodInsightsDetailScreen> {
     return AppCard(
       color: FemFlowColors.lavender.withValues(alpha: 0.1),
       border: const BorderSide(color: FemFlowColors.lavender),
-      child: Row(
-        children: const [
-          Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 20),
-          SizedBox(width: 16),
+      child: const Row(
+        children: [
           Expanded(
             child: Text(
               'Mood changes seem more frequent near your period days. This is a common pattern influenced by hormonal shifts.',

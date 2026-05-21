@@ -34,9 +34,9 @@ class UniversalPlusButton extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 3,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 0.85,
+                mainAxisSpacing: 24,
+                crossAxisSpacing: 24,
+                childAspectRatio: 0.8,
                 children: [
                   _buildAction(
                     context, 
@@ -92,33 +92,25 @@ class UniversalPlusButton extends StatelessWidget {
           }
         }
       },
-      child: Stack(
-        alignment: Alignment.topRight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: color, size: 24),
-              ),
-              const SizedBox(height: 8),
-              Text(label, textAlign: TextAlign.center, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500)),
-            ],
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 32),
           ),
-          if (isPremium && !hasPremium)
-             Container(
-               padding: const EdgeInsets.all(4),
-               decoration: const BoxDecoration(
-                 gradient: LinearGradient(colors: [Color(0xFFFFD700), Color(0xFFFF8C00)]),
-                 shape: BoxShape.circle,
-               ),
-               child: const Icon(Icons.lock, size: 8, color: Colors.white),
-             ),
+          const SizedBox(height: 10),
+          Text(
+            label, 
+            textAlign: TextAlign.center, 
+            maxLines: 1, 
+            overflow: TextOverflow.ellipsis, 
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: FemFlowColors.textPrimary),
+          ),
         ],
       ),
     );

@@ -304,7 +304,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
           ),
           const Divider(height: 32),
           _buildCycleRow(
-            icon: Icons.auto_awesome,
+            icon: Icons.wb_sunny,
             iconColor: FemFlowColors.ovulation,
             title: 'Ovulation',
             status: ovulation?['label'] ?? 'Estimated ovulation day',

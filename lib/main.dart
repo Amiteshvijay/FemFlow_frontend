@@ -19,6 +19,7 @@ import 'package:femflow/core/services/deep_link_service.dart';
 import 'package:femflow/core/services/background_sync_service.dart';
 import 'package:femflow/core/navigation/navigator_service.dart';
 import 'package:femflow/features/auth/providers/auth_provider.dart';
+import 'package:femflow/features/onboarding/brand_splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -115,6 +116,8 @@ class AuthGate extends StatefulWidget {
 }
 
 class _AuthGateState extends State<AuthGate> {
+  bool _showBrandSplash = true;
+
   @override
   void initState() {
     super.initState();
@@ -127,6 +130,14 @@ class _AuthGateState extends State<AuthGate> {
 
   @override
   Widget build(BuildContext context) {
+    if (_showBrandSplash) {
+      return BrandSplashScreen(onFinished: () {
+        setState(() {
+          _showBrandSplash = false;
+        });
+      });
+    }
+
     return Consumer<AuthProvider>(
       builder: (context, auth, _) {
         if (auth.status == AuthStatus.maintenance) {

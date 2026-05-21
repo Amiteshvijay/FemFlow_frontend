@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
+import '../../shared/widgets/femai_icon.dart';
 import '../log_period/period_calendar_editor_screen.dart';
 import '../symptoms/symptoms_screen.dart';
 import '../auth/data/auth_service.dart';
@@ -577,48 +578,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget _buildExpertInsightsSection() {
-    if (_topInsights.isEmpty && !_isLoadingDashboard) return const SizedBox.shrink();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              '✨ Expert Insights',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
-            ),
-            TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const ExpertInsightsDiscoveryScreen()),
-              ),
-              child: const Text('View All →', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 340,
-          child: _isLoadingDashboard
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _topInsights.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 16, bottom: 10),
-                      child: ExpertInsightCard(insight: _topInsights[index], isHorizontal: true),
-                    );
-                  },
-                ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildAIInsightCard(bool isPremium) {
     if (_isLoadingDashboard) return const SizedBox.shrink();
 
@@ -655,15 +614,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(width: 12),
-          Stack(
-            alignment: Alignment.topRight,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: const BoxDecoration(color: FemFlowColors.aiWellness, shape: BoxShape.circle),
-                child: const Icon(Icons.auto_awesome, color: FemFlowColors.white),
-              ),
-              if (!isPremium)
+          // Cleaned up: removed redundant sparkle icon and centered the AI Butterfly icon when needed
+          if (isPremium)
+            const FemAIIcon(color: FemFlowColors.aiWellness, size: 32)
+          else
+            Stack(
+              alignment: Alignment.topRight,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: const BoxDecoration(color: FemFlowColors.aiWellness, shape: BoxShape.circle),
+                  child: const FemAIIcon(color: Colors.white, size: 24),
+                ),
                 Container(
                   padding: const EdgeInsets.all(4),
                   decoration: const BoxDecoration(
@@ -672,8 +634,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: const Icon(Icons.lock, size: 8, color: Colors.white),
                 ),
-            ],
-          ),
+              ],
+            ),
         ],
       ),
     );
@@ -866,6 +828,48 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildExpertInsightsSection() {
+    if (_topInsights.isEmpty && !_isLoadingDashboard) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Expert Insights',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            ),
+            TextButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ExpertInsightsDiscoveryScreen()),
+              ),
+              child: const Text('View All →', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 340,
+          child: _isLoadingDashboard
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _topInsights.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 16, bottom: 10),
+                      child: ExpertInsightCard(insight: _topInsights[index], isHorizontal: true),
+                    );
+                  },
+                ),
+        ),
+      ],
     );
   }
 

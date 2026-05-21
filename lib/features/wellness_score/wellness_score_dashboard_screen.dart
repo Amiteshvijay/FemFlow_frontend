@@ -178,26 +178,17 @@ class _WellnessScoreDashboardScreenState extends State<WellnessScoreDashboardScr
     return AppCard(
       color: FemFlowColors.aiWellness.withValues(alpha: 0.05),
       border: BorderSide(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'AI Reflection',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  _weeklyData?.aiSummary ?? 'No summary available yet.',
-                  style: const TextStyle(color: FemFlowColors.textPrimary, height: 1.4),
-                ),
-              ],
-            ),
+          const Text(
+            'AI Reflection',
+            style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _weeklyData?.aiSummary ?? 'No summary available yet.',
+            style: const TextStyle(color: FemFlowColors.textPrimary, height: 1.4),
           ),
         ],
       ),

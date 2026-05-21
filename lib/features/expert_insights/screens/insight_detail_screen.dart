@@ -198,9 +198,7 @@ class _InsightDetailScreenState extends State<InsightDetailScreen> {
         children: [
           const Row(
             children: [
-              Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 20),
-              SizedBox(width: 8),
-              Text('✨ Ask FemAI About This Topic', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
+              Text('Ask FemAI About This Topic', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
             ],
           ),
           const SizedBox(height: 16),

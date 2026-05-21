@@ -197,15 +197,13 @@ class _SymptomsInsightsDetailScreenState extends State<SymptomsInsightsDetailScr
     return AppCard(
       color: FemFlowColors.lavender.withValues(alpha: 0.2),
       border: const BorderSide(color: FemFlowColors.lavender),
-      child: Row(
+      child: const Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 20),
-          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text('AI Insight', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
                 SizedBox(height: 8),
                 Text(

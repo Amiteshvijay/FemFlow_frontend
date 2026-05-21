@@ -5,6 +5,7 @@ import '../calendar/calendar_screen.dart';
 import '../chat/femai_chat_screen.dart';
 import '../profile/profile_screen.dart';
 import '../../shared/widgets/universal_plus_button.dart';
+import '../../shared/widgets/femai_icon.dart';
 import '../../core/theme/femflow_colors.dart';
 import 'shell_events.dart';
 
@@ -159,10 +160,13 @@ class MainShellState extends State<MainShell> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            isSelected ? activeIcon : icon,
-            color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
-          ),
+          if (label == 'FemAI')
+            FemAIIcon(isSelected: isSelected, size: 24)
+          else
+            Icon(
+              isSelected ? activeIcon : icon,
+              color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
+            ),
           Text(
             label,
             style: TextStyle(
