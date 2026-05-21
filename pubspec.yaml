@@ -45,6 +45,7 @@ dependencies:
   googleapis: 13.0.0
   googleapis_auth: 1.6.0
   encrypt: ^5.0.3
+  flutter_markdown: ^0.7.5
 
 dev_dependencies:
   flutter_test:

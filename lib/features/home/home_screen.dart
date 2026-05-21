@@ -24,6 +24,10 @@ import '../tips/widgets/everyday_tips_section.dart';
 import '../tips/providers/tips_provider.dart';
 import '../exercises/widgets/recommended_exercise_section.dart';
 import '../diet/screens/diet_home_screen.dart';
+import '../expert_insights/data/expert_insights_service.dart';
+import '../expert_insights/models/insight_models.dart';
+import '../expert_insights/widgets/expert_insight_card.dart';
+import '../expert_insights/screens/expert_insights_discovery_screen.dart';
 import 'package:provider/provider.dart';
 import '../subscriptions/providers/subscription_provider.dart';
 
@@ -39,10 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final CycleService _cycleService = CycleService();
   final WellnessScoreService _wellnessService = WellnessScoreService();
   final AnalyticsService _analyticsService = AnalyticsService();
+  final ExpertInsightsService _insightsService = ExpertInsightsService();
   String _firstName = 'there';
   Map<String, dynamic>? _dashboardData;
   WeeklyWellnessScore? _wellnessData;
   Map<String, dynamic>? _dailyInsight;
+  List<ExpertInsight> _topInsights = [];
   bool _isLoadingDashboard = true;
 
   @override
@@ -94,12 +100,14 @@ class _HomeScreenState extends State<HomeScreen> {
         _cycleService.getDashboard(),
         _wellnessService.getWeeklyScore(),
         _analyticsService.getDailyInsight(),
+        _insightsService.getInsights(),
       ]);
       if (mounted) {
         setState(() {
           _dashboardData = results[0] as Map<String, dynamic>?;
           _wellnessData = results[1] as WeeklyWellnessScore?;
           _dailyInsight = results[2] as Map<String, dynamic>?;
+          _topInsights = (results[3] as List<ExpertInsight>).take(10).toList();
           _isLoadingDashboard = false;
         });
       }
@@ -142,6 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 _buildWellnessScoreCard(isPremium),
                 const SizedBox(height: 16),
                 RepaintBoundary(child: _buildAIInsightCard(isPremium)),
+                const SizedBox(height: 24),
+                _buildExpertInsightsSection(),
                 const SizedBox(height: 24),
                 const Text(
                   'Quick Actions',
@@ -565,6 +575,48 @@ class _HomeScreenState extends State<HomeScreen> {
       default:
         return Icons.info_outline;
     }
+  }
+
+  Widget _buildExpertInsightsSection() {
+    if (_topInsights.isEmpty && !_isLoadingDashboard) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              '✨ Expert Insights',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            ),
+            TextButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ExpertInsightsDiscoveryScreen()),
+              ),
+              child: const Text('View All →', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 340,
+          child: _isLoadingDashboard
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _topInsights.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 16, bottom: 10),
+                      child: ExpertInsightCard(insight: _topInsights[index], isHorizontal: true),
+                    );
+                  },
+                ),
+        ),
+      ],
+    );
   }
 
   Widget _buildAIInsightCard(bool isPremium) {
