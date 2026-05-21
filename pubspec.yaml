@@ -64,6 +64,6 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/icons/femflow_app_icon_1024.png"
-  adaptive_icon_background: "#FFF9FB"
-#  adaptive_icon_foreground: "assets/icons/femflow_app_icon_1024.png"
+  adaptive_icon_background: "assets/icons/femflow_app_icon_1024.png"
+  adaptive_icon_foreground: "assets/icons/femflow_app_icon_1024.png"
   remove_alpha_ios: true
