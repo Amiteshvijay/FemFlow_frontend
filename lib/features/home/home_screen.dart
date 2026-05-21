@@ -151,8 +151,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 16),
                 RepaintBoundary(child: _buildAIInsightCard(isPremium)),
                 const SizedBox(height: 24),
-                _buildExpertInsightsSection(),
-                const SizedBox(height: 24),
                 const Text(
                   'Quick Actions',
                   style: TextStyle(
@@ -167,6 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const EverydayTipsSection(),
                 const SizedBox(height: 24),
                 const RecommendedExerciseSection(),
+                const SizedBox(height: 24),
+                _buildExpertInsightsSection(),
                 const SizedBox(height: 40),
               ],
             ),

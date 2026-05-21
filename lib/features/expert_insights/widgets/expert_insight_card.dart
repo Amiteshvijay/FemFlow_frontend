@@ -76,7 +76,7 @@ class ExpertInsightCard extends StatelessWidget {
             ),
             
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -84,63 +84,66 @@ class ExpertInsightCard extends StatelessWidget {
                     insight.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, height: 1.3),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, height: 1.2),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
                       CircleAvatar(
-                        radius: 12,
+                        radius: 10,
                         backgroundImage: insight.doctor.profileImage != null ? NetworkImage(insight.doctor.profileImage!) : null,
-                        child: insight.doctor.profileImage == null ? const Icon(Icons.person, size: 14) : null,
+                        child: insight.doctor.profileImage == null ? const Icon(Icons.person, size: 12) : null,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
-                                Text(
-                                  insight.doctor.fullName,
-                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                Flexible(
+                                  child: Text(
+                                    insight.doctor.fullName,
+                                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                                 if (insight.doctor.isVerified) ...[
-                                  const SizedBox(width: 4),
-                                  const Icon(Icons.verified, color: Colors.blue, size: 12),
+                                  const SizedBox(width: 2),
+                                  const Icon(Icons.verified, color: Colors.blue, size: 10),
                                 ],
                               ],
                             ),
-                            Text(insight.doctor.speciality, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                            Text(insight.doctor.speciality, style: const TextStyle(fontSize: 9, color: Colors.grey), overflow: TextOverflow.ellipsis),
                           ],
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
                       Text(
                         '${insight.estimatedReadTime} min read',
-                        style: const TextStyle(fontSize: 11, color: Colors.grey),
+                        style: const TextStyle(fontSize: 10, color: Colors.grey),
                       ),
-                      const SizedBox(width: 8),
-                      const Icon(Icons.fiber_manual_record, size: 4, color: Colors.grey),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 4),
+                      const Icon(Icons.fiber_manual_record, size: 3, color: Colors.grey),
+                      const SizedBox(width: 4),
                       Text(
                         '${insight.viewsCount} views',
-                        style: const TextStyle(fontSize: 11, color: Colors.grey),
+                        style: const TextStyle(fontSize: 10, color: Colors.grey),
                       ),
                     ],
                   ),
-                  const Divider(height: 24),
+                  const Divider(height: 16),
                   Row(
                     children: [
                       _buildEngagementStat(Icons.favorite_border, insight.likesCount.toString()),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: 12),
                       _buildEngagementStat(Icons.bookmark_border, insight.savesCount.toString()),
                       const Spacer(),
-                      const Icon(Icons.share_outlined, size: 18, color: Colors.grey),
+                      const Icon(Icons.share_outlined, size: 16, color: Colors.grey),
                     ],
                   ),
                 ],

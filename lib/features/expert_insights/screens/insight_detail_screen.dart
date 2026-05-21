@@ -19,7 +19,7 @@ class _InsightDetailScreenState extends State<InsightDetailScreen> {
   ExpertInsight? _insight;
   bool _isLoading = true;
   final TextEditingController _aiController = TextEditingController();
-  List<AIInteraction> _aiInteractions = [];
+  final List<AIInteraction> _aiInteractions = [];
   bool _isAILoading = false;
 
   @override
@@ -59,13 +59,17 @@ class _InsightDetailScreenState extends State<InsightDetailScreen> {
     
     try {
       final interaction = await _service.askAI(_insight!.slug, question);
-      setState(() {
-        _aiInteractions.insert(0, interaction);
-        _isAILoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _aiInteractions.insert(0, interaction);
+          _isAILoading = false;
+        });
+      }
     } catch (e) {
-      setState(() => _isAILoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to get AI response.')));
+      if (mounted) {
+        setState(() => _isAILoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to get AI response.')));
+      }
     }
   }
 
