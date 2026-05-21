@@ -94,7 +94,7 @@ class SubscriptionStatusScreen extends StatelessWidget {
               shape: BoxShape.circle,
               border: Border.all(color: Colors.white.withValues(alpha: 0.4), width: 2),
             ),
-            child: Icon(isPremium ? Icons.auto_awesome : Icons.person_outline, color: Colors.white, size: 28),
+            child: Icon(isPremium ? Icons.star_rounded : Icons.person_outline, color: Colors.white, size: 28),
           ),
           const SizedBox(width: 20),
           Expanded(

@@ -22,6 +22,8 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
   bool _isTyping = false;
   bool _showScrollToBottom = false;
   int? _sessionId;
+  List<dynamic> _sessions = [];
+  bool _loadingSessions = false;
 
   // Speech to text
   final stt.SpeechToText _speech = stt.SpeechToText();
@@ -33,6 +35,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
     _initSpeech();
     _scrollController.addListener(_scrollListener);
     _loadChatHistory().then((_) {
+      _loadSessions();
       if (widget.initialMessage != null && widget.initialMessage!.isNotEmpty) {
         _messageController.text = widget.initialMessage!;
         _handleSendMessage();
@@ -40,9 +43,31 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
     });
   }
 
-  Future<void> _loadChatHistory() async {
+  Future<void> _loadSessions() async {
+    if (!mounted) return;
+    setState(() {
+      _loadingSessions = true;
+    });
     try {
-      final response = await _chatService.getChatHistory();
+      final sessions = await _chatService.getChatSessions();
+      if (mounted) {
+        setState(() {
+          _sessions = sessions;
+          _loadingSessions = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _loadingSessions = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _loadChatHistory({int? sessionId}) async {
+    try {
+      final response = await _chatService.getChatHistory(sessionId: sessionId);
       if (mounted) {
         setState(() {
           _sessionId = response['session_id'];
@@ -57,6 +82,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
               ));
             }
           } else {
+            _messages.clear();
             // Add welcome message if no history
             _messages.add(ChatMessageModel(
               content: 'Hi there! 👋\nHow can I help you today?',
@@ -70,6 +96,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
     } catch (e) {
       if (mounted) {
         setState(() {
+          _messages.clear();
           _messages.add(ChatMessageModel(
             content: 'Hi there! 👋\nHow can I help you today?',
             role: 'assistant',
@@ -78,6 +105,328 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
         });
       }
     }
+  }
+
+  Future<void> _selectSession(int sessionId) async {
+    Navigator.of(context).pop(); // Close drawer
+    await _loadChatHistory(sessionId: sessionId);
+  }
+
+  void _startNewChat() {
+    Navigator.of(context).pop(); // Close drawer
+    setState(() {
+      _messages.clear();
+      _messages.add(ChatMessageModel(
+        content: 'Hi there! 👋\nHow can I help you today?',
+        role: 'assistant',
+        timestamp: DateTime.now(),
+      ));
+      _sessionId = null;
+    });
+  }
+
+  Future<void> _deleteSession(int sessionId) async {
+    try {
+      await _chatService.deleteChatSession(sessionId);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Chat session deleted'), behavior: SnackBarBehavior.floating),
+        );
+        if (_sessionId == sessionId) {
+          setState(() {
+            _messages.clear();
+            _messages.add(ChatMessageModel(
+              content: 'Hi there! 👋\nHow can I help you today?',
+              role: 'assistant',
+              timestamp: DateTime.now(),
+            ));
+            _sessionId = null;
+          });
+        }
+        _loadSessions();
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to delete chat session'), behavior: SnackBarBehavior.floating),
+        );
+      }
+    }
+  }
+
+  Future<void> _confirmDeleteSession(int sessionId, String topic) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: FemFlowColors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Text(
+            'Delete Chat Session',
+            style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            'Are you sure you want to delete the chat session "$topic"? This cannot be undone.',
+            style: const TextStyle(color: FemFlowColors.textSecondary),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel', style: TextStyle(color: FemFlowColors.textSecondary)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: const Text('Delete', style: TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteSession(sessionId);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Map<String, List<dynamic>> _getGroupedSessions() {
+    final today = DateTime.now();
+    final todayDate = DateTime(today.year, today.month, today.day);
+    final yesterdayDate = todayDate.subtract(const Duration(days: 1));
+    final sevenDaysAgoDate = todayDate.subtract(const Duration(days: 7));
+
+    final Map<String, List<dynamic>> groups = {
+      'Today': [],
+      'Yesterday': [],
+      'Last 7 Days': [],
+      'Older': [],
+    };
+
+    for (var session in _sessions) {
+      final dateStr = session['date'] as String?;
+      if (dateStr == null) continue;
+      final parsedDate = DateTime.tryParse(dateStr);
+      if (parsedDate == null) continue;
+      
+      final sessionDate = DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
+      if (sessionDate.isAtSameMomentAs(todayDate)) {
+        groups['Today']!.add(session);
+      } else if (sessionDate.isAtSameMomentAs(yesterdayDate)) {
+        groups['Yesterday']!.add(session);
+      } else if (sessionDate.isAfter(sevenDaysAgoDate)) {
+        groups['Last 7 Days']!.add(session);
+      } else {
+        groups['Older']!.add(session);
+      }
+    }
+    
+    groups.removeWhere((key, value) => value.isEmpty);
+    return groups;
+  }
+
+  IconData _getTopicIcon(String topic) {
+    final topicLower = topic.toLowerCase();
+    if (topicLower.contains('cramp') || topicLower.contains('pain')) return Icons.healing_outlined;
+    if (topicLower.contains('period') || topicLower.contains('cycle')) return Icons.calendar_today_outlined;
+    if (topicLower.contains('mood') || topicLower.contains('mental')) return Icons.sentiment_satisfied_alt_outlined;
+    if (topicLower.contains('nutrition') || topicLower.contains('craving') || topicLower.contains('food')) return Icons.restaurant_outlined;
+    if (topicLower.contains('fitness') || topicLower.contains('exercise') || topicLower.contains('yoga')) return Icons.fitness_center_outlined;
+    if (topicLower.contains('medication') || topicLower.contains('pill') || topicLower.contains('remind')) return Icons.medical_services_outlined;
+    if (topicLower.contains('doctor') || topicLower.contains('consult')) return Icons.person_search_outlined;
+    if (topicLower.contains('sleep') || topicLower.contains('fatigue')) return Icons.nights_stay_outlined;
+    return Icons.chat_bubble_outline;
+  }
+
+  Widget _buildDrawerHeader() {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 20,
+        bottom: 20,
+        left: 20,
+        right: 20,
+      ),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [FemFlowColors.primary, FemFlowColors.deepRose],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.auto_awesome,
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Text(
+                'FemAI Chat History',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton.icon(
+            onPressed: _startNewChat,
+            icon: const Icon(Icons.add, color: FemFlowColors.primary, size: 18),
+            label: const Text(
+              'New Chat Session',
+              style: TextStyle(
+                color: FemFlowColors.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: FemFlowColors.primary,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSessionsList() {
+    if (_sessions.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.chat_bubble_outline,
+              size: 48,
+              color: FemFlowColors.textMuted.withValues(alpha: 0.5),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'No past conversations',
+              style: TextStyle(
+                color: FemFlowColors.textSecondary,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final grouped = _getGroupedSessions();
+
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      children: grouped.entries.map((entry) {
+        final groupName = entry.key;
+        final list = entry.value;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),
+              child: Text(
+                groupName.toUpperCase(),
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: FemFlowColors.primary,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ),
+            ...list.map((session) {
+              final id = session['id'] as int;
+              final topic = session['topic'] as String? ?? 'General Inquiry';
+              final dateStr = session['date'] as String? ?? '';
+              
+              String displayDate = dateStr;
+              try {
+                final parsed = DateTime.tryParse(dateStr);
+                if (parsed != null) {
+                  displayDate = DateFormat('dd MMM yyyy').format(parsed);
+                }
+              } catch (_) {}
+
+              final isSelected = id == _sessionId;
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? FemFlowColors.blushMist
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    dense: true,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    leading: Icon(
+                      _getTopicIcon(topic),
+                      color: isSelected ? FemFlowColors.primary : FemFlowColors.textSecondary,
+                      size: 20,
+                    ),
+                    title: Text(
+                      topic,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                        color: isSelected ? FemFlowColors.primary : FemFlowColors.textPrimary,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      displayDate,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: FemFlowColors.textMuted,
+                      ),
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(
+                        Icons.delete_outline,
+                        size: 18,
+                        color: FemFlowColors.textMuted,
+                      ),
+                      onPressed: () => _confirmDeleteSession(id, topic),
+                    ),
+                    onTap: () => _selectSession(id),
+                  ),
+                ),
+              );
+            }),
+            const Divider(height: 16, color: FemFlowColors.border),
+          ],
+        );
+      }).toList(),
+    );
   }
 
   void _initSpeech() async {
@@ -176,6 +525,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
           _isTyping = false;
         });
         _scrollToBottom();
+        _loadSessions();
       }
     } catch (e) {
       if (mounted) {
@@ -191,6 +541,19 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: FemFlowColors.warmWhite,
+      drawer: Drawer(
+        backgroundColor: FemFlowColors.warmWhite,
+        child: Column(
+          children: [
+            _buildDrawerHeader(),
+            Expanded(
+              child: _loadingSessions
+                  ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+                  : _buildSessionsList(),
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: const Column(
           children: [
@@ -214,19 +577,13 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {
-               setState(() {
-                 _messages.clear();
-                 _messages.add(ChatMessageModel(
-                    content: 'How can I help you today?',
-                    role: 'assistant',
-                    timestamp: DateTime.now(),
-                  ));
-                 _sessionId = null;
-               });
-            },
-            icon: const Icon(Icons.refresh),
+          Builder(
+            builder: (context) => IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: const Icon(Icons.menu),
+            ),
           ),
         ],
       ),

@@ -103,8 +103,6 @@ class _RecommendedExerciseSectionState extends State<RecommendedExerciseSection>
                               ),
                             ),
                           ),
-                          SizedBox(width: 8),
-                          Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 18),
                         ],
                       ),
                     ),

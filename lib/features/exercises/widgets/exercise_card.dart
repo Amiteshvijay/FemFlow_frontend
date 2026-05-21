@@ -100,8 +100,6 @@ class ExerciseCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 14),
-                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       recommendationReason!,

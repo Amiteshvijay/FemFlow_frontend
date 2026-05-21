@@ -189,7 +189,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 Text(exercise.description, style: const TextStyle(fontSize: 15, color: FemFlowColors.textSecondary, height: 1.6)),
                 const SizedBox(height: 32),
                 if (exercise.benefits.isNotEmpty) ...[
-                  _buildSection('Benefits', exercise.benefits.join(', '), Icons.auto_awesome, FemFlowColors.aiWellness),
+                  _buildSection('Benefits', exercise.benefits.join(', '), Icons.verified_outlined, FemFlowColors.aiWellness),
                   const SizedBox(height: 32),
                 ],
                 if (exercise.instructions != null && exercise.instructions!.isNotEmpty) ...[

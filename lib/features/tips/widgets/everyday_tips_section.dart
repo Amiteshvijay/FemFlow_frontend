@@ -61,8 +61,6 @@ class _EverydayTipsSectionState extends State<EverydayTipsSection> {
                       letterSpacing: -0.5
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  const Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 16),
                 ],
               ),
             ),
@@ -108,7 +106,6 @@ class _EverydayTipsSectionState extends State<EverydayTipsSection> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.auto_awesome_outlined, color: FemFlowColors.primary, size: 30),
               const SizedBox(height: 8),
               const Text('Synthesizing your wellness insights...', style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary)),
               TextButton(
@@ -198,11 +195,6 @@ class _EverydayTipsSectionState extends State<EverydayTipsSection> {
               ],
             ),
             // Background decorations to simulate content
-            Positioned(
-              top: 15,
-              right: 15,
-              child: Icon(Icons.auto_awesome, color: FemFlowColors.primary.withValues(alpha: 0.2), size: 14),
-            ),
             Positioned(
               bottom: 15,
               left: 15,

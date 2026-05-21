@@ -43,8 +43,6 @@ class DailyTipCard extends StatelessWidget {
                   ),
                   child: Icon(_getIconData(tip.icon), color: tip.color, size: 20),
                 ),
-                if (tip.aiInsight != null)
-                  const Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 14),
               ],
             ),
             const Spacer(),

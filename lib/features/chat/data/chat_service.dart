@@ -27,7 +27,26 @@ class ChatService {
     }..removeWhere((key, value) => value == null));
   }
 
-  Future<Map<String, dynamic>> getChatHistory() async {
-    return await _apiClient.get('/chat/message/');
+  Future<Map<String, dynamic>> getChatHistory({int? sessionId}) async {
+    final Map<String, String>? queryParams = sessionId != null
+        ? {'session_id': sessionId.toString()}
+        : null;
+    return await _apiClient.get('/chat/message/', queryParams: queryParams);
+  }
+
+  Future<List<dynamic>> getChatSessions() async {
+    final response = await _apiClient.get('/chat/sessions/');
+    if (response is List) {
+      return response;
+    }
+    return [];
+  }
+
+  Future<Map<String, dynamic>> deleteChatSession(int sessionId) async {
+    final response = await _apiClient.delete('/chat/sessions/$sessionId/');
+    if (response is Map<String, dynamic>) {
+      return response;
+    }
+    return {'status': 'success'};
   }
 }
