@@ -135,7 +135,13 @@ class UniversalPlusButton extends StatelessWidget {
               ),
             ],
           ),
-          child: const Icon(Icons.add, color: Colors.white, size: 32),
+          child: ClipOval(
+            child: Image.asset(
+              'assets/icons/femflow_app_icon_1024.png',
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => const Icon(Icons.add, color: Colors.white, size: 32),
+            ),
+          ),
         ),
       ),
     );
