@@ -20,6 +20,7 @@ import '../pill_reminder/pill_reminder_list_screen.dart';
 import '../doctor_consultation/doctor_consultation_home_screen.dart';
 import '../journal/journal_screen.dart';
 import '../calendar/date_detail_screen.dart';
+import '../insights/insights_screen.dart';
 import '../health_vault/health_vault_screen.dart';
 import '../tips/widgets/everyday_tips_section.dart';
 import '../tips/providers/tips_provider.dart';
@@ -711,7 +712,10 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: Icons.insights_outlined,
           label: 'Insights',
           color: FemFlowColors.aiWellness,
-          onTap: () => const SwitchTabNotification(2).dispatch(context),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const InsightsScreen()),
+          ),
         ),
         _quickActionCard(
           context,
