@@ -10,12 +10,17 @@ class ApiClient {
   /// USB DEBUGGING MODE (Recommended):
   /// 1. Start backend: python manage.py runserver
   /// 2. Connect USB and run: adb reverse tcp:8000 tcp:8000
+  static const String _prodBaseUrl = 'https://femflow.in/api';
   static const String _localBaseUrl = 'http://127.0.0.1:8000/api';
 
   final TokenStorage _tokenStorage = TokenStorage();
 
-  /// Automatically selects the correct base URL based on the platform.
+  /// Automatically selects the correct base URL based on the environment (production vs local).
   String get baseUrl {
+    if (kReleaseMode) {
+      return _prodBaseUrl;
+    }
+    // Set this to _prodBaseUrl if you want to test against production during debugging:
     return _localBaseUrl;
   }
 
