@@ -118,7 +118,6 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
                 ),
               ),
               const SizedBox(width: 8),
-              const Icon(Icons.auto_awesome, color: FemFlowColors.primary, size: 20),
             ],
           ),
           const SizedBox(height: 8),

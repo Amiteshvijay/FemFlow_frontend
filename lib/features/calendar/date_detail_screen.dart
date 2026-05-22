@@ -866,7 +866,6 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
         children: [
           const Row(
             children: [
-              Icon(Icons.auto_awesome, color: FemFlowColors.primary, size: 20),
               SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

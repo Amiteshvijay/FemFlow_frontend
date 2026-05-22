@@ -135,8 +135,9 @@ class SupportService {
     return SupportData.fromJson(response);
   }
 
-  Future<void> submitContactForm(Map<String, dynamic> data) async {
-    await _apiClient.post('/support/contact/', body: data);
+  Future<Map<String, dynamic>?> submitContactForm(Map<String, dynamic> data) async {
+    final response = await _apiClient.post('/support/contact/', body: data);
+    return response as Map<String, dynamic>?;
   }
 
   Future<List<SupportTicket>> getMyTickets() async {

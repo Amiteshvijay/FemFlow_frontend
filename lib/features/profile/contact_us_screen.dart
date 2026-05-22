@@ -60,7 +60,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     setState(() => _isSubmitting = true);
     
     try {
-      await _supportService.submitContactForm({
+      final response = await _supportService.submitContactForm({
         'name': _nameController.text,
         'email': _emailController.text,
         'mobile_no': _mobileController.text,
@@ -68,18 +68,29 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
         'message': _messageController.text,
       });
 
+      final ticketId = response?['ticket_id'] ?? '';
+
       if (mounted) {
         setState(() => _isSubmitting = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Your message has been sent. Thank you!')),
+          SnackBar(
+            content: Text(ticketId.isNotEmpty
+                ? 'Your message has been sent. Ticket ID: $ticketId'
+                : 'Your message has been sent. Thank you!'),
+            backgroundColor: Colors.green,
+          ),
         );
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isSubmitting = false);
+        final errorMessage = e.toString().replaceFirst('Exception: ', '');
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to send message. Please try again.')),
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: Colors.redAccent,
+          ),
         );
       }
     }

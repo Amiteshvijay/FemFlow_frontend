@@ -474,11 +474,10 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
-              const Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 18),
-              const SizedBox(width: 8),
-              const Text('FemAI Food Tip', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
+              SizedBox(width: 8),
+              Text('FemAI Food Tip', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
             ],
           ),
           const SizedBox(height: 8),
