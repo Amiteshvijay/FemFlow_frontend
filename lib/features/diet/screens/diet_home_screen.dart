@@ -237,8 +237,6 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                   ),
                   child: const Row(
                     children: [
-                      Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 16),
-                      SizedBox(width: 8),
                       Text(
                         'Create Plan',
                         style: TextStyle(
