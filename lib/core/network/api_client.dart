@@ -13,15 +13,18 @@ class ApiClient {
   static const String _prodBaseUrl = 'https://femflow.in/api';
   static const String _localBaseUrl = 'http://127.0.0.1:8000/api';
 
+  // SET THIS TO true IF YOU ARE DEVELOPING LOCALLY AND WANT TO USE YOUR LOCAL DOCKER/DJANGO BACKEND.
+  // SET THIS TO false (default) TO CONNECT TO THE LIVE PRODUCTION BACKEND (https://femflow.in/api).
+  static const bool _useLocalBackend = false;
+
   final TokenStorage _tokenStorage = TokenStorage();
 
   /// Automatically selects the correct base URL based on the environment (production vs local).
   String get baseUrl {
-    if (kReleaseMode) {
-      return _prodBaseUrl;
+    if (_useLocalBackend) {
+      return _localBaseUrl;
     }
-    // Set this to _prodBaseUrl if you want to test against production during debugging:
-    return _localBaseUrl;
+    return _prodBaseUrl;
   }
 
   Future<String?> getToken() async {
