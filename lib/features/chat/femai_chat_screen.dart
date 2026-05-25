@@ -563,16 +563,6 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
           ],
         ),
         centerTitle: true,
-        actions: [
-          Builder(
-            builder: (context) => IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              icon: const Icon(Icons.menu),
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [
