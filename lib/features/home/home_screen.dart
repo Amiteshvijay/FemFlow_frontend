@@ -7,7 +7,6 @@ import '../log_period/period_calendar_editor_screen.dart';
 import '../symptoms/symptoms_screen.dart';
 import '../auth/data/auth_service.dart';
 import '../cycles/data/cycle_service.dart';
-import '../shell/shell_events.dart';
 import '../wellness_score/wellness_score_dashboard_screen.dart';
 import '../wellness_score/data/wellness_score_service.dart';
 import '../wellness_score/models/wellness_score_models.dart';
