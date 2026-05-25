@@ -149,8 +149,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 _buildPillReminderSection(isPremium),
                 const SizedBox(height: 16),
                 _buildWellnessScoreCard(isPremium),
-                const SizedBox(height: 16),
-                RepaintBoundary(child: _buildAIInsightCard(isPremium)),
                 const SizedBox(height: 24),
                 const Text(
                   'Quick Actions',
@@ -162,6 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 16),
                 RepaintBoundary(child: _buildQuickActions(context)),
+                const SizedBox(height: 24),
+                RepaintBoundary(child: _buildAIInsightCard(isPremium)),
                 const SizedBox(height: 24),
                 const EverydayTipsSection(),
                 const SizedBox(height: 24),
