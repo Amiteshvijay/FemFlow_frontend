@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:universal_io/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_timezone/flutter_timezone.dart';
 import '../storage/token_storage.dart';
 
 class ApiClient {
@@ -31,6 +32,8 @@ class ApiClient {
     return await _tokenStorage.getAccessToken();
   }
 
+  static String? _cachedTimezone;
+
   Future<Map<String, String>> _getHeaders() async {
     final token = await _tokenStorage.getAccessToken();
     final headers = {
@@ -39,6 +42,14 @@ class ApiClient {
     };
     if (token != null) {
       headers['Authorization'] = 'Bearer $token';
+    }
+    try {
+      _cachedTimezone ??= await FlutterTimezone.getLocalTimezone();
+      if (_cachedTimezone != null) {
+        headers['X-User-Timezone'] = _cachedTimezone!;
+      }
+    } catch (e) {
+      debugPrint('Failed to get local timezone: $e');
     }
     return headers;
   }

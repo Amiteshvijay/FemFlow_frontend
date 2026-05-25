@@ -170,7 +170,7 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
   }
 
   Widget _buildTimelineItem(MedicationDose dose) {
-    final timeStr = DateFormat('hh:mm a').format(dose.scheduledAt);
+    final timeStr = DateFormat('hh:mm a').format(dose.scheduledAt.toLocal());
     final statusColor = _getStatusColor(dose.status);
 
     return Padding(
@@ -221,7 +221,7 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
                Padding(
                  padding: const EdgeInsets.only(bottom: 8),
                  child: Text(
-                   'Taken at ${DateFormat('hh:mm a').format(dose.actualTakenAt!)}',
+                   'Taken at ${DateFormat('hh:mm a').format(dose.actualTakenAt!.toLocal())}',
                    style: const TextStyle(fontSize: 12, color: Colors.green, fontStyle: FontStyle.italic),
                  ),
                ),
