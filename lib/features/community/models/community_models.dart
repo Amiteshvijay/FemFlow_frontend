@@ -35,7 +35,9 @@ class CommunityPost {
   final String? authorAvatar;
   final DateTime createdAt;
   final bool isAnonymous;
-  final int reactionCount;
+  final int likesCount;
+  final int dislikesCount;
+  final String? userReaction;
   final int replyCount;
   final int roomId;
 
@@ -47,7 +49,9 @@ class CommunityPost {
     this.authorAvatar,
     required this.createdAt,
     required this.isAnonymous,
-    required this.reactionCount,
+    required this.likesCount,
+    required this.dislikesCount,
+    this.userReaction,
     required this.replyCount,
     required this.roomId,
   });
@@ -61,7 +65,9 @@ class CommunityPost {
       authorAvatar: json['author_avatar'],
       createdAt: DateTime.parse(json['created_at'] ?? DateTime.now().toIso8601String()),
       isAnonymous: json['is_anonymous'] ?? false,
-      reactionCount: json['reaction_count'] ?? 0,
+      likesCount: json['likes_count'] ?? 0,
+      dislikesCount: json['dislikes_count'] ?? 0,
+      userReaction: json['user_reaction'],
       replyCount: json['reply_count'] ?? 0,
       roomId: json['room'] ?? 0,
     );

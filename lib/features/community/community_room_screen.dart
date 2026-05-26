@@ -204,9 +204,13 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
             const SizedBox(height: 16),
             Row(
               children: [
-                _actionItem(Icons.favorite_border, post.reactionCount.toString()),
+                _actionItem(
+                  post.userReaction == 'up' ? Icons.thumb_up : Icons.thumb_up_outlined, 
+                  post.likesCount.toString(),
+                  color: post.userReaction == 'up' ? FemFlowColors.primary : FemFlowColors.textMuted,
+                ),
                 const SizedBox(width: 20),
-                _actionItem(Icons.chat_bubble_outline, post.replyCount.toString()),
+                _actionItem(Icons.chat_bubble_outline, post.replyCount.toString(), color: FemFlowColors.textMuted),
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.flag_outlined, size: 18, color: FemFlowColors.textMuted),
@@ -222,10 +226,10 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
     );
   }
 
-  Widget _actionItem(IconData icon, String count) {
+  Widget _actionItem(IconData icon, String count, {Color? color}) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: FemFlowColors.textMuted),
+        Icon(icon, size: 18, color: color ?? FemFlowColors.textMuted),
         const SizedBox(width: 4),
         Text(count, style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
       ],

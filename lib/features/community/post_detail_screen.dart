@@ -88,6 +88,20 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     }
   }
 
+  Future<void> _handleReact(String type) async {
+    if (_post == null) return;
+    try {
+      await _service.reactToPost(_post!.id, type);
+      _loadData();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update reaction.'))
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,14 +203,28 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.favorite_border, color: FemFlowColors.textMuted),
-                onPressed: () {}, // TODO: React
+                icon: Icon(
+                  _post!.userReaction == 'up' ? Icons.thumb_up : Icons.thumb_up_outlined,
+                  color: _post!.userReaction == 'up' ? FemFlowColors.primary : FemFlowColors.textMuted,
+                  size: 20,
+                ),
+                onPressed: () => _handleReact('up'),
               ),
-              Text(_post!.reactionCount.toString(), style: const TextStyle(color: FemFlowColors.textMuted)),
+              Text(_post!.likesCount.toString(), style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 13)),
+              const SizedBox(width: 16),
+              IconButton(
+                icon: Icon(
+                  _post!.userReaction == 'down' ? Icons.thumb_down : Icons.thumb_down_outlined,
+                  color: _post!.userReaction == 'down' ? Colors.redAccent : FemFlowColors.textMuted,
+                  size: 20,
+                ),
+                onPressed: () => _handleReact('down'),
+              ),
+              Text(_post!.dislikesCount.toString(), style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 13)),
               const SizedBox(width: 24),
               const Icon(Icons.chat_bubble_outline, color: FemFlowColors.textMuted, size: 20),
               const SizedBox(width: 8),
-              Text(_post!.replyCount.toString(), style: const TextStyle(color: FemFlowColors.textMuted)),
+              Text(_post!.replyCount.toString(), style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 13)),
             ],
           ),
         ],
