@@ -106,6 +106,7 @@ class MealPlanItem {
   final double protein;
   final String reason;
   final bool isEaten;
+  final DateTime? eatenAt;
 
   MealPlanItem({
     required this.id,
@@ -115,6 +116,7 @@ class MealPlanItem {
     required this.protein,
     required this.reason,
     required this.isEaten,
+    this.eatenAt,
   });
 
   factory MealPlanItem.fromJson(Map<String, dynamic> json) {
@@ -126,6 +128,7 @@ class MealPlanItem {
       protein: double.tryParse(json['protein_estimate']?.toString() ?? '0.0') ?? 0.0,
       reason: json['reason'] ?? '',
       isEaten: json['is_eaten'] ?? false,
+      eatenAt: json['eaten_at'] != null ? DateTime.parse(json['eaten_at']) : null,
     );
   }
 }

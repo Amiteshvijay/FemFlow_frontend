@@ -156,10 +156,37 @@ class _MyCustomPlansScreenState extends State<MyCustomPlansScreen> {
                       side: const BorderSide(color: FemFlowColors.primary),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
-                    child: const Text('View Plan', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                    child: const Text('View', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        if (plan.status == 'active') {
+                          await _service.deactivatePlan(plan.id!);
+                          if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Plan deactivated')));
+                        } else {
+                          await _service.activatePlan(plan.id!);
+                          if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Plan activated')));
+                        }
+                        _fetchPlans();
+                      } catch (e) {
+                        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      backgroundColor: plan.status == 'active' ? Colors.red.shade600 : Colors.green.shade600,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      elevation: 0,
+                    ),
+                    child: Text(plan.status == 'active' ? 'Deactivate' : 'Activate', style: const TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                ),
+                const SizedBox(width: 4),
                 IconButton(
                   onPressed: () => _deletePlan(plan.id!),
                   icon: const Icon(Icons.delete_outline, color: Colors.red),

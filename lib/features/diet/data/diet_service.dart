@@ -14,11 +14,10 @@ class DietService {
     await _apiClient.post('/diet/water-log/', body: {'amount_ml': amountMl});
   }
 
-  Future<void> logMealEaten(int mealPlanItemId) async {
-    // Ideally patch the meal plan item
-    await _apiClient.post('/diet/food-log/', body: {
-      'meal_type': 'logged_from_plan',
-      'custom_name': 'Meal from plan',
+  Future<void> logMealEaten(int mealPlanItemId, bool isEaten) async {
+    await _apiClient.post('/diet/plan/complete-meal/', body: {
+      'meal_item_id': mealPlanItemId,
+      'is_eaten': isEaten,
     });
   }
 }

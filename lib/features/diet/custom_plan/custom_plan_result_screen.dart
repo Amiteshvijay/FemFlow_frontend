@@ -17,6 +17,14 @@ class CustomPlanResultScreen extends StatefulWidget {
 class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
   final CustomPlanService _service = CustomPlanService();
   bool _isActivating = false;
+  bool _isDeactivating = false;
+  late String _status;
+
+  @override
+  void initState() {
+    super.initState();
+    _status = widget.plan.status;
+  }
 
   Future<void> _activatePlan() async {
     if (widget.plan.id == null) return;
@@ -24,11 +32,13 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
     setState(() => _isActivating = true);
     try {
       await _service.activatePlan(widget.plan.id!);
+      setState(() {
+        _status = 'active';
+      });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Custom plan activated!')),
         );
-        Navigator.popUntil(context, (route) => route.isFirst);
       }
     } catch (e) {
       if (mounted) {
@@ -38,6 +48,31 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
       }
     } finally {
       setState(() => _isActivating = false);
+    }
+  }
+
+  Future<void> _deactivatePlan() async {
+    if (widget.plan.id == null) return;
+    
+    setState(() => _isDeactivating = true);
+    try {
+      await _service.deactivatePlan(widget.plan.id!);
+      setState(() {
+        _status = 'draft';
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Custom plan deactivated.')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error deactivating plan: $e')),
+        );
+      }
+    } finally {
+      setState(() => _isDeactivating = false);
     }
   }
 
@@ -65,11 +100,19 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
                   if (widget.plan.doctorAdviceEnabled && widget.plan.doctorAdviceNotes != null)
                     _buildAdviceAppliedCard(),
                   const SizedBox(height: 40),
-                  PrimaryButton(
-                    label: 'Activate This Plan',
-                    isLoading: _isActivating,
-                    onPressed: _activatePlan,
-                  ),
+                  if (_status == 'active')
+                    PrimaryButton(
+                      label: 'Deactivate This Plan',
+                      isLoading: _isDeactivating,
+                      backgroundColor: Colors.red.shade600,
+                      onPressed: _deactivatePlan,
+                    )
+                  else
+                    PrimaryButton(
+                      label: 'Activate This Plan',
+                      isLoading: _isActivating,
+                      onPressed: _activatePlan,
+                    ),
                   const SizedBox(height: 12),
                   Center(
                     child: TextButton(

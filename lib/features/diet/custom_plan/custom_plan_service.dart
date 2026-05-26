@@ -28,6 +28,10 @@ class CustomPlanService {
     await _apiClient.post('/diet/custom-plans/$id/activate/');
   }
 
+  Future<void> deactivatePlan(int id) async {
+    await _apiClient.post('/diet/custom-plans/$id/deactivate/');
+  }
+
   Future<void> archivePlan(int id) async {
     await _apiClient.post('/diet/custom-plans/$id/archive/');
   }
