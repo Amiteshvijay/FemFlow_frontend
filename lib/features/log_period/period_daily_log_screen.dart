@@ -27,6 +27,11 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
   bool _isLoading = false;
   final CycleService _cycleService = CycleService();
 
+  bool _hasActivePeriod = false;
+  bool _endPeriodChecked = false;
+  bool _initialEndPeriodChecked = false;
+  int? _cycleLogId;
+
   final List<Map<String, dynamic>> _flowOptions = [
     {'key': 'spotting', 'label': 'Spotting', 'icon': Icons.water_drop_outlined},
     {'key': 'light', 'label': 'Light', 'icon': Icons.opacity},
@@ -39,6 +44,41 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
     super.initState();
     _selectedFlow = widget.initialFlow ?? 'medium';
     _notesController.text = widget.initialNotes ?? '';
+    _checkActivePeriod();
+  }
+
+  Future<void> _checkActivePeriod() async {
+    try {
+      final details = await _cycleService.getDayDetails(widget.date);
+      if (details['period'] != null) {
+        final period = details['period'];
+        setState(() {
+          _cycleLogId = period['cycle_log_id'];
+          
+          if (period['status'] == 'active') {
+            _hasActivePeriod = true;
+            _endPeriodChecked = false;
+            _initialEndPeriodChecked = false;
+          } else if (period['status'] == 'completed' && period['period_end_date'] != null) {
+            final endDate = DateTime.parse(period['period_end_date']);
+            if (DateUtils.isSameDay(endDate, widget.date)) {
+              _hasActivePeriod = true;
+              _endPeriodChecked = true;
+              _initialEndPeriodChecked = true;
+            }
+          }
+
+          if (widget.initialFlow == null && period['flow'] != null) {
+            _selectedFlow = period['flow'];
+          }
+          if (widget.initialNotes == null && period['notes'] != null) {
+            _notesController.text = period['notes'];
+          }
+        });
+      }
+    } catch (e) {
+      debugPrint('Error checking active period: $e');
+    }
   }
 
   @override
@@ -50,11 +90,21 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
   Future<void> _onSave() async {
     setState(() => _isLoading = true);
     try {
+      // 1. Log daily flow first
       await _cycleService.logDailyPeriodFlow(
         date: widget.date,
         flow: _selectedFlow,
         notes: _notesController.text,
       );
+
+      // 2. End period if checked newly, or re-open if unchecked mistakenly
+      if (_endPeriodChecked && !_initialEndPeriodChecked) {
+        await _cycleService.endPeriod(
+          periodEndDate: widget.date,
+        );
+      } else if (!_endPeriodChecked && _initialEndPeriodChecked && _cycleLogId != null) {
+        await _cycleService.reopenPeriod(_cycleLogId!);
+      }
 
       if (mounted) {
         Navigator.pop(context, true);
@@ -150,6 +200,26 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
                 );
               },
             ),
+            if (_hasActivePeriod) ...[
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Checkbox(
+                    value: _endPeriodChecked,
+                    onChanged: (val) {
+                      setState(() {
+                        _endPeriodChecked = val ?? false;
+                      });
+                    },
+                    activeColor: FemFlowColors.primary,
+                  ),
+                  const Text(
+                    'End Period Today',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: FemFlowColors.textPrimary),
+                  ),
+                ],
+              ),
+            ],
             const SizedBox(height: 32),
             const Text(
               'Notes (Optional)',

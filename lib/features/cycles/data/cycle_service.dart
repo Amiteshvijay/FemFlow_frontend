@@ -222,6 +222,14 @@ class CycleService {
     return response;
   }
 
+  Future<Map<String, dynamic>> reopenPeriod(int id) async {
+    final response = await _apiClient.patch('/cycles/logs/$id/', body: {
+      'status': 'active',
+      'period_end_date': null,
+    });
+    return Map<String, dynamic>.from(response);
+  }
+
   Future<SymptomLog> createSymptomLog(SymptomLog log) async {
     final response = await _apiClient.post('/cycles/symptoms/', body: log.toJson());
     return SymptomLog.fromJson(response);

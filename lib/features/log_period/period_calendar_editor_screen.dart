@@ -28,13 +28,35 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
   DateTime? _predictedEndDate;
   bool _isLoading = false;
   final CycleService _cycleService = CycleService();
+  int? _periodLogId;
 
   @override
   void initState() {
     super.initState();
     _startDate = widget.initialStartDate;
     _endDate = widget.initialEndDate;
+    _periodLogId = widget.periodLogId;
     _calculatePrediction();
+    _fetchExistingPeriod();
+  }
+
+  Future<void> _fetchExistingPeriod() async {
+    try {
+      final details = await _cycleService.getDayDetails(widget.initialStartDate);
+      if (details['period'] != null) {
+        final period = details['period'];
+        setState(() {
+          _periodLogId = period['cycle_log_id'];
+          _startDate = DateTime.parse(period['period_start_date']);
+          if (period['period_end_date'] != null) {
+            _endDate = DateTime.parse(period['period_end_date']);
+          }
+          _calculatePrediction();
+        });
+      }
+    } catch (e) {
+      debugPrint('Error fetching existing period: $e');
+    }
   }
 
   void _calculatePrediction() {
@@ -50,17 +72,18 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
 
   Future<void> _onSave() async {
     setState(() => _isLoading = true);
+    final activeId = _periodLogId ?? widget.periodLogId;
     try {
-      if (widget.periodLogId != null) {
+      if (activeId != null) {
         // Update existing range
         final log = CycleLog(
-          id: widget.periodLogId,
+          id: activeId,
           periodStartDate: _startDate,
           periodEndDate: _endDate,
           status: _endDate != null ? 'completed' : 'active',
           flow: 'medium', // Default/Keep previous
         );
-        await _cycleService.updateCycleLog(widget.periodLogId!, log);
+        await _cycleService.updateCycleLog(activeId, log);
       } else {
         // Start new period
         await _cycleService.startPeriod(
@@ -148,17 +171,13 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
         ),
         onDaySelected: (selectedDay, focusedDay) {
           setState(() {
-             // Simple range selection logic
-             if (selectedDay.isBefore(_startDate)) {
-               _startDate = selectedDay;
-               _endDate = null;
-             } else if (_isSameDay(selectedDay, _startDate)) {
-               // Deselect end date if tapping start date?
-               _endDate = null;
-             } else {
-               _endDate = selectedDay;
-             }
-             _calculatePrediction();
+            if (_endDate == null && selectedDay.isAfter(_startDate)) {
+              _endDate = selectedDay;
+            } else {
+              _startDate = selectedDay;
+              _endDate = null;
+            }
+            _calculatePrediction();
           });
         },
       ),

@@ -10,6 +10,8 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
+import '../../core/storage/token_storage.dart';
+
 class DocumentDetailScreen extends StatefulWidget {
   final int documentId;
   const DocumentDetailScreen({super.key, required this.documentId});
@@ -84,9 +86,14 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
     try {
       final url = Uri.parse(_document!.fileUrl);
       
-      // For web or simple case, launch URL
-      // But for premium feel, we download and open
-      final response = await http.get(url);
+      // Load JWT authentication token
+      final token = await TokenStorage().getAccessToken();
+      
+      // Download file with auth headers
+      final response = await http.get(
+        url,
+        headers: token != null ? {'Authorization': 'Bearer $token'} : {},
+      );
       final bytes = response.bodyBytes;
       
       final dir = await getTemporaryDirectory();
@@ -178,10 +185,17 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
         child: isImage
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  _document!.fileUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => _buildFilePlaceholder(),
+                child: FutureBuilder<String?>(
+                  future: TokenStorage().getAccessToken(),
+                  builder: (context, snapshot) {
+                    final token = snapshot.data;
+                    return Image.network(
+                      _document!.fileUrl,
+                      headers: token != null ? {'Authorization': 'Bearer $token'} : {},
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => _buildFilePlaceholder(),
+                    );
+                  }
                 ),
               )
             : _buildFilePlaceholder(),
