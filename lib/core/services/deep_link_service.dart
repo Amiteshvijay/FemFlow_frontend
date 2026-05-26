@@ -43,8 +43,16 @@ class DeepLinkService {
       }
     }
 
-    // Partner Invite Pattern: femflow://partner/accept?token=TOKEN&email=EMAIL
-    if (uri.scheme == 'femflow' && uri.host == 'partner' && uri.path == '/accept') {
+    // Partner Invite Pattern: 
+    // - femflow://partner/accept?token=TOKEN&email=EMAIL
+    // - https://femflow.in/partner/accept?token=TOKEN&email=EMAIL
+    // - https://femflow.app/partner/accept?token=TOKEN&email=EMAIL
+    final isCustomSchemePartner = uri.scheme == 'femflow' && uri.host == 'partner' && uri.path == '/accept';
+    final isWebSchemePartner = (uri.scheme == 'https' || uri.scheme == 'http') &&
+        (uri.host == 'femflow.in' || uri.host == 'femflow.app') &&
+        uri.path == '/partner/accept';
+
+    if (isCustomSchemePartner || isWebSchemePartner) {
       final token = uri.queryParameters['token'];
       final email = uri.queryParameters['email'];
 

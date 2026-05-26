@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/primary_button.dart';
+import '../../core/storage/token_storage.dart';
+import '../auth/providers/auth_provider.dart';
 import 'data/partner_service.dart';
 
 class AcceptInviteScreen extends StatefulWidget {
@@ -52,12 +55,20 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await _partnerService.acceptInvite(
+      final response = await _partnerService.acceptInvite(
         token: widget.token,
         password: password,
       );
 
+      final String? access = response['access'];
+      final String? refresh = response['refresh'];
+      if (access != null && refresh != null) {
+        await TokenStorage().saveTokens(access: access, refresh: refresh);
+      }
+
       if (mounted) {
+        context.read<AuthProvider>().notifyLogin();
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Invitation accepted successfully!')),
         );

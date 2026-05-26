@@ -59,14 +59,20 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" android:host="femflow.app" android:pathPrefix="/ref" />
                 <data android:scheme="https" android:host="femflow.app" android:pathPrefix="/ref" />
+                <data android:scheme="http" android:host="femflow.in" android:pathPrefix="/ref" />
+                <data android:scheme="https" android:host="femflow.in" android:pathPrefix="/ref" />
             </intent-filter>
 
             <!-- Deep Link for Partner Invites -->
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="femflow" android:host="partner" />
+                <data android:scheme="http" android:host="femflow.in" android:pathPrefix="/partner" />
+                <data android:scheme="https" android:host="femflow.in" android:pathPrefix="/partner" />
+                <data android:scheme="http" android:host="femflow.app" android:pathPrefix="/partner" />
+                <data android:scheme="https" android:host="femflow.app" android:pathPrefix="/partner" />
             </intent-filter>
         </activity>
 
@@ -109,6 +115,17 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <!-- Scheduled Notifications Receivers -->
+        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
