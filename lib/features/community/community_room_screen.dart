@@ -210,6 +210,12 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
                   color: post.userReaction == 'up' ? FemFlowColors.primary : FemFlowColors.textMuted,
                 ),
                 const SizedBox(width: 20),
+                _actionItem(
+                  post.userReaction == 'down' ? Icons.thumb_down : Icons.thumb_down_outlined, 
+                  post.dislikesCount.toString(),
+                  color: post.userReaction == 'down' ? Colors.redAccent : FemFlowColors.textMuted,
+                ),
+                const SizedBox(width: 20),
                 _actionItem(Icons.chat_bubble_outline, post.replyCount.toString(), color: FemFlowColors.textMuted),
                 const Spacer(),
                 IconButton(

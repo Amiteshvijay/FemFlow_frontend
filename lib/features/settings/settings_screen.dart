@@ -60,6 +60,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  Future<void> _updateGoal(String newGoal) async {
+    if (_profile == null || _profile!.goal == newGoal) return;
+    
+    setState(() => _isLoading = true);
+    try {
+      final updatedProfile = await _profileService.updateProfile({'goal': newGoal});
+      if (mounted) {
+        setState(() {
+          _profile = updatedProfile;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update goal. Please try again.')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,11 +104,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSectionTitle('My Mode', icon: Icons.auto_awesome),
+                  _buildSectionTitle('My Mode'),
                   _buildSettingsGroup([
-                    _buildSettingsRow('Cycle Tracking', isSelected: true),
-                    _buildSettingsRow('Trying to Conceive'),
-                    _buildSettingsRow('Avoid Pregnancy'),
+                    _buildSettingsRow(
+                      'Cycle Tracking', 
+                      isSelected: _profile?.goal == 'track_cycle',
+                      onTap: () => _updateGoal('track_cycle'),
+                    ),
+                    _buildSettingsRow(
+                      'Trying to Conceive',
+                      isSelected: _profile?.goal == 'trying_to_conceive',
+                      onTap: () => _updateGoal('trying_to_conceive'),
+                    ),
+                    _buildSettingsRow(
+                      'Avoid Pregnancy',
+                      isSelected: _profile?.goal == 'avoid_pregnancy',
+                      onTap: () => _updateGoal('avoid_pregnancy'),
+                    ),
                   ]),
                   const SizedBox(height: 20),
 

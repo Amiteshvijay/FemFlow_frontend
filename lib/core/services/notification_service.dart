@@ -121,19 +121,29 @@ class NotificationService {
     bool repeatDaily = false,
     List<int>? weekdays, // 1-7 (Mon-Sun)
     bool isMedication = false,
+    String? sound,
   }) async {
     if (kIsWeb) return;
 
     final tz.TZDateTime tzDate = tz.TZDateTime.from(scheduledDate, tz.local);
     final AndroidScheduleMode scheduleMode = await _getScheduleMode();
 
+    final String channelId = (sound != null && sound != 'default') 
+        ? 'femflow_reminders_$sound' 
+        : 'femflow_reminders_default';
+        
+    final String channelName = (sound != null && sound != 'default')
+        ? 'FemFlow Reminders (${sound.replaceAll("chime_", "").toUpperCase()})'
+        : 'FemFlow Reminders';
+
     final AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      'femflow_reminders',
-      'FemFlow Reminders',
+      channelId,
+      channelName,
       channelDescription: 'Notifications for period, pills, and wellness reminders',
       importance: Importance.high,
       priority: Priority.high,
       playSound: true,
+      sound: (sound != null && sound != 'default') ? RawResourceAndroidNotificationSound(sound) : null,
       enableVibration: true,
       actions: isMedication ? <AndroidNotificationAction>[
         const AndroidNotificationAction(actionTake, 'Take', showsUserInterface: true),
@@ -146,6 +156,7 @@ class NotificationService {
       iOS: DarwinNotificationDetails(
         presentAlert: true,
         presentSound: true,
+        sound: (sound != null && sound != 'default') ? '$sound.wav' : null,
         categoryIdentifier: isMedication ? categoryMedication : null,
       ),
     );
