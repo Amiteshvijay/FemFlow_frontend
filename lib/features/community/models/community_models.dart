@@ -63,7 +63,7 @@ class CommunityPost {
       imageUrl: json['image'],
       authorName: json['author_name'] ?? 'Anonymous',
       authorAvatar: json['author_avatar'],
-      createdAt: DateTime.parse(json['created_at'] ?? DateTime.now().toIso8601String()),
+      createdAt: DateTime.parse(json['created_at'] ?? DateTime.now().toIso8601String()).toLocal(),
       isAnonymous: json['is_anonymous'] ?? false,
       likesCount: json['likes_count'] ?? 0,
       dislikesCount: json['dislikes_count'] ?? 0,
@@ -94,7 +94,7 @@ class PostReply {
       id: json['id'],
       content: json['content'] ?? '',
       authorName: json['author_name'] ?? 'Anonymous',
-      createdAt: DateTime.parse(json['created_at'] ?? DateTime.now().toIso8601String()),
+      createdAt: DateTime.parse(json['created_at'] ?? DateTime.now().toIso8601String()).toLocal(),
       isAnonymous: json['is_anonymous'] ?? false,
     );
   }
