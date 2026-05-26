@@ -90,12 +90,24 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
   Future<void> _onSave() async {
     setState(() => _isLoading = true);
     try {
-      // 1. Log daily flow first
-      await _cycleService.logDailyPeriodFlow(
-        date: widget.date,
-        flow: _selectedFlow,
-        notes: _notesController.text,
-      );
+      // 1. Start period cycle if no cycle exists, otherwise log daily flow
+      if (_cycleLogId == null) {
+        final startRes = await _cycleService.startPeriod(
+          periodStartDate: widget.date,
+          flow: _selectedFlow,
+          notes: _notesController.text,
+        );
+        // Refresh cycle log ID from start response if available
+        if (startRes['cycle_log'] != null) {
+          _cycleLogId = startRes['cycle_log']['id'];
+        }
+      } else {
+        await _cycleService.logDailyPeriodFlow(
+          date: widget.date,
+          flow: _selectedFlow,
+          notes: _notesController.text,
+        );
+      }
 
       // 2. End period if checked newly, or re-open if unchecked mistakenly
       if (_endPeriodChecked && !_initialEndPeriodChecked) {

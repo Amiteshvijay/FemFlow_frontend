@@ -280,6 +280,14 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
       phase = "Luteal";
     }
 
+    final loggedOvulationResult = _dayData?['symptoms']?['ovulation_test_result'];
+    String ovulationStatus = ovulation?['label'] ?? 'Estimated ovulation day';
+    if (loggedOvulationResult == 'positive') {
+      ovulationStatus = 'OPK Test: Positive ➕ (LH Surge)';
+    } else if (loggedOvulationResult == 'negative') {
+      ovulationStatus = 'OPK Test: Negative ➖';
+    }
+
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,18 +309,36 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
               );
               if (result == true) _fetchDetails();
             },
+            showEnd: period != null && period['can_end_period'] == true,
+            onEnd: () async {
+              setState(() => _isLoading = true);
+              try {
+                await _cycleService.endPeriod(periodEndDate: _currentDate);
+                await _fetchDetails();
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Period ended successfully'), behavior: SnackBarBehavior.floating),
+                  );
+                }
+              } catch (e) {
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
+                  );
+                }
+              } finally {
+                if (mounted) setState(() => _isLoading = false);
+              }
+            },
           ),
           const Divider(height: 32),
           _buildCycleRow(
             icon: Icons.wb_sunny,
             iconColor: FemFlowColors.ovulation,
             title: 'Ovulation',
-            status: ovulation?['label'] ?? 'Estimated ovulation day',
+            status: ovulationStatus,
             showLog: true,
-            onLog: () {
-               // Placeholder for ovulation test log
-               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Ovulation test logging coming soon")));
-            },
+            onLog: _showOvulationTestLogModal,
           ),
           const Divider(height: 32),
           _buildCycleRow(
@@ -341,6 +367,124 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
     );
   }
 
+  void _showOvulationTestLogModal() {
+    final currentResult = _dayData?['symptoms']?['ovulation_test_result'];
+
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Log Ovulation OPK Test',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Record the Luteinizing Hormone (LH) surge test result for today.',
+                style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+              ),
+              const SizedBox(height: 24),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: FemFlowColors.ovulation.withValues(alpha: 0.1),
+                  child: const Icon(Icons.add, color: FemFlowColors.ovulation),
+                ),
+                title: const Text('Positive OPK ➕', style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: const Text('LH surge detected (Highly fertile day)'),
+                trailing: currentResult == 'positive' ? const Icon(Icons.check_circle, color: FemFlowColors.primary) : null,
+                onTap: () => _saveOvulationTestResult('positive'),
+              ),
+              const Divider(height: 1),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: FemFlowColors.textMuted.withValues(alpha: 0.1),
+                  child: const Icon(Icons.remove, color: FemFlowColors.textSecondary),
+                ),
+                title: const Text('Negative OPK ➖', style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: const Text('No LH surge detected'),
+                trailing: currentResult == 'negative' ? const Icon(Icons.check_circle, color: FemFlowColors.primary) : null,
+                onTap: () => _saveOvulationTestResult('negative'),
+              ),
+              if (currentResult != null) ...[
+                const Divider(height: 1),
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: FemFlowColors.period.withValues(alpha: 0.1),
+                    child: const Icon(Icons.delete_outline, color: FemFlowColors.period),
+                  ),
+                  title: const Text('Clear OPK Test Result', style: TextStyle(color: FemFlowColors.period)),
+                  onTap: () => _saveOvulationTestResult(null),
+                ),
+              ],
+              const SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _saveOvulationTestResult(String? result) async {
+    Navigator.pop(context); // Close sheet
+    setState(() => _isLoading = true);
+
+    try {
+      final symptomLog = _dayData?['symptoms'];
+      final List<String> existingSymptoms = symptomLog != null && symptomLog['symptoms'] != null
+          ? List<String>.from(symptomLog['symptoms'])
+          : [];
+      final List<String> existingMoods = symptomLog != null && symptomLog['moods'] != null
+          ? List<String>.from(symptomLog['moods'])
+          : [];
+      final int existingPain = symptomLog != null && symptomLog['pain_level'] != null
+          ? symptomLog['pain_level'] as int
+          : 0;
+      final String existingEnergy = symptomLog != null && symptomLog['energy_level'] != null
+          ? symptomLog['energy_level'] as String
+          : 'Medium';
+      final String? existingNotes = symptomLog != null ? symptomLog['notes'] : null;
+      final String? existingPrimaryMood = symptomLog != null ? symptomLog['primary_mood'] : null;
+
+      final payload = {
+        'date': _currentDate.toIso8601String().split('T')[0],
+        'symptoms': existingSymptoms,
+        'moods': existingMoods,
+        'primary_mood': existingPrimaryMood,
+        'pain_level': existingPain,
+        'energy_level': existingEnergy,
+        'notes': existingNotes,
+        'ovulation_test_result': result,
+      };
+
+      final ApiClient apiClient = ApiClient();
+      await apiClient.post('/cycles/symptoms/', body: payload);
+
+      await _fetchDetails();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ovulation test result logged'), behavior: SnackBarBehavior.floating),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   Widget _buildCycleRow({
     required IconData icon,
     required Color iconColor,
@@ -348,6 +492,8 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
     required String status,
     bool showLog = false,
     VoidCallback? onLog,
+    bool showEnd = false,
+    VoidCallback? onEnd,
   }) {
     return Row(
       children: [
@@ -371,6 +517,13 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
             onPressed: onLog,
             child: const Text('Log', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
           ),
+        if (showEnd) ...[
+          const SizedBox(width: 8),
+          TextButton(
+            onPressed: onEnd,
+            child: const Text('End Flow', style: TextStyle(color: FemFlowColors.period, fontWeight: FontWeight.bold)),
+          ),
+        ],
       ],
     );
   }
