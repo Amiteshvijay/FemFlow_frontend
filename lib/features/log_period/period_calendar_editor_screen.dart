@@ -29,6 +29,8 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
   bool _isLoading = false;
   final CycleService _cycleService = CycleService();
   int? _periodLogId;
+  late DateTime _focusedDay;
+  Map<String, dynamic>? _calendarData;
 
   @override
   void initState() {
@@ -36,8 +38,34 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
     _startDate = widget.initialStartDate;
     _endDate = widget.initialEndDate;
     _periodLogId = widget.periodLogId;
+    _focusedDay = widget.initialStartDate;
     _calculatePrediction();
     _fetchExistingPeriod();
+    _fetchCalendarMonthData(_focusedDay.year, _focusedDay.month);
+  }
+
+  Future<void> _fetchCalendarMonthData(int year, int month) async {
+    try {
+      final calendarData = await _cycleService.getCalendarMonth(year, month);
+      if (mounted) {
+        setState(() {
+          _calendarData = calendarData;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error fetching calendar data in editor: $e');
+    }
+  }
+
+  Map<String, dynamic>? _getDayData(DateTime date) {
+    if (_calendarData == null) return null;
+    final dateStr = date.toIso8601String().split('T')[0];
+    try {
+      return List<Map<String, dynamic>>.from(_calendarData!['days'])
+          .firstWhere((d) => d['date'] == dateStr);
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<void> _fetchExistingPeriod() async {
@@ -51,8 +79,10 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
           if (period['period_end_date'] != null) {
             _endDate = DateTime.parse(period['period_end_date']);
           }
+          _focusedDay = _startDate;
           _calculatePrediction();
         });
+        _fetchCalendarMonthData(_startDate.year, _startDate.month);
       }
     } catch (e) {
       debugPrint('Error fetching existing period: $e');
@@ -61,7 +91,6 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
 
   void _calculatePrediction() {
     // Basic prediction logic for UI guidance
-    // In real app, this would come from average_period_length in backend or local calculation
     // Defaulting to 5 days if end_date is null
     if (_endDate == null) {
       _predictedEndDate = _startDate.add(const Duration(days: 4));
@@ -137,6 +166,8 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
               child: Column(
                 children: [
                   _buildCalendar(),
+                  const SizedBox(height: 16),
+                  _buildLegend(),
                   const SizedBox(height: 24),
                   _buildStatusCard(),
                 ],
@@ -155,7 +186,7 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
       child: TableCalendar(
         firstDay: DateTime.utc(2020, 1, 1),
         lastDay: DateTime.now().add(const Duration(days: 365)),
-        focusedDay: _startDate,
+        focusedDay: _focusedDay,
         headerStyle: const HeaderStyle(
           formatButtonVisible: false,
           titleCentered: true,
@@ -164,6 +195,7 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
         calendarStyle: const CalendarStyle(
           todayDecoration: BoxDecoration(color: FemFlowColors.blushMist, shape: BoxShape.circle),
           todayTextStyle: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold),
+          outsideDaysVisible: true,
         ),
         calendarBuilders: CalendarBuilders(
           defaultBuilder: (context, day, focusedDay) => _buildDayWidget(day),
@@ -177,8 +209,15 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
               _startDate = selectedDay;
               _endDate = null;
             }
+            _focusedDay = focusedDay;
             _calculatePrediction();
           });
+        },
+        onPageChanged: (focusedDay) {
+          setState(() {
+            _focusedDay = focusedDay;
+          });
+          _fetchCalendarMonthData(focusedDay.year, focusedDay.month);
         },
       ),
     );
@@ -188,8 +227,12 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
     bool isStart = _isSameDay(day, _startDate);
     bool isEnd = _endDate != null && _isSameDay(day, _endDate!);
     bool inRange = _endDate != null && day.isAfter(_startDate) && day.isBefore(_endDate!);
-    bool isPredictedEnd = _predictedEndDate != null && _isSameDay(day, _predictedEndDate!);
-    bool inPredictedRange = _predictedEndDate != null && day.isAfter(_startDate) && day.isBefore(_predictedEndDate!);
+
+    final dayData = _getDayData(day);
+    final status = List<String>.from(dayData?['status'] ?? []);
+    bool isFertile = status.contains('fertile');
+    bool isOvulation = status.contains('ovulation');
+    bool isPredictedPeriod = status.contains('predicted_period');
 
     Color? bgColor;
     Color textColor = isOutside ? FemFlowColors.textMuted : FemFlowColors.textPrimary;
@@ -201,11 +244,16 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
       textColor = Colors.white;
     } else if (inRange) {
       bgColor = FemFlowColors.primary.withValues(alpha: 0.2);
-    } else if (isPredictedEnd) {
-      border = Border.all(color: FemFlowColors.primary, width: 1.5, style: BorderStyle.solid);
-      textColor = FemFlowColors.primary;
-    } else if (inPredictedRange) {
-       bgColor = FemFlowColors.primary.withValues(alpha: 0.05);
+      textColor = FemFlowColors.textPrimary;
+    } else if (isOvulation) {
+      bgColor = Colors.teal;
+      textColor = Colors.white;
+    } else if (isFertile) {
+      bgColor = FemFlowColors.ovulation.withValues(alpha: 0.3);
+      textColor = FemFlowColors.textPrimary;
+    } else if (isPredictedPeriod) {
+      border = Border.all(color: FemFlowColors.period.withValues(alpha: 0.5), width: 1.5);
+      textColor = isOutside ? FemFlowColors.textMuted : FemFlowColors.textPrimary;
     }
 
     return Container(
@@ -216,10 +264,68 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
         shape: shape,
         border: border,
       ),
-      child: Text(
-        '${day.day}',
-        style: TextStyle(color: textColor, fontWeight: (isStart || isEnd) ? FontWeight.bold : FontWeight.normal),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Text(
+            '${day.day}',
+            style: TextStyle(color: textColor, fontWeight: (isStart || isEnd) ? FontWeight.bold : FontWeight.normal),
+          ),
+          if (status.contains('symptom_logged'))
+             Positioned(
+               bottom: 4,
+               child: Container(
+                 width: 4,
+                 height: 4,
+                 decoration: const BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
+               ),
+             ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildLegend() {
+    return Wrap(
+      spacing: 12,
+      runSpacing: 8,
+      alignment: WrapAlignment.center,
+      children: [
+        _buildLegendItem('Period', FemFlowColors.period),
+        _buildLegendItem('Predicted', FemFlowColors.period.withValues(alpha: 0.5), isOutline: true),
+        _buildLegendItem('Fertile', FemFlowColors.ovulation.withValues(alpha: 0.3)),
+        _buildLegendItem('Ovulation', Colors.teal),
+        _buildLegendItem('Symptoms', FemFlowColors.primary, isDot: true),
+      ],
+    );
+  }
+
+  Widget _buildLegendItem(String label, Color color, {bool isOutline = false, bool isDot = false}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (isDot)
+           Container(
+             width: 6,
+             height: 6,
+             decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+           )
+        else
+          Container(
+            width: 12,
+            height: 12,
+            decoration: BoxDecoration(
+              color: isOutline ? Colors.transparent : color,
+              borderRadius: BorderRadius.circular(3),
+              border: isOutline ? Border.all(color: color, width: 1.5) : null,
+            ),
+          ),
+        const SizedBox(width: 6),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+        ),
+      ],
     );
   }
 

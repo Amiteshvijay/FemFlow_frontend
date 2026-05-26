@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../core/theme/femflow_colors.dart';
+import '../../core/network/api_client.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../cycles/data/cycle_service.dart';
@@ -330,6 +331,51 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                 if (mounted) setState(() => _isLoading = false);
               }
             },
+            showClear: period != null,
+            onClear: () async {
+              final confirmed = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Clear Period Logs?'),
+                  content: Text(
+                    'Are you sure you want to completely erase the period log starting on '
+                    '${DateFormat('d MMMM yyyy').format(DateTime.parse(period['period_start_date']))}?\n\n'
+                    'This will permanently delete this period cycle and all daily flow logs logged for it.'
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text('Clear', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              );
+
+              if (confirmed == true) {
+                setState(() => _isLoading = true);
+                try {
+                  await _cycleService.deleteCycleLog(period['cycle_log_id']);
+                  await _fetchDetails();
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Period logs cleared successfully'), behavior: SnackBarBehavior.floating),
+                    );
+                  }
+                } catch (e) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
+                    );
+                  }
+                } finally {
+                  if (mounted) setState(() => _isLoading = false);
+                }
+              }
+            },
           ),
           const Divider(height: 32),
           _buildCycleRow(
@@ -494,6 +540,8 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
     VoidCallback? onLog,
     bool showEnd = false,
     VoidCallback? onEnd,
+    bool showClear = false,
+    VoidCallback? onClear,
   }) {
     return Row(
       children: [
@@ -522,6 +570,13 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
           TextButton(
             onPressed: onEnd,
             child: const Text('End Flow', style: TextStyle(color: FemFlowColors.period, fontWeight: FontWeight.bold)),
+          ),
+        ],
+        if (showClear) ...[
+          const SizedBox(width: 8),
+          TextButton(
+            onPressed: onClear,
+            child: const Text('Clear Logs', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
           ),
         ],
       ],
