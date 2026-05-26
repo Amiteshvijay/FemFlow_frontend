@@ -67,6 +67,8 @@ class PillReminderService {
     // First clear any existing ones
     await cancelMedicationNotifications(med.id);
 
+    final String? sound = med.repeatPattern['notification_sound'];
+
     for (var timing in med.timings) {
       final parts = timing.time.split(':');
       final hour = int.parse(parts[0]);
@@ -87,6 +89,7 @@ class PillReminderService {
           repeatDaily: true,
           isMedication: true,
           payload: med.id.toString(),
+          sound: sound,
         );
       } else if (med.repeatType == 'weekly') {
         final List<int> days = List<int>.from(med.repeatPattern['days'] ?? [])
@@ -101,6 +104,7 @@ class PillReminderService {
           weekdays: days,
           isMedication: true,
           payload: med.id.toString(),
+          sound: sound,
         );
       } else if (med.repeatType == 'once') {
         final startDateTime = DateTime(
@@ -118,6 +122,7 @@ class PillReminderService {
             scheduledDate: startDateTime,
             isMedication: true,
             payload: med.id.toString(),
+            sound: sound,
           );
         }
       }

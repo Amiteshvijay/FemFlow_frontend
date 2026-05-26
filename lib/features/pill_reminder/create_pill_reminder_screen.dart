@@ -38,6 +38,7 @@ class _CreatePillReminderScreenState extends State<CreatePillReminderScreen> {
 
   bool _isSaving = false;
   bool _notificationsEnabled = true;
+  String _notificationSound = 'default';
 
   final List<Map<String, String>> _medicineTypes = [
     {'value': 'pill', 'label': 'Pill'},
@@ -74,6 +75,7 @@ class _CreatePillReminderScreenState extends State<CreatePillReminderScreen> {
       _timings = List.from(r.timings);
       _repeatPattern = Map.from(r.repeatPattern);
       _notificationsEnabled = r.notificationEnabled;
+      _notificationSound = r.repeatPattern['notification_sound'] ?? 'default';
     }
   }
 
@@ -124,7 +126,10 @@ class _CreatePillReminderScreenState extends State<CreatePillReminderScreen> {
       dosageValue: _dosageController.text.trim(),
       instructions: _instructions,
       repeatType: _repeatType,
-      repeatPattern: _repeatPattern,
+      repeatPattern: {
+        ..._repeatPattern,
+        'notification_sound': _notificationSound,
+      },
       startDate: _startDate,
       endDate: _isOngoing ? null : _endDate,
       isOngoing: _isOngoing,
@@ -425,6 +430,24 @@ class _CreatePillReminderScreenState extends State<CreatePillReminderScreen> {
                 activeThumbColor: FemFlowColors.primary,
                 contentPadding: EdgeInsets.zero,
               ),
+              if (_notificationsEnabled) ...[
+                const Divider(),
+                DropdownButtonFormField<String>(
+                  initialValue: _notificationSound,
+                  decoration: const InputDecoration(
+                    labelText: 'Reminder Sound',
+                    prefixIcon: Icon(Icons.music_note, color: FemFlowColors.primary),
+                    border: InputBorder.none,
+                  ),
+                  items: const [
+                    DropdownMenuItem(value: 'default', child: Text('Default System Sound 🔊')),
+                    DropdownMenuItem(value: 'chime_melodic', child: Text('Premium Melodic Chime 🎵')),
+                    DropdownMenuItem(value: 'chime_zen', child: Text('Premium Zen Gong 🧘')),
+                    DropdownMenuItem(value: 'chime_digital', child: Text('Premium Digital Beep ⚡')),
+                  ],
+                  onChanged: (v) => setState(() => _notificationSound = v!),
+                ),
+              ],
               const Divider(),
               DropdownButtonFormField<String>(
                 initialValue: _instructions,
