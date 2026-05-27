@@ -330,16 +330,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
           ],
         ),
-        _quickActionCard(
-          context,
-          icon: Icons.event_available_outlined,
-          label: 'Events',
-          color: Colors.deepPurple,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const EventListScreen()),
-          ),
-        ),
       ],
     );
   }
@@ -419,16 +409,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         const SizedBox(height: 12),
         ..._buildUpcomingEventCards(upcomingEvents),
-        _quickActionCard(
-          context,
-          icon: Icons.event_available_outlined,
-          label: 'Events',
-          color: Colors.deepPurple,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const EventListScreen()),
-          ),
-        ),
       ],
     );
   }
@@ -902,16 +882,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 ),
-        ),
-        _quickActionCard(
-          context,
-          icon: Icons.event_available_outlined,
-          label: 'Events',
-          color: Colors.deepPurple,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const EventListScreen()),
-          ),
         ),
       ],
     );
