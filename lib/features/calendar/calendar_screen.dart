@@ -371,6 +371,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     bool isPredicted = status.contains('predicted_period');
     bool isFertile = status.contains('fertile');
     bool isOvulation = status.contains('ovulation');
+    bool isPMS = status.contains('pms');
 
     if (isOvulation) {
       // Connect with fertile window neighbors
@@ -452,6 +453,26 @@ class _CalendarScreenState extends State<CalendarScreen> {
         topRight: isEnd ? const Radius.circular(20) : Radius.zero,
         bottomRight: isEnd ? const Radius.circular(20) : Radius.zero,
       );
+    } else if (isPMS) {
+      bool isStart = !prevStatus.contains('pms');
+      bool isEnd = !nextStatus.contains('pms');
+      
+      bgColor = const Color(0xFFFFF3E0); // Warm amber tint
+      textColor = const Color(0xFFE8A838);
+      
+      margin = EdgeInsets.only(
+        top: 4,
+        bottom: 4,
+        left: isStart ? 4 : 0,
+        right: isEnd ? 4 : 0,
+      );
+      
+      borderRadius = BorderRadius.only(
+        topLeft: isStart ? const Radius.circular(20) : Radius.zero,
+        bottomLeft: isStart ? const Radius.circular(20) : Radius.zero,
+        topRight: isEnd ? const Radius.circular(20) : Radius.zero,
+        bottomRight: isEnd ? const Radius.circular(20) : Radius.zero,
+      );
     } else if (isOvulation) {
       bgColor = Colors.teal;
       textColor = Colors.white;
@@ -502,6 +523,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       children: [
         _buildLegendItem('Period', FemFlowColors.period),
         _buildLegendItem('Predicted', FemFlowColors.period.withValues(alpha: 0.5), isOutline: true),
+        _buildLegendItem('PMS', const Color(0xFFE8A838)),
         _buildLegendItem('Fertile', FemFlowColors.ovulation.withValues(alpha: 0.3)),
         _buildLegendItem('Ovulation', Colors.teal),
         _buildLegendItem('Symptoms', FemFlowColors.primary, isDot: true),
@@ -556,6 +578,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
     } else if (status.contains('fertile')) {
       statusText = 'Fertile Window';
       statusColor = FemFlowColors.fertileWindow;
+    } else if (status.contains('pms')) {
+      statusText = 'PMS Phase';
+      statusColor = const Color(0xFFE8A838);
     }
 
     return GestureDetector(

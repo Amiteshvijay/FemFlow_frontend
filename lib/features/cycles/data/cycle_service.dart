@@ -239,6 +239,12 @@ class CycleService {
     return await _apiClient.get('/cycles/dashboard/');
   }
 
+  Future<Map<String, dynamic>> clearDayLogs(DateTime date) async {
+    final dateStr = date.toIso8601String().split('T')[0];
+    final response = await _apiClient.post('/cycles/clear-day-logs/', body: {'date': dateStr});
+    return Map<String, dynamic>.from(response);
+  }
+
   Future<Map<String, dynamic>> getCalendarMonth(int year, int month) async {
     return await _apiClient.get('/cycles/calendar/?year=$year&month=$month');
   }

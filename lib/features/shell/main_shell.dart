@@ -5,7 +5,6 @@ import '../calendar/calendar_screen.dart';
 import '../chat/femai_chat_screen.dart';
 import '../profile/profile_screen.dart';
 import '../../shared/widgets/universal_plus_button.dart';
-import '../../shared/widgets/femai_icon.dart';
 import '../../core/theme/femflow_colors.dart';
 import 'shell_events.dart';
 
@@ -137,7 +136,7 @@ class MainShellState extends State<MainShell> {
                 ),
                 Expanded(child: Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: _buildNavItem(2, Icons.auto_awesome_outlined, Icons.auto_awesome, 'FemAI'),
+                  child: _buildNavItem(2, Icons.chat_bubble_outline_rounded, Icons.chat_bubble_rounded, 'FemAI'),
                 )),
                 Expanded(child: Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -160,13 +159,11 @@ class MainShellState extends State<MainShell> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (label == 'FemAI')
-            FemAIIcon(isSelected: isSelected, size: 24)
-          else
-            Icon(
-              isSelected ? activeIcon : icon,
-              color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
-            ),
+          Icon(
+            isSelected ? activeIcon : icon,
+            color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
+            size: 24,
+          ),
           Text(
             label,
             style: TextStyle(

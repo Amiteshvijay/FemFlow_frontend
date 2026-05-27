@@ -246,11 +246,137 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
           const SizedBox(height: 20),
           _buildFemAIPriorityTips(),
           const SizedBox(height: 20),
+          _buildClearLogsButton(),
+          const SizedBox(height: 20),
           _buildSafetyNote(),
           const SizedBox(height: 40),
         ],
       ),
     );
+  }
+
+  Widget _buildClearLogsButton() {
+    final hasLogs = _dayData?['has_logs'] == true;
+    if (!hasLogs) return const SizedBox.shrink();
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: OutlinedButton.icon(
+          icon: const Icon(Icons.delete_outline, color: FemFlowColors.period),
+          label: const Text('Clear Logs', style: TextStyle(color: FemFlowColors.period, fontWeight: FontWeight.bold)),
+          style: OutlinedButton.styleFrom(
+            side: const BorderSide(color: FemFlowColors.period, width: 1),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          ),
+          onPressed: _showClearLogsConfirmation,
+        ),
+      ),
+    );
+  }
+
+  void _showClearLogsConfirmation() {
+    final isCycleStart = _dayData?['period']?['period_start_date'] != null &&
+        _dayData!['period']['period_start_date'] == _currentDate.toIso8601String().split('T')[0];
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Clear Logs'),
+        content: Text(
+          isCycleStart
+              ? 'Are you sure you want to erase this log?\nThis is the period start date — clearing it will recalculate your cycle predictions.'
+              : 'Are you sure you want to erase this log?\nThis may recalculate your cycle predictions.'
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () { Navigator.pop(ctx); _executeClearLogs(); },
+            child: const Text('Clear Logs', style: TextStyle(color: FemFlowColors.period)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _executeClearLogs() async {
+    // Snapshot current data for undo
+    final snapshot = Map<String, dynamic>.from(_dayData ?? {});
+
+    setState(() => _isLoading = true);
+    try {
+      await _cycleService.clearDayLogs(_currentDate);
+      await _fetchDetails();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Logs cleared'),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 5),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () => _undoClearLogs(snapshot),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _undoClearLogs(Map<String, dynamic> snapshot) async {
+    setState(() => _isLoading = true);
+    try {
+      // Restore period flow if existed
+      if (snapshot['period'] != null && snapshot['period']['flow'] != null) {
+        await _cycleService.startPeriod(
+          periodStartDate: DateTime.parse(snapshot['period']['period_start_date']),
+          flow: snapshot['period']['flow'],
+          notes: snapshot['period']['notes'] ?? '',
+        );
+      }
+      // Restore symptoms if existed
+      if (snapshot['symptoms'] != null) {
+        final s = snapshot['symptoms'];
+        final ApiClient apiClient = ApiClient();
+        await apiClient.post('/cycles/symptoms/', body: {
+          'date': _currentDate.toIso8601String().split('T')[0],
+          'symptoms': s['symptoms'] ?? [],
+          'moods': s['moods'] ?? [],
+          'primary_mood': s['primary_mood'],
+          'pain_level': s['pain_level'] ?? 0,
+          'energy_level': s['energy_level'] ?? 'Medium',
+          'notes': s['notes'],
+          'ovulation_test_result': s['ovulation_test_result'],
+        });
+      }
+      // Restore sexual activities if existed
+      if (snapshot['sexual_activity'] != null) {
+        final sexList = snapshot['sexual_activity'] as List;
+        for (final s in sexList) {
+          await _cycleService.createSexualActivityLog(SexualActivityLog(
+            date: _currentDate,
+            activityType: s['activity_type'],
+            notes: s['notes'],
+          ));
+        }
+      }
+      await _fetchDetails();
+    } catch (e) {
+      debugPrint('Undo failed: $e');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   Widget _buildMyCycleCard() {
@@ -310,6 +436,24 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
               );
               if (result == true) _fetchDetails();
             },
+            showEdit: period != null,
+            onEdit: () async {
+              final periodStartDate = period['period_start_date'] != null 
+                  ? DateTime.parse(period['period_start_date']) 
+                  : _currentDate;
+              final periodEndDate = period['period_end_date'] != null
+                  ? DateTime.parse(period['period_end_date'])
+                  : null;
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PeriodCalendarEditorScreen(
+                  initialStartDate: periodStartDate,
+                  initialEndDate: periodEndDate,
+                  periodLogId: period['cycle_log_id'],
+                )),
+              );
+              if (result == true) _fetchDetails();
+            },
             showEnd: period != null && period['can_end_period'] == true,
             onEnd: () async {
               setState(() => _isLoading = true);
@@ -331,51 +475,6 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                 if (mounted) setState(() => _isLoading = false);
               }
             },
-            showClear: period != null,
-            onClear: () async {
-              final confirmed = await showDialog<bool>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Clear Period Logs?'),
-                  content: Text(
-                    'Are you sure you want to completely erase the period log starting on '
-                    '${DateFormat('d MMMM yyyy').format(DateTime.parse(period['period_start_date']))}?\n\n'
-                    'This will permanently delete this period cycle and all daily flow logs logged for it.'
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: const Text('Clear', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-              );
-
-              if (confirmed == true) {
-                setState(() => _isLoading = true);
-                try {
-                  await _cycleService.deleteCycleLog(period['cycle_log_id']);
-                  await _fetchDetails();
-                  if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Period logs cleared successfully'), behavior: SnackBarBehavior.floating),
-                    );
-                  }
-                } catch (e) {
-                  if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
-                    );
-                  }
-                } finally {
-                  if (mounted) setState(() => _isLoading = false);
-                }
-              }
-            },
           ),
           const Divider(height: 32),
           _buildCycleRow(
@@ -393,6 +492,15 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
             title: 'Fertility',
             status: fertility?['label'] ?? 'Estimated fertile window',
           ),
+          if (_dayData?['pms'] != null) ...[
+            const Divider(height: 32),
+            _buildCycleRow(
+              icon: Icons.cloud,
+              iconColor: const Color(0xFFE8A838),  // Soft orange
+              title: 'PMS',
+              status: _dayData!['pms']['label'] ?? 'Pre-menstrual phase',
+            ),
+          ],
           const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -540,8 +648,8 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
     VoidCallback? onLog,
     bool showEnd = false,
     VoidCallback? onEnd,
-    bool showClear = false,
-    VoidCallback? onClear,
+    bool showEdit = false,
+    VoidCallback? onEdit,
   }) {
     return Row(
       children: [
@@ -565,18 +673,18 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
             onPressed: onLog,
             child: const Text('Log', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
           ),
+        if (showEdit) ...[
+          const SizedBox(width: 8),
+          TextButton(
+            onPressed: onEdit,
+            child: const Text('Edit', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+          ),
+        ],
         if (showEnd) ...[
           const SizedBox(width: 8),
           TextButton(
             onPressed: onEnd,
             child: const Text('End Flow', style: TextStyle(color: FemFlowColors.period, fontWeight: FontWeight.bold)),
-          ),
-        ],
-        if (showClear) ...[
-          const SizedBox(width: 8),
-          TextButton(
-            onPressed: onClear,
-            child: const Text('Clear Logs', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
           ),
         ],
       ],

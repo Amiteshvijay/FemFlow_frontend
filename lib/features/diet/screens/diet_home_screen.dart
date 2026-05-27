@@ -146,8 +146,10 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
     }
   }
 
-  Future<void> _fetchData() async {
-    setState(() => _isLoading = true);
+  Future<void> _fetchData({bool silent = false}) async {
+    if (!silent) {
+      setState(() => _isLoading = true);
+    }
     try {
       final plan = await _dietService.getTodayDietPlan();
       setState(() {
@@ -550,8 +552,27 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
   Widget _waterButton(int ml) {
     return OutlinedButton.icon(
       onPressed: () async {
+        if (_plan != null) {
+          setState(() {
+            _plan = MealPlan(
+              id: _plan!.id,
+              date: _plan!.date,
+              goal: _plan!.goal,
+              cyclePhase: _plan!.cyclePhase,
+              nutritionFocus: _plan!.nutritionFocus,
+              hydration: HydrationStats(
+                targetMl: _plan!.hydration.targetMl,
+                consumedMl: _plan!.hydration.consumedMl + ml,
+              ),
+              dietScore: _plan!.dietScore,
+              exerciseMatch: _plan!.exerciseMatch,
+              meals: _plan!.meals,
+              femaiTip: _plan!.femaiTip,
+            );
+          });
+        }
         await _dietService.logWater(ml);
-        _fetchData();
+        _fetchData(silent: true);
       },
       icon: const Icon(Icons.add, size: 16),
       label: Text('$ml ml'),
@@ -710,10 +731,72 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                 size: 24,
               ),
               onPressed: () async {
+                final originalEaten = meal.isEaten;
+                if (_plan != null) {
+                  setState(() {
+                    _plan = MealPlan(
+                      id: _plan!.id,
+                      date: _plan!.date,
+                      goal: _plan!.goal,
+                      cyclePhase: _plan!.cyclePhase,
+                      nutritionFocus: _plan!.nutritionFocus,
+                      hydration: _plan!.hydration,
+                      dietScore: _plan!.dietScore,
+                      exerciseMatch: _plan!.exerciseMatch,
+                      meals: _plan!.meals.map((m) {
+                        if (m.id == meal.id) {
+                          return MealPlanItem(
+                            id: m.id,
+                            mealType: m.mealType,
+                            name: m.name,
+                            calories: m.calories,
+                            protein: m.protein,
+                            reason: m.reason,
+                            isEaten: !originalEaten,
+                            eatenAt: !originalEaten ? DateTime.now() : null,
+                          );
+                        }
+                        return m;
+                      }).toList(),
+                      femaiTip: _plan!.femaiTip,
+                    );
+                  });
+                }
                 try {
-                  await _dietService.logMealEaten(meal.id, !meal.isEaten);
-                  _fetchData();
+                  await _dietService.logMealEaten(meal.id, !originalEaten);
+                  await _fetchData(silent: true);
                 } catch (e) {
+                  // Revert optimistic update on error
+                  if (_plan != null) {
+                    setState(() {
+                      _plan = MealPlan(
+                        id: _plan!.id,
+                        date: _plan!.date,
+                        goal: _plan!.goal,
+                        cyclePhase: _plan!.cyclePhase,
+                        nutritionFocus: _plan!.nutritionFocus,
+                        hydration: _plan!.hydration,
+                        dietScore: _plan!.dietScore,
+                        exerciseMatch: _plan!.exerciseMatch,
+                        meals: _plan!.meals.map((m) {
+                          if (m.id == meal.id) {
+                            return MealPlanItem(
+                              id: m.id,
+                              mealType: m.mealType,
+                              name: m.name,
+                              calories: m.calories,
+                              protein: m.protein,
+                              reason: m.reason,
+                              isEaten: originalEaten,
+                              eatenAt: m.eatenAt,
+                            );
+                          }
+                          return m;
+                        }).toList(),
+                        femaiTip: _plan!.femaiTip,
+                      );
+                    });
+                  }
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Error updating meal: $e')),

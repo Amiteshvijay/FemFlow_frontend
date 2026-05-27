@@ -4,6 +4,7 @@ import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../cycles/data/cycle_service.dart';
+import 'period_calendar_editor_screen.dart';
 
 class PeriodDailyLogScreen extends StatefulWidget {
   final DateTime date;
@@ -92,14 +93,52 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
     try {
       // 1. Start period cycle if no cycle exists, otherwise log daily flow
       if (_cycleLogId == null) {
-        final startRes = await _cycleService.startPeriod(
-          periodStartDate: widget.date,
-          flow: _selectedFlow,
-          notes: _notesController.text,
-        );
-        // Refresh cycle log ID from start response if available
-        if (startRes['cycle_log'] != null) {
-          _cycleLogId = startRes['cycle_log']['id'];
+        try {
+          final startRes = await _cycleService.startPeriod(
+            periodStartDate: widget.date,
+            flow: _selectedFlow,
+            notes: _notesController.text,
+          );
+          if (startRes['cycle_log'] != null) {
+            _cycleLogId = startRes['cycle_log']['id'];
+          }
+        } catch (e) {
+          final errStr = e.toString();
+          if (errStr.contains('409') || errStr.contains('already exists')) {
+            if (mounted) {
+              final shouldUpdate = await showDialog<bool>(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  title: const Text('Active Period Exists'),
+                  content: const Text(
+                    'It looks like you already logged a period for this cycle.\n'
+                    'Would you like to update the existing period instead?'
+                  ),
+                  actions: [
+                    TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx, true),
+                      child: const Text('Update Existing', style: TextStyle(color: FemFlowColors.primary)),
+                    ),
+                  ],
+                ),
+              );
+              if (shouldUpdate == true) {
+                if (mounted) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => PeriodCalendarEditorScreen(initialStartDate: widget.date),
+                    ),
+                  );
+                }
+                return;
+              }
+            }
+            return; // User cancelled
+          }
+          rethrow;
         }
       } else {
         await _cycleService.logDailyPeriodFlow(
