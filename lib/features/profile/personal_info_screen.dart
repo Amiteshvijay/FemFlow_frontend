@@ -109,7 +109,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                     _buildSectionCard(
                       icon: Icons.person_outline,
                       title: 'Basic Information',
-                      subtitle: 'Name, DOB, Location',
+                      subtitle: 'Name, DOB, Location, Profession',
                       completion: _currentProfile?.sectionProgress['basic_information'] ?? 0.0,
                       onTap: () => _editSection('basic_information', 'Basic Information'),
                     ),

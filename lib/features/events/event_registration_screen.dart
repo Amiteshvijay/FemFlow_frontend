@@ -42,8 +42,24 @@ class _EventRegistrationScreenState extends State<EventRegistrationScreen> {
         _nameController.text = profile.fullName ?? profile.username;
         _emailController.text = profile.email;
         _phoneController.text = profile.mobileNumber ?? '';
-        if (profile.age != null) _ageController.text = profile.age.toString();
+        
+        // Calculate age dynamically from DOB
+        int? calculatedAge;
+        if (profile.dob != null) {
+          final today = DateTime.now();
+          calculatedAge = today.year - profile.dob!.year;
+          if (today.month < profile.dob!.month || (today.month == profile.dob!.month && today.day < profile.dob!.day)) {
+            calculatedAge--;
+          }
+        }
+        
+        final ageVal = calculatedAge ?? profile.age;
+        if (ageVal != null) {
+          _ageController.text = ageVal.toString();
+        }
+        
         _cityController.text = profile.city ?? '';
+        _professionController.text = profile.profession ?? '';
       });
     } catch (e) {
       // Non-fatal if profile load fails

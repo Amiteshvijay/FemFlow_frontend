@@ -50,6 +50,8 @@ class _BasicInformationSectionState extends State<BasicInformationSection> {
         ),
         const SizedBox(height: 20),
         _buildDropdownField('Preferred Language', 'preferred_language', ['English', 'Spanish', 'French', 'Hindi', 'Bengali']),
+        const SizedBox(height: 20),
+        _buildInputField('Profession', 'profession', icon: Icons.work_outline),
       ],
     );
   }

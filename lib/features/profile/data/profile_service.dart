@@ -10,6 +10,7 @@ class UserProfile {
   final int? age;
   final String? country;
   final String? city;
+  final String? profession;
   final String preferredLanguage;
   final String? avatarUrl;
   final String? mobileNumber;
@@ -88,6 +89,7 @@ class UserProfile {
     this.age,
     this.country,
     this.city,
+    this.profession,
     this.preferredLanguage = 'English',
     this.avatarUrl,
     this.mobileNumber,
@@ -160,6 +162,7 @@ class UserProfile {
       age: p['age'],
       country: p['country'],
       city: p['city'],
+      profession: p['profession'],
       preferredLanguage: p['preferred_language'] ?? 'English',
       avatarUrl: p['avatar_url'],
       mobileNumber: p['mobile_number'] ?? json['mobile_no'],
@@ -238,6 +241,7 @@ class UserProfile {
       'age': age,
       'country': country,
       'city': city,
+      'profession': profession,
       'preferred_language': preferredLanguage,
       'goal': goal,
       'mobile_number': mobileNumber,
