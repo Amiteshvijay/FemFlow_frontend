@@ -29,6 +29,7 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
   bool _isLoading = false;
   final CycleService _cycleService = CycleService();
   int? _periodLogId;
+  Map<String, dynamic>? _calendarData;
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
     _periodLogId = widget.periodLogId;
     _calculatePrediction();
     _fetchExistingPeriod();
+    _fetchCalendarData(_startDate);
   }
 
   Future<void> _fetchExistingPeriod() async {
@@ -53,16 +55,28 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
           }
           _calculatePrediction();
         });
+        _fetchCalendarData(_startDate);
       }
     } catch (e) {
       debugPrint('Error fetching existing period: $e');
     }
   }
 
+  Future<void> _fetchCalendarData(DateTime date) async {
+    try {
+      final calendarData = await _cycleService.getCalendarMonth(date.year, date.month);
+      if (mounted) {
+        setState(() {
+          _calendarData = calendarData;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error fetching calendar data in editor: $e');
+    }
+  }
+
   void _calculatePrediction() {
     // Basic prediction logic for UI guidance
-    // In real app, this would come from average_period_length in backend or local calculation
-    // Defaulting to 5 days if end_date is null
     if (_endDate == null) {
       _predictedEndDate = _startDate.add(const Duration(days: 4));
     } else {
@@ -152,36 +166,97 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
   Widget _buildCalendar() {
     return AppCard(
       padding: const EdgeInsets.all(12),
-      child: TableCalendar(
-        firstDay: DateTime.utc(2020, 1, 1),
-        lastDay: DateTime.now().add(const Duration(days: 365)),
-        focusedDay: _startDate,
-        headerStyle: const HeaderStyle(
-          formatButtonVisible: false,
-          titleCentered: true,
-          titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        calendarStyle: const CalendarStyle(
-          todayDecoration: BoxDecoration(color: FemFlowColors.blushMist, shape: BoxShape.circle),
-          todayTextStyle: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold),
-        ),
-        calendarBuilders: CalendarBuilders(
-          defaultBuilder: (context, day, focusedDay) => _buildDayWidget(day),
-          outsideBuilder: (context, day, focusedDay) => _buildDayWidget(day, isOutside: true),
-        ),
-        onDaySelected: (selectedDay, focusedDay) {
-          setState(() {
-            if (_endDate == null && selectedDay.isAfter(_startDate)) {
-              _endDate = selectedDay;
-            } else {
-              _startDate = selectedDay;
-              _endDate = null;
-            }
-            _calculatePrediction();
-          });
-        },
+      child: Column(
+        children: [
+          TableCalendar(
+            firstDay: DateTime.utc(2020, 1, 1),
+            lastDay: DateTime.now().add(const Duration(days: 365)),
+            focusedDay: _startDate,
+            headerStyle: const HeaderStyle(
+              formatButtonVisible: false,
+              titleCentered: true,
+              titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            calendarStyle: const CalendarStyle(
+              todayDecoration: BoxDecoration(color: FemFlowColors.blushMist, shape: BoxShape.circle),
+              todayTextStyle: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold),
+            ),
+            calendarBuilders: CalendarBuilders(
+              defaultBuilder: (context, day, focusedDay) => _buildDayWidget(day),
+              outsideBuilder: (context, day, focusedDay) => _buildDayWidget(day, isOutside: true),
+            ),
+            onPageChanged: (focusedDay) {
+              _fetchCalendarData(focusedDay);
+            },
+            onDaySelected: (selectedDay, focusedDay) {
+              setState(() {
+                if (_endDate == null && selectedDay.isAfter(_startDate)) {
+                  _endDate = selectedDay;
+                } else {
+                  _startDate = selectedDay;
+                  _endDate = null;
+                }
+                _calculatePrediction();
+              });
+            },
+          ),
+          const SizedBox(height: 16),
+          _buildLegend(),
+        ],
       ),
     );
+  }
+
+  Widget _buildLegend() {
+    return Wrap(
+      spacing: 12,
+      runSpacing: 8,
+      alignment: WrapAlignment.center,
+      children: [
+        _buildLegendItem('Period', FemFlowColors.period),
+        _buildLegendItem('Predicted', FemFlowColors.period.withValues(alpha: 0.5), isOutline: true),
+        _buildLegendItem('PMS', const Color(0xFFE8A838)),
+        _buildLegendItem('Fertile', FemFlowColors.ovulation.withValues(alpha: 0.3)),
+        _buildLegendItem('Ovulation', Colors.teal),
+      ],
+    );
+  }
+
+  Widget _buildLegendItem(String label, Color color, {bool isOutline = false, bool isDot = false}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (isDot)
+           Container(
+             width: 6,
+             height: 6,
+             decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+           )
+        else
+          Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              color: isOutline ? null : color,
+              shape: BoxShape.circle,
+              border: isOutline ? Border.all(color: color, width: 1.5) : null,
+            ),
+          ),
+        const SizedBox(width: 4),
+        Text(label, style: const TextStyle(fontSize: 10, color: FemFlowColors.textSecondary)),
+      ],
+    );
+  }
+
+  Map<String, dynamic>? _getDayData(DateTime date) {
+    if (_calendarData == null) return null;
+    final dateStr = date.toIso8601String().split('T')[0];
+    try {
+      return List<Map<String, dynamic>>.from(_calendarData!['days'])
+          .firstWhere((d) => d['date'] == dateStr);
+    } catch (_) {
+      return null;
+    }
   }
 
   Widget _buildDayWidget(DateTime day, {bool isOutside = false}) {
@@ -190,6 +265,16 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
     bool inRange = _endDate != null && day.isAfter(_startDate) && day.isBefore(_endDate!);
     bool isPredictedEnd = _predictedEndDate != null && _isSameDay(day, _predictedEndDate!);
     bool inPredictedRange = _predictedEndDate != null && day.isAfter(_startDate) && day.isBefore(_predictedEndDate!);
+
+    // Fetch predictions status from calendar data
+    final dayData = _getDayData(day);
+    final status = List<String>.from(dayData?['status'] ?? []);
+    
+    bool isPeriod = status.contains('period');
+    bool isPredicted = status.contains('predicted_period');
+    bool isFertile = status.contains('fertile');
+    bool isOvulation = status.contains('ovulation');
+    bool isPMS = status.contains('pms');
 
     Color? bgColor;
     Color textColor = isOutside ? FemFlowColors.textMuted : FemFlowColors.textPrimary;
@@ -201,11 +286,34 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
       textColor = Colors.white;
     } else if (inRange) {
       bgColor = FemFlowColors.primary.withValues(alpha: 0.2);
-    } else if (isPredictedEnd) {
-      border = Border.all(color: FemFlowColors.primary, width: 1.5, style: BorderStyle.solid);
-      textColor = FemFlowColors.primary;
-    } else if (inPredictedRange) {
-       bgColor = FemFlowColors.primary.withValues(alpha: 0.05);
+    } else {
+      // Apply server predictions
+      if (isOvulation) {
+        bgColor = Colors.teal;
+        textColor = Colors.white;
+      } else if (isPredicted) {
+        border = Border.all(color: FemFlowColors.period.withValues(alpha: 0.5), width: 1.5);
+        textColor = FemFlowColors.textPrimary;
+      } else if (isFertile) {
+        bgColor = FemFlowColors.ovulation.withValues(alpha: 0.3);
+        textColor = FemFlowColors.textPrimary;
+      } else if (isPMS) {
+        bgColor = const Color(0xFFFFF3E0);
+        textColor = const Color(0xFFE8A838);
+      } else if (isPeriod) {
+        bgColor = FemFlowColors.period.withValues(alpha: 0.3);
+        textColor = FemFlowColors.textPrimary;
+      } else if (isPredictedEnd) {
+        border = Border.all(color: FemFlowColors.primary, width: 1.5, style: BorderStyle.solid);
+        textColor = FemFlowColors.primary;
+      } else if (inPredictedRange) {
+        bgColor = FemFlowColors.primary.withValues(alpha: 0.05);
+      }
+    }
+
+    bool isToday = _isSameDay(day, DateTime.now());
+    if (isToday && bgColor == null && border == null) {
+      bgColor = FemFlowColors.blushMist;
     }
 
     return Container(
@@ -218,7 +326,10 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
       ),
       child: Text(
         '${day.day}',
-        style: TextStyle(color: textColor, fontWeight: (isStart || isEnd) ? FontWeight.bold : FontWeight.normal),
+        style: TextStyle(
+          color: textColor,
+          fontWeight: (isStart || isEnd || isToday) ? FontWeight.bold : FontWeight.normal,
+        ),
       ),
     );
   }
