@@ -7,6 +7,8 @@ import 'data/auth_service.dart';
 import 'signup_screen.dart';
 import 'forgot_password_screen.dart';
 import 'two_factor_otp_screen.dart';
+import '../../core/services/version_service.dart';
+import 'widgets/update_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,6 +23,25 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordVisible = false;
   bool _isLoading = false;
   final AuthService _authService = AuthService();
+  final VersionService _versionService = VersionService();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAppUpdate();
+  }
+
+  Future<void> _checkAppUpdate() async {
+    // Only check if we're on the login screen to prompt for update
+    final updateInfo = await _versionService.checkUpdate();
+    if (updateInfo != null && updateInfo.updateAvailable && mounted) {
+      showDialog(
+        context: context,
+        barrierDismissible: updateInfo.updateType != 'mandatory',
+        builder: (context) => UpdateDialog(updateInfo: updateInfo),
+      );
+    }
+  }
 
   @override
   void dispose() {
