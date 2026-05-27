@@ -29,6 +29,7 @@ import '../expert_insights/data/expert_insights_service.dart';
 import '../expert_insights/models/insight_models.dart';
 import '../expert_insights/widgets/expert_insight_card.dart';
 import '../expert_insights/screens/expert_insights_discovery_screen.dart';
+import '../events/event_list_screen.dart';
 import 'package:provider/provider.dart';
 import '../subscriptions/providers/subscription_provider.dart';
 
@@ -329,6 +330,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
           ],
         ),
+        _quickActionCard(
+          context,
+          icon: Icons.event_available_outlined,
+          label: 'Events',
+          color: Colors.deepPurple,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const EventListScreen()),
+          ),
+        ),
       ],
     );
   }
@@ -408,6 +419,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         const SizedBox(height: 12),
         ..._buildUpcomingEventCards(upcomingEvents),
+        _quickActionCard(
+          context,
+          icon: Icons.event_available_outlined,
+          label: 'Events',
+          color: Colors.deepPurple,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const EventListScreen()),
+          ),
+        ),
       ],
     );
   }
@@ -775,6 +796,16 @@ class _HomeScreenState extends State<HomeScreen> {
             premiumScreen: const JournalScreen()
           ),
         ),
+        _quickActionCard(
+          context,
+          icon: Icons.event_available_outlined,
+          label: 'Events',
+          color: Colors.deepPurple,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const EventListScreen()),
+          ),
+        ),
       ],
     );
   }
@@ -871,6 +902,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 ),
+        ),
+        _quickActionCard(
+          context,
+          icon: Icons.event_available_outlined,
+          label: 'Events',
+          color: Colors.deepPurple,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const EventListScreen()),
+          ),
         ),
       ],
     );
