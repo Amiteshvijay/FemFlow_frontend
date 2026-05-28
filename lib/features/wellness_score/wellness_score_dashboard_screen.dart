@@ -119,7 +119,7 @@ class _WellnessScoreDashboardScreenState extends State<WellnessScoreDashboardScr
       child: Column(
         children: [
           const Text(
-            'Your Weekly Balance',
+            'Your Weekly Score',
             style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 16),

@@ -5,6 +5,7 @@ import '../../../core/theme/femflow_colors.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../services/health_integration_service.dart';
 import '../data/health_service.dart';
+import 'health_dashboard_screen.dart';
 
 class ConnectedHealthScreen extends StatefulWidget {
   const ConnectedHealthScreen({super.key});
@@ -87,6 +88,12 @@ class _ConnectedHealthScreenState extends State<ConnectedHealthScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(currentStatus ? 'Disconnected $platform' : 'Successfully connected $platform')),
         );
+        if (!currentStatus) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const HealthDashboardScreen()),
+          );
+        }
       }
     } catch (e) {
       if (mounted) {
@@ -243,6 +250,25 @@ class _ConnectedHealthScreenState extends State<ConnectedHealthScreen> {
                   ],
                 ),
               ],
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const HealthDashboardScreen()),
+                  );
+                },
+                icon: const Icon(Icons.analytics_outlined, color: Colors.white, size: 16),
+                label: const Text('View Health Dashboard', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: FemFlowColors.primary,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
             ),
           ],
         ],

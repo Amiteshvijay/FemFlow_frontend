@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SafetyDisclaimerScreen extends StatelessWidget {
   const SafetyDisclaimerScreen({super.key});
@@ -64,7 +65,29 @@ class SafetyDisclaimerScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: InkWell(
+                onTap: () async {
+                  final uri = Uri.parse('https://www.femflow.in/safety-disclaimer');
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  }
+                },
+                child: const Text(
+                  'Click here to know more about our Safety Disclaimer',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: FemFlowColors.primary,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
             const Text(
               'By using FemFlow, you acknowledge and agree to these terms.',
               textAlign: TextAlign.center,

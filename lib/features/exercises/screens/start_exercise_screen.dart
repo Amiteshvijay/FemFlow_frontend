@@ -4,6 +4,7 @@ import '../../../core/theme/femflow_colors.dart';
 import '../models/exercise_models.dart';
 import '../data/exercise_api_service.dart';
 import 'exercise_completion_screen.dart';
+import 'exercise_home_screen.dart';
 
 class StartExerciseScreen extends StatefulWidget {
   final Exercise exercise;
@@ -225,26 +226,19 @@ class _StartExerciseScreenState extends State<StartExerciseScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('End Session?'),
-        content: const Text('Do you want to save your progress or end the session now?'),
+        content: const Text('Do you want to end the session now?'),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           TextButton(
-            onPressed: () async {
-              final nav = Navigator.of(context);
-              await _saveProgress();
-              if (mounted) {
-                nav.pop();
-                nav.pop();
-              }
-            },
-            child: const Text('Save & Exit'),
-          ),
-          TextButton(
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+              Navigator.pop(context); // Close dialog
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const ExerciseHomeScreen()),
+                (route) => route.isFirst,
+              );
             },
-            child: const Text('End Now', style: TextStyle(color: Colors.red)),
+            child: const Text('Exit', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),

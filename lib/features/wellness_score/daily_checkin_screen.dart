@@ -4,6 +4,7 @@ import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'data/wellness_score_service.dart';
 import 'models/wellness_score_models.dart';
+import 'wellness_score_dashboard_screen.dart';
 
 class DailyCheckinScreen extends StatefulWidget {
   const DailyCheckinScreen({super.key});
@@ -98,7 +99,11 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
               label: 'Great!',
               onPressed: () {
                 Navigator.pop(context); // Dialog
-                Navigator.pop(context); // Screen
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const WellnessScoreDashboardScreen()),
+                  (route) => route.isFirst,
+                );
               },
             ),
           ],

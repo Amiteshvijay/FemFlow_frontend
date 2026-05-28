@@ -97,8 +97,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             }
 
             if (appLock.isLocked) {
+              NotificationService.isLocked = true;
               return const UnlockScreen();
             }
+
+            NotificationService.isLocked = false;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              NotificationService.checkPendingNotification();
+            });
 
             return child ?? const SizedBox.shrink();
           },
@@ -141,6 +147,7 @@ class _AuthGateState extends State<AuthGate> {
     return Consumer<AuthProvider>(
       builder: (context, auth, _) {
         if (auth.status == AuthStatus.maintenance) {
+          NotificationService.isAuthenticated = false;
           return MaintenanceScreen(onRetry: () => auth.checkAuth());
         }
 
@@ -154,6 +161,7 @@ class _AuthGateState extends State<AuthGate> {
         }
 
         if (auth.status == AuthStatus.unauthenticated) {
+          NotificationService.isAuthenticated = false;
           if (auth.onboardingCompleted) {
             return const LoginScreen();
           }
@@ -163,6 +171,7 @@ class _AuthGateState extends State<AuthGate> {
         // authenticated
         final profile = auth.profile;
         if (profile != null && profile.onboardingCompleted == false) {
+          NotificationService.isAuthenticated = false;
           return WellnessOnboardingFlow(
             initialProfile: profile,
             initialPage: profile.onboardingCurrentStep,
@@ -170,6 +179,10 @@ class _AuthGateState extends State<AuthGate> {
           );
         }
 
+        NotificationService.isAuthenticated = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          NotificationService.checkPendingNotification();
+        });
         return const MainShell();
       },
     );

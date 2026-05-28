@@ -1,8 +1,14 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:femflow/core/navigation/navigator_service.dart';
+import 'package:femflow/features/diet/screens/diet_home_screen.dart';
+import 'package:femflow/features/pill_reminder/pill_reminder_list_screen.dart';
+import 'package:femflow/features/reminders/reminders_screen.dart';
+import 'package:femflow/features/journal/journal_screen.dart';
 
 // Action constants for medication reminders
 const String actionTake = 'MED_TAKE';
@@ -22,6 +28,56 @@ class NotificationService {
   NotificationService._internal();
 
   final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  static bool isAuthenticated = false;
+  static bool isLocked = false;
+  static String? _pendingPayload;
+
+  static void handleNotificationPayload(String? payload) {
+    if (payload == null || payload.isEmpty) return;
+
+    final state = NavigatorService.navigatorKey.currentState;
+    if (state == null || !isAuthenticated || isLocked) {
+      debugPrint('Deferring notification navigation. state: $state, authenticated: $isAuthenticated, locked: $isLocked');
+      _pendingPayload = payload;
+      return;
+    }
+
+    debugPrint('Navigating with payload: $payload');
+    if (payload.startsWith('diet:')) {
+      state.push(MaterialPageRoute(builder: (_) => const DietHomeScreen()));
+    } else if (payload.startsWith('medication:')) {
+      state.push(MaterialPageRoute(builder: (_) => const PillReminderListScreen()));
+    } else if (payload.startsWith('reminder:')) {
+      final parts = payload.split(':');
+      if (parts.length >= 3) {
+        final reminderType = parts[2];
+        if (reminderType == 'pill') {
+          state.push(MaterialPageRoute(builder: (_) => const PillReminderListScreen()));
+        } else if (reminderType == 'log_data') {
+          state.push(MaterialPageRoute(builder: (_) => const JournalScreen()));
+        } else {
+          state.push(MaterialPageRoute(builder: (_) => const RemindersScreen()));
+        }
+      } else {
+        state.push(MaterialPageRoute(builder: (_) => const RemindersScreen()));
+      }
+    } else {
+      // Fallback for raw numbers
+      final intId = int.tryParse(payload);
+      if (intId != null) {
+        state.push(MaterialPageRoute(builder: (_) => const PillReminderListScreen()));
+      }
+    }
+  }
+
+  static void checkPendingNotification() {
+    if (_pendingPayload != null) {
+      final payload = _pendingPayload;
+      _pendingPayload = null;
+      handleNotificationPayload(payload);
+    }
+  }
 
   Future<void> init() async {
     // Initialize TimeZone
@@ -56,11 +112,23 @@ class NotificationService {
     await _notificationsPlugin.initialize(
       initSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
-        // Handle notification tap in foreground
-        notificationTapBackground(response);
+        // Handle notification tap in foreground / background
+        if (response.payload != null) {
+          handleNotificationPayload(response.payload);
+        }
       },
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
+
+    // Retrieve launch details
+    final launchDetails = await _notificationsPlugin.getNotificationAppLaunchDetails();
+    if (launchDetails?.didNotificationLaunchApp ?? false) {
+      final response = launchDetails?.notificationResponse;
+      if (response != null && response.payload != null) {
+        _pendingPayload = response.payload;
+        debugPrint('App launched via notification, pending payload: $_pendingPayload');
+      }
+    }
   }
 
   Future<bool> requestPermissions() async {

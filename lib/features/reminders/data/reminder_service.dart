@@ -109,7 +109,7 @@ class ReminderService {
         body: body,
         scheduledDate: scheduledTime,
         repeatDaily: true,
-        payload: reminder.id.toString(),
+        payload: 'reminder:${reminder.id}:${reminder.reminderType}',
         isMedication: isMedication,
       );
     } else if (reminder.repeatType == 'weekly' && reminder.weekdays.isNotEmpty) {
@@ -120,7 +120,7 @@ class ReminderService {
         body: body,
         scheduledDate: scheduledTime,
         weekdays: days,
-        payload: reminder.id.toString(),
+        payload: 'reminder:${reminder.id}:${reminder.reminderType}',
         isMedication: isMedication,
       );
     } else if (reminder.repeatType == 'once' && reminder.specificDate != null) {
@@ -137,7 +137,7 @@ class ReminderService {
           title: 'FemFlow Reminder',
           body: body,
           scheduledDate: combinedDate,
-          payload: reminder.id.toString(),
+          payload: 'reminder:${reminder.id}:${reminder.reminderType}',
           isMedication: isMedication,
         );
       }
@@ -163,7 +163,7 @@ class ReminderService {
             title: 'FemFlow Reminder',
             body: body,
             scheduledDate: combinedDate,
-            payload: reminder.id.toString(),
+            payload: 'reminder:${reminder.id}:${reminder.reminderType}',
             isMedication: isMedication,
           );
         }

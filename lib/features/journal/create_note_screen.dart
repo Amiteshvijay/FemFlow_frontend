@@ -5,6 +5,7 @@ import '../../shared/widgets/primary_button.dart';
 import 'data/journal_service.dart';
 import 'models/journal_entry.dart';
 import 'models/note_category.dart';
+import '../reminders/data/reminder_service.dart';
 
 class CreateNoteScreen extends StatefulWidget {
   final JournalEntry? initialEntry;
@@ -27,6 +28,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   bool _isPrivate = true;
   bool _isPinned = false;
   bool _isSaving = false;
+  bool _reminderEnabled = false;
+  TimeOfDay _reminderTime = const TimeOfDay(hour: 9, minute: 0);
 
   final List<String> _moods = ['Happy', 'Okay', 'Tired', 'Sad', 'Anxious', 'Irritated', 'Calm', 'Emotional'];
   final List<String> _suggestedTags = ['cramps', 'fatigue', 'headache', 'bloating', 'sleep', 'stress', 'medicine', 'doctor', 'period', 'ovulation', 'mood', 'anxiety'];
@@ -73,6 +76,23 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       } else {
         await _service.createEntry(entry);
       }
+      
+      if (_reminderEnabled) {
+        final reminderService = ReminderService();
+        final formattedHour = _reminderTime.hour.toString().padLeft(2, '0');
+        final formattedMinute = _reminderTime.minute.toString().padLeft(2, '0');
+        final reminder = Reminder(
+          title: 'Write in your Journal: ${_titleController.text}',
+          reminderType: 'log_data',
+          repeatType: 'daily',
+          scheduleText: 'Daily',
+          time: '$formattedHour:$formattedMinute',
+          weekdays: '',
+          isActive: true,
+        );
+        await reminderService.createReminder(reminder);
+      }
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Journal entry saved successfully')));
         Navigator.pop(context, true);
@@ -133,6 +153,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
             _buildPrivacyCard(),
             const SizedBox(height: 16),
             _buildPinToggle(),
+            const SizedBox(height: 16),
+            _buildReminderToggle(),
             const SizedBox(height: 40),
             PrimaryButton(
               label: 'Save Journal Entry',
@@ -394,6 +416,60 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
           onChanged: (val) => setState(() => _isPinned = val),
           activeThumbColor: Colors.orange,
         ),
+      ],
+    );
+  }
+
+  Widget _buildReminderToggle() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            const Icon(Icons.notifications_none_outlined, size: 18, color: FemFlowColors.textMuted),
+            const SizedBox(width: 8),
+            const Text('Set daily reminder', style: TextStyle(fontSize: 14, color: FemFlowColors.textPrimary)),
+            const Spacer(),
+            Switch(
+              value: _reminderEnabled,
+              onChanged: (val) => setState(() => _reminderEnabled = val),
+              activeThumbColor: FemFlowColors.primary,
+            ),
+          ],
+        ),
+        if (_reminderEnabled) ...[
+          const SizedBox(height: 12),
+          GestureDetector(
+            onTap: () async {
+              final time = await showTimePicker(
+                context: context,
+                initialTime: _reminderTime,
+              );
+              if (time != null) {
+                setState(() => _reminderTime = time);
+              }
+            },
+            child: AppCard(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              color: FemFlowColors.blushMist.withValues(alpha: 0.3),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Schedule Time', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                  Row(
+                    children: [
+                      Text(
+                        _reminderTime.format(context),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary, fontSize: 14),
+                      ),
+                      const SizedBox(width: 8),
+                      const Icon(Icons.access_time, size: 16, color: FemFlowColors.primary),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }

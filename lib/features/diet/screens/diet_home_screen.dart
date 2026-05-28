@@ -113,6 +113,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
       body: body,
       scheduledDate: scheduledDate,
       repeatDaily: true,
+      payload: 'diet:$key',
     );
   }
 

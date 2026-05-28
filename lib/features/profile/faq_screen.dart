@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FAQScreen extends StatelessWidget {
   const FAQScreen({super.key});
@@ -40,41 +41,75 @@ class FAQScreen extends StatelessWidget {
         title: const Text('FAQs', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(20),
-        itemCount: faqs.length,
-        itemBuilder: (context, index) {
-          final faq = faqs[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: AppCard(
-              child: ExpansionTile(
-                title: Text(
-                  faq['question']!,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: FemFlowColors.textPrimary,
-                  ),
-                ),
-                shape: const RoundedRectangleBorder(side: BorderSide.none),
-                tilePadding: EdgeInsets.zero,
-                childrenPadding: const EdgeInsets.only(top: 8),
-                expandedAlignment: Alignment.centerLeft,
-                children: [
-                  Text(
-                    faq['answer']!,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: FemFlowColors.textSecondary,
-                      height: 1.5,
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(20),
+              itemCount: faqs.length,
+              itemBuilder: (context, index) {
+                final faq = faqs[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: AppCard(
+                    child: ExpansionTile(
+                      title: Text(
+                        faq['question']!,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: FemFlowColors.textPrimary,
+                        ),
+                      ),
+                      shape: const RoundedRectangleBorder(side: BorderSide.none),
+                      tilePadding: EdgeInsets.zero,
+                      childrenPadding: const EdgeInsets.only(top: 8),
+                      expandedAlignment: Alignment.centerLeft,
+                      children: [
+                        Text(
+                          faq['answer']!,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: FemFlowColors.textSecondary,
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: InkWell(
+              onTap: () async {
+                final uri = Uri.parse('https://www.femflow.in/FAQs');
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                }
+              },
+              child: Text.rich(
+                TextSpan(
+                  text: 'For more FAQs, visit our website ',
+                  style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                  children: const [
+                    TextSpan(
+                      text: 'www.femflow.in/FAQs',
+                      style: TextStyle(
+                        color: FemFlowColors.primary,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

@@ -3,6 +3,8 @@ import '../../core/theme/femflow_colors.dart';
 import '../profile/data/profile_service.dart';
 import 'data/event_service.dart';
 import 'models/event_models.dart';
+import '../wellness_score/wellness_score_dashboard_screen.dart';
+import '../diet/screens/diet_home_screen.dart';
 
 class EventRegistrationScreen extends StatefulWidget {
   final FemFlowEvent event;
@@ -150,7 +152,20 @@ class _EventRegistrationScreenState extends State<EventRegistrationScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context); // Close dialog
-                  Navigator.pop(context, true); // Go back to detail
+                  final category = widget.event.category.toLowerCase();
+                  if (category.contains('nutrition') || category.contains('diet')) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const DietHomeScreen()),
+                      (route) => route.isFirst,
+                    );
+                  } else {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const WellnessScoreDashboardScreen()),
+                      (route) => route.isFirst,
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: FemFlowColors.primary,

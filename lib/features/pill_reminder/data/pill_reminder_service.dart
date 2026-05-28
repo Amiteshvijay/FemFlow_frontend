@@ -88,7 +88,7 @@ class PillReminderService {
           scheduledDate: scheduledTime,
           repeatDaily: true,
           isMedication: true,
-          payload: med.id.toString(),
+          payload: 'medication:${med.id}',
           sound: sound,
         );
       } else if (med.repeatType == 'weekly') {
@@ -103,7 +103,7 @@ class PillReminderService {
           scheduledDate: scheduledTime,
           weekdays: days,
           isMedication: true,
-          payload: med.id.toString(),
+          payload: 'medication:${med.id}',
           sound: sound,
         );
       } else if (med.repeatType == 'once') {
@@ -121,7 +121,7 @@ class PillReminderService {
             body: 'Time to take ${med.name} (${med.dosageValue ?? ''})',
             scheduledDate: startDateTime,
             isMedication: true,
-            payload: med.id.toString(),
+            payload: 'medication:${med.id}',
             sound: sound,
           );
         }

@@ -4,6 +4,7 @@ import '../../../shared/widgets/primary_button.dart';
 import '../../../shared/widgets/app_card.dart';
 import 'custom_plan_models.dart';
 import 'custom_plan_service.dart';
+import '../screens/diet_home_screen.dart';
 
 class CustomPlanResultScreen extends StatefulWidget {
   final CustomNutritionPlan plan;
@@ -140,7 +141,13 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
       ),
       leading: IconButton(
         icon: const Icon(Icons.close, color: Colors.white),
-        onPressed: () => Navigator.pop(context),
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const DietHomeScreen()),
+            (route) => route.isFirst,
+          );
+        },
       ),
     );
   }

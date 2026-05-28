@@ -73,16 +73,19 @@ class HealthIntegrationService {
       
       final bucket = dailyBuckets[dateKey]!;
       
+      if (p.value is! NumericHealthValue) continue;
+      final numericVal = (p.value as NumericHealthValue).numericValue;
+      
       if (p.type == HealthDataType.STEPS) {
-        bucket['steps'] = (bucket['steps'] ?? 0) + (p.value as num).toInt();
+        bucket['steps'] = (bucket['steps'] ?? 0) + numericVal.toInt();
       } else if (p.type == HealthDataType.ACTIVE_ENERGY_BURNED) {
-        bucket['calories'] = (bucket['calories'] ?? 0.0) + (p.value as num).toDouble();
+        bucket['calories'] = (bucket['calories'] ?? 0.0) + numericVal.toDouble();
       } else if (p.type == HealthDataType.DISTANCE_DELTA) {
-        bucket['distance'] = (bucket['distance'] ?? 0.0) + (p.value as num).toDouble();
+        bucket['distance'] = (bucket['distance'] ?? 0.0) + numericVal.toDouble();
       } else if (p.type == HealthDataType.HEART_RATE || p.type == HealthDataType.RESTING_HEART_RATE) {
-        bucket['heart_rate'] = (p.value as num).toInt();
+        bucket['heart_rate'] = numericVal.toInt();
       } else if (p.type == HealthDataType.SLEEP_ASLEEP) {
-        bucket['sleep_minutes'] = (bucket['sleep_minutes'] ?? 0) + (p.value as num).toInt();
+        bucket['sleep_minutes'] = (bucket['sleep_minutes'] ?? 0) + numericVal.toInt();
       }
     }
 
