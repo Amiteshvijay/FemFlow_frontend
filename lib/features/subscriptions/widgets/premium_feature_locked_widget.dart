@@ -11,7 +11,7 @@ class PremiumFeatureLockedWidget extends StatelessWidget {
     super.key,
     this.title = 'Premium Feature',
     this.description = 'Unlock deeper AI insights with FemFlow Premium.',
-    this.icon = Icons.auto_awesome,
+    this.icon = Icons.lock_outline_rounded,
   });
 
   @override

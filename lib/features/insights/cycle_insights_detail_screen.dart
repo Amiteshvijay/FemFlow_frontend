@@ -232,17 +232,12 @@ class _CycleInsightsDetailScreenState extends State<CycleInsightsDetailScreen> {
     return AppCard(
       color: FemFlowColors.lavender.withValues(alpha: 0.2),
       border: const BorderSide(color: FemFlowColors.lavender),
-      child: Row(
-        children: [
-          const Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              _overview?['ai_recommendation'] ?? 'Maintain consistent sleep and logging to improve predictions.',
-              style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.5),
-            ),
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Text(
+          _overview?['ai_recommendation'] ?? 'Maintain consistent sleep and logging to improve predictions.',
+          style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.5),
+        ),
       ),
     );
   }

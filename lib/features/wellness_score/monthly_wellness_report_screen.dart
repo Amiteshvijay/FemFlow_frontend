@@ -231,13 +231,7 @@ class _MonthlyWellnessReportScreenState extends State<MonthlyWellnessReportScree
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 20),
-              const SizedBox(width: 8),
-              const Text('FemAI Monthly Reflection', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
-            ],
-          ),
+          const Text('FemAI Monthly Reflection', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
           const SizedBox(height: 12),
           Text(
             '“${_report!.aiReflection}”',

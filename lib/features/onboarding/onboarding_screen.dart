@@ -30,7 +30,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     OnboardingData(
       title: 'Personalized support with FemAI',
       subtitle: 'Ask questions, get gentle insights, and feel supported through every phase.',
-      icon: Icons.auto_awesome_rounded,
+      icon: Icons.chat_bubble_outline_rounded,
     ),
   ];
 

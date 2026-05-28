@@ -400,7 +400,7 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
-              child: const Icon(Icons.auto_awesome, color: FemFlowColors.primary, size: 48),
+              child: const Icon(Icons.check_circle_outline_rounded, color: FemFlowColors.primary, size: 48),
             ),
             const SizedBox(height: 24),
             const Text(

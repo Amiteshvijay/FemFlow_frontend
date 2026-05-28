@@ -1150,8 +1150,6 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
            children: [
              const Row(
                children: [
-                 Icon(Icons.auto_awesome, color: FemFlowColors.primary, size: 20),
-                 SizedBox(width: 10),
                  Text('FemAI Daily Tips', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 16)),
                ],
              ),
@@ -1328,7 +1326,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
       case 'warning': return Icons.warning_amber_rounded;
       case 'period': return Icons.opacity;
       case 'healing': return Icons.healing_outlined;
-      case 'ovulation': return Icons.auto_awesome;
+      case 'ovulation': return Icons.wb_sunny_outlined;
       case 'fertility': return Icons.favorite_border;
       case 'mood': return Icons.sentiment_satisfied_outlined;
       case 'bolt': return Icons.bolt;

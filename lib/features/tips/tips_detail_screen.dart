@@ -116,11 +116,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
           ),
           child: Stack(
             children: [
-              Positioned(
-                right: -20,
-                bottom: -20,
-                child: Icon(Icons.auto_awesome, size: 200, color: Colors.white.withValues(alpha: 0.1)),
-              ),
+              const SizedBox.shrink(),
               Padding(
                 padding: const EdgeInsets.all(24),
                 child: Column(
@@ -164,13 +160,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
-            children: [
-              Icon(Icons.auto_awesome, color: FemFlowColors.aiWellness, size: 18),
-              SizedBox(width: 8),
-              Text('AI PERSONALIZED INSIGHT', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: FemFlowColors.aiWellness, letterSpacing: 1.2)),
-            ],
-          ),
+          const Text('AI PERSONALIZED INSIGHT', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: FemFlowColors.aiWellness, letterSpacing: 1.2)),
           const SizedBox(height: 16),
           Text(
             tip.aiInsight ?? "Your body is moving through its natural rhythm. Supporting it with kindness is the best focus for today.",

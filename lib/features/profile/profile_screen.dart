@@ -272,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: EdgeInsets.zero,
           child: _buildMenuItem(
             context,
-            icon: hasPremium ? Icons.star : Icons.auto_awesome,
+            icon: hasPremium ? Icons.star : Icons.workspace_premium_outlined,
             iconColor: hasPremium ? Colors.orange : FemFlowColors.primary,
             label: hasPremium ? 'My Subscription' : 'Upgrade to Premium',
             subtitle: hasPremium ? 'Manage your premium plan' : 'Unlock 11 AI daily tips & more',
