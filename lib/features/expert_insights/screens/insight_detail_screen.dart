@@ -108,8 +108,12 @@ class _InsightDetailScreenState extends State<InsightDetailScreen> {
   }
 
   Widget _buildSliverAppBar() {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    // Calculate precise 16:10 aspect ratio height to prevent side-cropping on mobile screens
+    final double appBarHeight = screenWidth * (10.0 / 16.0);
+
     return SliverAppBar(
-      expandedHeight: 300,
+      expandedHeight: appBarHeight,
       pinned: true,
       backgroundColor: Colors.white,
       leading: IconButton(
