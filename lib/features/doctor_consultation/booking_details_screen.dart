@@ -404,6 +404,10 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                 _buildInfoRow(Icons.videocam, 'Consultation Type', _booking!.consultationMode.toUpperCase()),
                 const Divider(height: 24),
                 _buildInfoRow(Icons.timer, 'Duration', '30 Minutes'),
+                if (_booking!.consultationMode.toLowerCase() == 'offline') ...[
+                  const Divider(height: 24),
+                  _buildInfoRow(Icons.location_on, 'Clinic Address', _booking!.clinicAddress ?? 'Not specified'),
+                ],
               ],
             ),
           ),
@@ -456,7 +460,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   Widget _buildActionButtons() {
     return Column(
       children: [
-        if (_booking!.status == 'confirmed') ...[
+        if (_booking!.status == 'confirmed' && _booking!.consultationMode.toLowerCase() != 'offline') ...[
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(

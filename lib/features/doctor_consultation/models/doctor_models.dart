@@ -46,6 +46,7 @@ class DoctorProfile {
   final List<String> availableSlots;
   final String? profileImage;
   final List<DoctorReview> recentReviews;
+  final String? clinicAddress;
 
   // Additional Profile Details
   final String? dob;
@@ -97,6 +98,7 @@ class DoctorProfile {
     this.accountNumber,
     this.ifscCode,
     this.accountHolderName,
+    this.clinicAddress,
   });
 
   factory DoctorProfile.fromJson(Map<String, dynamic> json) {
@@ -144,6 +146,7 @@ class DoctorProfile {
       accountNumber: json['account_number'],
       ifscCode: json['ifsc_code'],
       accountHolderName: json['account_holder_name'],
+      clinicAddress: json['clinic_address'],
     );
   }
 }
@@ -194,6 +197,7 @@ class DoctorBooking {
   final String? meetLink;
   final bool hasReview;
   final bool hasPrescription;
+  final String? clinicAddress;
 
   DoctorBooking({
     required this.id,
@@ -215,6 +219,7 @@ class DoctorBooking {
     this.meetLink,
     this.hasReview = false,
     this.hasPrescription = false,
+    this.clinicAddress,
   });
 
   factory DoctorBooking.fromJson(Map<String, dynamic> json) {
@@ -238,6 +243,7 @@ class DoctorBooking {
       meetLink: json['meet_link'],
       hasReview: json['has_review'] ?? false,
       hasPrescription: json['has_prescription'] ?? false,
+      clinicAddress: json['clinic_address'],
     );
   }
 }

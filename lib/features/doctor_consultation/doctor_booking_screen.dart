@@ -260,6 +260,50 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                 );
               }).toList(),
             ),
+            if (_selectedMode?.toLowerCase() == 'offline') ...[
+              const SizedBox(height: 12),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: FemFlowColors.primary.withValues(alpha: 0.05),
+                  border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.2)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.location_on, color: FemFlowColors.primary, size: 22),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Clinic Address for Offline Consultation',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            widget.doctor.clinicAddress ?? 'Not specified',
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 13,
+                              height: 1.4,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
             const SizedBox(height: 24),
 
             // Date Picker
