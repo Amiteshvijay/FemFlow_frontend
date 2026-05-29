@@ -305,6 +305,7 @@ class Prescription {
   final String? internalNotes;
   final String? nextConsultationRecommendation;
   final String? fileUrl;
+  final String? signatureStampUrl;
   final String createdAt;
 
   Prescription({
@@ -320,6 +321,7 @@ class Prescription {
     this.internalNotes,
     this.nextConsultationRecommendation,
     this.fileUrl,
+    this.signatureStampUrl,
     required this.createdAt,
   });
 
@@ -337,6 +339,7 @@ class Prescription {
       internalNotes: json['internal_notes'],
       nextConsultationRecommendation: json['next_consultation_recommendation'],
       fileUrl: json['file'],
+      signatureStampUrl: json['signature_stamp_url'],
       createdAt: json['created_at'],
     );
   }

@@ -292,6 +292,45 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                     const Text('Next Consultation:', style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(prescription.nextConsultationRecommendation!),
                   ],
+                  if (prescription.signatureStampUrl != null && prescription.signatureStampUrl!.isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    const Divider(),
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          const Text(
+                            'Authorized Signature / Stamp',
+                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            height: 60,
+                            width: 120,
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey.shade100),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Image.network(
+                              prescription.signatureStampUrl!,
+                              fit: BoxFit.contain,
+                              color: Colors.white,
+                              colorBlendMode: BlendMode.multiply,
+                              errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, color: Colors.grey),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Dr. ${prescription.doctorName}',
+                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
