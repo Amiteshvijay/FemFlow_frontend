@@ -64,11 +64,26 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
             // Doctor Header
             Row(
               children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundColor: Colors.grey.shade200,
-                  backgroundImage: _doctor.profileImage != null ? NetworkImage(_doctor.profileImage!) : null,
-                  child: _doctor.profileImage == null ? const Icon(Icons.person, size: 50, color: Colors.grey) : null,
+                Container(
+                  width: 80,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.grey.shade200, width: 1.5),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(14.5),
+                    child: _doctor.profileImage != null
+                        ? Image.network(
+                            _doctor.profileImage!,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.person, size: 48, color: Colors.grey),
+                          )
+                        : const Icon(Icons.person, size: 48, color: Colors.grey),
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(

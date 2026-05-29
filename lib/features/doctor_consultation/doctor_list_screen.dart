@@ -119,11 +119,26 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 32,
-                    backgroundColor: Colors.grey.shade200,
-                    backgroundImage: doctor.profileImage != null ? NetworkImage(doctor.profileImage!) : null,
-                    child: doctor.profileImage == null ? const Icon(Icons.person, size: 40, color: Colors.grey) : null,
+                  Container(
+                    width: 64,
+                    height: 72,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade200, width: 1.5),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.5),
+                      child: doctor.profileImage != null
+                          ? Image.network(
+                              doctor.profileImage!,
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.person, size: 40, color: Colors.grey),
+                            )
+                          : const Icon(Icons.person, size: 40, color: Colors.grey),
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
