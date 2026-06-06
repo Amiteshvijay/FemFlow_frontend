@@ -179,27 +179,45 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               ],
             ),
             const SizedBox(height: 24),
-            TextField(
-              controller: _contentController,
-              maxLines: 8,
-              autofocus: true,
-              decoration: InputDecoration(
-                hintText: 'Share your thoughts, questions, or experiences...',
-                hintStyle: TextStyle(color: Colors.grey[400]),
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: Colors.grey[200]!),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: Colors.grey[200]!),
-                ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.grey[200]!),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.01),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  _buildFormattingToolbar(),
+                  Container(
+                    height: 1,
+                    color: Colors.grey[200] ?? const Color(0xFFEEEEEE),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: TextField(
+                      controller: _contentController,
+                      maxLines: 8,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        hintText: 'Share your thoughts, questions, or experiences...',
+                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.zero,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 10),
-            _buildFormattingToolbar(),
             const SizedBox(height: 16),
             _buildImagePickerSection(),
             const SizedBox(height: 12),
@@ -221,18 +239,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   Widget _buildFormattingToolbar() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[200]!),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      decoration: const BoxDecoration(
+        color: Colors.transparent,
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -596,52 +605,47 @@ class RichTextEditingController extends TextEditingController {
       if (lowerToken == '<b>') {
         currentStyle = currentStyle.copyWith(fontWeight: FontWeight.bold);
         styleStack.add(currentStyle);
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '</b>') {
         if (styleStack.length > 1) styleStack.removeLast();
         currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '<i>') {
         currentStyle = currentStyle.copyWith(fontStyle: FontStyle.italic);
         styleStack.add(currentStyle);
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '</i>') {
         if (styleStack.length > 1) styleStack.removeLast();
         currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '<u>') {
         currentStyle = currentStyle.copyWith(decoration: TextDecoration.underline);
         styleStack.add(currentStyle);
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
-      } else if (lowerToken == '<u>') {
-        // Wait, handle close tag </u>
-        if (styleStack.length > 1) styleStack.removeLast();
-        currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '</u>') {
         if (styleStack.length > 1) styleStack.removeLast();
         currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '<large>') {
         currentStyle = currentStyle.copyWith(fontSize: (currentStyle.fontSize ?? 14) * 1.3);
         styleStack.add(currentStyle);
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '</large>') {
         if (styleStack.length > 1) styleStack.removeLast();
         currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '<small>') {
         currentStyle = currentStyle.copyWith(fontSize: (currentStyle.fontSize ?? 14) * 0.85);
         styleStack.add(currentStyle);
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '</small>') {
         if (styleStack.length > 1) styleStack.removeLast();
         currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '<center>' || lowerToken == '<right>' || lowerToken == '<left>') {
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else if (lowerToken == '</center>' || lowerToken == '</right>' || lowerToken == '</left>') {
-        children.add(TextSpan(text: token, style: baseStyle.copyWith(color: FemFlowColors.textMuted.withValues(alpha: 0.5), fontSize: 12)));
+        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
       } else {
         children.add(TextSpan(text: token, style: currentStyle));
       }
