@@ -104,7 +104,7 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
               crossAxisCount: 2,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
-              childAspectRatio: 0.85,
+              childAspectRatio: 0.75,
             ),
             itemCount: 12,
             itemBuilder: (context, index) {
@@ -134,12 +134,33 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
             monthName,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FemFlowColors.textPrimary),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
+          _buildWeekdayHeader(),
+          const SizedBox(height: 4),
           Expanded(
             child: _buildMiniGrid(month, data),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildWeekdayHeader() {
+    final weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: weekdays.map((day) => Expanded(
+        child: Center(
+          child: Text(
+            day,
+            style: const TextStyle(
+              fontSize: 8,
+              fontWeight: FontWeight.bold,
+              color: FemFlowColors.textMuted,
+            ),
+          ),
+        ),
+      )).toList(),
     );
   }
 
@@ -178,41 +199,46 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
                          statuses.contains('pill');
 
     Color? bgColor;
-    BoxShape shape = BoxShape.circle;
     Border? border;
+    Color textColor = FemFlowColors.textPrimary;
 
     if (isPeriod) {
-      bgColor = FemFlowColors.period.withValues(alpha: 0.8);
+      bgColor = FemFlowColors.period;
+      textColor = Colors.white;
     } else if (isPredicted) {
-      border = Border.all(color: FemFlowColors.period.withValues(alpha: 0.5), width: 0.5);
+      border = Border.all(color: FemFlowColors.period.withValues(alpha: 0.6), width: 1.0);
+      textColor = FemFlowColors.period;
     } else if (isOvulation) {
       bgColor = Colors.teal;
+      textColor = Colors.white;
     } else if (isFertile) {
-      bgColor = Colors.teal.withValues(alpha: 0.2);
+      bgColor = Colors.teal.withValues(alpha: 0.15);
+      textColor = Colors.teal[700] ?? Colors.teal;
     }
 
     return Stack(
       alignment: Alignment.center,
       children: [
-        if (bgColor != null || border != null)
-          Container(
-            width: 14,
-            height: 14,
-            decoration: BoxDecoration(
-              color: bgColor,
-              shape: shape,
-              border: border,
+        Container(
+          width: 18,
+          height: 18,
+          decoration: BoxDecoration(
+            color: bgColor,
+            shape: BoxShape.circle,
+            border: border,
+          ),
+          child: Center(
+            child: Text(
+              '$day',
+              style: TextStyle(
+                fontSize: 8.5, 
+                fontWeight: (isPeriod || isOvulation) ? FontWeight.bold : FontWeight.normal,
+                color: textColor,
+              ),
             ),
           ),
-        Text(
-          '$day',
-          style: TextStyle(
-            fontSize: 7, 
-            fontWeight: (isPeriod || isOvulation) ? FontWeight.bold : FontWeight.normal,
-            color: (isPeriod || isOvulation) ? Colors.white : FemFlowColors.textPrimary,
-          ),
         ),
-        if (hasLoggedData)
+        if (hasLoggedData && !isPeriod && !isOvulation)
           Positioned(
             bottom: 1,
             child: Container(
