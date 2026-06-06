@@ -31,6 +31,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   late Future<Exercise> _exerciseFuture;
   final ExerciseApiService _apiService = ExerciseApiService();
   List<ExerciseLog> _todayLogs = [];
+  bool _isStarting = false;
 
   @override
   void initState() {
@@ -207,19 +208,23 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 const SizedBox(height: 40),
                 PrimaryButton(
                   label: _todayLogs.isNotEmpty ? 'Restart Session' : 'Start Exercise',
-                  onPressed: () async {
-                    final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => StartExerciseScreen(
-                          exercise: exercise,
-                          selectedDate: displayDate,
-                          source: widget.source,
-                        ),
-                      ),
-                    );
-                    if (result == true) _loadTodayLogs();
-                  },
+                  onPressed: _isStarting
+                      ? null
+                      : () async {
+                          setState(() => _isStarting = true);
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => StartExerciseScreen(
+                                exercise: exercise,
+                                selectedDate: displayDate,
+                                source: widget.source,
+                              ),
+                            ),
+                          );
+                          setState(() => _isStarting = false);
+                          if (result == true) _loadTodayLogs();
+                        },
                 ),
                 const SizedBox(height: 60),
               ],

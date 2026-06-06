@@ -125,15 +125,21 @@ class _StartExerciseScreenState extends State<StartExerciseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
-          onPressed: () => _confirmExit(),
-        ),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        _confirmExit();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
+            onPressed: () => _confirmExit(),
+          ),
         title: Column(
           children: [
             Text(widget.exercise.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
@@ -196,8 +202,9 @@ class _StartExerciseScreenState extends State<StartExerciseScreen> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _controlButton(IconData icon, VoidCallback onTap, {bool isPrimary = false}) {
     return InkWell(
@@ -222,20 +229,20 @@ class _StartExerciseScreenState extends State<StartExerciseScreen> {
   }
 
   void _confirmExit() {
+    final navigator = Navigator.of(context);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('End Session?'),
         content: const Text('Do you want to end the session now?'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(dialogContext), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
-              Navigator.pop(context); // Close dialog
-              Navigator.pushAndRemoveUntil(
-                context,
+              Navigator.pop(dialogContext); // Close dialog
+              navigator.popUntil((route) => route.isFirst);
+              navigator.push(
                 MaterialPageRoute(builder: (_) => const ExerciseHomeScreen()),
-                (route) => route.isFirst,
               );
             },
             child: const Text('Exit', style: TextStyle(color: Colors.red)),

@@ -14,6 +14,12 @@ class ExerciseHomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+        ),
         title: const Text(
           'Movement & Fitness',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
