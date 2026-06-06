@@ -4,6 +4,7 @@ import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/community_service.dart';
 import 'models/community_models.dart';
+import 'widgets/post_content_widget.dart';
 
 class PostDetailScreen extends StatefulWidget {
   final int postId;
@@ -182,8 +183,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ],
           ),
           const SizedBox(height: 20),
-          Text(
-            _post!.content,
+          PostContentWidget(
+            content: _post!.content,
             style: const TextStyle(fontSize: 15, color: FemFlowColors.textPrimary, height: 1.6),
           ),
           if (_post!.imageUrl != null) ...[

@@ -80,4 +80,13 @@ class CommunityService {
   Future<void> report(Map<String, dynamic> data) async {
     await _apiClient.post('/community/report/', body: data);
   }
+
+  /// Fetches the current user's own posts including pending/approved/rejected status.
+  Future<List<MyPost>> getMyPosts() async {
+    final response = await _apiClient.get('/community/my-posts/');
+    if (response is List) {
+      return response.map((json) => MyPost.fromJson(json)).toList();
+    }
+    return [];
+  }
 }

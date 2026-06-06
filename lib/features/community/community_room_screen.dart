@@ -6,6 +6,7 @@ import 'data/community_service.dart';
 import 'models/community_models.dart';
 import 'create_post_screen.dart';
 import 'post_detail_screen.dart';
+import 'widgets/post_content_widget.dart';
 
 class CommunityRoomScreen extends StatefulWidget {
   final String roomSlug;
@@ -182,8 +183,8 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
               ],
             ),
             const SizedBox(height: 12),
-            Text(
-              post.content,
+            PostContentWidget(
+              content: post.content,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, height: 1.5),

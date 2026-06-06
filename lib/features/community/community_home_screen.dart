@@ -6,6 +6,7 @@ import 'models/community_models.dart';
 import 'community_room_screen.dart';
 import '../../core/network/api_client.dart';
 import '../premium/premium_feature_preview_screen.dart';
+import 'my_posts_screen.dart';
 
 class CommunityHomeScreen extends StatefulWidget {
   const CommunityHomeScreen({super.key});
@@ -145,6 +146,19 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
           style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 20),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history_rounded, color: FemFlowColors.textPrimary),
+            tooltip: 'My Posts',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const MyPostsScreen()),
+              );
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: _loadCommunityData,

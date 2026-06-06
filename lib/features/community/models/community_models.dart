@@ -125,3 +125,54 @@ class CommunityPreview {
     );
   }
 }
+
+/// Represents a post authored by the current user — includes approval status.
+class MyPost {
+  final int id;
+  final String content;
+  final String? imageUrl;
+  final bool isAnonymous;
+  final bool isApproved;
+  final bool isBlocked;
+  final String status; // 'pending' | 'approved' | 'rejected'
+  final int roomId;
+  final String roomName;
+  final String roomSlug;
+  final int replyCount;
+  final int likesCount;
+  final DateTime createdAt;
+
+  MyPost({
+    required this.id,
+    required this.content,
+    this.imageUrl,
+    required this.isAnonymous,
+    required this.isApproved,
+    required this.isBlocked,
+    required this.status,
+    required this.roomId,
+    required this.roomName,
+    required this.roomSlug,
+    required this.replyCount,
+    required this.likesCount,
+    required this.createdAt,
+  });
+
+  factory MyPost.fromJson(Map<String, dynamic> json) {
+    return MyPost(
+      id: json['id'],
+      content: json['content'] ?? '',
+      imageUrl: json['image'],
+      isAnonymous: json['is_anonymous'] ?? false,
+      isApproved: json['is_approved'] ?? false,
+      isBlocked: json['is_blocked'] ?? false,
+      status: json['status'] ?? 'pending',
+      roomId: json['room_id'] ?? 0,
+      roomName: json['room_name'] ?? '',
+      roomSlug: json['room_slug'] ?? '',
+      replyCount: json['reply_count'] ?? 0,
+      likesCount: json['likes_count'] ?? 0,
+      createdAt: DateTime.parse(json['created_at'] ?? DateTime.now().toIso8601String()).toLocal(),
+    );
+  }
+}
