@@ -17,6 +17,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
   final _passwordController = TextEditingController();
   final _otpController = TextEditingController();
   final _nameConfirmationController = TextEditingController();
+  final _otherReasonController = TextEditingController();
   final _authService = AuthService();
 
   int _currentStep = 1; // 1: Password, 2: OTP, 3: Final Confirmation
@@ -49,6 +50,15 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
     } catch (e) {
       // Fallback
     }
+  }
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _otpController.dispose();
+    _nameConfirmationController.dispose();
+    _otherReasonController.dispose();
+    super.dispose();
   }
 
   Future<void> _verifyPassword() async {
@@ -93,7 +103,12 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
   Future<void> _submitRequest() async {
     setState(() => _isLoading = true);
     try {
-      await _authService.submitDeletionRequest(widget.email, _selectedReason ?? 'Other');
+      String finalReason = _selectedReason ?? 'Other';
+      if (_selectedReason == 'Other' && _otherReasonController.text.isNotEmpty) {
+        finalReason = 'Other: ${_otherReasonController.text.trim()}';
+      }
+      
+      await _authService.submitDeletionRequest(widget.email, finalReason);
       
       if (mounted) {
         _showSuccessDialog();
@@ -131,6 +146,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
 
   bool get _isDeletionReady {
     if (_selectedReason == null) return false;
+    if (_selectedReason == 'Other' && _otherReasonController.text.trim().isEmpty) return false;
     if (_userProfileFullName == null) return false;
     return _nameConfirmationController.text.trim() == _userProfileFullName!.trim();
   }
@@ -262,6 +278,21 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
           items: _deletionReasons.map((r) => DropdownMenuItem(value: r, child: Text(r))).toList(),
           onChanged: (val) => setState(() => _selectedReason = val),
         ),
+        if (_selectedReason == 'Other') ...[
+          const SizedBox(height: 16),
+          TextField(
+            controller: _otherReasonController,
+            onChanged: (_) => setState(() {}),
+            decoration: InputDecoration(
+              hintText: 'Please tell us why you want to delete your account',
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
+            ),
+            maxLines: 2,
+          ),
+        ],
         const SizedBox(height: 24),
         RichText(
           text: TextSpan(
