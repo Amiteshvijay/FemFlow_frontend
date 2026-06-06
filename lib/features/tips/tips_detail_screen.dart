@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'models/tips_models.dart';
 import 'providers/tips_provider.dart';
+import 'data/tips_service.dart';
 import '../exercises/screens/exercise_home_screen.dart';
 import '../subscriptions/widgets/premium_feature_locked_widget.dart';
 
@@ -21,11 +23,41 @@ class TipsDetailScreen extends StatefulWidget {
 
 class _TipsDetailScreenState extends State<TipsDetailScreen> {
   late Future<DailyTipDetailModel?> _detailFuture;
+  final TipsService _tipsService = TipsService();
+  bool? _isSavedLocally;
 
   @override
   void initState() {
     super.initState();
     _detailFuture = context.read<TipsProvider>().getTipDetail(widget.tipKey);
+  }
+
+  Future<void> _handleSave(DailyTipDetailModel tip) async {
+    try {
+      final newStatus = await _tipsService.toggleSaveTip(tip.id);
+      setState(() {
+        _isSavedLocally = newStatus;
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(newStatus ? 'Tip saved to your profile' : 'Tip removed from saved'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update tip status')),
+        );
+      }
+    }
+  }
+
+  Future<void> _handleShare(DailyTipDetailModel tip) async {
+    final String shareContent = "${tip.title}\n\n${tip.subtitle}\n\n${tip.detail}\n\nShared via FemFlow 🌸";
+    await Share.share(shareContent, subject: tip.title);
   }
 
   @override
@@ -244,18 +276,20 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
   }
 
   Widget _buildInteractions(DailyTipDetailModel tip) {
+    final bool currentSavedStatus = _isSavedLocally ?? tip.isSaved;
+
     return Row(
       children: [
         Expanded(
           child: ElevatedButton.icon(
-            onPressed: () {}, // Implement save
-            icon: const Icon(Icons.bookmark_border),
-            label: const Text('Save Tip'),
+            onPressed: () => _handleSave(tip),
+            icon: Icon(currentSavedStatus ? Icons.bookmark : Icons.bookmark_border),
+            label: Text(currentSavedStatus ? 'Saved' : 'Save Tip'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: FemFlowColors.textPrimary,
+              foregroundColor: currentSavedStatus ? FemFlowColors.primary : FemFlowColors.textPrimary,
               elevation: 0,
-              side: BorderSide(color: Colors.grey[300]!),
+              side: BorderSide(color: currentSavedStatus ? FemFlowColors.primary : Colors.grey[300]!),
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
@@ -264,7 +298,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
         const SizedBox(width: 16),
         Expanded(
           child: ElevatedButton.icon(
-            onPressed: () {}, // Implement share
+            onPressed: () => _handleShare(tip),
             icon: const Icon(Icons.share_outlined),
             label: const Text('Share'),
             style: ElevatedButton.styleFrom(

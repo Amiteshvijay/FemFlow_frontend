@@ -651,43 +651,60 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
     bool showEdit = false,
     VoidCallback? onEdit,
   }) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(color: iconColor.withValues(alpha: 0.1), shape: BoxShape.circle),
-          child: Icon(icon, color: iconColor, size: 20),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    final actions = [
+      if (showLog) _buildActionButton('Log', onLog, FemFlowColors.primary),
+      if (showEdit) _buildActionButton('Edit', onEdit, FemFlowColors.primary),
+      if (showEnd) _buildActionButton('End Flow', onEnd, FemFlowColors.period),
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              Text(title, style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 12)),
-              Text(status, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(color: iconColor.withValues(alpha: 0.1), shape: BoxShape.circle),
+                child: Icon(icon, color: iconColor, size: 20),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 12)),
+                    Text(status, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+                  ],
+                ),
+              ),
+              if (actions.length == 1) actions.first,
             ],
           ),
-        ),
-        if (showLog)
-          TextButton(
-            onPressed: onLog,
-            child: const Text('Log', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
-          ),
-        if (showEdit) ...[
-          const SizedBox(width: 8),
-          TextButton(
-            onPressed: onEdit,
-            child: const Text('Edit', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
-          ),
+          if (actions.length > 1)
+            Padding(
+              padding: const EdgeInsets.only(left: 44, top: 4),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                children: actions,
+              ),
+            ),
         ],
-        if (showEnd) ...[
-          const SizedBox(width: 8),
-          TextButton(
-            onPressed: onEnd,
-            child: const Text('End Flow', style: TextStyle(color: FemFlowColors.period, fontWeight: FontWeight.bold)),
-          ),
-        ],
-      ],
+      ),
+    );
+  }
+
+  Widget _buildActionButton(String label, VoidCallback? onTap, Color color) {
+    return TextButton(
+      onPressed: onTap,
+      style: TextButton.styleFrom(
+        minimumSize: Size.zero,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      child: Text(label, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 13)),
     );
   }
 

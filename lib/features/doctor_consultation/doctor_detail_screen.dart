@@ -435,13 +435,19 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
   }
 
   IconData _getModeIcon(String mode) {
-    switch (mode) {
+    switch (mode.toLowerCase()) {
       case 'video':
         return Icons.videocam;
       case 'audio':
+      case 'voice':
+      case 'voice_call':
+      case 'voice call':
         return Icons.phone;
       case 'chat':
         return Icons.chat;
+      case 'offline':
+      case 'clinic':
+        return Icons.location_on;
       default:
         return Icons.help_outline;
     }
