@@ -442,12 +442,30 @@ class _HomeScreenState extends State<HomeScreen> {
     final lastPeriodEndDate = _dashboardData?['last_period_end_date'];
     final eventDateStr = event['date'];
     
+    double progressValue = 0.3;
+    if (isActivePeriod) {
+      final currentPeriodDay = _dashboardData?['current_period_day'] as num?;
+      final averagePeriodLength = _dashboardData?['average_period_length'] as num? ?? 5;
+      if (currentPeriodDay != null && averagePeriodLength > 0) {
+        progressValue = (currentPeriodDay.toDouble() / averagePeriodLength.toDouble()).clamp(0.0, 1.0);
+      }
+    } else {
+      final daysUntil = event['days_until'] as num?;
+      if (daysUntil != null) {
+        progressValue = (1.0 - (daysUntil.toDouble() / 7.0)).clamp(0.0, 1.0);
+      } else {
+        final daysLeft = event['days_left'] as num?;
+        if (daysLeft != null) {
+          progressValue = (1.0 - (daysLeft.toDouble() / 7.0)).clamp(0.0, 1.0);
+        } else {
+          progressValue = 0.0;
+        }
+      }
+    }
+    
     String subtitle = isActivePeriod 
         ? 'Period started' 
         : (nextDateStr != null ? 'Expected on ${DateFormat('d MMM').format(DateTime.parse(nextDateStr))}' : '');
-    
-    // If it's the main cycle/period display, try to use more specific info if we had it, 
-    // but the dashboard already sends good titles for upcoming events.
 
     return AppCard(
       onTap: () {
@@ -497,17 +515,63 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 70,
                 height: 70,
                 child: CircularProgressIndicator(
-                  value: isActivePeriod ? 0.3 : (1 - (((event['days_left'] ?? 7) as num).toDouble() / 7.0)),
+                  value: progressValue,
                   strokeWidth: 6,
                   color: FemFlowColors.primary,
                   backgroundColor: FemFlowColors.white.withValues(alpha: 0.5),
                 ),
               ),
-              Icon(_getEventIcon(event['type']), color: FemFlowColors.primary),
+              isActivePeriod 
+                  ? _buildPeriodFlowIcon(event['flow'] ?? _dashboardData?['period']?['flow']?.toString())
+                  : Icon(_getEventIcon(event['type']), color: FemFlowColors.primary),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildPeriodFlowIcon(String? flow) {
+    Color mainColor;
+    IconData iconData = Icons.water_drop;
+    
+    final normalizedFlow = flow?.toLowerCase() ?? 'medium';
+    
+    switch (normalizedFlow) {
+      case 'spotting':
+        mainColor = const Color(0xFFFFC0CB); // pink
+        iconData = Icons.opacity;
+        break;
+      case 'light':
+        mainColor = const Color(0xFFFF8B94); // soft red/pink
+        iconData = Icons.opacity;
+        break;
+      case 'medium':
+        mainColor = FemFlowColors.primary;
+        iconData = Icons.water_drop;
+        break;
+      case 'heavy':
+        mainColor = const Color(0xFFC0392B); // deep red
+        iconData = Icons.water_drop;
+        break;
+      default:
+        mainColor = FemFlowColors.primary;
+        iconData = Icons.water_drop;
+    }
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Transform.translate(
+          offset: const Offset(0, -3),
+          child: Icon(iconData, color: mainColor, size: 26),
+        ),
+        if (normalizedFlow == 'heavy')
+          Transform.translate(
+            offset: const Offset(0, 10),
+            child: Icon(Icons.water_drop, color: mainColor, size: 10),
+          ),
+      ],
     );
   }
 
