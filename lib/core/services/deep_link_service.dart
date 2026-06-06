@@ -12,6 +12,8 @@ class DeepLinkService {
   final _appLinks = AppLinks();
   String? _pendingReferralCode;
 
+  Uri? _pendingUri;
+
   String? get pendingReferralCode => _pendingReferralCode;
 
   Future<void> init() async {
@@ -23,7 +25,15 @@ class DeepLinkService {
     // 2. Handle link that opened the app
     final initialUri = await _appLinks.getInitialLink();
     if (initialUri != null) {
-      _handleUri(initialUri);
+      _pendingUri = initialUri;
+    }
+  }
+
+  void checkPendingDynamicLink() {
+    if (_pendingUri != null) {
+      final uri = _pendingUri!;
+      _pendingUri = null;
+      _handleUri(uri);
     }
   }
 

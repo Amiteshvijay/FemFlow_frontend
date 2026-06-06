@@ -104,6 +104,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             NotificationService.isLocked = false;
             WidgetsBinding.instance.addPostFrameCallback((_) {
               NotificationService.checkPendingNotification();
+              DeepLinkService().checkPendingDynamicLink();
             });
 
             return child ?? const SizedBox.shrink();
