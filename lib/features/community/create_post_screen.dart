@@ -580,6 +580,179 @@ class _PostSubmittedSheet extends StatelessWidget {
 
 class RichTextEditingController extends TextEditingController {
   @override
+  set value(TextEditingValue newValue) {
+    // Clean the new text
+    final cleanText = _cleanHtml(newValue.text, newValue.selection);
+    
+    // Adjust selection if the text length changed
+    TextSelection newSelection = newValue.selection;
+    if (cleanText.length != newValue.text.length) {
+      int newStart = newValue.selection.start;
+      int newEnd = newValue.selection.end;
+      
+      if (newStart > cleanText.length) newStart = cleanText.length;
+      if (newEnd > cleanText.length) newEnd = cleanText.length;
+      
+      newSelection = TextSelection(
+        baseOffset: newStart,
+        extentOffset: newEnd,
+      );
+    }
+
+    super.value = TextEditingValue(
+      text: cleanText,
+      selection: newSelection,
+      composing: newValue.composing,
+    );
+  }
+
+  String _cleanHtml(String text, TextSelection selection) {
+    String cleaned = text;
+
+    final emptyTags = [
+      ['<b>', '</b>'],
+      ['<i>', '</i>'],
+      ['<u>', '</u>'],
+      ['<large>', '</large>'],
+      ['<small>', '</small>'],
+      ['<center>', '</center>'],
+      ['<left>', '</left>'],
+      ['<right>', '</right>']
+    ];
+
+    // 1. Remove empty tags recursively, keeping the one containing the cursor
+    bool changed = true;
+    while (changed) {
+      changed = false;
+      for (final pair in emptyTags) {
+        final open = pair[0];
+        final close = pair[1];
+        final fullTag = '$open$close';
+        
+        int index = cleaned.indexOf(fullTag);
+        while (index != -1) {
+          if (selection.isCollapsed && selection.start == index + open.length) {
+            index = cleaned.indexOf(fullTag, index + 1);
+          } else {
+            cleaned = cleaned.replaceRange(index, index + fullTag.length, '');
+            int start = selection.start;
+            int end = selection.end;
+            if (start > index) {
+              start -= fullTag.length;
+              if (start < index) start = index;
+            }
+            if (end > index) {
+              end -= fullTag.length;
+              if (end < index) end = index;
+            }
+            selection = TextSelection(baseOffset: start, extentOffset: end);
+            changed = true;
+            index = cleaned.indexOf(fullTag);
+          }
+        }
+      }
+    }
+
+    // 2. Remove broken/partial tags (must start with '<' followed by valid starting tag characters)
+    final RegExp tagRegExp = RegExp(r'</?[biulsc/][a-zA-Z]*>?|<>|</>');
+    final validTags = {
+      '<b>', '</b>', '<i>', '</i>', '<u>', '</u>', 
+      '<large>', '</large>', '<small>', '</small>', 
+      '<center>', '</center>', '<left>', '</left>', '<right>', '</right>'
+    };
+
+    cleaned = cleaned.replaceAllMapped(tagRegExp, (match) {
+      final matchedStr = match.group(0)!;
+      if (validTags.contains(matchedStr.toLowerCase())) {
+        return matchedStr;
+      }
+      return '';
+    });
+
+    // 3. Remove lonely/unpaired tags
+    cleaned = _removeLonelyTags(cleaned);
+
+    // 4. Run empty tag check again
+    changed = true;
+    while (changed) {
+      changed = false;
+      for (final pair in emptyTags) {
+        final open = pair[0];
+        final close = pair[1];
+        final fullTag = '$open$close';
+        
+        int index = cleaned.indexOf(fullTag);
+        while (index != -1) {
+          if (selection.isCollapsed && selection.start == index + open.length) {
+            index = cleaned.indexOf(fullTag, index + 1);
+          } else {
+            cleaned = cleaned.replaceRange(index, index + fullTag.length, '');
+            int start = selection.start;
+            int end = selection.end;
+            if (start > index) {
+              start -= fullTag.length;
+              if (start < index) start = index;
+            }
+            if (end > index) {
+              end -= fullTag.length;
+              if (end < index) end = index;
+            }
+            selection = TextSelection(baseOffset: start, extentOffset: end);
+            changed = true;
+            index = cleaned.indexOf(fullTag);
+          }
+        }
+      }
+    }
+
+    return cleaned;
+  }
+
+  String _removeLonelyTags(String text) {
+    final RegExp tagRegExp = RegExp(r'</?(?:b|i|u|large|small|center|left|right)>');
+    final matches = tagRegExp.allMatches(text).toList();
+    
+    List<Map<String, dynamic>> stack = [];
+    List<bool> keep = List.filled(matches.length, false);
+    
+    for (int idx = 0; idx < matches.length; idx++) {
+      final match = matches[idx];
+      final tagText = match.group(0)!.toLowerCase();
+      
+      if (!tagText.startsWith('</')) {
+        final tagName = tagText.substring(1, tagText.length - 1);
+        stack.add({'name': tagName, 'index': idx});
+      } else {
+        final tagName = tagText.substring(2, tagText.length - 1);
+        int matchIdx = -1;
+        for (int sIdx = stack.length - 1; sIdx >= 0; sIdx--) {
+          if (stack[sIdx]['name'] == tagName) {
+            matchIdx = sIdx;
+            break;
+          }
+        }
+        if (matchIdx != -1) {
+          keep[stack[matchIdx]['index']] = true;
+          keep[idx] = true;
+          stack.removeAt(matchIdx);
+        }
+      }
+    }
+    
+    StringBuffer sb = StringBuffer();
+    int lastOffset = 0;
+    for (int idx = 0; idx < matches.length; idx++) {
+      final match = matches[idx];
+      if (!keep[idx]) {
+        sb.write(text.substring(lastOffset, match.start));
+        lastOffset = match.end;
+      }
+    }
+    sb.write(text.substring(lastOffset));
+    return sb.toString();
+  }
+
+  @override
   TextSpan buildTextSpan({
     required BuildContext context,
     TextStyle? style,
