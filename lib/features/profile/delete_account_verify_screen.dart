@@ -3,6 +3,7 @@ import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../auth/data/auth_service.dart';
 import '../auth/providers/auth_provider.dart';
+import '../auth/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class DeleteAccountVerifyScreen extends StatefulWidget {
@@ -128,18 +129,47 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: const Text('Account Deactivation Scheduled'),
-        content: const Text(
-          'Your request has been received. Your account is now deactivated and will be permanently deleted within 7 days after admin review.\n\nYou have been logged out.',
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 16),
+            const CircleAvatar(
+              radius: 36,
+              backgroundColor: FemFlowColors.fertileWindow,
+              child: Icon(Icons.check, color: Colors.white, size: 40),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Account Deactivation Scheduled',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Your request has been received. Your account is now deactivated and will be permanently deleted within 7 days.\n\nYou have been logged out.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.5),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: PrimaryButton(
+                label: 'Understood',
+                onPressed: () async {
+                  final authProvider = context.read<AuthProvider>();
+                  final navigator = Navigator.of(context, rootNavigator: true);
+                  await authProvider.logout();
+                  navigator.pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const LoginScreen()),
+                    (route) => false,
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
         ),
-        actions: [
-          PrimaryButton(
-            label: 'Understood',
-            onPressed: () {
-              context.read<AuthProvider>().logout();
-            },
-          ),
-        ],
       ),
     );
   }
