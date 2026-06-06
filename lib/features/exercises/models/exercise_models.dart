@@ -28,6 +28,7 @@ class Exercise {
   final List<String> benefits;
   final String? instructions;
   final String? safetyNote;
+  final String? videoUrl;
   final bool isDefault;
   final bool isCustom;
   final bool isSaved;
@@ -46,6 +47,7 @@ class Exercise {
     required this.benefits,
     this.instructions,
     this.safetyNote,
+    this.videoUrl,
     required this.isDefault,
     required this.isCustom,
     required this.isSaved,
@@ -66,6 +68,7 @@ class Exercise {
       benefits: List<String>.from(json['benefits'] ?? []),
       instructions: json['instructions'],
       safetyNote: json['safety_note'],
+      videoUrl: json['video_url'],
       isDefault: json['is_default'] ?? false,
       isCustom: json['is_custom'] ?? false,
       isSaved: json['is_saved'] ?? false,

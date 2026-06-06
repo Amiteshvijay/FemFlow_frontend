@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../core/theme/femflow_colors.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../../../shared/widgets/primary_button.dart';
@@ -192,6 +193,10 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                   _buildSection('Benefits', exercise.benefits.join(', '), Icons.verified_outlined, FemFlowColors.aiWellness),
                   const SizedBox(height: 32),
                 ],
+                if (exercise.videoUrl != null && exercise.videoUrl!.isNotEmpty) ...[
+                  _YouTubeTutorialSection(videoUrl: exercise.videoUrl!),
+                  const SizedBox(height: 32),
+                ],
                 if (exercise.instructions != null && exercise.instructions!.isNotEmpty) ...[
                   const Text('Instructions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
                   const SizedBox(height: 16),
@@ -321,5 +326,101 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
       case 'mobility': return Icons.motion_photos_on;
       default: return Icons.play_circle_outline;
     }
+  }
+}
+
+class _YouTubeTutorialSection extends StatefulWidget {
+  final String videoUrl;
+
+  const _YouTubeTutorialSection({required this.videoUrl});
+
+  @override
+  State<_YouTubeTutorialSection> createState() => _YouTubeTutorialSectionState();
+}
+
+class _YouTubeTutorialSectionState extends State<_YouTubeTutorialSection> {
+  YoutubePlayerController? _controller;
+  bool _showPlayer = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final videoId = YoutubePlayer.convertUrlToId(widget.videoUrl);
+    if (videoId != null) {
+      _controller = YoutubePlayerController(
+        initialVideoId: videoId,
+        flags: const YoutubePlayerFlags(
+          autoPlay: true,
+          mute: false,
+          enableCaption: true,
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_controller == null) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('Watch Tutorial', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+        const SizedBox(height: 16),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: _showPlayer
+              ? YoutubePlayer(
+                  controller: _controller!,
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: FemFlowColors.primary,
+                  onReady: () {
+                    // Player is ready
+                  },
+                )
+              : GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _showPlayer = true;
+                    });
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Image.network(
+                        'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(widget.videoUrl)}/mqdefault.jpg',
+                        width: double.infinity,
+                        height: 200,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          height: 200,
+                          color: FemFlowColors.blushMist,
+                          child: const Icon(Icons.video_library_outlined, size: 48, color: FemFlowColors.primary),
+                        ),
+                      ),
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.9),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10),
+                          ],
+                        ),
+                        child: const Icon(Icons.play_arrow_rounded, size: 40, color: FemFlowColors.primary),
+                      ),
+                    ],
+                  ),
+                ),
+        ),
+      ],
+    );
   }
 }
