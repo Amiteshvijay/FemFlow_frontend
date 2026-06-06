@@ -61,14 +61,15 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   Future<void> _submit() async {
-    final content = _contentController.text.trim();
-    if (content.isEmpty) {
+    final plainText = _contentController.text.trim();
+    if (plainText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter some content for your post.'))
       );
       return;
     }
 
+    final content = _contentController.toHtml().trim();
     setState(() => _isSubmitting = true);
 
     try {
@@ -238,56 +239,102 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   Widget _buildFormattingToolbar() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _toolbarButton(
-              icon: Icons.format_bold_rounded,
-              tooltip: 'Bold',
-              onTap: () => _wrapSelection('<b>', '</b>'),
+    return ListenableBuilder(
+      listenable: _contentController,
+      builder: (context, _) {
+        final activeStyles = _contentController.activeStyles;
+        final isBold = activeStyles.contains(StyleType.bold);
+        final isItalic = activeStyles.contains(StyleType.italic);
+        final isUnderline = activeStyles.contains(StyleType.underline);
+        
+        final isCenter = _contentController.styleRanges.any((r) => 
+            r.type == StyleType.center && 
+            _isCursorOrSelectionInLineAlignmentRange(r));
+        final isRight = _contentController.styleRanges.any((r) => 
+            r.type == StyleType.right && 
+            _isCursorOrSelectionInLineAlignmentRange(r));
+        final isLeft = !isCenter && !isRight;
+
+        final isLarge = activeStyles.contains(StyleType.large);
+        final isSmall = activeStyles.contains(StyleType.small);
+
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _toolbarButton(
+                  icon: Icons.format_bold_rounded,
+                  tooltip: 'Bold',
+                  isActive: isBold,
+                  onTap: () => _contentController.toggleStyle(StyleType.bold),
+                ),
+                _toolbarButton(
+                  icon: Icons.format_italic_rounded,
+                  tooltip: 'Italic',
+                  isActive: isItalic,
+                  onTap: () => _contentController.toggleStyle(StyleType.italic),
+                ),
+                _toolbarButton(
+                  icon: Icons.format_underlined_rounded,
+                  tooltip: 'Underline',
+                  isActive: isUnderline,
+                  onTap: () => _contentController.toggleStyle(StyleType.underline),
+                ),
+                _buildVerticalDivider(),
+                _toolbarButton(
+                  icon: Icons.format_size_rounded,
+                  tooltip: 'Text Size (Cycle)',
+                  isActive: isLarge || isSmall,
+                  onTap: _contentController.cycleTextSize,
+                ),
+                _buildVerticalDivider(),
+                _toolbarButton(
+                  icon: Icons.format_align_left_rounded,
+                  tooltip: 'Align Left',
+                  isActive: isLeft,
+                  onTap: () => _contentController.setLineAlignment('left'),
+                ),
+                _toolbarButton(
+                  icon: Icons.format_align_center_rounded,
+                  tooltip: 'Align Center',
+                  isActive: isCenter,
+                  onTap: () => _contentController.setLineAlignment('center'),
+                ),
+                _toolbarButton(
+                  icon: Icons.format_align_right_rounded,
+                  tooltip: 'Align Right',
+                  isActive: isRight,
+                  onTap: () => _contentController.setLineAlignment('right'),
+                ),
+              ],
             ),
-            _toolbarButton(
-              icon: Icons.format_italic_rounded,
-              tooltip: 'Italic',
-              onTap: () => _wrapSelection('<i>', '</i>'),
-            ),
-            _toolbarButton(
-              icon: Icons.format_underlined_rounded,
-              tooltip: 'Underline',
-              onTap: () => _wrapSelection('<u>', '</u>'),
-            ),
-            _buildVerticalDivider(),
-            _toolbarButton(
-              icon: Icons.format_size_rounded,
-              tooltip: 'Text Size (Cycle)',
-              onTap: _cycleTextSize,
-            ),
-            _buildVerticalDivider(),
-            _toolbarButton(
-              icon: Icons.format_align_left_rounded,
-              tooltip: 'Align Left',
-              onTap: () => _toggleLineAlignment('left'),
-            ),
-            _toolbarButton(
-              icon: Icons.format_align_center_rounded,
-              tooltip: 'Align Center',
-              onTap: () => _toggleLineAlignment('center'),
-            ),
-            _toolbarButton(
-              icon: Icons.format_align_right_rounded,
-              tooltip: 'Align Right',
-              onTap: () => _toggleLineAlignment('right'),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
+  }
+
+  bool _isCursorOrSelectionInLineAlignmentRange(StyleRange range) {
+    final selection = _contentController.selection;
+    if (selection.start < 0 || selection.end < 0) return false;
+    
+    final txt = _contentController.text;
+    int lineStart = selection.start;
+    while (lineStart > 0 && txt[lineStart - 1] != '\n') {
+      lineStart--;
+    }
+    
+    int lineEnd = selection.end;
+    while (lineEnd < txt.length && txt[lineEnd] != '\n') {
+      lineEnd++;
+    }
+    
+    return !(range.end <= lineStart || range.start >= lineEnd);
   }
 
   Widget _buildVerticalDivider() {
@@ -302,12 +349,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget _toolbarButton({
     required IconData icon,
     required String tooltip,
+    bool isActive = false,
     required VoidCallback onTap,
   }) {
     return Tooltip(
       message: tooltip,
       child: Material(
-        color: Colors.transparent,
+        color: isActive ? FemFlowColors.primary.withValues(alpha: 0.1) : Colors.transparent,
+        borderRadius: BorderRadius.circular(8),
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: onTap,
@@ -316,119 +365,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             child: Icon(
               icon,
               size: 20,
-              color: FemFlowColors.textSecondary,
+              color: isActive ? FemFlowColors.primary : FemFlowColors.textSecondary,
             ),
           ),
         ),
       ),
     );
-  }
-
-  void _wrapSelection(String openTag, String closeTag) {
-    final text = _contentController.text;
-    final selection = _contentController.selection;
-    
-    if (selection.start < 0 || selection.end < 0) {
-      final cursorPosition = selection.baseOffset >= 0 ? selection.baseOffset : text.length;
-      final newText = '${text.substring(0, cursorPosition)}$openTag$closeTag${text.substring(cursorPosition)}';
-      _contentController.text = newText;
-      _contentController.selection = TextSelection.collapsed(offset: cursorPosition + openTag.length);
-      return;
-    }
-    
-    final selectedText = text.substring(selection.start, selection.end);
-    final newText = '${text.substring(0, selection.start)}$openTag$selectedText$closeTag${text.substring(selection.end)}';
-    
-    _contentController.value = TextEditingValue(
-      text: newText,
-      selection: TextSelection(
-        baseOffset: selection.start + openTag.length,
-        extentOffset: selection.end + openTag.length,
-      ),
-    );
-  }
-
-  void _cycleTextSize() {
-    final text = _contentController.text;
-    final selection = _contentController.selection;
-    final cursorPosition = selection.baseOffset >= 0 ? selection.baseOffset : text.length;
-
-    if (selection.start < 0 || selection.end < 0 || selection.start == selection.end) {
-      final newText = '${text.substring(0, cursorPosition)}<large></large>${text.substring(cursorPosition)}';
-      _contentController.text = newText;
-      _contentController.selection = TextSelection.collapsed(offset: cursorPosition + 7);
-      return;
-    }
-    
-    final selectedText = text.substring(selection.start, selection.end);
-    
-    if (selectedText.startsWith('<large>') && selectedText.endsWith('</large>')) {
-      final inner = selectedText.substring(7, selectedText.length - 8);
-      final newSelected = '<small>$inner</small>';
-      final newText = '${text.substring(0, selection.start)}$newSelected${text.substring(selection.end)}';
-      _contentController.value = TextEditingValue(
-        text: newText,
-        selection: TextSelection(
-          baseOffset: selection.start,
-          extentOffset: selection.start + newSelected.length,
-        ),
-      );
-    } else if (selectedText.startsWith('<small>') && selectedText.endsWith('</small>')) {
-      final inner = selectedText.substring(7, selectedText.length - 8);
-      final newText = '${text.substring(0, selection.start)}$inner${text.substring(selection.end)}';
-      _contentController.value = TextEditingValue(
-        text: newText,
-        selection: TextSelection(
-          baseOffset: selection.start,
-          extentOffset: selection.start + inner.length,
-        ),
-      );
-    } else {
-      final newSelected = '<large>$selectedText</large>';
-      final newText = '${text.substring(0, selection.start)}$newSelected${text.substring(selection.end)}';
-      _contentController.value = TextEditingValue(
-        text: newText,
-        selection: TextSelection(
-          baseOffset: selection.start,
-          extentOffset: selection.start + newSelected.length,
-        ),
-      );
-    }
-  }
-
-  void _toggleLineAlignment(String tag) {
-    final text = _contentController.text;
-    final selection = _contentController.selection;
-    
-    final cursorPosition = selection.baseOffset >= 0 ? selection.baseOffset : text.length;
-    
-    int lineStart = cursorPosition;
-    while (lineStart > 0 && text[lineStart - 1] != '\n') {
-      lineStart--;
-    }
-    
-    int lineEnd = cursorPosition;
-    while (lineEnd < text.length && text[lineEnd] != '\n') {
-      lineEnd++;
-    }
-    
-    final currentLine = text.substring(lineStart, lineEnd);
-    
-    String cleanedLine = currentLine;
-    final alignmentRegex = RegExp(r'^<(center|left|right)>(.*?)</\1>$');
-    final match = alignmentRegex.firstMatch(currentLine.trim());
-    if (match != null) {
-      cleanedLine = match.group(2) ?? '';
-    }
-    
-    String newLine = cleanedLine;
-    if (tag != 'left') {
-      newLine = '<$tag>$cleanedLine</$tag>';
-    }
-    
-    final newText = '${text.substring(0, lineStart)}$newLine${text.substring(lineEnd)}';
-    _contentController.text = newText;
-    _contentController.selection = TextSelection.collapsed(offset: lineStart + newLine.length);
   }
 
   Widget _buildImagePickerSection() {
@@ -578,178 +520,430 @@ class _PostSubmittedSheet extends StatelessWidget {
   }
 }
 
-class RichTextEditingController extends TextEditingController {
-  @override
-  set value(TextEditingValue newValue) {
-    // Clean the new text
-    final cleanText = _cleanHtml(newValue.text, newValue.selection);
-    
-    // Adjust selection if the text length changed
-    TextSelection newSelection = newValue.selection;
-    if (cleanText.length != newValue.text.length) {
-      int newStart = newValue.selection.start;
-      int newEnd = newValue.selection.end;
-      
-      if (newStart > cleanText.length) newStart = cleanText.length;
-      if (newEnd > cleanText.length) newEnd = cleanText.length;
-      
-      newSelection = TextSelection(
-        baseOffset: newStart,
-        extentOffset: newEnd,
-      );
-    }
+enum StyleType { bold, italic, underline, large, small, center, left, right }
 
-    super.value = TextEditingValue(
-      text: cleanText,
-      selection: newSelection,
-      composing: newValue.composing,
+class StyleRange {
+  int start;
+  int end;
+  final StyleType type;
+
+  StyleRange({required this.start, required this.end, required this.type});
+
+  StyleRange copyWith({int? start, int? end}) {
+    return StyleRange(
+      start: start ?? this.start,
+      end: end ?? this.end,
+      type: type,
     );
   }
 
-  String _cleanHtml(String text, TextSelection selection) {
-    String cleaned = text;
+  @override
+  String toString() => 'StyleRange($type, $start, $end)';
+}
 
-    final emptyTags = [
-      ['<b>', '</b>'],
-      ['<i>', '</i>'],
-      ['<u>', '</u>'],
-      ['<large>', '</large>'],
-      ['<small>', '</small>'],
-      ['<center>', '</center>'],
-      ['<left>', '</left>'],
-      ['<right>', '</right>']
-    ];
+class RichTextEditingController extends TextEditingController {
+  List<StyleRange> styleRanges = [];
+  Set<StyleType> activeStyles = {};
 
-    // 1. Remove empty tags recursively, keeping the one containing the cursor
-    bool changed = true;
-    while (changed) {
-      changed = false;
-      for (final pair in emptyTags) {
-        final open = pair[0];
-        final close = pair[1];
-        final fullTag = '$open$close';
-        
-        int index = cleaned.indexOf(fullTag);
-        while (index != -1) {
-          if (selection.isCollapsed && selection.start == index + open.length) {
-            index = cleaned.indexOf(fullTag, index + 1);
-          } else {
-            cleaned = cleaned.replaceRange(index, index + fullTag.length, '');
-            int start = selection.start;
-            int end = selection.end;
-            if (start > index) {
-              start -= fullTag.length;
-              if (start < index) start = index;
-            }
-            if (end > index) {
-              end -= fullTag.length;
-              if (end < index) end = index;
-            }
-            selection = TextSelection(baseOffset: start, extentOffset: end);
-            changed = true;
-            index = cleaned.indexOf(fullTag);
-          }
-        }
-      }
-    }
+  RichTextEditingController({super.text});
 
-    // 2. Remove broken/partial tags (must start with '<' followed by valid starting tag characters)
-    final RegExp tagRegExp = RegExp(r'</?[biulsc/][a-zA-Z]*>?|<>|</>');
-    final validTags = {
-      '<b>', '</b>', '<i>', '</i>', '<u>', '</u>', 
-      '<large>', '</large>', '<small>', '</small>', 
-      '<center>', '</center>', '<left>', '</left>', '<right>', '</right>'
-    };
-
-    cleaned = cleaned.replaceAllMapped(tagRegExp, (match) {
-      final matchedStr = match.group(0)!;
-      if (validTags.contains(matchedStr.toLowerCase())) {
-        return matchedStr;
-      }
-      return '';
-    });
-
-    // 3. Remove lonely/unpaired tags
-    cleaned = _removeLonelyTags(cleaned);
-
-    // 4. Run empty tag check again
-    changed = true;
-    while (changed) {
-      changed = false;
-      for (final pair in emptyTags) {
-        final open = pair[0];
-        final close = pair[1];
-        final fullTag = '$open$close';
-        
-        int index = cleaned.indexOf(fullTag);
-        while (index != -1) {
-          if (selection.isCollapsed && selection.start == index + open.length) {
-            index = cleaned.indexOf(fullTag, index + 1);
-          } else {
-            cleaned = cleaned.replaceRange(index, index + fullTag.length, '');
-            int start = selection.start;
-            int end = selection.end;
-            if (start > index) {
-              start -= fullTag.length;
-              if (start < index) start = index;
-            }
-            if (end > index) {
-              end -= fullTag.length;
-              if (end < index) end = index;
-            }
-            selection = TextSelection(baseOffset: start, extentOffset: end);
-            changed = true;
-            index = cleaned.indexOf(fullTag);
-          }
-        }
-      }
-    }
-
-    return cleaned;
+  RichTextEditingController.fromHtml(String html) {
+    setHtml(html);
   }
 
-  String _removeLonelyTags(String text) {
-    final RegExp tagRegExp = RegExp(r'</?(?:b|i|u|large|small|center|left|right)>');
-    final matches = tagRegExp.allMatches(text).toList();
+  @override
+  set value(TextEditingValue newValue) {
+    final oldValue = value;
     
-    List<Map<String, dynamic>> stack = [];
-    List<bool> keep = List.filled(matches.length, false);
-    
-    for (int idx = 0; idx < matches.length; idx++) {
-      final match = matches[idx];
-      final tagText = match.group(0)!.toLowerCase();
+    if (oldValue.text != newValue.text) {
+      _updateStyleRanges(oldValue, newValue);
       
-      if (!tagText.startsWith('</')) {
-        final tagName = tagText.substring(1, tagText.length - 1);
-        stack.add({'name': tagName, 'index': idx});
+      // If typing insertion (1 character added), propagate activeStyles
+      if (newValue.text.length == oldValue.text.length + 1 &&
+          newValue.selection.isCollapsed &&
+          oldValue.selection.isCollapsed) {
+        final insertedIndex = oldValue.selection.start;
+        for (final type in activeStyles) {
+          _addStyleToRange(insertedIndex, insertedIndex + 1, type);
+        }
+      }
+    }
+    
+    super.value = newValue;
+    
+    if (newValue.selection.isCollapsed) {
+      _updateActiveStylesForCursor(newValue.selection.start);
+    }
+  }
+
+  void _updateStyleRanges(TextEditingValue oldValue, TextEditingValue newValue) {
+    final oldText = oldValue.text;
+    final newText = newValue.text;
+    
+    if (oldText == newText) return;
+    
+    // Find common prefix
+    int prefixLen = 0;
+    while (prefixLen < oldText.length && 
+           prefixLen < newText.length && 
+           oldText[prefixLen] == newText[prefixLen]) {
+      prefixLen++;
+    }
+    
+    // Find common suffix
+    int suffixLen = 0;
+    while (suffixLen < oldText.length - prefixLen && 
+           suffixLen < newText.length - prefixLen && 
+           oldText[oldText.length - 1 - suffixLen] == newText[newText.length - 1 - suffixLen]) {
+      suffixLen++;
+    }
+    
+    final int replacedStart = prefixLen;
+    final int replacedEnd = oldText.length - suffixLen;
+    final int replacedLen = replacedEnd - replacedStart;
+    final int insertedLen = newText.length - prefixLen - suffixLen;
+    
+    final newRanges = <StyleRange>[];
+    for (final range in styleRanges) {
+      int start = range.start;
+      int end = range.end;
+      
+      if (end <= replacedStart) {
+        newRanges.add(range);
+      } else if (start >= replacedEnd) {
+        newRanges.add(range.copyWith(
+          start: start - replacedLen + insertedLen,
+          end: end - replacedLen + insertedLen,
+        ));
       } else {
-        final tagName = tagText.substring(2, tagText.length - 1);
-        int matchIdx = -1;
-        for (int sIdx = stack.length - 1; sIdx >= 0; sIdx--) {
-          if (stack[sIdx]['name'] == tagName) {
-            matchIdx = sIdx;
-            break;
+        if (start > replacedStart) {
+          start = replacedStart + insertedLen;
+        }
+        if (end >= replacedEnd) {
+          end = end - replacedLen + insertedLen;
+        } else if (end > replacedStart) {
+          end = replacedStart;
+        }
+        if (start < end) {
+          newRanges.add(range.copyWith(start: start, end: end));
+        }
+      }
+    }
+    styleRanges = newRanges;
+  }
+
+  void _addStyleToRange(int start, int end, StyleType type) {
+    final newRange = StyleRange(start: start, end: end, type: type);
+    styleRanges.add(newRange);
+    _mergeRanges(type);
+  }
+
+  void _mergeRanges(StyleType type) {
+    final typeRanges = styleRanges.where((r) => r.type == type).toList();
+    if (typeRanges.length <= 1) return;
+    
+    typeRanges.sort((a, b) => a.start.compareTo(b.start));
+    
+    final merged = <StyleRange>[];
+    StyleRange current = typeRanges[0];
+    
+    for (int i = 1; i < typeRanges.length; i++) {
+      final next = typeRanges[i];
+      if (next.start <= current.end) {
+        if (next.end > current.end) {
+          current.end = next.end;
+        }
+      } else {
+        merged.add(current);
+        current = next;
+      }
+    }
+    merged.add(current);
+    
+    styleRanges.removeWhere((r) => r.type == type);
+    styleRanges.addAll(merged);
+  }
+
+  void _updateActiveStylesForCursor(int cursorIndex) {
+    activeStyles.clear();
+    for (final range in styleRanges) {
+      if (cursorIndex > range.start && cursorIndex <= range.end) {
+        activeStyles.add(range.type);
+      }
+    }
+  }
+
+  void toggleStyle(StyleType type) {
+    final selection = this.selection;
+    if (selection.start < 0 || selection.end < 0) return;
+    
+    if (selection.isCollapsed) {
+      if (activeStyles.contains(type)) {
+        activeStyles.remove(type);
+      } else {
+        activeStyles.add(type);
+      }
+      notifyListeners();
+    } else {
+      _toggleStyleForRange(selection.start, selection.end, type);
+    }
+  }
+
+  void _toggleStyleForRange(int selStart, int selEnd, StyleType type) {
+    bool isFullyApplied = false;
+    for (final range in styleRanges) {
+      if (range.type == type && range.start <= selStart && range.end >= selEnd) {
+        isFullyApplied = true;
+        break;
+      }
+    }
+    
+    if (isFullyApplied) {
+      final newRanges = <StyleRange>[];
+      for (final range in styleRanges) {
+        if (range.type != type) {
+          newRanges.add(range);
+          continue;
+        }
+        
+        if (range.end <= selStart || range.start >= selEnd) {
+          newRanges.add(range);
+        } else if (range.start < selStart && range.end > selEnd) {
+          newRanges.add(StyleRange(start: range.start, end: selStart, type: type));
+          newRanges.add(StyleRange(start: selEnd, end: range.end, type: type));
+        } else if (range.start < selStart && range.end <= selEnd) {
+          newRanges.add(StyleRange(start: range.start, end: selStart, type: type));
+        } else if (range.start >= selStart && range.end > selEnd) {
+          newRanges.add(StyleRange(start: selEnd, end: range.end, type: type));
+        }
+      }
+      styleRanges = newRanges;
+    } else {
+      _addStyleToRange(selStart, selEnd, type);
+    }
+    notifyListeners();
+  }
+
+  void setLineAlignment(String align) {
+    final selection = this.selection;
+    if (selection.start < 0 || selection.end < 0) return;
+    
+    final txt = text;
+    int lineStart = selection.start;
+    while (lineStart > 0 && txt[lineStart - 1] != '\n') {
+      lineStart--;
+    }
+    
+    int lineEnd = selection.end;
+    while (lineEnd < txt.length && txt[lineEnd] != '\n') {
+      lineEnd++;
+    }
+    
+    final alignments = {StyleType.left, StyleType.center, StyleType.right};
+    styleRanges.removeWhere((r) => alignments.contains(r.type) && 
+        !(r.end <= lineStart || r.start >= lineEnd));
+        
+    if (align == 'center') {
+      _addStyleToRange(lineStart, lineEnd, StyleType.center);
+    } else if (align == 'right') {
+      _addStyleToRange(lineStart, lineEnd, StyleType.right);
+    }
+    
+    notifyListeners();
+  }
+
+  void cycleTextSize() {
+    final selection = this.selection;
+    if (selection.start < 0 || selection.end < 0) return;
+    
+    if (selection.isCollapsed) {
+      if (activeStyles.contains(StyleType.large)) {
+        activeStyles.remove(StyleType.large);
+        activeStyles.add(StyleType.small);
+      } else if (activeStyles.contains(StyleType.small)) {
+        activeStyles.remove(StyleType.small);
+      } else {
+        activeStyles.add(StyleType.large);
+      }
+      notifyListeners();
+    } else {
+      final start = selection.start;
+      final end = selection.end;
+      
+      bool isLarge = false;
+      bool isSmall = false;
+      for (final range in styleRanges) {
+        if (range.start <= start && range.end >= end) {
+          if (range.type == StyleType.large) isLarge = true;
+          if (range.type == StyleType.small) isSmall = true;
+        }
+      }
+      
+      final sizes = {StyleType.large, StyleType.small};
+      styleRanges.removeWhere((r) => sizes.contains(r.type) && 
+          !(r.end <= start || r.start >= end));
+          
+      if (isLarge) {
+        _addStyleToRange(start, end, StyleType.small);
+      } else if (isSmall) {
+        // regular
+      } else {
+        _addStyleToRange(start, end, StyleType.large);
+      }
+      notifyListeners();
+    }
+  }
+
+  void setHtml(String html) {
+    final cleanText = StringBuffer();
+    final ranges = <StyleRange>[];
+    final activeStack = <Map<String, dynamic>>[];
+    
+    final tagExp = RegExp(r'<(/?[a-zA-Z]+)>');
+    int lastMatchEnd = 0;
+    
+    for (final match in tagExp.allMatches(html)) {
+      if (match.start > lastMatchEnd) {
+        cleanText.write(html.substring(lastMatchEnd, match.start));
+      }
+      
+      final tag = match.group(1)!.toLowerCase();
+      if (tag.startsWith('/')) {
+        final typeStr = tag.substring(1);
+        final type = _getStyleType(typeStr);
+        if (type != null) {
+          int matchIdx = -1;
+          for (int i = activeStack.length - 1; i >= 0; i--) {
+            if (activeStack[i]['type'] == type) {
+              matchIdx = i;
+              break;
+            }
+          }
+          if (matchIdx != -1) {
+            final openTag = activeStack.removeAt(matchIdx);
+            ranges.add(StyleRange(
+              start: openTag['start'],
+              end: cleanText.length,
+              type: type,
+            ));
           }
         }
-        if (matchIdx != -1) {
-          keep[stack[matchIdx]['index']] = true;
-          keep[idx] = true;
-          stack.removeAt(matchIdx);
+      } else {
+        final type = _getStyleType(tag);
+        if (type != null) {
+          activeStack.add({
+            'type': type,
+            'start': cleanText.length,
+          });
         }
+      }
+      
+      lastMatchEnd = match.end;
+    }
+    
+    if (lastMatchEnd < html.length) {
+      cleanText.write(html.substring(lastMatchEnd));
+    }
+    
+    for (final openTag in activeStack) {
+      ranges.add(StyleRange(
+        start: openTag['start'],
+        end: cleanText.length,
+        type: openTag['type'],
+      ));
+    }
+    
+    value = TextEditingValue(
+      text: cleanText.toString(),
+      selection: TextSelection.collapsed(offset: cleanText.length),
+    );
+    styleRanges = ranges;
+  }
+
+  StyleType? _getStyleType(String tag) {
+    switch (tag) {
+      case 'b': return StyleType.bold;
+      case 'i': return StyleType.italic;
+      case 'u': return StyleType.underline;
+      case 'large': return StyleType.large;
+      case 'small': return StyleType.small;
+      case 'center': return StyleType.center;
+      case 'left': return StyleType.left;
+      case 'right': return StyleType.right;
+      default: return null;
+    }
+  }
+
+  String toHtml() {
+    final buffer = StringBuffer();
+    final openRanges = <StyleRange>[];
+    
+    final sortedRanges = List<StyleRange>.from(styleRanges);
+    
+    for (int i = 0; i <= text.length; i++) {
+      final ending = openRanges.where((r) => r.end == i).toList();
+      if (ending.isNotEmpty) {
+        final toReopen = <StyleRange>[];
+        while (openRanges.isNotEmpty) {
+          final r = openRanges.removeLast();
+          buffer.write(_closeTag(r.type));
+          if (r.end == i) {
+            // ends here
+          } else {
+            toReopen.add(r);
+          }
+        }
+        for (final r in toReopen.reversed) {
+          buffer.write(_openTag(r.type));
+          openRanges.add(r);
+        }
+      }
+      
+      final starting = sortedRanges.where((r) => r.start == i).toList();
+      starting.sort((a, b) => _typePriority(a.type).compareTo(_typePriority(b.type)));
+      for (final r in starting) {
+        buffer.write(_openTag(r.type));
+        openRanges.add(r);
+      }
+      
+      if (i < text.length) {
+        buffer.write(text[i]);
       }
     }
     
-    StringBuffer sb = StringBuffer();
-    int lastOffset = 0;
-    for (int idx = 0; idx < matches.length; idx++) {
-      final match = matches[idx];
-      if (!keep[idx]) {
-        sb.write(text.substring(lastOffset, match.start));
-        lastOffset = match.end;
-      }
+    return buffer.toString();
+  }
+
+  String _openTag(StyleType type) {
+    switch (type) {
+      case StyleType.bold: return '<b>';
+      case StyleType.italic: return '<i>';
+      case StyleType.underline: return '<u>';
+      case StyleType.large: return '<large>';
+      case StyleType.small: return '<small>';
+      case StyleType.center: return '<center>';
+      case StyleType.left: return '<left>';
+      case StyleType.right: return '<right>';
     }
-    sb.write(text.substring(lastOffset));
-    return sb.toString();
+  }
+
+  String _closeTag(StyleType type) {
+    switch (type) {
+      case StyleType.bold: return '</b>';
+      case StyleType.italic: return '</i>';
+      case StyleType.underline: return '</u>';
+      case StyleType.large: return '</large>';
+      case StyleType.small: return '</small>';
+      case StyleType.center: return '</center>';
+      case StyleType.left: return '</left>';
+      case StyleType.right: return '</right>';
+    }
+  }
+
+  int _typePriority(StyleType type) {
+    if (type == StyleType.center || type == StyleType.left || type == StyleType.right) return 0;
+    if (type == StyleType.large || type == StyleType.small) return 1;
+    return 2;
   }
 
   @override
@@ -759,71 +953,58 @@ class RichTextEditingController extends TextEditingController {
     required bool withComposing,
   }) {
     final baseStyle = style ?? const TextStyle();
+    if (styleRanges.isEmpty || text.isEmpty) {
+      return TextSpan(text: text, style: baseStyle);
+    }
+    
     final List<TextSpan> children = [];
-    final textVal = text;
-
-    final RegExp tagExp = RegExp(
-      r'(</?(?:b|i|u|large|small|center|left|right)>|[^<]+|<)',
-      caseSensitive: false,
-    );
-
-    final matches = tagExp.allMatches(textVal);
-    TextStyle currentStyle = baseStyle;
-    final List<TextStyle> styleStack = [baseStyle];
-
-    for (final match in matches) {
-      final token = match.group(0)!;
-      final lowerToken = token.toLowerCase();
-
-      if (lowerToken == '<b>') {
-        currentStyle = currentStyle.copyWith(fontWeight: FontWeight.bold);
-        styleStack.add(currentStyle);
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '</b>') {
-        if (styleStack.length > 1) styleStack.removeLast();
-        currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '<i>') {
-        currentStyle = currentStyle.copyWith(fontStyle: FontStyle.italic);
-        styleStack.add(currentStyle);
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '</i>') {
-        if (styleStack.length > 1) styleStack.removeLast();
-        currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '<u>') {
-        currentStyle = currentStyle.copyWith(decoration: TextDecoration.underline);
-        styleStack.add(currentStyle);
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '</u>') {
-        if (styleStack.length > 1) styleStack.removeLast();
-        currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '<large>') {
-        currentStyle = currentStyle.copyWith(fontSize: (currentStyle.fontSize ?? 14) * 1.3);
-        styleStack.add(currentStyle);
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '</large>') {
-        if (styleStack.length > 1) styleStack.removeLast();
-        currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '<small>') {
-        currentStyle = currentStyle.copyWith(fontSize: (currentStyle.fontSize ?? 14) * 0.85);
-        styleStack.add(currentStyle);
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '</small>') {
-        if (styleStack.length > 1) styleStack.removeLast();
-        currentStyle = styleStack.last;
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '<center>' || lowerToken == '<right>' || lowerToken == '<left>') {
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else if (lowerToken == '</center>' || lowerToken == '</right>' || lowerToken == '</left>') {
-        children.add(TextSpan(text: token, style: const TextStyle(color: Colors.transparent, fontSize: 0)));
-      } else {
-        children.add(TextSpan(text: token, style: currentStyle));
+    final boundaries = <int>{0, text.length};
+    for (final range in styleRanges) {
+      if (range.start >= 0 && range.start <= text.length) {
+        boundaries.add(range.start);
+      }
+      if (range.end >= 0 && range.end <= text.length) {
+        boundaries.add(range.end);
       }
     }
-
+    
+    final sortedBoundaries = boundaries.toList()..sort();
+    
+    for (int i = 0; i < sortedBoundaries.length - 1; i++) {
+      final start = sortedBoundaries[i];
+      final end = sortedBoundaries[i + 1];
+      if (start == end) continue;
+      
+      final segmentText = text.substring(start, end);
+      TextStyle segmentStyle = baseStyle;
+      
+      for (final range in styleRanges) {
+        if (range.start <= start && range.end >= end) {
+          switch (range.type) {
+            case StyleType.bold:
+              segmentStyle = segmentStyle.copyWith(fontWeight: FontWeight.bold);
+              break;
+            case StyleType.italic:
+              segmentStyle = segmentStyle.copyWith(fontStyle: FontStyle.italic);
+              break;
+            case StyleType.underline:
+              segmentStyle = segmentStyle.copyWith(decoration: TextDecoration.underline);
+              break;
+            case StyleType.large:
+              segmentStyle = segmentStyle.copyWith(fontSize: (segmentStyle.fontSize ?? 14) * 1.3);
+              break;
+            case StyleType.small:
+              segmentStyle = segmentStyle.copyWith(fontSize: (segmentStyle.fontSize ?? 14) * 0.85);
+              break;
+            default:
+              break;
+          }
+        }
+      }
+      
+      children.add(TextSpan(text: segmentText, style: segmentStyle));
+    }
+    
     return TextSpan(children: children, style: baseStyle);
   }
 }
