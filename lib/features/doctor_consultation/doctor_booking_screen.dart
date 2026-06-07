@@ -367,14 +367,15 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                             itemCount: _availableSlots.length,
                             itemBuilder: (context, index) {
                               final slot = _availableSlots[index];
-                              final isAvailable = slot['available'];
-                              final isSelected = _selectedTime == slot['time'];
+                              final isAvailable = slot['available'] == true; // Ensure boolean
+                              final slotTime = slot['time'] ?? slot['patient_time'] ?? 'N/A';
+                              final isSelected = _selectedTime == slotTime;
                               
                               return InkWell(
                                 onTap: isAvailable
                                     ? () {
                                         setState(() {
-                                          _selectedTime = slot['time'];
+                                          _selectedTime = slotTime;
                                         });
                                       }
                                     : null,
@@ -383,20 +384,22 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                                     color: isSelected
                                         ? FemFlowColors.primary.withValues(alpha: 0.2)
                                         : isAvailable
-                                            ? Colors.grey.shade50
-                                            : Colors.grey.shade200,
+                                            ? Colors.white
+                                            : Colors.grey.shade100,
                                     border: Border.all(
                                       color: isSelected
                                           ? FemFlowColors.primary
-                                          : Colors.grey.shade300,
+                                          : isAvailable
+                                              ? Colors.grey.shade300
+                                              : Colors.grey.shade200,
                                     ),
-                                    borderRadius: BorderRadius.circular(6),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   alignment: Alignment.center,
                                   child: Text(
-                                    slot['time'],
+                                    slotTime,
                                     style: TextStyle(
-                                      color: isAvailable ? Colors.black87 : Colors.grey,
+                                      color: isAvailable ? Colors.black87 : Colors.grey.shade400,
                                       fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                                       fontSize: 12,
                                     ),
