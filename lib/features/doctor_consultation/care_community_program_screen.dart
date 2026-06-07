@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
@@ -8,7 +7,6 @@ import '../auth/providers/auth_provider.dart';
 import '../subscriptions/providers/subscription_provider.dart';
 import '../subscriptions/screens/premium_plan_screen.dart';
 import 'data/doctor_consultation_service.dart';
-import 'models/doctor_models.dart';
 
 class CareCommunityProgramScreen extends StatefulWidget {
   const CareCommunityProgramScreen({super.key});
@@ -124,6 +122,28 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
     
     final isPremium = subProvider.isPremium;
     final isEnrolled = profile?.isCommunityCareEnrolled ?? false;
+
+    if (isPremium) {
+      return Scaffold(
+        backgroundColor: FemFlowColors.warmWhite,
+        appBar: AppBar(
+          title: const Text('Care Community Program', style: TextStyle(fontWeight: FontWeight.bold)),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          foregroundColor: FemFlowColors.textPrimary,
+        ),
+        body: const Center(
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Text(
+              'The Care Community Program is not available for premium members.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16, color: FemFlowColors.textSecondary),
+            ),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: FemFlowColors.warmWhite,

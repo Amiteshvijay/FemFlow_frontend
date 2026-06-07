@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:femflow/core/theme/femflow_colors.dart';
 import 'package:provider/provider.dart';
+import 'package:femflow/features/auth/providers/auth_provider.dart';
 import '../../core/security/app_lock_service.dart';
 import 'package:femflow/shared/widgets/app_card.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -154,15 +155,35 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
     try {
       final dateStr = '${_selectedDate!.year}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.day.toString().padLeft(2, '0')}';
       
+      final isEnrolled = context.read<AuthProvider>().profile?.isCommunityCareEnrolled ?? false;
+
       final bookingResponse = await _service.createBooking(
         doctorId: widget.doctor.id,
         consultationMode: _selectedMode!,
         appointmentDate: dateStr,
         appointmentTime: _selectedTime!,
         userNotes: _notesController.text,
+        isCommunityCare: isEnrolled,
       );
 
       _currentBookingId = bookingResponse['booking_id'];
+
+      if (isEnrolled) {
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => DoctorPaymentSuccessScreen(
+              doctor: widget.doctor,
+              date: _selectedDate!,
+              time: _selectedTime!,
+              mode: _selectedMode!,
+              bookingId: _currentBookingId!,
+            ),
+          ),
+        );
+        return;
+      }
 
       final orderResponse = await _service.createPaymentOrder(_currentBookingId!);
 
@@ -209,6 +230,8 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isEnrolled = context.watch<AuthProvider>().profile?.isCommunityCareEnrolled ?? false;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -366,48 +389,48 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                             ),
                             itemCount: _availableSlots.length,
                             itemBuilder: (context, index) {
-                              final slot = _availableSlots[index];
-                              final isAvailable = slot['available'] == true; // Ensure boolean
-                              final slotTime = slot['time'] ?? slot['patient_time'] ?? 'N/A';
-                              final isSelected = _selectedTime == slotTime;
-                              
-                              return InkWell(
-                                onTap: isAvailable
-                                    ? () {
-                                        setState(() {
-                                          _selectedTime = slotTime;
-                                        });
-                                      }
-                                    : null,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? FemFlowColors.primary.withValues(alpha: 0.2)
-                                        : isAvailable
-                                            ? Colors.white
-                                            : Colors.grey.shade100,
-                                    border: Border.all(
+                                final slot = _availableSlots[index];
+                                final isAvailable = slot['available'] == true; // Ensure boolean
+                                final slotTime = slot['time'] ?? slot['patient_time'] ?? 'N/A';
+                                final isSelected = _selectedTime == slotTime;
+                                
+                                return InkWell(
+                                  onTap: isAvailable
+                                      ? () {
+                                          setState(() {
+                                            _selectedTime = slotTime;
+                                          });
+                                        }
+                                      : null,
+                                  child: Container(
+                                    decoration: BoxDecoration(
                                       color: isSelected
-                                          ? FemFlowColors.primary
+                                          ? FemFlowColors.primary.withValues(alpha: 0.2)
                                           : isAvailable
-                                              ? Colors.grey.shade300
-                                              : Colors.grey.shade200,
+                                              ? Colors.white
+                                              : Colors.grey.shade100,
+                                      border: Border.all(
+                                        color: isSelected
+                                            ? FemFlowColors.primary
+                                            : isAvailable
+                                                ? Colors.grey.shade300
+                                                : Colors.grey.shade200,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    slotTime,
-                                    style: TextStyle(
-                                      color: isAvailable ? Colors.black87 : Colors.grey.shade400,
-                                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                      fontSize: 12,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      slotTime,
+                                      style: TextStyle(
+                                        color: isAvailable ? Colors.black87 : Colors.grey.shade400,
+                                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
+                                );
+                              },
+                            ),
             const SizedBox(height: 24),
 
             // User Notes
@@ -430,39 +453,65 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    _buildSummaryRow(
-                      'Net Consultation Fee', 
-                      '₹${(widget.doctor.consultationFee / 1.18).toStringAsFixed(2)}'
-                    ),
-                    const SizedBox(height: 8),
-                    _buildSummaryRow(
-                      'CGST (9%)', 
-                      '₹${((widget.doctor.consultationFee - (widget.doctor.consultationFee / 1.18)) / 2).toStringAsFixed(2)}'
-                    ),
-                    const SizedBox(height: 8),
-                    _buildSummaryRow(
-                      'SGST (9%)', 
-                      '₹${((widget.doctor.consultationFee - (widget.doctor.consultationFee / 1.18)) / 2).toStringAsFixed(2)}'
-                    ),
-                    const SizedBox(height: 8),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Platform Fee', style: TextStyle(color: Colors.grey)),
-                        Text('₹0', style: TextStyle(color: Colors.green)),
-                      ],
-                    ),
-                    const Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Total (Inclusive of GST)', style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text(
-                          '₹${widget.doctor.consultationFee.toInt()}', 
-                          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)
-                        ),
-                      ],
-                    ),
+                    if (isEnrolled) ...[
+                      _buildSummaryRow(
+                        'Normal Consultation Fee', 
+                        '₹${widget.doctor.consultationFee.toInt()}'
+                      ),
+                      const SizedBox(height: 8),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Community Care Discount', style: TextStyle(color: Colors.grey)),
+                          Text('-100%', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      const Divider(),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Total (Care Community Program)', style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text(
+                            '₹0', 
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green)
+                          ),
+                        ],
+                      ),
+                    ] else ...[
+                      _buildSummaryRow(
+                        'Net Consultation Fee', 
+                        '₹${(widget.doctor.consultationFee / 1.18).toStringAsFixed(2)}'
+                      ),
+                      const SizedBox(height: 8),
+                      _buildSummaryRow(
+                        'CGST (9%)', 
+                        '₹${((widget.doctor.consultationFee - (widget.doctor.consultationFee / 1.18)) / 2).toStringAsFixed(2)}'
+                      ),
+                      const SizedBox(height: 8),
+                      _buildSummaryRow(
+                        'SGST (9%)', 
+                        '₹${((widget.doctor.consultationFee - (widget.doctor.consultationFee / 1.18)) / 2).toStringAsFixed(2)}'
+                      ),
+                      const SizedBox(height: 8),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Platform Fee', style: TextStyle(color: Colors.grey)),
+                          Text('₹0', style: TextStyle(color: Colors.green)),
+                        ],
+                      ),
+                      const Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Total (Inclusive of GST)', style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text(
+                            '₹${widget.doctor.consultationFee.toInt()}', 
+                            style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)
+                          ),
+                        ],
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -482,16 +531,23 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                 ),
                 child: _isBooking
                     ? const CircularProgressIndicator(color: Colors.white)
-                    : Text('Pay & Book - ₹${widget.doctor.consultationFee.toInt()}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    : Text(
+                        isEnrolled 
+                            ? 'Book Free Consultation' 
+                            : 'Pay & Book - ₹${widget.doctor.consultationFee.toInt()}', 
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      ),
               ),
             ),
-            const SizedBox(height: 16),
-            const Center(
-              child: Text(
-                'Your payment is securely processed by Razorpay.',
-                style: TextStyle(fontSize: 12, color: Colors.grey),
+            if (!isEnrolled) ...[
+              const SizedBox(height: 16),
+              const Center(
+                child: Text(
+                  'Your payment is securely processed by Razorpay.',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),

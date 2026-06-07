@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:femflow/core/theme/femflow_colors.dart';
 import 'package:femflow/shared/widgets/app_card.dart';
+import 'package:provider/provider.dart';
+import 'package:femflow/features/subscriptions/providers/subscription_provider.dart';
 import 'data/doctor_consultation_service.dart';
 import 'models/doctor_models.dart';
 import 'doctor_list_screen.dart';
@@ -74,30 +76,12 @@ class _DoctorConsultationHomeScreenState extends State<DoctorConsultationHomeScr
                     style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                   const SizedBox(height: 16),
-                  
-                  // Safety Card
-                  AppCard(
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 32),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: const Text(
-                              'If symptoms are severe or urgent, please visit a hospital or call emergency services.',
-                              style: TextStyle(fontSize: 12, color: Colors.black87),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
 
                   // Care Community Program Banner
-                  _buildCareCommunityProgramBanner(context),
-                  const SizedBox(height: 24),
+                  if (!context.watch<SubscriptionProvider>().isPremium) ...[
+                    _buildCareCommunityProgramBanner(context),
+                    const SizedBox(height: 24),
+                  ],
 
                   // Search Bar
                   TextField(
