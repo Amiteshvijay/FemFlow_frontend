@@ -5,6 +5,7 @@ import 'data/doctor_consultation_service.dart';
 import 'models/doctor_models.dart';
 import 'doctor_list_screen.dart';
 import 'my_doctor_bookings_screen.dart';
+import 'care_community_program_screen.dart';
 
 class DoctorConsultationHomeScreen extends StatefulWidget {
   const DoctorConsultationHomeScreen({super.key});
@@ -92,6 +93,10 @@ class _DoctorConsultationHomeScreenState extends State<DoctorConsultationHomeScr
                       ),
                     ),
                   ),
+                  const SizedBox(height: 16),
+
+                  // Care Community Program Banner
+                  _buildCareCommunityProgramBanner(context),
                   const SizedBox(height: 24),
 
                   // Search Bar
@@ -256,5 +261,46 @@ class _DoctorConsultationHomeScreenState extends State<DoctorConsultationHomeScr
       default:
         return Icons.person_outline;
     }
+  }
+
+  Widget _buildCareCommunityProgramBanner(BuildContext context) {
+    return AppCard(
+      color: FemFlowColors.blushMist,
+      border: const BorderSide(color: FemFlowColors.primary, width: 0.5),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const CareCommunityProgramScreen()),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
+              color: FemFlowColors.primary,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.favorite_rounded, color: Colors.white, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Care Community Program',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemFlowColors.textPrimary),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'Get up to 2 free consultations with expert doctors.',
+                  style: TextStyle(fontSize: 11, color: Colors.grey.shade700),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.chevron_right, color: FemFlowColors.primary),
+        ],
+      ),
+    );
   }
 }

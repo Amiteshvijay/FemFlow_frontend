@@ -21,6 +21,7 @@ class UserProfile {
   final int onboardingCurrentStep;
   final Map<String, double> sectionProgress;
   final bool twoFactorEnabled;
+  final bool isCommunityCareEnrolled;
 
   // Body & Fitness
   final double? heightCm;
@@ -147,6 +148,7 @@ class UserProfile {
     this.onboardingCurrentStep = 0,
     this.sectionProgress = const {},
     this.twoFactorEnabled = false,
+    this.isCommunityCareEnrolled = false,
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
@@ -222,6 +224,7 @@ class UserProfile {
         (key, value) => MapEntry(key, _toDouble(value) ?? 0.0),
       ) ?? {},
       twoFactorEnabled: p['two_factor_enabled'] ?? false,
+      isCommunityCareEnrolled: p['is_community_care_enrolled'] ?? false,
     );
   }
 
@@ -292,6 +295,7 @@ class UserProfile {
       'ai_recommendations_consent': aiRecommendationsConsent,
       'symptom_prediction_consent': symptomPredictionConsent,
       'two_factor_enabled': twoFactorEnabled,
+      'is_community_care_enrolled': isCommunityCareEnrolled,
     };
   }
 

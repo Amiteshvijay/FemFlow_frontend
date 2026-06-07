@@ -148,4 +148,9 @@ class DoctorConsultationService {
   Future<Uint8List> downloadPrescriptionPdf(int bookingId) async {
     return await _apiClient.downloadFile('/doctor-consultation/bookings/$bookingId/prescription/download/');
   }
+
+  Future<Map<String, dynamic>> enrollCareProgram() async {
+    final response = await _apiClient.post('/doctor-consultation/portal/care-program/enroll/', body: {});
+    return response;
+  }
 }
