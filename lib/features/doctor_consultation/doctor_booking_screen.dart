@@ -31,6 +31,10 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
   bool _isLoadingSlots = false;
   bool _isBooking = false;
 
+  int _freeBookingsCount = 0;
+  DateTime? _latestFreeBookingDate;
+  bool _isLoadingBookingHistory = true;
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +44,54 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
+    _fetchBookingHistory();
+  }
+
+  Future<void> _fetchBookingHistory() async {
+    try {
+      final bookings = await _service.getMyBookings();
+      final freeBookings = bookings.where((b) {
+        final statusLower = b.status.toLowerCase();
+        final paymentLower = b.paymentStatus.toLowerCase();
+        return statusLower == 'community care' || 
+               paymentLower == 'community care' || 
+               paymentLower == 'free';
+      }).toList();
+
+      DateTime? latestDate;
+      if (freeBookings.isNotEmpty) {
+        freeBookings.sort((a, b) => b.appointmentDate.compareTo(a.appointmentDate));
+        latestDate = DateTime.tryParse(freeBookings.first.appointmentDate);
+      }
+
+      setState(() {
+        _freeBookingsCount = freeBookings.length;
+        _latestFreeBookingDate = latestDate;
+        _isLoadingBookingHistory = false;
+      });
+    } catch (e) {
+      debugPrint('Error fetching booking history: $e');
+      setState(() {
+        _isLoadingBookingHistory = false;
+      });
+    }
+  }
+
+  bool get _isDiscountEligible {
+    if (_isLoadingBookingHistory) return false;
+    final profile = context.read<AuthProvider>().profile;
+    final isEnrolled = profile?.isCommunityCareEnrolled ?? false;
+    if (!isEnrolled) return false;
+    if (_freeBookingsCount >= 2) return false;
+    if (_freeBookingsCount == 1) {
+      final checkDate = _selectedDate ?? DateTime.now();
+      if (_latestFreeBookingDate != null) {
+        final diff = checkDate.difference(_latestFreeBookingDate!).inDays.abs();
+        if (diff < 30) return false;
+      }
+    }
+    return true;
   }
 
   @override
@@ -155,7 +207,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
     try {
       final dateStr = '${_selectedDate!.year}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.day.toString().padLeft(2, '0')}';
       
-      final isEnrolled = context.read<AuthProvider>().profile?.isCommunityCareEnrolled ?? false;
+      final useCommunityCare = _isDiscountEligible;
 
       final bookingResponse = await _service.createBooking(
         doctorId: widget.doctor.id,
@@ -163,12 +215,12 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
         appointmentDate: dateStr,
         appointmentTime: _selectedTime!,
         userNotes: _notesController.text,
-        isCommunityCare: isEnrolled,
+        isCommunityCare: useCommunityCare,
       );
 
       _currentBookingId = bookingResponse['booking_id'];
 
-      if (isEnrolled) {
+      if (useCommunityCare) {
         if (!mounted) return;
         Navigator.pushReplacement(
           context,
@@ -231,6 +283,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
   @override
   Widget build(BuildContext context) {
     final isEnrolled = context.watch<AuthProvider>().profile?.isCommunityCareEnrolled ?? false;
+    final hasDiscount = _isDiscountEligible;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -447,13 +500,41 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
             ),
             const SizedBox(height: 24),
 
+            if (isEnrolled && !hasDiscount && !_isLoadingBookingHistory) ...[
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Colors.amber.shade50,
+                  border: Border.all(color: Colors.amber.shade300),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.info_outline, color: Colors.amber, size: 24),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        _freeBookingsCount >= 2
+                            ? 'You have reached your limit of 2 free consultations under the Care Community Program. Standard fees apply.'
+                            : 'A 30-day cooldown is required between your 1st and 2nd free consultations. '
+                              'Next free booking available after ${_latestFreeBookingDate!.add(const Duration(days: 30)).day}/${_latestFreeBookingDate!.add(const Duration(days: 30)).month}/${_latestFreeBookingDate!.add(const Duration(days: 30)).year}.',
+                        style: TextStyle(fontSize: 12, color: Colors.amber.shade900, height: 1.3),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+
             // Fee Summary
             AppCard(
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    if (isEnrolled) ...[
+                    if (hasDiscount) ...[
                       _buildSummaryRow(
                         'Normal Consultation Fee', 
                         '₹${widget.doctor.consultationFee.toInt()}'
@@ -532,14 +613,14 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                 child: _isBooking
                     ? const CircularProgressIndicator(color: Colors.white)
                     : Text(
-                        isEnrolled 
+                        hasDiscount 
                             ? 'Book Free Consultation' 
                             : 'Pay & Book - ₹${widget.doctor.consultationFee.toInt()}', 
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       ),
               ),
             ),
-            if (!isEnrolled) ...[
+            if (!hasDiscount) ...[
               const SizedBox(height: 16),
               const Center(
                 child: Text(
