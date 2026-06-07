@@ -80,6 +80,16 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
 
   bool get _isDiscountEligible {
     if (_isLoadingBookingHistory) return false;
+    if (_selectedTime == null || _availableSlots.isEmpty) return false;
+
+    // Check if the selected slot is marked as FREE by the doctor
+    final selectedSlotData = _availableSlots.firstWhere(
+      (s) => (s['time'] ?? s['patient_time']) == _selectedTime,
+      orElse: () => {},
+    );
+    final isSlotFree = selectedSlotData['is_free'] == true;
+    if (!isSlotFree) return false;
+
     final profile = context.read<AuthProvider>().profile;
     final isEnrolled = profile?.isCommunityCareEnrolled ?? false;
     if (!isEnrolled) return false;
@@ -444,6 +454,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                             itemBuilder: (context, index) {
                                 final slot = _availableSlots[index];
                                 final isAvailable = slot['available'] == true; // Ensure boolean
+                                final isFree = slot['is_free'] == true;
                                 final slotTime = slot['time'] ?? slot['patient_time'] ?? 'N/A';
                                 final isSelected = _selectedTime == slotTime;
                                 
@@ -455,31 +466,58 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                                           });
                                         }
                                       : null,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: isSelected
-                                          ? FemFlowColors.primary.withValues(alpha: 0.2)
-                                          : isAvailable
-                                              ? Colors.white
-                                              : Colors.grey.shade100,
-                                      border: Border.all(
-                                        color: isSelected
-                                            ? FemFlowColors.primary
-                                            : isAvailable
-                                                ? Colors.grey.shade300
-                                                : Colors.grey.shade200,
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: isSelected
+                                              ? FemFlowColors.primary.withValues(alpha: 0.2)
+                                              : isAvailable
+                                                  ? Colors.white
+                                                  : Colors.grey.shade100,
+                                          border: Border.all(
+                                            color: isSelected
+                                                ? FemFlowColors.primary
+                                                : isAvailable
+                                                    ? Colors.grey.shade300
+                                                    : Colors.grey.shade200,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          slotTime,
+                                          style: TextStyle(
+                                            color: isAvailable ? Colors.black87 : Colors.grey.shade400,
+                                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                            fontSize: 12,
+                                          ),
+                                        ),
                                       ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      slotTime,
-                                      style: TextStyle(
-                                        color: isAvailable ? Colors.black87 : Colors.grey.shade400,
-                                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                        fontSize: 12,
-                                      ),
-                                    ),
+                                      if (isFree && isAvailable)
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                                            decoration: const BoxDecoration(
+                                              color: Colors.green,
+                                              borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(8),
+                                                bottomLeft: Radius.circular(8),
+                                              ),
+                                            ),
+                                            child: const Text(
+                                              'FREE',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 7,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
                                   ),
                                 );
                               },
