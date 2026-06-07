@@ -51,13 +51,16 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
       if (count >= 1) {
         // Sort by date to find the most recent free booking
         freeBookings.sort((a, b) => b.appointmentDate.compareTo(a.appointmentDate));
-        final latestBookingDate = freeBookings.first.appointmentDate;
+        final latestBookingDateStr = freeBookings.first.appointmentDate;
+        final latestBookingDate = DateTime.tryParse(latestBookingDateStr);
         
-        final difference = DateTime.now().difference(latestBookingDate).inDays;
-        if (difference < 30) {
-          cooldown = true;
-          final daysLeft = 30 - difference;
-          cooldownMessage = '$daysLeft days left in cooldown';
+        if (latestBookingDate != null) {
+          final difference = DateTime.now().difference(latestBookingDate).inDays;
+          if (difference < 30) {
+            cooldown = true;
+            final daysLeft = 30 - difference;
+            cooldownMessage = '$daysLeft days left in cooldown';
+          }
         }
       }
 
