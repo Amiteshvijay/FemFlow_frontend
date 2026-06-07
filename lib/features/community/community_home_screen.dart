@@ -7,6 +7,10 @@ import 'community_room_screen.dart';
 import '../../core/network/api_client.dart';
 import '../premium/premium_feature_preview_screen.dart';
 import 'my_posts_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:femflow/features/subscriptions/providers/subscription_provider.dart';
+import 'package:femflow/features/doctor_consultation/care_community_program_screen.dart';
+import 'package:femflow/features/subscriptions/screens/premium_plan_screen.dart';
 
 class CommunityHomeScreen extends StatefulWidget {
   const CommunityHomeScreen({super.key});
@@ -173,7 +177,7 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
                 style: TextStyle(fontSize: 16, color: FemFlowColors.textSecondary),
               ),
               const SizedBox(height: 24),
-              _buildSafetyCard(),
+              _buildCareCommunityProgramBanner(context),
               const SizedBox(height: 32),
               const Text(
                 'Community Rooms',
@@ -189,6 +193,8 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
                 )
               else
                 ..._rooms.map((room) => _buildRoomCard(room)),
+              const SizedBox(height: 32),
+              _buildSafetyCard(),
               const SizedBox(height: 40),
             ],
           ),
@@ -211,6 +217,50 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
               style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, height: 1.4),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCareCommunityProgramBanner(BuildContext context) {
+    final isPremium = context.watch<SubscriptionProvider>().isPremium;
+    return AppCard(
+      color: FemFlowColors.blushMist,
+      border: const BorderSide(color: FemFlowColors.primary, width: 0.5),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => isPremium ? const CareCommunityProgramScreen() : const PremiumPlanScreen(),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
+              color: FemFlowColors.primary,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.favorite_rounded, color: Colors.white, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Care Community Program',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemFlowColors.textPrimary),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'Get up to 2 free consultations with expert doctors.',
+                  style: TextStyle(fontSize: 11, color: Colors.grey.shade700),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.chevron_right, color: FemFlowColors.primary),
         ],
       ),
     );
