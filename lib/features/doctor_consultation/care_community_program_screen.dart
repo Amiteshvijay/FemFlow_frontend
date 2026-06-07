@@ -123,7 +123,7 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
     final isPremium = subProvider.isPremium;
     final isEnrolled = profile?.isCommunityCareEnrolled ?? false;
 
-    if (isPremium) {
+    if (!isPremium) {
       return Scaffold(
         backgroundColor: FemFlowColors.warmWhite,
         appBar: AppBar(
@@ -132,13 +132,40 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
           elevation: 0,
           foregroundColor: FemFlowColors.textPrimary,
         ),
-        body: const Center(
+        body: Center(
           child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Text(
-              'The Care Community Program is not available for premium members.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: FemFlowColors.textSecondary),
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.lock_outline, size: 64, color: FemFlowColors.primary),
+                const SizedBox(height: 16),
+                const Text(
+                  'Care Community Program is for Premium users only.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Upgrade to Premium to get access to sponsored medical consultations and enroll in the program.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const PremiumPlanScreen()),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: FemFlowColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                  ),
+                  child: const Text('Upgrade to Premium', style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+              ],
             ),
           ),
         ),

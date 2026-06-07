@@ -8,6 +8,7 @@ import 'models/doctor_models.dart';
 import 'doctor_list_screen.dart';
 import 'my_doctor_bookings_screen.dart';
 import 'care_community_program_screen.dart';
+import 'package:femflow/features/subscriptions/screens/premium_plan_screen.dart';
 
 class DoctorConsultationHomeScreen extends StatefulWidget {
   const DoctorConsultationHomeScreen({super.key});
@@ -78,10 +79,8 @@ class _DoctorConsultationHomeScreenState extends State<DoctorConsultationHomeScr
                   const SizedBox(height: 16),
 
                   // Care Community Program Banner
-                  if (!context.watch<SubscriptionProvider>().isPremium) ...[
-                    _buildCareCommunityProgramBanner(context),
-                    const SizedBox(height: 24),
-                  ],
+                  _buildCareCommunityProgramBanner(context),
+                  const SizedBox(height: 24),
 
                   // Search Bar
                   TextField(
@@ -248,12 +247,15 @@ class _DoctorConsultationHomeScreenState extends State<DoctorConsultationHomeScr
   }
 
   Widget _buildCareCommunityProgramBanner(BuildContext context) {
+    final isPremium = context.watch<SubscriptionProvider>().isPremium;
     return AppCard(
       color: FemFlowColors.blushMist,
       border: const BorderSide(color: FemFlowColors.primary, width: 0.5),
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => const CareCommunityProgramScreen()),
+        MaterialPageRoute(
+          builder: (_) => isPremium ? const CareCommunityProgramScreen() : const PremiumPlanScreen(),
+        ),
       ),
       child: Row(
         children: [
