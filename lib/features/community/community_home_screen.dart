@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:femflow/features/subscriptions/providers/subscription_provider.dart';
 import 'package:femflow/features/doctor_consultation/care_community_program_screen.dart';
 import 'package:femflow/features/subscriptions/screens/premium_plan_screen.dart';
+import '../auth/providers/auth_provider.dart';
 
 class CommunityHomeScreen extends StatefulWidget {
   const CommunityHomeScreen({super.key});
@@ -227,12 +228,18 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
     return AppCard(
       color: FemFlowColors.blushMist,
       border: const BorderSide(color: FemFlowColors.primary, width: 0.5),
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => isPremium ? const CareCommunityProgramScreen() : const PremiumPlanScreen(),
-        ),
-      ),
+      onTap: () {
+        final profile = context.read<AuthProvider>().profile;
+        final isEnrolled = profile?.isCommunityCareEnrolled ?? false;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => isEnrolled
+                ? const CareCommunityProgramScreen()
+                : (isPremium ? const CareCommunityProgramScreen() : const PremiumPlanScreen()),
+          ),
+        );
+      },
       child: Row(
         children: [
           Container(

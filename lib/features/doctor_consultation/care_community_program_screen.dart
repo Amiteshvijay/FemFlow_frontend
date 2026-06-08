@@ -7,6 +7,7 @@ import '../auth/providers/auth_provider.dart';
 import '../subscriptions/providers/subscription_provider.dart';
 import '../subscriptions/screens/premium_plan_screen.dart';
 import 'data/doctor_consultation_service.dart';
+import 'doctor_consultation_home_screen.dart';
 
 class CareCommunityProgramScreen extends StatefulWidget {
   const CareCommunityProgramScreen({super.key});
@@ -417,24 +418,42 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
 
   Widget _buildActionButton(bool isEnrolled, bool isPremium) {
     if (isEnrolled) {
-      return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.green.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.check_circle, color: Colors.green),
-            SizedBox(width: 8),
-            Text(
-              'Enrolled in Program',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+      return Column(
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.green.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
             ),
-          ],
-        ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.check_circle, color: Colors.green),
+                SizedBox(width: 8),
+                Text(
+                  'Enrolled in Program',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            height: 56,
+            child: PrimaryButton(
+              label: 'Book free Consultation',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const DoctorConsultationHomeScreen()),
+                );
+              },
+            ),
+          ),
+        ],
       );
     }
 
