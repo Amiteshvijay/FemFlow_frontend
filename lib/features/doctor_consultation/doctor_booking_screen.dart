@@ -78,29 +78,34 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
     }
   }
 
-  bool get _isDiscountEligible {
-    if (_isLoadingBookingHistory) return false;
+  bool get _isSelectedSlotFree {
     if (_selectedTime == null || _availableSlots.isEmpty) return false;
-
-    // Check if the selected slot is marked as FREE by the doctor
     final selectedSlotData = _availableSlots.firstWhere(
       (s) => (s['time'] ?? s['patient_time']) == _selectedTime,
       orElse: () => {},
     );
-    final isSlotFree = selectedSlotData['is_free'] == true;
-    if (!isSlotFree) return false;
+    return selectedSlotData['is_free'] == true;
+  }
+
+  bool get _isCooldownActive {
+    if (_isLoadingBookingHistory) return false;
+    if (_freeBookingsCount == 1 && _latestFreeBookingDate != null) {
+      final checkDate = _selectedDate ?? DateTime.now();
+      final diff = checkDate.difference(_latestFreeBookingDate!).inDays.abs();
+      return diff < 30;
+    }
+    return false;
+  }
+
+  bool get _isDiscountEligible {
+    if (_isLoadingBookingHistory) return false;
+    if (!_isSelectedSlotFree) return false;
 
     final profile = context.read<AuthProvider>().profile;
     final isEnrolled = profile?.isCommunityCareEnrolled ?? false;
     if (!isEnrolled) return false;
     if (_freeBookingsCount >= 2) return false;
-    if (_freeBookingsCount == 1) {
-      final checkDate = _selectedDate ?? DateTime.now();
-      if (_latestFreeBookingDate != null) {
-        final diff = checkDate.difference(_latestFreeBookingDate!).inDays.abs();
-        if (diff < 30) return false;
-      }
-    }
+    if (_isCooldownActive) return false;
     return true;
   }
 
@@ -294,6 +299,36 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
   Widget build(BuildContext context) {
     final isEnrolled = context.watch<AuthProvider>().profile?.isCommunityCareEnrolled ?? false;
     final hasDiscount = _isDiscountEligible;
+    final isFree = _isSelectedSlotFree;
+    final isCooldown = _isCooldownActive;
+
+    bool isButtonEnabled = true;
+    String buttonText = '';
+
+    if (_isBooking) {
+      buttonText = 'Booking...';
+      isButtonEnabled = false;
+    } else if (_selectedTime == null) {
+      buttonText = 'Select Time Slot';
+      isButtonEnabled = false;
+    } else if (isFree) {
+      if (hasDiscount) {
+        buttonText = 'Book Free Consultation';
+      } else {
+        isButtonEnabled = false;
+        if (!isEnrolled) {
+          buttonText = 'Locked (Requires Enrollment)';
+        } else if (_freeBookingsCount >= 2) {
+          buttonText = 'Locked (Limit Reached)';
+        } else if (isCooldown) {
+          buttonText = 'Locked (30-day Cooldown)';
+        } else {
+          buttonText = 'Locked (Not Eligible)';
+        }
+      }
+    } else {
+      buttonText = 'Pay & Book - ₹${widget.doctor.consultationFee.toInt()}';
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -556,7 +591,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
             ),
             const SizedBox(height: 24),
 
-            if (isEnrolled && !hasDiscount && !_isLoadingBookingHistory && _freeBookingsCount > 0) ...[
+            if (isEnrolled && !_isLoadingBookingHistory && _freeBookingsCount > 0) ...[
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
@@ -573,9 +608,11 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                     Expanded(
                       child: Text(
                         _freeBookingsCount >= 2
-                            ? 'You have reached your limit of 2 free consultations under the Care Community Program. Standard fees apply.'
-                            : 'A 30-day cooldown is required between your 1st and 2nd free consultations. '
-                              'Next free booking available after ${_latestFreeBookingDate!.add(const Duration(days: 30)).day}/${_latestFreeBookingDate!.add(const Duration(days: 30)).month}/${_latestFreeBookingDate!.add(const Duration(days: 30)).year}.',
+                            ? 'You have reached your limit of 2 free consultations under the Care Community Program.'
+                            : isCooldown
+                                ? 'A 30-day cooldown is required between your 1st and 2nd free consultations. '
+                                  'Next free booking available after ${_latestFreeBookingDate!.add(const Duration(days: 30)).day}/${_latestFreeBookingDate!.add(const Duration(days: 30)).month}/${_latestFreeBookingDate!.add(const Duration(days: 30)).year}.'
+                                : 'You are booking your 2nd free consultation under the Care Community Program.',
                         style: TextStyle(fontSize: 12, color: Colors.amber.shade900, height: 1.3),
                       ),
                     ),
@@ -590,7 +627,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    if (hasDiscount) ...[
+                    if (isFree) ...[
                       _buildSummaryRow(
                         'Normal Consultation Fee', 
                         '₹${widget.doctor.consultationFee.toInt()}'
@@ -659,9 +696,9 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: _isBooking ? null : _startBooking,
+                onPressed: isButtonEnabled ? _startBooking : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemFlowColors.primary,
+                  backgroundColor: isButtonEnabled ? FemFlowColors.primary : Colors.grey.shade400,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -669,14 +706,12 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                 child: _isBooking
                     ? const CircularProgressIndicator(color: Colors.white)
                     : Text(
-                        hasDiscount 
-                            ? 'Book Free Consultation' 
-                            : 'Pay & Book - ₹${widget.doctor.consultationFee.toInt()}', 
+                        buttonText, 
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       ),
               ),
             ),
-            if (!hasDiscount) ...[
+            if (!isFree) ...[
               const SizedBox(height: 16),
               const Center(
                 child: Text(
