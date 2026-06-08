@@ -472,26 +472,44 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                                         decoration: BoxDecoration(
                                           color: isSelected
                                               ? FemFlowColors.primary.withValues(alpha: 0.2)
-                                              : isAvailable
-                                                  ? Colors.white
-                                                  : Colors.grey.shade100,
+                                              : isFree && isAvailable
+                                                  ? FemFlowColors.primary.withValues(alpha: 0.06)
+                                                  : isAvailable
+                                                      ? Colors.white
+                                                      : Colors.grey.shade100,
                                           border: Border.all(
                                             color: isSelected
                                                 ? FemFlowColors.primary
-                                                : isAvailable
-                                                    ? Colors.grey.shade300
-                                                    : Colors.grey.shade200,
+                                                : isFree && isAvailable
+                                                    ? FemFlowColors.primary.withValues(alpha: 0.4)
+                                                    : isAvailable
+                                                        ? Colors.grey.shade300
+                                                        : Colors.grey.shade200,
+                                            width: isFree && isAvailable ? 1.5 : 1.0,
                                           ),
                                           borderRadius: BorderRadius.circular(8),
                                         ),
                                         alignment: Alignment.center,
-                                        child: Text(
-                                          slotTime,
-                                          style: TextStyle(
-                                            color: isAvailable ? Colors.black87 : Colors.grey.shade400,
-                                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                            fontSize: 12,
-                                          ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            if (isFree && isAvailable) ...[
+                                              const Icon(
+                                                Icons.favorite,
+                                                color: FemFlowColors.primary,
+                                                size: 11,
+                                              ),
+                                              const SizedBox(width: 4),
+                                            ],
+                                            Text(
+                                              slotTime,
+                                              style: TextStyle(
+                                                color: isAvailable ? Colors.black87 : Colors.grey.shade400,
+                                                fontWeight: isSelected || isFree ? FontWeight.bold : FontWeight.normal,
+                                                fontSize: 11,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       if (isFree && isAvailable)
@@ -538,7 +556,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
             ),
             const SizedBox(height: 24),
 
-            if (isEnrolled && !hasDiscount && !_isLoadingBookingHistory) ...[
+            if (isEnrolled && !hasDiscount && !_isLoadingBookingHistory && _freeBookingsCount > 0) ...[
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),

@@ -97,6 +97,7 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
           backgroundColor: Colors.green,
         ),
       );
+      Navigator.pop(context);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
