@@ -1,3 +1,23 @@
+class InvitorInfo {
+  final String name;
+  final String mobileNo;
+  final String email;
+
+  InvitorInfo({
+    required this.name,
+    required this.mobileNo,
+    required this.email,
+  });
+
+  factory InvitorInfo.fromJson(Map<String, dynamic> json) {
+    return InvitorInfo(
+      name: json['name'] ?? '',
+      mobileNo: json['mobile_no'] ?? '',
+      email: json['email'] ?? '',
+    );
+  }
+}
+
 class ReferralProfile {
   final String referralCode;
   final String shareLink;
@@ -5,6 +25,7 @@ class ReferralProfile {
   final int successfulReferrals;
   final int rewardMonthsEarned;
   final DateTime? premiumUntil;
+  final InvitorInfo? invitor;
 
   ReferralProfile({
     required this.referralCode,
@@ -13,6 +34,7 @@ class ReferralProfile {
     required this.successfulReferrals,
     required this.rewardMonthsEarned,
     this.premiumUntil,
+    this.invitor,
   });
 
   factory ReferralProfile.fromJson(Map<String, dynamic> json) {
@@ -23,9 +45,11 @@ class ReferralProfile {
       successfulReferrals: json['successful_referrals'],
       rewardMonthsEarned: json['reward_months_earned'],
       premiumUntil: json['premium_until'] != null ? DateTime.parse(json['premium_until']) : null,
+      invitor: json['invitor'] != null ? InvitorInfo.fromJson(json['invitor']) : null,
     );
   }
 }
+
 
 class ReferralHistoryItem {
   final int id;

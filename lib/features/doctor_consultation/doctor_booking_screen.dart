@@ -591,105 +591,107 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
             ),
             const SizedBox(height: 24),
 
-            if (isEnrolled && !_isLoadingBookingHistory && _freeBookingsCount > 0) ...[
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  color: Colors.amber.shade50,
-                  border: Border.all(color: Colors.amber.shade300),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.info_outline, color: Colors.amber, size: 24),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        _freeBookingsCount >= 2
-                            ? 'You have reached your limit of 2 free consultations under the Care Community Program.'
-                            : isCooldown
-                                ? 'A 30-day cooldown is required between your 1st and 2nd free consultations. '
-                                  'Next free booking available after ${_latestFreeBookingDate!.add(const Duration(days: 30)).day}/${_latestFreeBookingDate!.add(const Duration(days: 30)).month}/${_latestFreeBookingDate!.add(const Duration(days: 30)).year}.'
-                                : 'You are booking your 2nd free consultation under the Care Community Program.',
-                        style: TextStyle(fontSize: 12, color: Colors.amber.shade900, height: 1.3),
+            if (_selectedDate != null && _selectedTime != null) ...[
+              if (isEnrolled && !_isLoadingBookingHistory && _freeBookingsCount > 0) ...[
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.amber.shade50,
+                    border: Border.all(color: Colors.amber.shade300),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.info_outline, color: Colors.amber, size: 24),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          _freeBookingsCount >= 2
+                              ? 'You have reached your limit of 2 free consultations under the Care Community Program.'
+                              : isCooldown
+                                  ? 'A 30-day cooldown is required between your 1st and 2nd free consultations. '
+                                    'Next free booking available after ${_latestFreeBookingDate!.add(const Duration(days: 30)).day}/${_latestFreeBookingDate!.add(const Duration(days: 30)).month}/${_latestFreeBookingDate!.add(const Duration(days: 30)).year}.'
+                                  : 'You are booking your 2nd free consultation under the Care Community Program.',
+                          style: TextStyle(fontSize: 12, color: Colors.amber.shade900, height: 1.3),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                ),
+              ],
+  
+              // Fee Summary
+              AppCard(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      if (isFree) ...[
+                        _buildSummaryRow(
+                          'Normal Consultation Fee', 
+                          '₹${widget.doctor.consultationFee.toInt()}'
+                        ),
+                        const SizedBox(height: 8),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Community Care Discount', style: TextStyle(color: Colors.grey)),
+                            Text('-100%', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        const Divider(),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Total (Care Community Program)', style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(
+                              '₹0', 
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green)
+                            ),
+                          ],
+                        ),
+                      ] else ...[
+                        _buildSummaryRow(
+                          'Net Consultation Fee', 
+                          '₹${(widget.doctor.consultationFee / 1.18).toStringAsFixed(2)}'
+                        ),
+                        const SizedBox(height: 8),
+                        _buildSummaryRow(
+                          'CGST (9%)', 
+                          '₹${((widget.doctor.consultationFee - (widget.doctor.consultationFee / 1.18)) / 2).toStringAsFixed(2)}'
+                        ),
+                        const SizedBox(height: 8),
+                        _buildSummaryRow(
+                          'SGST (9%)', 
+                          '₹${((widget.doctor.consultationFee - (widget.doctor.consultationFee / 1.18)) / 2).toStringAsFixed(2)}'
+                        ),
+                        const SizedBox(height: 8),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Platform Fee', style: TextStyle(color: Colors.grey)),
+                            Text('₹0', style: TextStyle(color: Colors.green)),
+                          ],
+                        ),
+                        const Divider(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Total (Inclusive of GST)', style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(
+                              '₹${widget.doctor.consultationFee.toInt()}', 
+                              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)
+                            ),
+                          ],
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
               ),
             ],
-
-            // Fee Summary
-            AppCard(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    if (isFree) ...[
-                      _buildSummaryRow(
-                        'Normal Consultation Fee', 
-                        '₹${widget.doctor.consultationFee.toInt()}'
-                      ),
-                      const SizedBox(height: 8),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Community Care Discount', style: TextStyle(color: Colors.grey)),
-                          Text('-100%', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      const Divider(),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Total (Care Community Program)', style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(
-                            '₹0', 
-                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green)
-                          ),
-                        ],
-                      ),
-                    ] else ...[
-                      _buildSummaryRow(
-                        'Net Consultation Fee', 
-                        '₹${(widget.doctor.consultationFee / 1.18).toStringAsFixed(2)}'
-                      ),
-                      const SizedBox(height: 8),
-                      _buildSummaryRow(
-                        'CGST (9%)', 
-                        '₹${((widget.doctor.consultationFee - (widget.doctor.consultationFee / 1.18)) / 2).toStringAsFixed(2)}'
-                      ),
-                      const SizedBox(height: 8),
-                      _buildSummaryRow(
-                        'SGST (9%)', 
-                        '₹${((widget.doctor.consultationFee - (widget.doctor.consultationFee / 1.18)) / 2).toStringAsFixed(2)}'
-                      ),
-                      const SizedBox(height: 8),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Platform Fee', style: TextStyle(color: Colors.grey)),
-                          Text('₹0', style: TextStyle(color: Colors.green)),
-                        ],
-                      ),
-                      const Divider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Total (Inclusive of GST)', style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(
-                            '₹${widget.doctor.consultationFee.toInt()}', 
-                            style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)
-                          ),
-                        ],
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ),
             const SizedBox(height: 32),
 
             // Pay Button

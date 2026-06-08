@@ -19,19 +19,6 @@ void callbackDispatcher() {
           debugPrint('Health Sync Task Failed: $e');
           return Future.value(false);
         }
-      case BackgroundSyncService.cloudSyncTask:
-        try {
-          // Note: This needs careful testing as it involves Google Sign-In silent auth
-          // and complex network calls in background.
-          // For now, we'll implement a simple trigger.
-          // In a real app, you'd use a dedicated non-UI service for this.
-          // final cloudSyncService = CloudSyncService(); 
-          // await cloudSyncService.performBackup();
-          return Future.value(true);
-        } catch (e) {
-          debugPrint('Cloud Sync Task Failed: $e');
-          return Future.value(false);
-        }
       default:
         return Future.value(true);
     }
@@ -42,8 +29,6 @@ class BackgroundSyncService {
   static const String healthSyncTask = "com.femflow.health_sync_task";
   static const String healthSyncUniqueName = "healthSyncJob";
   
-  static const String cloudSyncTask = "com.femflow.cloud_sync_task";
-  static const String cloudSyncUniqueName = "cloudSyncJob";
 
   Future<void> init() async {
     await Workmanager().initialize(
@@ -70,22 +55,4 @@ class BackgroundSyncService {
     await Workmanager().cancelByUniqueName(healthSyncUniqueName);
   }
 
-  Future<void> scheduleCloudSync() async {
-    debugPrint('Scheduling periodic cloud sync task...');
-    await Workmanager().registerPeriodicTask(
-      cloudSyncUniqueName,
-      cloudSyncTask,
-      frequency: const Duration(hours: 24),
-      constraints: Constraints(
-        networkType: NetworkType.connected,
-        requiresBatteryNotLow: true,
-      ),
-      existingWorkPolicy: ExistingPeriodicWorkPolicy.keep,
-    );
-  }
-
-  Future<void> cancelCloudSync() async {
-    debugPrint('Cancelling cloud sync task...');
-    await Workmanager().cancelByUniqueName(cloudSyncUniqueName);
-  }
 }

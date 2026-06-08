@@ -20,4 +20,10 @@ class DietService {
       'is_eaten': isEaten,
     });
   }
+
+  Future<void> updateHydrationTarget(int targetMl) async {
+    await _apiClient.post('/diet/plan/update-hydration-target/', body: {
+      'target_ml': targetMl,
+    });
+  }
 }

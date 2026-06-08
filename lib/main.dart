@@ -14,7 +14,6 @@ import 'package:femflow/core/services/notification_service.dart';
 import 'package:femflow/features/tips/providers/tips_provider.dart';
 import 'package:femflow/features/subscriptions/providers/subscription_provider.dart';
 import 'package:femflow/features/exercises/providers/exercise_provider.dart';
-import 'package:femflow/features/sync/cloud_sync_service.dart';
 import 'package:femflow/core/services/deep_link_service.dart';
 import 'package:femflow/core/services/background_sync_service.dart';
 import 'package:femflow/core/navigation/navigator_service.dart';
@@ -45,10 +44,6 @@ void main() async {
           update: (_, sub, auth) => auth!..updateSubscriptionProvider(sub),
         ),
         ChangeNotifierProvider(create: (_) => ExerciseProvider()),
-        ChangeNotifierProxyProvider<AppLockService, CloudSyncService>(
-          create: (_) => CloudSyncService(),
-          update: (_, appLock, sync) => sync!..setAppLock(appLock),
-        ),
       ],
       child: const MyApp(),
     ),

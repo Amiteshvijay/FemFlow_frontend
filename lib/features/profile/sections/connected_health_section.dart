@@ -40,8 +40,6 @@ class _ConnectedHealthSectionState extends State<ConnectedHealthSection> {
       children: [
         if (isAndroid) ...[
           _buildSyncItem('Android Health Connect', 'health_connect_sync', Icons.health_and_safety_outlined),
-          const SizedBox(height: 12),
-          _buildSyncItem('Google Fit', 'google_fit_sync', Icons.fitbit),
         ],
         if (isIOS) ...[
           _buildSyncItem('Apple Health', 'apple_health_sync', Icons.favorite_outline),

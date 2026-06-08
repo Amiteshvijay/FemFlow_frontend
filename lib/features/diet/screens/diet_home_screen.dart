@@ -8,9 +8,9 @@ import '../../exercises/screens/exercise_detail_screen.dart';
 import '../../activity/screens/calorie_burn_screen.dart';
 import '../custom_plan/create_custom_plan_screen.dart';
 import '../custom_plan/my_custom_plans_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../../core/services/notification_service.dart';
 import 'dart:developer' as dev;
+import '../data/nutrition_reminder_helper.dart';
+import 'nutrition_reminder_screen.dart';
 
 class DietHomeScreen extends StatefulWidget {
   const DietHomeScreen({super.key});
@@ -24,7 +24,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
   MealPlan? _plan;
   bool _isLoading = true;
   bool _remindersEnabled = false;
-  Map<String, TimeOfDay> _reminderTimes = {};
+  int _activeRemindersCount = 0;
 
   @override
   void initState() {
@@ -34,114 +34,33 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
   }
 
   Future<void> _loadReminders() async {
-    final prefs = await SharedPreferences.getInstance();
+    final enabled = await NutritionReminderHelper.areRemindersEnabled();
+    final list = await NutritionReminderHelper.loadReminders();
     setState(() {
-      _remindersEnabled = prefs.getBool('reminders_enabled') ?? false;
-      _reminderTimes = {
-        'breakfast': _parseTime(prefs.getString('reminder_breakfast_time') ?? '08:00'),
-        'water1': _parseTime(prefs.getString('reminder_water1_time') ?? '10:30'),
-        'lunch': _parseTime(prefs.getString('reminder_lunch_time') ?? '13:00'),
-        'water2': _parseTime(prefs.getString('reminder_water2_time') ?? '15:30'),
-        'snack': _parseTime(prefs.getString('reminder_snack_time') ?? '17:00'),
-        'dinner': _parseTime(prefs.getString('reminder_dinner_time') ?? '20:00'),
-        'water3': _parseTime(prefs.getString('reminder_water3_time') ?? '21:30'),
-      };
+      _remindersEnabled = enabled;
+      _activeRemindersCount = list.length;
     });
   }
 
-  TimeOfDay _parseTime(String timeStr) {
-    final parts = timeStr.split(':');
-    return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
-  }
-
-  String _formatTimeOfDay(TimeOfDay time) {
-    final hour = time.hour;
-    final minute = time.minute.toString().padLeft(2, '0');
-    final period = hour >= 12 ? 'PM' : 'AM';
-    final formattedHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
-    return '$formattedHour:$minute $period';
-  }
-
   Future<void> _toggleReminders(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('reminders_enabled', value);
+    await NutritionReminderHelper.setRemindersEnabled(value);
     setState(() {
       _remindersEnabled = value;
     });
 
+    final list = await NutritionReminderHelper.loadReminders();
     if (value) {
-      await _scheduleAllNotifications();
+      await NutritionReminderHelper.scheduleAll(list);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Daily alerts scheduled!')),
         );
       }
     } else {
-      await _cancelAllNotifications();
+      await NutritionReminderHelper.cancelAll(list);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Daily alerts disabled.')),
-        );
-      }
-    }
-  }
-
-  Future<void> _scheduleAllNotifications() async {
-    final notificationService = NotificationService();
-    await notificationService.requestPermissions();
-    await notificationService.requestExactAlarmPermission();
-
-    await _scheduleSingleNotification('breakfast', 101, 'Time for Breakfast!', 'Fuel your body with a professional, nourishing meal.', _reminderTimes['breakfast'] ?? const TimeOfDay(hour: 8, minute: 0));
-    await _scheduleSingleNotification('water1', 102, 'Hydration Check!', 'Drink a fresh glass of water to support metabolism.', _reminderTimes['water1'] ?? const TimeOfDay(hour: 10, minute: 30));
-    await _scheduleSingleNotification('lunch', 103, 'Time for Lunch!', 'Enjoy your custom balanced meal to support your goal.', _reminderTimes['lunch'] ?? const TimeOfDay(hour: 13, minute: 0));
-    await _scheduleSingleNotification('water2', 104, 'Hydration Check!', 'Keep going! Drink some water to stay energized.', _reminderTimes['water2'] ?? const TimeOfDay(hour: 15, minute: 30));
-    await _scheduleSingleNotification('snack', 105, 'Snack Alert!', 'Time for a light healthy snack to keep energy steady.', _reminderTimes['snack'] ?? const TimeOfDay(hour: 17, minute: 0));
-    await _scheduleSingleNotification('dinner', 106, 'Time for Dinner!', 'Wrap up your day with a light, protein-rich dinner.', _reminderTimes['dinner'] ?? const TimeOfDay(hour: 20, minute: 0));
-    await _scheduleSingleNotification('water3', 107, 'Hydration Check!', 'A glass of water before bed to support muscle recovery.', _reminderTimes['water3'] ?? const TimeOfDay(hour: 21, minute: 30));
-  }
-
-  Future<void> _scheduleSingleNotification(String key, int id, String title, String body, TimeOfDay time) async {
-    final now = DateTime.now();
-    final scheduledDate = DateTime(now.year, now.month, now.day, time.hour, time.minute);
-    
-    final notificationService = NotificationService();
-    await notificationService.cancelNotification(id);
-    
-    await notificationService.scheduleNotification(
-      id: id,
-      title: title,
-      body: body,
-      scheduledDate: scheduledDate,
-      repeatDaily: true,
-      payload: 'diet:$key',
-    );
-  }
-
-  Future<void> _cancelAllNotifications() async {
-    final notificationService = NotificationService();
-    await notificationService.cancelNotification(101);
-    await notificationService.cancelNotification(102);
-    await notificationService.cancelNotification(103);
-    await notificationService.cancelNotification(104);
-    await notificationService.cancelNotification(105);
-    await notificationService.cancelNotification(106);
-    await notificationService.cancelNotification(107);
-  }
-
-  Future<void> _updateReminderTime(String key, int id, String title, String body, TimeOfDay newTime) async {
-    final prefs = await SharedPreferences.getInstance();
-    final timeStr = '${newTime.hour.toString().padLeft(2, '0')}:${newTime.minute.toString().padLeft(2, '0')}';
-    await prefs.setString('reminder_${key}_time', timeStr);
-    
-    setState(() {
-      _reminderTimes[key] = newTime;
-    });
-
-    if (_remindersEnabled) {
-      await _scheduleSingleNotification(key, id, title, body, newTime);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Rescheduled alert for ${_formatTimeOfDay(newTime)}')),
         );
       }
     }
@@ -208,17 +127,13 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
   }
 
   Widget _buildRemindersCard() {
-    final List<Map<String, dynamic>> items = [
-      {'key': 'breakfast', 'id': 101, 'label': 'Breakfast Alert', 'icon': Icons.wb_sunny_outlined, 'title': 'Time for Breakfast!', 'body': 'Fuel your body with a professional, nourishing meal.'},
-      {'key': 'water1', 'id': 102, 'label': 'Water Alert 1', 'icon': Icons.opacity, 'title': 'Hydration Check!', 'body': 'Drink a fresh glass of water to support metabolism.'},
-      {'key': 'lunch', 'id': 103, 'label': 'Lunch Alert', 'icon': Icons.light_mode, 'title': 'Time for Lunch!', 'body': 'Enjoy your custom balanced meal to support your goal.'},
-      {'key': 'water2', 'id': 104, 'label': 'Water Alert 2', 'icon': Icons.opacity, 'title': 'Hydration Check!', 'body': 'Keep going! Drink some water to stay energized.'},
-      {'key': 'snack', 'id': 105, 'label': 'Snack Alert', 'icon': Icons.apple, 'title': 'Snack Alert!', 'body': 'Time for a light healthy snack to keep energy steady.'},
-      {'key': 'dinner', 'id': 106, 'label': 'Dinner Alert', 'icon': Icons.dark_mode_outlined, 'title': 'Time for Dinner!', 'body': 'Wrap up your day with a light, protein-rich dinner.'},
-      {'key': 'water3', 'id': 107, 'label': 'Water Alert 3', 'icon': Icons.opacity, 'title': 'Hydration Check!', 'body': 'A glass of water before bed to support muscle recovery.'},
-    ];
-
     return AppCard(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const NutritionReminderScreen()),
+        ).then((_) => _loadReminders());
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -244,81 +159,21 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Keep your nutrition and water consistent with offline-resilient alerts.',
-            style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary, height: 1.4),
+          Text(
+            _remindersEnabled
+                ? 'Active: $_activeRemindersCount alert${_activeRemindersCount == 1 ? "" : "s"} scheduled. Tap to customize.'
+                : 'Keep your nutrition consistent with offline-resilient alerts. Tap to configure.',
+            style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary, height: 1.4),
           ),
-          if (_remindersEnabled) ...[
-            const Divider(height: 24),
-            const Text(
-              'Customize Timeline',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary),
-            ),
-            const SizedBox(height: 8),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final item = items[index];
-                final key = item['key'] as String;
-                final time = _reminderTimes[key] ?? const TimeOfDay(hour: 8, minute: 0);
-
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(item['icon'] as IconData, size: 16, color: FemFlowColors.primary.withValues(alpha: 0.6)),
-                          const SizedBox(width: 8),
-                          Text(
-                            item['label'] as String,
-                            style: const TextStyle(fontSize: 13, color: FemFlowColors.textPrimary, fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          final newTime = await showTimePicker(
-                            context: context,
-                            initialTime: time,
-                          );
-                          if (newTime != null) {
-                            await _updateReminderTime(
-                              key,
-                              item['id'] as int,
-                              item['title'] as String,
-                              item['body'] as String,
-                              newTime,
-                            );
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: FemFlowColors.primary.withValues(alpha: 0.08),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                _formatTimeOfDay(time),
-                                style: const TextStyle(color: FemFlowColors.primary, fontSize: 12, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(width: 4),
-                              const Icon(Icons.edit, size: 12, color: FemFlowColors.primary),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ],
+          const SizedBox(height: 12),
+          const Row(
+            children: [
+              Text(
+                'Configure Alerts >',
+                style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 13),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -513,6 +368,228 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
     );
   }
 
+  Future<void> _showHydrationCalculator() async {
+    double selectedWeight = 60.0;
+    int selectedAge = 28;
+    bool isPregnant = false;
+    double pregnancyWeek = 12;
+    bool summerHeat = false;
+    bool vomiting = false;
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            double baseline = selectedWeight * 35;
+            if (baseline < 2000) baseline = 2000;
+            if (baseline > 2700) baseline = 2700;
+
+            double calculated = baseline;
+            if (isPregnant) {
+              calculated += 300;
+              if (pregnancyWeek > 28) {
+                calculated += 200;
+              }
+            }
+            if (summerHeat) {
+              calculated += 800;
+            }
+            if (vomiting) {
+              calculated += 500;
+            }
+            if (selectedAge > 55) {
+              calculated -= 200;
+            }
+
+            if (calculated > 4000) calculated = 4000;
+            if (calculated < 2000) calculated = 2000;
+
+            final targetMl = calculated.round();
+
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              title: const Text(
+                'Hydration Calculator',
+                style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Calculate your daily fluid intake targets based on personal health metrics.',
+                      style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Weight: ${selectedWeight.round()} kg', style: const TextStyle(fontWeight: FontWeight.w500)),
+                        SizedBox(
+                          width: 150,
+                          child: Slider(
+                            value: selectedWeight,
+                            min: 35.0,
+                            max: 120.0,
+                            activeColor: FemFlowColors.primary,
+                            onChanged: (val) {
+                              setDialogState(() => selectedWeight = val);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Age: $selectedAge years', style: const TextStyle(fontWeight: FontWeight.w500)),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.remove_circle_outline, color: FemFlowColors.primary),
+                              onPressed: () {
+                                if (selectedAge > 10) {
+                                  setDialogState(() => selectedAge--);
+                                }
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.add_circle_outline, color: FemFlowColors.primary),
+                              onPressed: () {
+                                if (selectedAge < 100) {
+                                  setDialogState(() => selectedAge++);
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                    SwitchListTile(
+                      title: const Text('Are you pregnant?', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                      value: isPregnant,
+                      activeThumbColor: FemFlowColors.primary,
+                      activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: (val) {
+                        setDialogState(() => isPregnant = val);
+                      },
+                    ),
+                    if (isPregnant) ...[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12, bottom: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Week of pregnancy: ${pregnancyWeek.round()}', style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary)),
+                            SizedBox(
+                              width: 120,
+                              child: Slider(
+                                value: pregnancyWeek,
+                                min: 1.0,
+                                max: 42.0,
+                                activeColor: FemFlowColors.primary,
+                                onChanged: (val) {
+                                  setDialogState(() => pregnancyWeek = val);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                    SwitchListTile(
+                      title: const Text('Summer heat / heavy exercise?', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                      value: summerHeat,
+                      activeThumbColor: FemFlowColors.primary,
+                      activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: (val) {
+                        setDialogState(() => summerHeat = val);
+                      },
+                    ),
+                    SwitchListTile(
+                      title: const Text('Experiencing vomiting/morning sickness?', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                      value: vomiting,
+                      activeThumbColor: FemFlowColors.primary,
+                      activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: (val) {
+                        setDialogState(() => vomiting = val);
+                      },
+                    ),
+                    const Divider(height: 24),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: FemFlowColors.primary.withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'RECOMMENDED DAILY TARGET',
+                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemFlowColors.primary, letterSpacing: 0.5),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '$targetMl ml (${(targetMl / 1000).toStringAsFixed(1)} Liters)',
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+                          ),
+                          const SizedBox(height: 8),
+                          const Row(
+                            children: [
+                              Icon(Icons.info_outline_rounded, size: 14, color: FemFlowColors.textSecondary),
+                              SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  'Safe drinking rate: Kidneys process about 0.8–1.0L per hour safely.',
+                                  style: TextStyle(fontSize: 11, color: FemFlowColors.textSecondary, height: 1.3),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel', style: TextStyle(color: FemFlowColors.textSecondary)),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    final messenger = ScaffoldMessenger.of(context);
+                    Navigator.pop(context);
+                    setState(() => _isLoading = true);
+                    try {
+                      await _dietService.updateHydrationTarget(targetMl);
+                      await _fetchData();
+                    } catch (e) {
+                      if (mounted) {
+                        messenger.showSnackBar(
+                          SnackBar(content: Text('Failed to update target: $e')),
+                        );
+                      }
+                    }
+                  },
+                  child: const Text('Apply Target', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   Widget _buildHydrationCard() {
     final stats = _plan?.hydration;
     final consumed = stats?.consumedMl ?? 0;
@@ -525,7 +602,20 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Hydration', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              Row(
+                children: [
+                  const Text('Hydration', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: _showHydrationCalculator,
+                    child: const Icon(
+                      Icons.edit_note_rounded,
+                      color: FemFlowColors.primary,
+                      size: 20,
+                    ),
+                  ),
+                ],
+              ),
               Text('$consumed / $target ml', style: const TextStyle(color: FemFlowColors.textSecondary)),
             ],
           ),

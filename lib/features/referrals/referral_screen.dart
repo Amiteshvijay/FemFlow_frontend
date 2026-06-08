@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/primary_button.dart';
+import '../../shared/widgets/app_card.dart';
 import 'data/referral_service.dart';
 import 'models/referral_models.dart';
 import 'widgets/referral_code_card.dart';
 import 'widgets/referral_stats_card.dart';
 import 'widgets/referral_history_card.dart';
+import 'referral_history_screen.dart';
 
 class ReferralScreen extends StatefulWidget {
   const ReferralScreen({super.key});
@@ -122,9 +124,41 @@ class _ReferralScreenState extends State<ReferralScreen> {
                           onPressed: _shareInvite,
                         ),
                         const SizedBox(height: 32),
+                        if (_profile!.invitor != null) ...[
+                          _buildInvitorCard(_profile!.invitor!),
+                          const SizedBox(height: 32),
+                        ],
                         ReferralStatsCard(profile: _profile!),
                         const SizedBox(height: 8),
-                        ReferralHistoryCard(history: _history),
+                        ReferralHistoryCard(history: _history.take(3).toList()),
+                        if (_history.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ReferralHistoryScreen(),
+                                ),
+                              ).then((_) => _fetchData());
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'View All Referral History',
+                                  style: TextStyle(
+                                    color: FemFlowColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                SizedBox(width: 4),
+                                Icon(Icons.arrow_forward_ios_rounded, size: 12, color: FemFlowColors.primary),
+                              ],
+                            ),
+                          ),
+                        ],
                         const SizedBox(height: 40),
                         _buildHowItWorks(),
                         const SizedBox(height: 40),
@@ -183,6 +217,86 @@ class _ReferralScreenState extends State<ReferralScreen> {
           TextButton(onPressed: _fetchData, child: const Text('Retry')),
         ],
       ),
+    );
+  }
+
+  Widget _buildInvitorCard(InvitorInfo invitor) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          child: Text(
+            'Invited By',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: FemFlowColors.textPrimary,
+            ),
+          ),
+        ),
+        AppCard(
+          color: FemFlowColors.softBlush,
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: FemFlowColors.primary.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.favorite_rounded, color: FemFlowColors.primary, size: 24),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      invitor.name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: FemFlowColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    if (invitor.mobileNo.isNotEmpty) ...[
+                      Row(
+                        children: [
+                          const Icon(Icons.phone_rounded, size: 14, color: FemFlowColors.textSecondary),
+                          const SizedBox(width: 8),
+                          Text(
+                            invitor.mobileNo,
+                            style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                    ],
+                    if (invitor.email.isNotEmpty)
+                      Row(
+                        children: [
+                          const Icon(Icons.email_rounded, size: 14, color: FemFlowColors.textSecondary),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              invitor.email,
+                              style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

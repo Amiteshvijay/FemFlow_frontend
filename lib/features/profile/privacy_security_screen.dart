@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../core/security/app_lock_service.dart';
@@ -9,8 +8,6 @@ import '../app_lock/screens/create_pin_screen.dart';
 import '../app_lock/screens/forgot_pin_otp_screen.dart';
 import 'delete_account_verify_screen.dart';
 import 'data_export_screen.dart';
-import '../sync/secure_cloud_sync_screen.dart';
-import '../sync/cloud_sync_service.dart';
 import 'data/profile_service.dart';
 
 class PrivacySecurityScreen extends StatefulWidget {
@@ -31,11 +28,6 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
   void initState() {
     super.initState();
     _fetchProfile();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        context.read<CloudSyncService>().fetchStatus();
-      }
-    });
   }
 
   Future<void> _fetchProfile() async {
@@ -329,37 +321,7 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
       padding: EdgeInsets.zero,
       child: Column(
         children: [
-          Consumer<CloudSyncService>(
-            builder: (context, syncService, _) {
-              final isEnabled = syncService.status?.enabled ?? false;
-              final status = syncService.status;
-              
-              String subtitleText;
-              if (isEnabled) {
-                final email = status?.googleAccountEmail ?? 'Google Account';
-                final lastSync = status?.lastSyncAt;
-                final formattedDate = lastSync != null 
-                    ? DateFormat('MMM d, h:mm a').format(lastSync.toLocal())
-                    : 'Never';
-                subtitleText = 'Enabled • $email\nLast synced: $formattedDate';
-              } else {
-                subtitleText = 'Keep data synced across your devices';
-              }
 
-              return _buildClickableItem(
-                icon: Icons.cloud_sync_outlined,
-                title: 'Secure Cloud Sync',
-                subtitle: subtitleText,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const SecureCloudSyncScreen()),
-                  );
-                },
-              );
-            },
-          ),
-          const Divider(height: 1, indent: 56),
           _buildClickableItem(
             icon: Icons.download_for_offline_outlined,
             title: 'Export My Health Report',
