@@ -53,14 +53,14 @@ class DeepLinkService {
       }
     }
 
-    // Partner Invite Pattern: 
-    // - femflow://partner/accept?token=TOKEN&email=EMAIL
-    // - https://femflow.in/partner/accept?token=TOKEN&email=EMAIL
-    // - https://femflow.app/partner/accept?token=TOKEN&email=EMAIL
-    final isCustomSchemePartner = uri.scheme == 'femflow' && uri.host == 'partner' && uri.path == '/accept';
+    final path = uri.path;
+    final isPartnerPath = path == '/partner/accept' || path == '/partner/accept/';
+    final isCustomPartnerPath = path == '/accept' || path == '/accept/';
+
+    final isCustomSchemePartner = uri.scheme == 'femflow' && uri.host == 'partner' && isCustomPartnerPath;
     final isWebSchemePartner = (uri.scheme == 'https' || uri.scheme == 'http') &&
         (uri.host == 'femflow.in' || uri.host == 'femflow.app') &&
-        uri.path == '/partner/accept';
+        isPartnerPath;
 
     if (isCustomSchemePartner || isWebSchemePartner) {
       final token = uri.queryParameters['token'];
@@ -69,15 +69,26 @@ class DeepLinkService {
 
       if (token != null && email != null) {
         debugPrint('Navigating to AcceptInviteScreen with token: $token, code: $code');
-        NavigatorService.navigatorKey.currentState?.push(
-          MaterialPageRoute(
-            builder: (_) => AcceptInviteScreen(
-              token: token,
-              email: email,
-              pairingCode: code,
-            ),
-          ),
-        );
+        
+        void performPush() {
+          final state = NavigatorService.navigatorKey.currentState;
+          if (state != null) {
+            state.push(
+              MaterialPageRoute(
+                builder: (_) => AcceptInviteScreen(
+                  token: token,
+                  email: email,
+                  pairingCode: code,
+                ),
+              ),
+            );
+          } else {
+            debugPrint('Navigator state not ready yet. Retrying deep link navigation in 200ms...');
+            Future.delayed(const Duration(milliseconds: 200), performPush);
+          }
+        }
+        
+        performPush();
       }
     }
   }
