@@ -27,13 +27,6 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // GST Calculations (18% inclusive)
-    final total = widget.invoice.totalAmount;
-    final netAmount = total / 1.18;
-    final taxAmount = total - netAmount;
-    final cgst = taxAmount / 2;
-    final sgst = taxAmount / 2;
-
     return Scaffold(
       backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
@@ -67,7 +60,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             const SizedBox(height: 24),
             _buildBillingSection(context),
             const SizedBox(height: 24),
-            _buildSummarySection(netAmount, cgst, sgst),
+            _buildSummarySection(),
             const SizedBox(height: 32),
             _buildActionButtons(context),
             const SizedBox(height: 48),
@@ -127,7 +120,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
     );
   }
 
-  Widget _buildSummarySection(double net, double cgst, double sgst) {
+  Widget _buildSummarySection() {
     final currencyFormat = NumberFormat.currency(symbol: '₹', decimalDigits: 2);
     
     return AppCard(
@@ -137,9 +130,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
         children: [
           const Text('Billing Summary', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           const Divider(height: 24),
-          _buildSummaryRow('Subtotal', currencyFormat.format(net)),
-          _buildSummaryRow('CGST (9%)', currencyFormat.format(cgst)),
-          _buildSummaryRow('SGST (9%)', currencyFormat.format(sgst)),
+          _buildSummaryRow('Subscription Fee', currencyFormat.format(widget.invoice.totalAmount)),
           const Divider(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

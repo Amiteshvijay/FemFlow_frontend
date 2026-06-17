@@ -654,18 +654,8 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                         ),
                       ] else ...[
                         _buildSummaryRow(
-                          'Net Consultation Fee', 
-                          '₹${(widget.doctor.consultationFee / 1.18).toStringAsFixed(2)}'
-                        ),
-                        const SizedBox(height: 8),
-                        _buildSummaryRow(
-                          'CGST (9%)', 
-                          '₹${((widget.doctor.consultationFee - (widget.doctor.consultationFee / 1.18)) / 2).toStringAsFixed(2)}'
-                        ),
-                        const SizedBox(height: 8),
-                        _buildSummaryRow(
-                          'SGST (9%)', 
-                          '₹${((widget.doctor.consultationFee - (widget.doctor.consultationFee / 1.18)) / 2).toStringAsFixed(2)}'
+                          'Consultation Fee', 
+                          '₹${widget.doctor.consultationFee.toInt()}'
                         ),
                         const SizedBox(height: 8),
                         const Row(
@@ -679,7 +669,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Total (Inclusive of GST)', style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
                               '₹${widget.doctor.consultationFee.toInt()}', 
                               style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)

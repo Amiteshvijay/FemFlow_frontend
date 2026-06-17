@@ -199,12 +199,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     final invoice = _booking!.invoice!;
     final doctor = _booking!.doctorName;
     
-    // GST Calculations (18% inclusive)
     final total = invoice.amount;
-    final netAmount = total / 1.18;
-    final taxTotal = total - netAmount;
-    final cgst = taxTotal / 2;
-    final sgst = taxTotal / 2;
     
     return Container(
       decoration: BoxDecoration(
@@ -279,15 +274,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 
                 const Text('SERVICE DETAILS', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
                 const SizedBox(height: 8),
-                _buildServiceRow('Consultation with $doctor', '1 x Consultation', '₹${netAmount.toStringAsFixed(2)}'),
+                _buildServiceRow('Consultation with $doctor', '1 x Consultation', '₹${total.toStringAsFixed(2)}'),
                 const Divider(height: 32),
                 
-                // Summary with GST Breakdown
-                _buildSummaryRow('Subtotal', '₹${netAmount.toStringAsFixed(2)}'),
-                const SizedBox(height: 8),
-                _buildSummaryRow('CGST (9%)', '₹${cgst.toStringAsFixed(2)}'),
-                const SizedBox(height: 8),
-                _buildSummaryRow('SGST (9%)', '₹${sgst.toStringAsFixed(2)}'),
+                // Summary
+                _buildSummaryRow('Consultation Fee', '₹${total.toStringAsFixed(2)}'),
                 const Divider(height: 32),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
