@@ -601,21 +601,6 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
           ],
         ),
         centerTitle: true,
-        actions: [
-          if (_sessionId != null)
-            IconButton(
-              icon: const Icon(Icons.delete_outline, color: FemFlowColors.primary),
-              tooltip: 'Delete Chat Session',
-              onPressed: () {
-                final session = _sessions.firstWhere(
-                  (s) => s['id'] == _sessionId,
-                  orElse: () => null,
-                );
-                final topic = session != null ? (session['topic'] as String? ?? 'this session') : 'this session';
-                _confirmDeleteSession(_sessionId!, topic);
-              },
-            ),
-        ],
       ),
       body: Column(
         children: [
@@ -1186,5 +1171,4 @@ _AgentActionInfo _getAgentActionInfo(String toolName) {
         color: FemFlowColors.primary,
       );
   }
-}
 }
