@@ -1,16 +1,20 @@
 import '../../../core/network/api_client.dart';
 
 class ChatMessageModel {
+  final int? id;
   final String content;
   final String role;
   final DateTime timestamp;
   bool isLiked;
+  final List<String>? toolsUsed;
 
   ChatMessageModel({
+    this.id,
     required this.content,
     required this.role,
     required this.timestamp,
     this.isLiked = false,
+    this.toolsUsed,
   });
 
   bool get isUser => role == 'user';
@@ -23,6 +27,14 @@ class ChatService {
     return await _apiClient.post('/chat/message/', body: {
       'content': content,
       'session_id': sessionId,
+      'day_context': dayContext,
+    }..removeWhere((key, value) => value == null));
+  }
+
+  Future<Map<String, dynamic>> editMessage(int messageId, String content, {Map<String, dynamic>? dayContext}) async {
+    return await _apiClient.put('/chat/message/', body: {
+      'message_id': messageId,
+      'content': content,
       'day_context': dayContext,
     }..removeWhere((key, value) => value == null));
   }

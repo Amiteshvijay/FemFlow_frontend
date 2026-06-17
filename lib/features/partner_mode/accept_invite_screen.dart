@@ -9,11 +9,13 @@ import 'data/partner_service.dart';
 class AcceptInviteScreen extends StatefulWidget {
   final String token;
   final String email;
+  final String? pairingCode;
 
   const AcceptInviteScreen({
     super.key,
     required this.token,
     required this.email,
+    this.pairingCode,
   });
 
   @override
@@ -21,15 +23,38 @@ class AcceptInviteScreen extends StatefulWidget {
 }
 
 class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
+  late final TextEditingController _pairingCodeController;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
   final PartnerService _partnerService = PartnerService();
   bool _isLoading = false;
   bool _obscurePassword = true;
 
+  @override
+  void initState() {
+    super.initState();
+    _pairingCodeController = TextEditingController(text: widget.pairingCode);
+  }
+
+  @override
+  void dispose() {
+    _pairingCodeController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   Future<void> _acceptInvite() async {
+    final pairingCode = _pairingCodeController.text.trim();
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
+
+    if (pairingCode.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter your pairing code')),
+      );
+      return;
+    }
 
     if (password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -57,6 +82,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
     try {
       final response = await _partnerService.acceptInvite(
         token: widget.token,
+        pairingCode: pairingCode,
         password: password,
       );
 
@@ -107,7 +133,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
             ),
             const SizedBox(height: 12),
             Text(
-              'You have been invited to support your partner on FemFlow. Create a password to set up your account.',
+              'You have been invited to support your partner on FemFlow. Enter your pairing code and create a password to set up your account.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
             ),
@@ -117,6 +143,16 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),
+            TextField(
+              controller: _pairingCodeController,
+              decoration: const InputDecoration(
+                labelText: 'Pairing Code',
+                border: OutlineInputBorder(),
+                hintText: 'Enter 6-digit pairing code',
+              ),
+              textCapitalization: TextCapitalization.characters,
+            ),
+            const SizedBox(height: 16),
             TextField(
               controller: _passwordController,
               obscureText: _obscurePassword,

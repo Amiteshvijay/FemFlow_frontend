@@ -65,12 +65,17 @@ class DeepLinkService {
     if (isCustomSchemePartner || isWebSchemePartner) {
       final token = uri.queryParameters['token'];
       final email = uri.queryParameters['email'];
+      final code = uri.queryParameters['code'];
 
       if (token != null && email != null) {
-        debugPrint('Navigating to AcceptInviteScreen with token: $token');
+        debugPrint('Navigating to AcceptInviteScreen with token: $token, code: $code');
         NavigatorService.navigatorKey.currentState?.push(
           MaterialPageRoute(
-            builder: (_) => AcceptInviteScreen(token: token, email: email),
+            builder: (_) => AcceptInviteScreen(
+              token: token,
+              email: email,
+              pairingCode: code,
+            ),
           ),
         );
       }

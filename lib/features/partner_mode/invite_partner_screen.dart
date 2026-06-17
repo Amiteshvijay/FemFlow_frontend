@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
@@ -53,17 +54,90 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await _partnerService.sendPartnerInvite(
+      final response = await _partnerService.sendPartnerInvite(
         partnerEmail: email,
         partnerName: name,
         permissions: _permissions,
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invite sent successfully!'), behavior: SnackBarBehavior.floating),
+        setState(() => _isLoading = false);
+        final String code = response['pairing_code'] ?? '';
+        final String acceptUrl = response['accept_url'] ?? '';
+
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              title: const Text('Invitation Sent!', style: TextStyle(fontWeight: FontWeight.bold)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text('Your partner has been invited via email. You can also share the pairing code and link directly:'),
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: FemFlowColors.warmWhite,
+                      border: Border.all(color: FemFlowColors.primary.withOpacity(0.3)),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        const Text('Pairing Code', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+                        const SizedBox(height: 4),
+                        Text(
+                          code,
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: FemFlowColors.primary,
+                            letterSpacing: 2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text('Acceptance Link', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+                  const SizedBox(height: 4),
+                  Text(
+                    acceptUrl,
+                    style: const TextStyle(fontSize: 12, color: Colors.blue, decoration: TextDecoration.underline),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close dialog
+                    Navigator.pop(context, true); // Return to previous screen with success
+                  },
+                  child: const Text('Close'),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Share.share(
+                      'Join my FemFlow Partner Mode using pairing code: $code and accept link: $acceptUrl',
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: FemFlowColors.primary,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  ),
+                  icon: const Icon(Icons.share, size: 16),
+                  label: const Text('Share'),
+                ),
+              ],
+            );
+          },
         );
-        Navigator.pop(context, true); // Return true to indicate success
       }
     } catch (e) {
       if (mounted) {

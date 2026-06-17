@@ -75,10 +75,17 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
           if (messages != null && messages.isNotEmpty) {
             _messages.clear();
             for (var msg in messages) {
+              final metadata = msg['metadata'];
+              List<String>? parsedTools;
+              if (metadata is Map && metadata['tools_used'] is List) {
+                parsedTools = (metadata['tools_used'] as List).map((e) => e.toString()).toList();
+              }
               _messages.add(ChatMessageModel(
+                id: msg['id'],
                 content: msg['content'],
                 role: msg['role'],
                 timestamp: DateTime.parse(msg['created_at']),
+                toolsUsed: parsedTools,
               ));
             }
           } else {
@@ -420,10 +427,18 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
     try {
       await _speech.initialize(
         onError: (val) {
-          // Log error internally or show snackbar if critical
+          if (mounted) {
+            setState(() => _isListening = false);
+          }
         },
-        onStatus: (val) {
-          // Track status internally
+        onStatus: (status) {
+          if (mounted) {
+            if (status == 'done' || status == 'notListening') {
+              setState(() => _isListening = false);
+            } else if (status == 'listening') {
+              setState(() => _isListening = true);
+            }
+          }
         },
       );
     } catch (e) {
@@ -441,6 +456,11 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
             setState(() {
               _messageController.text = val.recognizedWords;
             });
+            if (val.finalResult) {
+              setState(() => _isListening = false);
+              _speech.stop();
+              _handleSendMessage();
+            }
           },
         );
       }
@@ -504,10 +524,28 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
       if (mounted) {
         setState(() {
           _sessionId = response['session_id'];
+          final toolsVal = response['tools_used'];
+          List<String>? parsedTools;
+          if (toolsVal is List) {
+            parsedTools = toolsVal.map((e) => e.toString()).toList();
+          }
+
+          final lastUserIndex = _messages.lastIndexWhere((m) => m.isUser);
+          if (lastUserIndex != -1) {
+            _messages[lastUserIndex] = ChatMessageModel(
+              id: response['user_message_id'],
+              content: _messages[lastUserIndex].content,
+              role: _messages[lastUserIndex].role,
+              timestamp: _messages[lastUserIndex].timestamp,
+            );
+          }
+
           _messages.add(ChatMessageModel(
+            id: response['ai_message_id'],
             content: response['response'],
             role: 'assistant',
             timestamp: DateTime.now(),
+            toolsUsed: parsedTools,
           ));
           _isTyping = false;
         });
@@ -563,6 +601,21 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
           ],
         ),
         centerTitle: true,
+        actions: [
+          if (_sessionId != null)
+            IconButton(
+              icon: const Icon(Icons.delete_outline, color: FemFlowColors.primary),
+              tooltip: 'Delete Chat Session',
+              onPressed: () {
+                final session = _sessions.firstWhere(
+                  (s) => s['id'] == _sessionId,
+                  orElse: () => null,
+                );
+                final topic = session != null ? (session['topic'] as String? ?? 'this session') : 'this session';
+                _confirmDeleteSession(_sessionId!, topic);
+              },
+            ),
+        ],
       ),
       body: Column(
         children: [
@@ -584,7 +637,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: message.isUser
-                          ? _buildUserChatBubble(message.content, DateFormat('hh:mm a').format(message.timestamp))
+                          ? _buildUserChatBubble(index, message, DateFormat('hh:mm a').format(message.timestamp))
                           : _buildAIChatBubble(index, message, DateFormat('hh:mm a').format(message.timestamp)),
                     );
                   },
@@ -647,9 +700,90 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
               ),
               border: Border.all(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
             ),
-            child: Text(
-              message.content,
-              style: const TextStyle(color: FemFlowColors.textPrimary, height: 1.4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  message.content,
+                  style: const TextStyle(color: FemFlowColors.textPrimary, height: 1.4),
+                ),
+                if (message.toolsUsed != null && message.toolsUsed!.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  const Divider(color: FemFlowColors.border, height: 1),
+                  const SizedBox(height: 8),
+                  const Row(
+                    children: [
+                      Icon(Icons.auto_awesome, size: 14, color: FemFlowColors.primary),
+                      SizedBox(width: 6),
+                      Text(
+                        'FemAI Agent Executed Tasks:',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: FemFlowColors.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ...message.toolsUsed!.map((tool) {
+                    final info = _getAgentActionInfo(tool);
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 6),
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: info.color.withOpacity(0.2)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.02),
+                            blurRadius: 4,
+                            offset: const Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: info.color.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(info.icon, size: 14, color: info.color),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  info.title,
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    color: info.color,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  info.description,
+                                  style: const TextStyle(
+                                    fontSize: 9,
+                                    color: FemFlowColors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                ],
+              ],
             ),
           ),
           const SizedBox(height: 4),
@@ -686,7 +820,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
     );
   }
 
-  Widget _buildUserChatBubble(String message, String time) {
+  Widget _buildUserChatBubble(int index, ChatMessageModel message, String time) {
     return Align(
       alignment: Alignment.centerRight,
       child: Column(
@@ -704,18 +838,139 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
               ),
             ),
             child: Text(
-              message,
+              message.content,
               style: const TextStyle(color: Colors.white, height: 1.4),
             ),
           ),
           const SizedBox(height: 4),
-          Text(
-            time,
-            style: TextStyle(fontSize: 10, color: FemFlowColors.textMuted),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (message.id != null) ...[
+                GestureDetector(
+                  onTap: () => _editUserPrompt(index, message),
+                  child: const Icon(
+                    Icons.edit_outlined,
+                    size: 14,
+                    color: FemFlowColors.textMuted,
+                  ),
+                ),
+                const SizedBox(width: 8),
+              ],
+              Text(
+                time,
+                style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted),
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _editUserPrompt(int index, ChatMessageModel message) async {
+    final TextEditingController editController = TextEditingController(text: message.content);
+    
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: FemFlowColors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Text(
+            'Edit Prompt',
+            style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+          ),
+          content: TextField(
+            controller: editController,
+            maxLines: 4,
+            decoration: InputDecoration(
+              hintText: 'Edit your message...',
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel', style: TextStyle(color: FemFlowColors.textSecondary)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: FemFlowColors.primary,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                final newText = editController.text.trim();
+                if (newText.isNotEmpty && newText != message.content) {
+                  _submitEditedPrompt(index, message.id!, newText);
+                }
+              },
+              child: const Text('Save', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _submitEditedPrompt(int index, int messageId, String newContent) async {
+    setState(() {
+      if (index + 1 < _messages.length) {
+        _messages.removeRange(index + 1, _messages.length);
+      }
+      _messages[index] = ChatMessageModel(
+        id: messageId,
+        content: newContent,
+        role: 'user',
+        timestamp: DateTime.now(),
+      );
+      _isTyping = true;
+    });
+    _scrollToBottom();
+
+    try {
+      final response = await _chatService.editMessage(
+        messageId,
+        newContent,
+        dayContext: widget.dayContext,
+      );
+
+      if (mounted) {
+        setState(() {
+          final toolsVal = response['tools_used'];
+          List<String>? parsedTools;
+          if (toolsVal is List) {
+            parsedTools = toolsVal.map((e) => e.toString()).toList();
+          }
+
+          _messages[index] = ChatMessageModel(
+            id: response['user_message_id'],
+            content: newContent,
+            role: 'user',
+            timestamp: _messages[index].timestamp,
+          );
+
+          _messages.add(ChatMessageModel(
+            id: response['ai_message_id'],
+            content: response['response'],
+            role: 'assistant',
+            timestamp: DateTime.now(),
+            toolsUsed: parsedTools,
+          ));
+          _isTyping = false;
+        });
+        _scrollToBottom();
+        _loadSessions();
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isTyping = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update AI response'), behavior: SnackBarBehavior.floating),
+        );
+      }
+    }
   }
 
   Widget _buildTypingIndicator() {
@@ -800,4 +1055,136 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
       ),
     );
   }
+}
+
+class _AgentActionInfo {
+  final IconData icon;
+  final String title;
+  final String description;
+  final Color color;
+
+  _AgentActionInfo({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.color,
+  });
+}
+
+_AgentActionInfo _getAgentActionInfo(String toolName) {
+  switch (toolName) {
+    case 'add_medication':
+      return _AgentActionInfo(
+        icon: Icons.medical_services,
+        title: 'Medication Added',
+        description: 'Scheduled new medication reminder successfully.',
+        color: Colors.teal,
+      );
+    case 'update_period_cycle_or_symptoms':
+      return _AgentActionInfo(
+        icon: Icons.calendar_today,
+        title: 'Symptoms Logged',
+        description: 'Updated cycle tracking & symptom logs.',
+        color: Colors.pink,
+      );
+    case 'write_in_journal':
+      return _AgentActionInfo(
+        icon: Icons.book,
+        title: 'Journal Entry Created',
+        description: 'Saved entry to your personal diary/health notes.',
+        color: Colors.indigo,
+      );
+    case 'book_consultation':
+      return _AgentActionInfo(
+        icon: Icons.video_call,
+        title: 'Consultation Booked',
+        description: 'Booked appointment with specialized doctor.',
+        color: Colors.blue,
+      );
+    case 'set_alarm_reminder':
+      return _AgentActionInfo(
+        icon: Icons.alarm,
+        title: 'Reminder Set',
+        description: 'Scheduled alarm/notification reminder.',
+        color: Colors.orange,
+      );
+    case 'register_for_event':
+      return _AgentActionInfo(
+        icon: Icons.event,
+        title: 'Event Registration',
+        description: 'Registered for webinar or health awareness event.',
+        color: Colors.deepPurple,
+      );
+    case 'create_community_post':
+      return _AgentActionInfo(
+        icon: Icons.forum,
+        title: 'Community Post Published',
+        description: 'Published post to discussion feed.',
+        color: Colors.cyan[700]!,
+      );
+    case 'save_semantic_memory':
+      return _AgentActionInfo(
+        icon: Icons.psychology,
+        title: 'Preferences Updated',
+        description: 'Stored details to personalization profile.',
+        color: Colors.purple,
+      );
+    case 'get_user_profile':
+      return _AgentActionInfo(
+        icon: Icons.person_search,
+        title: 'Profile Accessed',
+        description: 'Retrieved base user height, weight & goals.',
+        color: Colors.blueGrey,
+      );
+    case 'get_user_cycle_history':
+      return _AgentActionInfo(
+        icon: Icons.history,
+        title: 'Cycle Analyzed',
+        description: 'Analyzed recent cycle & symptom patterns.',
+        color: Colors.pinkAccent,
+      );
+    case 'get_user_wellness_history':
+      return _AgentActionInfo(
+        icon: Icons.spa,
+        title: 'Wellness Checked',
+        description: 'Reviewed daily wellness score check-ins.',
+        color: Colors.green,
+      );
+    case 'get_user_bookings':
+      return _AgentActionInfo(
+        icon: Icons.bookmark_added,
+        title: 'Bookings Retrieved',
+        description: 'Fetched status of current consultations.',
+        color: Colors.orange,
+      );
+    case 'get_user_medications':
+      return _AgentActionInfo(
+        icon: Icons.medication,
+        title: 'Prescriptions Checked',
+        description: 'Read active daily medicine schedules.',
+        color: Colors.teal[700]!,
+      );
+    case 'search_wellness_knowledge':
+      return _AgentActionInfo(
+        icon: Icons.menu_book,
+        title: 'Health Library Searched',
+        description: 'Retrieved medical guides from expert vector DB.',
+        color: Colors.lightGreen[800]!,
+      );
+    case 'get_semantic_memories':
+      return _AgentActionInfo(
+        icon: Icons.remember_me,
+        title: 'Memory Recalled',
+        description: 'Recalled long-term personal context.',
+        color: Colors.purpleAccent,
+      );
+    default:
+      return _AgentActionInfo(
+        icon: Icons.smart_toy,
+        title: 'FemAI Action Executed',
+        description: 'Ran task: $toolName.',
+        color: FemFlowColors.primary,
+      );
+  }
+}
 }

@@ -24,12 +24,14 @@ class PartnerService {
 
   Future<Map<String, dynamic>> acceptInvite({
     required String token,
+    required String pairingCode,
     required String password,
   }) async {
     return await _apiClient.post(
       '/partner/invites/accept/',
       body: {
         'token': token,
+        'pairing_code': pairingCode,
         'password': password,
       },
     );
