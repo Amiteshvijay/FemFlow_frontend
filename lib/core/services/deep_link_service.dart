@@ -1,6 +1,7 @@
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:play_install_referrer/play_install_referrer.dart';
 import '../navigation/navigator_service.dart';
 import '../../features/partner_mode/accept_invite_screen.dart';
 
@@ -34,6 +35,44 @@ class DeepLinkService {
       final uri = _pendingUri!;
       _pendingUri = null;
       _handleUri(uri);
+    } else {
+      _checkInstallReferrer();
+    }
+  }
+
+  Future<void> _checkInstallReferrer() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final alreadyProcessed = prefs.getBool('processed_install_referrer') ?? false;
+      if (alreadyProcessed) {
+        return;
+      }
+
+      final details = await PlayInstallReferrer.installReferrer;
+      final referrer = details.installReferrer;
+      debugPrint('Retrieved Google Play Install Referrer: $referrer');
+
+      if (referrer != null && referrer.isNotEmpty) {
+        if (referrer.contains('token=') && referrer.contains('email=')) {
+          // Mark it as processed immediately to avoid repeat redirects on subsequent launches
+          await prefs.setBool('processed_install_referrer', true);
+
+          String sanitizedReferrer = referrer;
+          if (referrer.startsWith('referrer=')) {
+            sanitizedReferrer = referrer.replaceFirst('referrer=', '');
+          }
+
+          try {
+            sanitizedReferrer = Uri.decodeFull(sanitizedReferrer);
+          } catch (_) {}
+
+          final uri = Uri.parse('femflow://partner/accept?$sanitizedReferrer');
+          debugPrint('Redirecting parsed install referrer URI: $uri');
+          _handleUri(uri);
+        }
+      }
+    } catch (e) {
+      debugPrint('Error retrieving install referrer: $e');
     }
   }
 
