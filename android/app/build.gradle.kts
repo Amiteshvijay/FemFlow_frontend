@@ -36,7 +36,7 @@ android {
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 26
         targetSdk = 35
-        versionCode = 11
+        versionCode = 12
         versionName = "1.0.0"
         multiDexEnabled = true
     }
