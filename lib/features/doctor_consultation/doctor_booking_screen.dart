@@ -11,8 +11,15 @@ import 'doctor_payment_success_screen.dart';
 
 class DoctorBookingScreen extends StatefulWidget {
   final DoctorProfile doctor;
+  final int? originalBookingId;
+  final double? followUpFee;
 
-  const DoctorBookingScreen({super.key, required this.doctor});
+  const DoctorBookingScreen({
+    super.key,
+    required this.doctor,
+    this.originalBookingId,
+    this.followUpFee,
+  });
 
   @override
   State<DoctorBookingScreen> createState() => _DoctorBookingScreenState();
@@ -231,6 +238,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
         appointmentTime: _selectedTime!,
         userNotes: _notesController.text,
         isCommunityCare: useCommunityCare,
+        originalBookingId: widget.originalBookingId,
       );
 
       _currentBookingId = bookingResponse['booking_id'];
@@ -259,7 +267,9 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
         'amount': orderResponse['amount'],
         'currency': orderResponse['currency'],
         'name': 'FemFlow',
-        'description': 'Doctor Consultation with ${widget.doctor.fullName}',
+        'description': widget.originalBookingId != null
+            ? 'Follow-up Consultation with ${widget.doctor.fullName}'
+            : 'Doctor Consultation with ${widget.doctor.fullName}',
         'order_id': orderResponse['razorpay_order_id'],
         'prefill': {
           'contact': '',
@@ -327,7 +337,8 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
         }
       }
     } else {
-      buttonText = 'Pay & Book - ₹${widget.doctor.consultationFee.toInt()}';
+      final fee = widget.followUpFee ?? widget.doctor.consultationFee;
+      buttonText = 'Pay & Book - ₹${fee.toInt()}';
     }
 
     return Scaffold(
@@ -343,6 +354,30 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (widget.originalBookingId != null) ...[
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: FemFlowColors.primary.withValues(alpha: 0.05),
+                  border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.2)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.info_outline, color: FemFlowColors.primary, size: 24),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'You are booking a follow-up consultation. This session is discounted by 50%.',
+                        style: TextStyle(fontSize: 12, color: FemFlowColors.primary, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
             // Doctor Summary
             AppCard(
               child: ListTile(
@@ -351,7 +386,9 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                   child: const Icon(Icons.person, color: Colors.grey),
                 ),
                 title: Text(widget.doctor.fullName, style: const TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text('${widget.doctor.speciality} • ₹${widget.doctor.consultationFee.toInt()}'),
+                subtitle: Text(widget.originalBookingId != null
+                    ? '${widget.doctor.speciality} • Follow-up Booking'
+                    : '${widget.doctor.speciality} • ₹${widget.doctor.consultationFee.toInt()}'),
               ),
             ),
             const SizedBox(height: 24),
@@ -654,8 +691,8 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                         ),
                       ] else ...[
                         _buildSummaryRow(
-                          'Consultation Fee', 
-                          '₹${widget.doctor.consultationFee.toInt()}'
+                          widget.originalBookingId != null ? 'Follow-up Fee (50%)' : 'Consultation Fee', 
+                          '₹${(widget.followUpFee ?? widget.doctor.consultationFee).toInt()}'
                         ),
                         const SizedBox(height: 8),
                         const Row(
@@ -671,7 +708,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                           children: [
                             const Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
-                              '₹${widget.doctor.consultationFee.toInt()}', 
+                              '₹${(widget.followUpFee ?? widget.doctor.consultationFee).toInt()}', 
                               style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)
                             ),
                           ],

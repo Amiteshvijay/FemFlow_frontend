@@ -9,6 +9,7 @@ import 'models/doctor_models.dart';
 import 'invoice_screen.dart';
 import '../profile/contact_us_screen.dart';
 import 'widgets/doctor_review_bottom_sheet.dart';
+import 'doctor_booking_screen.dart';
 
 class BookingDetailsScreen extends StatefulWidget {
   final int bookingId;
@@ -184,6 +185,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                         const SizedBox(height: 24),
                       ],
                       _buildPaymentSection(),
+                      _buildFollowUpsSection(),
                       const SizedBox(height: 32),
                       _buildActionButtons(),
                     ],
@@ -215,6 +217,14 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                         label: 'Download PDF',
                         onTap: () => _handlePrescriptionDownload(),
                       ),
+                      if (_booking!.canFollowUp) ...[
+                        const Divider(height: 24),
+                        _buildPrescriptionAction(
+                          icon: Icons.event_repeat,
+                          label: 'Book Follow-up (₹${(_booking!.consultationFee * 0.5).toInt()}) - ${_booking!.followUpsCount + 1}/3',
+                          onTap: () => _handleBookFollowUp(),
+                        ),
+                      ],
                     ],
                   )
                 : const Row(
@@ -357,6 +367,101 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
     } finally {
       setState(() => _isActionLoading = false);
     }
+  }
+
+  Future<void> _handleBookFollowUp() async {
+    setState(() => _isActionLoading = true);
+    try {
+      final doctor = await _service.getDoctorDetail(_booking!.doctorId);
+      if (!mounted) return;
+      
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => DoctorBookingScreen(
+            doctor: doctor,
+            originalBookingId: _booking!.id,
+            followUpFee: _booking!.consultationFee * 0.5,
+          ),
+        ),
+      ).then((_) {
+        _fetchBookingDetails();
+      });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load doctor profile: $e')),
+        );
+      }
+    } finally {
+      setState(() => _isActionLoading = false);
+    }
+  }
+
+  Widget _buildFollowUpsSection() {
+    if (_booking!.followUps.isEmpty) return const SizedBox.shrink();
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 24),
+        const Text('FOLLOW-UP APPOINTMENTS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 1.1)),
+        const SizedBox(height: 12),
+        ..._booking!.followUps.map((followUp) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: AppCard(
+              child: ListTile(
+                title: Text('Follow-up Booking - ${followUp.bookingIdDisplay}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Date: ${followUp.appointmentDate} • Time: ${followUp.appointmentTime}'),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: _getStatusColor(followUp.status).withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              followUp.status.toUpperCase().replaceAll('_', ' '),
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: _getStatusColor(followUp.status),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Paid: ₹${followUp.consultationFee.toInt()}',
+                            style: const TextStyle(fontSize: 11, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                trailing: const Icon(Icons.chevron_right, color: FemFlowColors.primary),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => BookingDetailsScreen(bookingId: followUp.id),
+                    ),
+                  ).then((_) => _fetchBookingDetails());
+                },
+              ),
+            ),
+          );
+        }),
+      ],
+    );
   }
 
   Widget _buildStatusHeader() {

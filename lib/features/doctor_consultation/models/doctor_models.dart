@@ -177,6 +177,44 @@ class Invoice {
   }
 }
 
+class DoctorBookingSimple {
+  final int id;
+  final String bookingIdDisplay;
+  final String appointmentDate;
+  final String appointmentTime;
+  final String? appointmentUtc;
+  final double consultationFee;
+  final String status;
+  final String paymentStatus;
+  final String createdAt;
+
+  DoctorBookingSimple({
+    required this.id,
+    required this.bookingIdDisplay,
+    required this.appointmentDate,
+    required this.appointmentTime,
+    this.appointmentUtc,
+    required this.consultationFee,
+    required this.status,
+    required this.paymentStatus,
+    required this.createdAt,
+  });
+
+  factory DoctorBookingSimple.fromJson(Map<String, dynamic> json) {
+    return DoctorBookingSimple(
+      id: json['id'],
+      bookingIdDisplay: json['booking_id_display'] ?? 'FF-CD-${json['id']}',
+      appointmentDate: json['appointment_date'],
+      appointmentTime: json['appointment_time'],
+      appointmentUtc: json['appointment_utc'],
+      consultationFee: double.parse(json['consultation_fee'].toString()),
+      status: json['status'],
+      paymentStatus: json['payment_status'],
+      createdAt: json['created_at'],
+    );
+  }
+}
+
 class DoctorBooking {
   final int id;
   final String bookingIdDisplay;
@@ -198,6 +236,11 @@ class DoctorBooking {
   final bool hasReview;
   final bool hasPrescription;
   final String? clinicAddress;
+  final bool isFollowUp;
+  final int? originalBooking;
+  final int followUpsCount;
+  final bool canFollowUp;
+  final List<DoctorBookingSimple> followUps;
 
   DoctorBooking({
     required this.id,
@@ -220,6 +263,11 @@ class DoctorBooking {
     this.hasReview = false,
     this.hasPrescription = false,
     this.clinicAddress,
+    this.isFollowUp = false,
+    this.originalBooking,
+    this.followUpsCount = 0,
+    this.canFollowUp = false,
+    this.followUps = const [],
   });
 
   factory DoctorBooking.fromJson(Map<String, dynamic> json) {
@@ -244,6 +292,14 @@ class DoctorBooking {
       hasReview: json['has_review'] ?? false,
       hasPrescription: json['has_prescription'] ?? false,
       clinicAddress: json['clinic_address'],
+      isFollowUp: json['is_follow_up'] ?? false,
+      originalBooking: json['original_booking'],
+      followUpsCount: json['follow_ups_count'] ?? 0,
+      canFollowUp: json['can_follow_up'] ?? false,
+      followUps: (json['follow_ups'] as List?)
+              ?.map((e) => DoctorBookingSimple.fromJson(e))
+              .toList() ??
+          const [],
     );
   }
 }

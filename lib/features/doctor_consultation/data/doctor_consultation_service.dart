@@ -54,6 +54,7 @@ class DoctorConsultationService {
     required String appointmentTime,
     String? userNotes,
     bool isCommunityCare = false,
+    int? originalBookingId,
   }) async {
     final response = await _apiClient.post('/doctor-consultation/bookings/', body: {
       'doctor_id': doctorId,
@@ -62,6 +63,7 @@ class DoctorConsultationService {
       'appointment_time': appointmentTime,
       'user_notes': userNotes,
       'is_community_care': isCommunityCare,
+      'original_booking_id': originalBookingId,
     });
     return response;
   }
