@@ -68,12 +68,19 @@
                 <data android:scheme="https" android:host="femflow.in" android:pathPrefix="/ref" />
             </intent-filter>
 
-            <!-- Deep Link for Partner Invites -->
+            <!-- Custom Scheme Deep Link for Partner Invites -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="femflow" android:host="partner" android:pathPrefix="/accept" />
+            </intent-filter>
+
+            <!-- Web Links (App Links) for Partner Invites -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="femflow" android:host="partner" />
                 <data android:scheme="http" android:host="femflow.in" android:pathPrefix="/partner" />
                 <data android:scheme="https" android:host="femflow.in" android:pathPrefix="/partner" />
                 <data android:scheme="http" android:host="femflow.app" android:pathPrefix="/partner" />
