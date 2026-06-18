@@ -68,7 +68,7 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
         showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (BuildContext context) {
+          builder: (BuildContext dialogContext) {
             return AlertDialog(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               title: const Text('Invitation Sent!', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -115,7 +115,7 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(context); // Close dialog
+                    Navigator.pop(dialogContext); // Close dialog
                     Navigator.pop(context, true); // Return to previous screen with success
                   },
                   child: const Text('Close'),

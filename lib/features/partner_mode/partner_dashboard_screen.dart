@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
+import '../../core/network/api_client.dart';
+import '../auth/providers/auth_provider.dart';
 import 'data/partner_service.dart';
 
 class PartnerDashboardScreen extends StatefulWidget {
@@ -35,19 +38,62 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
       if (mounted) {
         setState(() {
           _isLoading = false;
-          _errorMessage = e.toString();
         });
+        if (e is ApiException && (e.statusCode == 404 || e.statusCode == 403)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Your partner connection is no longer active. Logging out...'),
+              backgroundColor: FemFlowColors.period,
+            ),
+          );
+          Future.delayed(const Duration(seconds: 2), () {
+            if (mounted) {
+              context.read<AuthProvider>().logout();
+            }
+          });
+        } else {
+          setState(() {
+            _errorMessage = e.toString();
+          });
+        }
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+    final partnerName = authProvider.profile?.fullName ?? '';
+    final firstName = partnerName.isNotEmpty ? partnerName.split(' ').first : 'there';
+
+    final hour = DateTime.now().hour;
+    String greeting;
+    if (hour < 12) {
+      greeting = 'Good morning!';
+    } else if (hour < 15) {
+      greeting = 'Good noon!';
+    } else if (hour < 17) {
+      greeting = 'Good afternoon!';
+    } else if (hour < 21) {
+      greeting = 'Good evening!';
+    } else {
+      greeting = 'Good night!';
+    }
+
+    final canPop = Navigator.canPop(context);
+
     return Scaffold(
       backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('Partner Dashboard', style: TextStyle(color: FemFlowColors.textPrimary)),
         centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading: canPop
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new, size: 20),
+                onPressed: () => Navigator.pop(context),
+              )
+            : null,
       ),
       body: SafeArea(
         child: _isLoading
@@ -77,11 +123,34 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Viewing data for ${_dashboardData!['user_name']}',
-                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Hi, $firstName 🌸',
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        color: FemFlowColors.textPrimary,
+                                      ),
+                                    ),
+                                    Text(
+                                      greeting,
+                                      style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 24),
+                            Text(
+                              'Viewing data for ${_dashboardData!['user_name']}',
+                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                            ),
+                            const SizedBox(height: 16),
                             _buildSharedDataWidgets(),
                           ],
                         ),

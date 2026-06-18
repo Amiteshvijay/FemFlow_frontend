@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import '../home/home_screen.dart';
 import '../calendar/calendar_screen.dart';
 import '../chat/femai_chat_screen.dart';
 import '../profile/profile_screen.dart';
+import '../partner_mode/partner_dashboard_screen.dart';
+import '../auth/providers/auth_provider.dart';
 import '../../shared/widgets/universal_plus_button.dart';
 import '../../core/theme/femflow_colors.dart';
 import 'shell_events.dart';
@@ -29,7 +32,12 @@ class MainShellState extends State<MainShell> {
   late final List<Widget> _screens = [
     Navigator(
       key: _navigatorKeys[0],
-      onGenerateRoute: (settings) => MaterialPageRoute(builder: (_) => const HomeScreen()),
+      onGenerateRoute: (settings) => MaterialPageRoute(
+        builder: (context) {
+          final isPartner = context.read<AuthProvider>().profile?.goal == 'support_partner';
+          return isPartner ? const PartnerDashboardScreen() : const HomeScreen();
+        },
+      ),
     ),
     Navigator(
       key: _navigatorKeys[1],
@@ -57,6 +65,9 @@ class MainShellState extends State<MainShell> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = context.watch<AuthProvider>();
+    final isPartner = auth.profile?.goal == 'support_partner';
+
     return NotificationListener<SwitchTabNotification>(
       onNotification: (notification) {
         setSelectedIndex(notification.index);
@@ -118,31 +129,42 @@ class MainShellState extends State<MainShell> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(child: Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
-                )),
-                Expanded(child: Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: _buildNavItem(1, Icons.calendar_month_outlined, Icons.calendar_month, 'Calendar'),
-                )),
-                // Integrated Universal Plus Button
-                Expanded(
-                  child: Transform.translate(
-                    offset: const Offset(0, -20), // Lift it slightly up
-                    child: const UniversalPlusButton(),
-                  ),
-                ),
-                Expanded(child: Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: _buildNavItem(2, Icons.chat_bubble_outline_rounded, Icons.chat_bubble_rounded, 'FemAI'),
-                )),
-                Expanded(child: Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: _buildNavItem(3, Icons.person_outline, Icons.person, 'Profile'),
-                )),
-              ],
+              children: isPartner
+                  ? [
+                      Expanded(child: Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
+                      )),
+                      Expanded(child: Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildNavItem(3, Icons.person_outline, Icons.person, 'Profile'),
+                      )),
+                    ]
+                  : [
+                      Expanded(child: Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
+                      )),
+                      Expanded(child: Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildNavItem(1, Icons.calendar_month_outlined, Icons.calendar_month, 'Calendar'),
+                      )),
+                      // Integrated Universal Plus Button
+                      Expanded(
+                        child: Transform.translate(
+                          offset: const Offset(0, -20), // Lift it slightly up
+                          child: const UniversalPlusButton(),
+                        ),
+                      ),
+                      Expanded(child: Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildNavItem(2, Icons.chat_bubble_outline_rounded, Icons.chat_bubble_rounded, 'FemAI'),
+                      )),
+                      Expanded(child: Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildNavItem(3, Icons.person_outline, Icons.person, 'Profile'),
+                      )),
+                    ],
             ),
           ),
         ),
