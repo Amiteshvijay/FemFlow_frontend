@@ -132,6 +132,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = context.watch<AuthProvider>();
+    final isPartner = auth.profile?.goal == 'support_partner';
+
     return Scaffold(
       backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
@@ -178,8 +181,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       _buildUserProfile(context),
                       const SizedBox(height: 32),
-                      _buildSubscriptionMenu(context),
-                      const SizedBox(height: 16),
+                      if (!isPartner) ...[
+                        _buildSubscriptionMenu(context),
+                        const SizedBox(height: 16),
+                      ],
                       _buildMenuSection(context),
                       const SizedBox(height: 20),
                     ],
@@ -294,6 +299,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildMenuSection(BuildContext context) {
+    final auth = context.read<AuthProvider>();
+    final isPartner = auth.profile?.goal == 'support_partner';
+
     return AppCard(
       padding: EdgeInsets.zero,
       child: Column(
@@ -311,115 +319,117 @@ class _ProfileScreenState extends State<ProfileScreen> {
               if (result == true) _fetchProfile();
             },
           ),
-          _buildMenuItem(
-            context,
-            icon: Icons.calendar_today_outlined,
-            label: 'Cycle & Period Settings',
-            showDivider: true,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CyclePeriodSettingsScreen()),
-              );
-            },
-          ),
-          _buildMenuItem(
-            context,
-            icon: Icons.shield_outlined,
-            label: 'Health Vault',
-            isPremium: true,
-            showDivider: true,
-            onTap: () => PremiumGuard.openPremiumFeature(
-              context: context, 
-              featureKey: 'health_vault', 
-              premiumScreen: const HealthVaultScreen()
+          if (!isPartner) ...[
+            _buildMenuItem(
+              context,
+              icon: Icons.calendar_today_outlined,
+              label: 'Cycle & Period Settings',
+              showDivider: true,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CyclePeriodSettingsScreen()),
+                );
+              },
             ),
-          ),
-          _buildMenuItem(
-            context,
-            icon: Icons.auto_stories_outlined,
-            label: 'FemFlow Journal',
-            isPremium: true,
-            showDivider: true,
-            onTap: () => PremiumGuard.openPremiumFeature(
-              context: context, 
-              featureKey: 'journal', 
-              premiumScreen: const JournalScreen()
+            _buildMenuItem(
+              context,
+              icon: Icons.shield_outlined,
+              label: 'Health Vault',
+              isPremium: true,
+              showDivider: true,
+              onTap: () => PremiumGuard.openPremiumFeature(
+                context: context, 
+                featureKey: 'health_vault', 
+                premiumScreen: const HealthVaultScreen()
+              ),
             ),
-          ),
-          _buildMenuItem(
-            context,
-            icon: Icons.notifications_none_outlined,
-            label: 'General Reminders',
-            showDivider: true,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const RemindersScreen()),
-              );
-            },
-          ),
-          _buildMenuItem(
-            context,
-            icon: Icons.medication_outlined,
-            label: 'Medication Reminders',
-            isPremium: true,
-            showDivider: true,
-            onTap: () => PremiumGuard.openPremiumFeature(
-              context: context, 
-              featureKey: 'pill_reminder', 
-              premiumScreen: const PillReminderListScreen()
+            _buildMenuItem(
+              context,
+              icon: Icons.auto_stories_outlined,
+              label: 'FemFlow Journal',
+              isPremium: true,
+              showDivider: true,
+              onTap: () => PremiumGuard.openPremiumFeature(
+                context: context, 
+                featureKey: 'journal', 
+                premiumScreen: const JournalScreen()
+              ),
             ),
-          ),
-          _buildMenuItem(
-            context,
-            icon: Icons.medical_services_outlined,
-            label: 'Consult a Doctor',
-            showDivider: true,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const DoctorConsultationHomeScreen()),
-              );
-            },
-          ),
-          _buildMenuItem(
-            context,
-            icon: Icons.groups_outlined,
-            label: 'FemFlow Community',
-            isPremium: true,
-            showDivider: true,
-            onTap: () => PremiumGuard.openPremiumFeature(
-              context: context, 
-              featureKey: 'community', 
-              premiumScreen: const CommunityHomeScreen()
+            _buildMenuItem(
+              context,
+              icon: Icons.notifications_none_outlined,
+              label: 'General Reminders',
+              showDivider: true,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RemindersScreen()),
+                );
+              },
             ),
-          ),
-          _buildMenuItem(
-            context,
-            icon: Icons.favorite_border,
-            label: 'Partner Mode',
-            isPremium: true,
-            showDivider: true,
-            onTap: () => PremiumGuard.openPremiumFeature(
-              context: context, 
-              featureKey: 'partner_mode', 
-              premiumScreen: const PartnerModeScreen()
+            _buildMenuItem(
+              context,
+              icon: Icons.medication_outlined,
+              label: 'Medication Reminders',
+              isPremium: true,
+              showDivider: true,
+              onTap: () => PremiumGuard.openPremiumFeature(
+                context: context, 
+                featureKey: 'pill_reminder', 
+                premiumScreen: const PillReminderListScreen()
+              ),
             ),
-          ),
-          _buildMenuItem(
-            context,
-            icon: Icons.person_add_outlined,
-            label: 'Invite Friends',
-            subtitle: 'Get 3 months Premium free',
-            showDivider: true,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ReferralScreen()),
-              );
-            },
-          ),
+            _buildMenuItem(
+              context,
+              icon: Icons.medical_services_outlined,
+              label: 'Consult a Doctor',
+              showDivider: true,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DoctorConsultationHomeScreen()),
+                );
+              },
+            ),
+            _buildMenuItem(
+              context,
+              icon: Icons.groups_outlined,
+              label: 'FemFlow Community',
+              isPremium: true,
+              showDivider: true,
+              onTap: () => PremiumGuard.openPremiumFeature(
+                context: context, 
+                featureKey: 'community', 
+                premiumScreen: const CommunityHomeScreen()
+              ),
+            ),
+            _buildMenuItem(
+              context,
+              icon: Icons.favorite_border,
+              label: 'Partner Mode',
+              isPremium: true,
+              showDivider: true,
+              onTap: () => PremiumGuard.openPremiumFeature(
+                context: context, 
+                featureKey: 'partner_mode', 
+                premiumScreen: const PartnerModeScreen()
+              ),
+            ),
+            _buildMenuItem(
+              context,
+              icon: Icons.person_add_outlined,
+              label: 'Invite Friends',
+              subtitle: 'Get 3 months Premium free',
+              showDivider: true,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReferralScreen()),
+                );
+              },
+            ),
+          ],
           _buildMenuItem(
             context,
             icon: Icons.lock_outline,

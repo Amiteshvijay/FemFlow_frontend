@@ -16,6 +16,8 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
   final PartnerService _partnerService = PartnerService();
   bool _isLoading = true;
   Map<String, dynamic>? _activeInvite;
+  Map<String, bool>? _localPermissions;
+  bool _hasChanges = false;
 
   @override
   void initState() {
@@ -32,6 +34,14 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
           // Only show invites that are not revoked
           final activeInvites = invites.where((inv) => inv['status'] != 'revoked').toList();
           _activeInvite = activeInvites.isNotEmpty ? activeInvites.first : null;
+          if (_activeInvite != null) {
+            _localPermissions = Map<String, bool>.from(
+              (_activeInvite!['permissions'] as Map<String, dynamic>).map((k, v) => MapEntry(k, v == true))
+            );
+          } else {
+            _localPermissions = null;
+          }
+          _hasChanges = false;
           _isLoading = false;
         });
       }
@@ -65,15 +75,20 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
     }
   }
 
-  Future<void> _updatePermissions(Map<String, dynamic> currentPermissions, String key, bool value) async {
-    final updated = Map<String, bool>.from(currentPermissions);
-    updated[key] = value;
-    
+  Future<void> _savePermissions() async {
+    if (_localPermissions == null) return;
+    setState(() => _isLoading = true);
     try {
-      await _partnerService.updatePermissions(updated);
+      await _partnerService.updatePermissions(_localPermissions!);
       await _fetchInvites();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Permissions updated successfully'), behavior: SnackBarBehavior.floating),
+        );
+      }
     } catch (e) {
       if (mounted) {
+        setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to update permissions: $e'), backgroundColor: FemFlowColors.period),
         );
@@ -107,9 +122,21 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
                     const SizedBox(height: 32),
                     
                     if (_activeInvite != null) ...[
-                      _buildActivePartnerCard(),
-                      const SizedBox(height: 24),
-                      _buildPermissionsCard(_activeInvite!['permissions']),
+                      if (_activeInvite!['status'] == 'accepted') ...[
+                        _buildActivePartnerCard(),
+                        const SizedBox(height: 24),
+                        _buildPermissionsCard(),
+                        if (_hasChanges) ...[
+                          const SizedBox(height: 24),
+                          PrimaryButton(
+                            label: 'Save Changes',
+                            onPressed: _savePermissions,
+                            isLoading: _isLoading,
+                          ),
+                        ],
+                      ] else ...[
+                        _buildPendingInviteCard(),
+                      ],
                       const SizedBox(height: 40),
                       TextButton(
                         onPressed: _revokeAccess,
@@ -196,7 +223,73 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
     );
   }
 
-  Widget _buildPermissionsCard(Map<String, dynamic> permissions) {
+  Widget _buildPendingInviteCard() {
+    final code = _activeInvite!['pairing_code'] ?? '';
+    final acceptUrl = _activeInvite!['accept_url'] ?? '';
+    return AppCard(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Icon(Icons.hourglass_empty, color: FemFlowColors.primary),
+              SizedBox(width: 8),
+              Text(
+                'Invitation Pending',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Sent to: ${_activeInvite!['partner_name']} (${_activeInvite!['partner_email']})',
+            style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
+          ),
+          const SizedBox(height: 16),
+          const Divider(),
+          const SizedBox(height: 12),
+          const Text(
+            'Share pairing details with your partner:',
+            style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: FemFlowColors.warmWhite,
+              border: Border.all(color: FemFlowColors.primary.withOpacity(0.3)),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: [
+                const Text('Pairing Code', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+                const SizedBox(height: 4),
+                SelectableText(
+                  code,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: FemFlowColors.primary,
+                    letterSpacing: 2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          const Text('Acceptance Link', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+          const SizedBox(height: 4),
+          SelectableText(
+            acceptUrl,
+            style: const TextStyle(fontSize: 12, color: Colors.blue, decoration: TextDecoration.underline),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPermissionsCard() {
     return AppCard(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
@@ -207,24 +300,41 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
             child: Text('Shared Data', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
           ),
           const Divider(color: FemFlowColors.border),
-          _buildToggle('Period Dates', permissions, 'period_dates'),
-          _buildToggle('Fertile Window', permissions, 'fertile_window'),
-          _buildToggle('Ovulation Day', permissions, 'ovulation_day'),
-          _buildToggle('Symptoms', permissions, 'symptoms'),
-          _buildToggle('Mood', permissions, 'mood'),
-          _buildToggle('Cycle Predictions', permissions, 'cycle_predictions'),
+          _buildToggle('Period Dates', 'period_dates'),
+          _buildToggle('Fertile Window', 'fertile_window'),
+          _buildToggle('Ovulation Day', 'ovulation_day'),
+          _buildToggle('Symptoms', 'symptoms'),
+          _buildToggle('Mood', 'mood'),
+          _buildToggle('Cycle Predictions', 'cycle_predictions'),
+          _buildToggle('Pill Reminders', 'pill_reminders'),
+          _buildToggle('Journal Entries', 'journal'),
+          _buildToggle('Nutrition & Diet', 'nutrition'),
+          _buildToggle('Wellness & Activity', 'wellness'),
+          _buildToggle('Health Documents', 'health_documents'),
         ],
       ),
     );
   }
 
-  Widget _buildToggle(String label, Map<String, dynamic> permissions, String key) {
-    final value = permissions[key] == true;
+  Widget _buildToggle(String label, String key) {
+    final value = _localPermissions?[key] == true;
     return SwitchListTile(
       title: Text(label, style: const TextStyle(fontSize: 15, color: FemFlowColors.textPrimary)),
       value: value,
       activeThumbColor: FemFlowColors.primary,
-      onChanged: (val) => _updatePermissions(permissions, key, val),
+      onChanged: (val) {
+        setState(() {
+          _localPermissions?[key] = val;
+          final initialPermissions = _activeInvite!['permissions'] as Map<String, dynamic>;
+          bool changesFound = false;
+          _localPermissions?.forEach((k, v) {
+            if (initialPermissions[k] != v) {
+              changesFound = true;
+            }
+          });
+          _hasChanges = changesFound;
+        });
+      },
     );
   }
 }
