@@ -179,7 +179,7 @@ class _SignupScreenState extends State<SignupScreen> {
               _buildField('Referral Code (Optional)', _referralController, Icons.card_giftcard, textCapitalization: TextCapitalization.characters),
               const SizedBox(height: 32),
               PrimaryButton(
-                label: 'Sign Up',
+                label: 'Continue',
                 onPressed: _handleSignup,
                 isLoading: _isLoading,
               ),
