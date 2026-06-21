@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/primary_button.dart';
+import '../../shared/widgets/password_guidelines.dart';
 import '../auth/login_screen.dart';
 import 'data/settings_service.dart';
 
@@ -23,7 +24,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool _obscureConfirm = true;
 
   @override
+  void initState() {
+    super.initState();
+    _newPasswordController.addListener(_onPasswordChanged);
+  }
+
+  void _onPasswordChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
   void dispose() {
+    _newPasswordController.removeListener(_onPasswordChanged);
     _currentPasswordController.dispose();
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
@@ -169,6 +183,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               ),
               obscureText: _obscureNew,
             ),
+            const SizedBox(height: 8),
+            PasswordGuidelines(password: _newPasswordController.text),
             const SizedBox(height: 16),
             TextField(
               controller: _confirmPasswordController,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/primary_button.dart';
+import '../../shared/widgets/password_guidelines.dart';
 import 'data/auth_service.dart';
 import 'login_screen.dart';
 import '../../core/services/deep_link_service.dart';
@@ -28,6 +29,13 @@ class _SignupScreenState extends State<SignupScreen> {
   void initState() {
     super.initState();
     _checkPendingReferral();
+    _passwordController.addListener(_onPasswordChanged);
+  }
+
+  void _onPasswordChanged() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _checkPendingReferral() async {
@@ -48,6 +56,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   void dispose() {
+    _passwordController.removeListener(_onPasswordChanged);
     _fullNameController.dispose();
     _mobileNoController.dispose();
     _emailController.dispose();
@@ -205,6 +214,8 @@ class _SignupScreenState extends State<SignupScreen> {
               _buildField('Email', _emailController, Icons.email_outlined),
               const SizedBox(height: 16),
               _buildPasswordField('Password', _passwordController),
+              const SizedBox(height: 8),
+              PasswordGuidelines(password: _passwordController.text),
               const SizedBox(height: 16),
               _buildPasswordField('Confirm Password', _confirmPasswordController),
               const SizedBox(height: 16),

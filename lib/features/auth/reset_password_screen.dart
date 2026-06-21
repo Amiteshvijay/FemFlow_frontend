@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/primary_button.dart';
+import '../../shared/widgets/password_guidelines.dart';
 import 'data/auth_service.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -17,6 +18,26 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordController.addListener(_onPasswordChanged);
+  }
+
+  void _onPasswordChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
+  void dispose() {
+    _passwordController.removeListener(_onPasswordChanged);
+    _passwordController.dispose();
+    _confirmController.dispose();
+    super.dispose();
+  }
 
   Future<void> _handleReset() async {
     final pass = _passwordController.text;
@@ -139,6 +160,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   prefixIcon: Icon(Icons.lock_outline),
                 ),
               ),
+              const SizedBox(height: 8),
+              PasswordGuidelines(password: _passwordController.text),
               const SizedBox(height: 16),
               TextField(
                 controller: _confirmController,
