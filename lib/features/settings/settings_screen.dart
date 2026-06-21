@@ -126,7 +126,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onTap: () async {
                         final result = await Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const ChangeMobileScreen()),
+                          MaterialPageRoute(
+                            builder: (context) => ChangeMobileScreen(
+                              currentMobile: _profile?.mobileNumber ?? '',
+                            ),
+                          ),
                         );
                         if (result == true) _fetchSettings();
                       },
@@ -138,7 +142,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onTap: () async {
                         final result = await Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const ChangeEmailScreen()),
+                          MaterialPageRoute(
+                            builder: (context) => ChangeEmailScreen(
+                              currentEmail: _profile?.email ?? '',
+                            ),
+                          ),
                         );
                         if (result == true) _fetchSettings();
                       },
