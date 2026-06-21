@@ -250,7 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         const SizedBox(height: 16),
         Text(
-          _profile?.displayName ?? 'User',
+          _profile?.safeDisplayName ?? 'User',
           style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,

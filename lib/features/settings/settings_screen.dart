@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'change_password_screen.dart';
+import 'change_mobile_screen.dart';
+import 'change_email_screen.dart';
 import '../pill_reminder/pill_reminder_list_screen.dart';
 import 'data/settings_service.dart';
 import '../auth/data/auth_service.dart';
@@ -107,7 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   _buildSettingsGroup([
                     _buildSettingsRow(
                       'Name', 
-                      value: _profile?.fullName ?? 'User', 
+                      value: _profile?.safeDisplayName ?? 'User', 
                       showChevron: true,
                       onTap: () async {
                         final result = await Navigator.push(
@@ -124,7 +126,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onTap: () async {
                         final result = await Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => PersonalInfoScreen(profile: _profile)),
+                          MaterialPageRoute(builder: (context) => const ChangeMobileScreen()),
+                        );
+                        if (result == true) _fetchSettings();
+                      },
+                    ),
+                    _buildSettingsRow(
+                      'Email', 
+                      value: _profile?.email ?? 'Not Set', 
+                      showChevron: true,
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ChangeEmailScreen()),
                         );
                         if (result == true) _fetchSettings();
                       },

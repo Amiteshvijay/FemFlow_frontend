@@ -299,7 +299,15 @@ class UserProfile {
     };
   }
 
-  String get safeDisplayName => displayName ?? fullName ?? username;
+  String get safeDisplayName {
+    if (displayName != null && displayName!.trim().isNotEmpty) {
+      return displayName!;
+    }
+    if (fullName != null && fullName!.trim().isNotEmpty) {
+      return fullName!;
+    }
+    return username;
+  }
 }
 
 class ProfileService {
@@ -338,6 +346,22 @@ class ProfileService {
   }) async {
     return await _apiClient.post('/auth/mobile/verify-otp/', body: {
       'mobile_number': mobileNumber,
+      'otp': otp,
+    });
+  }
+
+  Future<void> sendEmailChangeOtp(String email) async {
+    await _apiClient.post('/auth/email/send-otp/', body: {
+      'email': email,
+    });
+  }
+
+  Future<Map<String, dynamic>> verifyEmailChangeOtp({
+    required String email,
+    required String otp,
+  }) async {
+    return await _apiClient.post('/auth/email/verify-otp/', body: {
+      'email': email,
       'otp': otp,
     });
   }

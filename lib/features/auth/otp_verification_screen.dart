@@ -123,7 +123,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           if (res['email_verified'] == true) {
             _emailVerified = true;
             for (var c in _emailControllers) {
-              c.text = '#';
+              c.text = '*';
             }
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -180,7 +180,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           if (res['phone_verified'] == true) {
             _phoneVerified = true;
             for (var c in _phoneControllers) {
-              c.text = '#';
+              c.text = '*';
             }
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -501,42 +501,48 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 onPressed: _isButtonEnabled() ? _verify : null,
               ),
 
-              const SizedBox(height: 24),
-              Text(
-                "Didn't receive codes?",
-                style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: _resendCountdown == 0 ? () => _resend('email') : null,
-                    child: Text(
-                      _resendCountdown == 0 ? 'Resend Email Code' : 'Resend Email in ${_resendCountdown}s',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: _resendCountdown == 0 ? FemFlowColors.primary : FemFlowColors.textMuted,
-                        fontWeight: FontWeight.bold,
+              if (!_emailVerified || !_phoneVerified) ...[
+                const SizedBox(height: 24),
+                Text(
+                  "Didn't receive codes?",
+                  style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (!_emailVerified)
+                      TextButton(
+                        onPressed: _resendCountdown == 0 ? () => _resend('email') : null,
+                        child: Text(
+                          _resendCountdown == 0 ? 'Resend Email Code' : 'Resend Email in ${_resendCountdown}s',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: _resendCountdown == 0 ? FemFlowColors.primary : FemFlowColors.textMuted,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Text('|', style: TextStyle(color: FemFlowColors.border)),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    onPressed: _resendCountdown == 0 ? () => _resend('phone') : null,
-                    child: Text(
-                      _resendCountdown == 0 ? 'Resend SMS Code' : 'Resend SMS in ${_resendCountdown}s',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: _resendCountdown == 0 ? FemFlowColors.primary : FemFlowColors.textMuted,
-                        fontWeight: FontWeight.bold,
+                    if (!_emailVerified && !_phoneVerified) ...[
+                      const SizedBox(width: 8),
+                      const Text('|', style: TextStyle(color: FemFlowColors.border)),
+                      const SizedBox(width: 8),
+                    ],
+                    if (!_phoneVerified)
+                      TextButton(
+                        onPressed: _resendCountdown == 0 ? () => _resend('phone') : null,
+                        child: Text(
+                          _resendCountdown == 0 ? 'Resend SMS Code' : 'Resend SMS in ${_resendCountdown}s',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: _resendCountdown == 0 ? FemFlowColors.primary : FemFlowColors.textMuted,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
               const SizedBox(height: 24),
             ],
           ),

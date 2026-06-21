@@ -75,6 +75,38 @@ class _SignupScreenState extends State<SignupScreen> {
       return;
     }
 
+    final pass = _passwordController.text;
+    if (pass.length < 8 || pass.length > 20) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password must be between 8 and 20 characters long')),
+      );
+      return;
+    }
+    if (!RegExp(r'[A-Z]').hasMatch(pass)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password must contain at least one capital letter')),
+      );
+      return;
+    }
+    if (!RegExp(r'[a-z]').hasMatch(pass)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password must contain at least one small letter')),
+      );
+      return;
+    }
+    if (!RegExp(r'[0-9]').hasMatch(pass)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password must contain at least one number')),
+      );
+      return;
+    }
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(pass)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password must contain at least one special character')),
+      );
+      return;
+    }
+
     setState(() => _isLoading = true);
     try {
       final response = await _authService.requestSignupOtp(

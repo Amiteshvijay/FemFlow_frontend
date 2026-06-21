@@ -42,9 +42,34 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       return;
     }
 
-    if (newPass.length < 8) {
+    if (newPass.length < 8 || newPass.length > 20) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('New password must be at least 8 characters long')),
+        const SnackBar(content: Text('New password must be between 8 and 20 characters long')),
+      );
+      return;
+    }
+
+    if (!RegExp(r'[A-Z]').hasMatch(newPass)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('New password must contain at least one capital letter')),
+      );
+      return;
+    }
+    if (!RegExp(r'[a-z]').hasMatch(newPass)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('New password must contain at least one small letter')),
+      );
+      return;
+    }
+    if (!RegExp(r'[0-9]').hasMatch(newPass)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('New password must contain at least one number')),
+      );
+      return;
+    }
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(newPass)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('New password must contain at least one special character')),
       );
       return;
     }
