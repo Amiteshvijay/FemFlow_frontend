@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'data/auth_service.dart';
-import 'providers/auth_provider.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   final String verificationId;
@@ -115,11 +113,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text("Account created successfully!"),
+            content: Text("Account created successfully! Please login to continue."),
             behavior: SnackBarBehavior.floating,
           ),
         );
-        context.read<AuthProvider>().notifyLogin();
+        // Clear any auto-saved tokens from the verify endpoint to force manual login
+        await _authService.logout();
+        if (mounted) {
+          Navigator.popUntil(context, (route) => route.isFirst);
+        }
       }
     } catch (e) {
       if (mounted) {
