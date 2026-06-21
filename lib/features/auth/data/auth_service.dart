@@ -34,6 +34,56 @@ class AuthService {
     });
   }
 
+  Future<Map<String, dynamic>> requestSignupOtp({
+    required String mobileNo,
+    required String email,
+    required String password,
+    required String fullName,
+    String? referralCode,
+  }) async {
+    debugPrint('Attempting signup OTP request for: $mobileNo ($email)');
+    final response = await _apiClient.post('/auth/signup/request-otp/', body: {
+      'phone': mobileNo,
+      'email': email,
+      'password': password,
+      'full_name': fullName,
+      'referral_code': referralCode,
+    });
+    return Map<String, dynamic>.from(response);
+  }
+
+  Future<void> verifySignupOtp({
+    required String verificationId,
+    required String emailOtp,
+    required String phoneOtp,
+  }) async {
+    debugPrint('Attempting signup OTP verification for: $verificationId');
+    final response = await _apiClient.post('/auth/signup/verify-otp/', body: {
+      'verification_id': verificationId,
+      'email_otp': emailOtp,
+      'phone_otp': phoneOtp,
+    });
+
+    if (response['success'] == true && response['access'] != null && response['refresh'] != null) {
+      await _tokenStorage.saveTokens(
+        access: response['access'],
+        refresh: response['refresh'],
+      );
+    }
+  }
+
+  Future<void> resendSignupOtp({
+    required String verificationId,
+    required String channel,
+  }) async {
+    debugPrint('Attempting signup OTP resend for channel: $channel');
+    await _apiClient.post('/auth/signup/resend-otp/', body: {
+      'verification_id': verificationId,
+      'channel': channel,
+    });
+  }
+
+
   Future<LoginResult> login({
     required String username,
     required String password,

@@ -4,6 +4,7 @@ import '../../shared/widgets/primary_button.dart';
 import 'data/auth_service.dart';
 import 'login_screen.dart';
 import '../../core/services/deep_link_service.dart';
+import 'otp_verification_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -76,7 +77,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
     setState(() => _isLoading = true);
     try {
-      await _authService.register(
+      final response = await _authService.requestSignupOtp(
         mobileNo: _mobileNoController.text.trim(),
         email: _emailController.text.trim(),
         password: _passwordController.text,
@@ -88,10 +89,17 @@ class _SignupScreenState extends State<SignupScreen> {
       await DeepLinkService().clearPendingReferral();
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Account created successfully')),
+        final verificationId = response['verification_id'];
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => OtpVerificationScreen(
+              verificationId: verificationId,
+              email: _emailController.text.trim(),
+              phone: _mobileNoController.text.trim(),
+            ),
+          ),
         );
-        Navigator.pop(context); // Go back to Login
       }
     } catch (e) {
       if (mounted) {
