@@ -74,6 +74,18 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     super.dispose();
   }
 
+  bool _isButtonEnabled() {
+    final emailOtp = _emailControllers.map((c) => c.text).join();
+    final phoneOtp = _phoneControllers.map((c) => c.text).join();
+    return emailOtp.length == 6 && phoneOtp.length == 6 && _acceptTerms && !_isLoading;
+  }
+
+  void _checkAutoVerify() {
+    if (_isButtonEnabled()) {
+      _verify();
+    }
+  }
+
   Future<void> _verify() async {
     final emailOtp = _emailControllers.map((c) => c.text).join();
     final phoneOtp = _phoneControllers.map((c) => c.text).join();
@@ -111,9 +123,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       }
     } catch (e) {
       if (mounted) {
+        String errorMsg = e.toString().replaceAll('ApiException: ', '');
+        if (errorMsg.toLowerCase().contains('invalid otp')) {
+          errorMsg = "Invalid OTP. Please enter the correct verification code.";
+        }
         setState(() {
           _isLoading = false;
-          _error = e.toString().replaceAll('ApiException: ', '');
+          _error = errorMsg;
         });
       }
     }
@@ -236,9 +252,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 controllers: _emailControllers,
                 focusNodes: _emailFocusNodes,
                 onChanged: (val) {
-                  if (val.length == 6 && _phoneControllers.map((c) => c.text).join().length == 6) {
-                    _verify();
-                  }
+                  _checkAutoVerify();
                 },
               ),
               const SizedBox(height: 24),
@@ -264,9 +278,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 controllers: _phoneControllers,
                 focusNodes: _phoneFocusNodes,
                 onChanged: (val) {
-                  if (val.length == 6 && _emailControllers.map((c) => c.text).join().length == 6) {
-                    _verify();
-                  }
+                  _checkAutoVerify();
                 },
               ),
               const SizedBox(height: 32),
@@ -277,7 +289,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 children: [
                   Checkbox(
                     value: _acceptTerms,
-                    onChanged: (val) => setState(() => _acceptTerms = val ?? false),
+                    onChanged: (val) {
+                      setState(() {
+                        _acceptTerms = val ?? false;
+                        if (_error != null) _error = null;
+                      });
+                      _checkAutoVerify();
+                    },
                     activeColor: FemFlowColors.primary,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                   ),
@@ -341,7 +359,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               PrimaryButton(
                 label: 'Create Account',
                 isLoading: _isLoading,
-                onPressed: _verify,
+                onPressed: _isButtonEnabled() ? _verify : null,
               ),
 
               const SizedBox(height: 24),
@@ -420,6 +438,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               fillColor: Colors.white,
             ),
             onChanged: (value) {
+              if (_error != null) {
+                setState(() => _error = null);
+              }
               if (value.isNotEmpty && index < 5) {
                 focusNodes[index + 1].requestFocus();
               } else if (value.isEmpty && index > 0) {
