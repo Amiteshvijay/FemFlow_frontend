@@ -36,6 +36,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   int _resendCountdown = 60;
   Timer? _timer;
 
+  bool _emailVerified = false;
+  bool _phoneVerified = false;
+
   @override
   void initState() {
     super.initState();
@@ -75,28 +78,33 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   bool _isButtonEnabled() {
     final emailOtp = _emailControllers.map((c) => c.text).join();
     final phoneOtp = _phoneControllers.map((c) => c.text).join();
-    return emailOtp.length == 6 && phoneOtp.length == 6 && _acceptTerms && !_isLoading;
-  }
-
-  void _checkAutoVerify() {
-    if (_isButtonEnabled()) {
-      _verify();
-    }
+    final emailReady = _emailVerified || emailOtp.length == 6;
+    final phoneReady = _phoneVerified || phoneOtp.length == 6;
+    return emailReady && phoneReady && _acceptTerms && !_isLoading;
   }
 
   Future<void> _verify() async {
+    setState(() => _error = null);
+    if (!_emailVerified) {
+      await _verifyEmail();
+    }
+    if (!_phoneVerified) {
+      await _verifyPhone();
+    }
+    if (_emailVerified && _phoneVerified) {
+      if (_acceptTerms) {
+        _onSignupComplete();
+      } else {
+        setState(() {
+          _error = "Please accept the Terms of Service & Privacy Policy.";
+        });
+      }
+    }
+  }
+
+  Future<void> _verifyEmail() async {
     final emailOtp = _emailControllers.map((c) => c.text).join();
-    final phoneOtp = _phoneControllers.map((c) => c.text).join();
-
-    if (emailOtp.length < 6 || phoneOtp.length < 6) {
-      setState(() => _error = "Please enter both 6-digit codes");
-      return;
-    }
-
-    if (!_acceptTerms) {
-      setState(() => _error = "You must accept the Terms and Conditions");
-      return;
-    }
+    if (emailOtp.length < 6 || _emailVerified || _isLoading) return;
 
     setState(() {
       _isLoading = true;
@@ -104,36 +112,131 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     });
 
     try {
-      await _authService.verifySignupOtp(
+      final res = await _authService.verifySignupOtp(
         verificationId: widget.verificationId,
         emailOtp: emailOtp,
-        phoneOtp: phoneOtp,
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Account created successfully! Please login to continue."),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-        // Clear any auto-saved tokens from the verify endpoint to force manual login
-        await _authService.logout();
-        if (mounted) {
-          Navigator.popUntil(context, (route) => route.isFirst);
+        setState(() {
+          _isLoading = false;
+          if (res['email_verified'] == true) {
+            _emailVerified = true;
+            for (var c in _emailControllers) {
+              c.text = '#';
+            }
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Email OTP verified successfully."),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+            if (!_phoneVerified) {
+              _phoneFocusNodes[0].requestFocus();
+            }
+          }
+        });
+
+        if (_emailVerified && _phoneVerified && _acceptTerms) {
+          _onSignupComplete();
         }
       }
     } catch (e) {
       if (mounted) {
         String errorMsg = e.toString().replaceAll('ApiException: ', '');
         if (errorMsg.toLowerCase().contains('invalid otp')) {
-          errorMsg = "Invalid OTP. Please enter the correct verification code.";
+          errorMsg = "Invalid Email OTP. Please enter the correct verification code.";
         }
         setState(() {
           _isLoading = false;
           _error = errorMsg;
+          for (var c in _emailControllers) {
+            c.clear();
+          }
+          _emailFocusNodes[0].requestFocus();
         });
       }
+    }
+  }
+
+  Future<void> _verifyPhone() async {
+    final phoneOtp = _phoneControllers.map((c) => c.text).join();
+    if (phoneOtp.length < 6 || _phoneVerified || _isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+
+    try {
+      final res = await _authService.verifySignupOtp(
+        verificationId: widget.verificationId,
+        phoneOtp: phoneOtp,
+      );
+
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          if (res['phone_verified'] == true) {
+            _phoneVerified = true;
+            for (var c in _phoneControllers) {
+              c.text = '#';
+            }
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Phone OTP verified successfully."),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        });
+
+        if (_emailVerified && _phoneVerified && _acceptTerms) {
+          _onSignupComplete();
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        String errorMsg = e.toString().replaceAll('ApiException: ', '');
+        if (errorMsg.toLowerCase().contains('invalid otp')) {
+          errorMsg = "Invalid Phone OTP. Please enter the correct verification code.";
+        }
+        setState(() {
+          _isLoading = false;
+          _error = errorMsg;
+          for (var c in _phoneControllers) {
+            c.clear();
+          }
+          _phoneFocusNodes[0].requestFocus();
+        });
+      }
+    }
+  }
+
+  Future<void> _onSignupComplete() async {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Account created successfully! Please login to continue."),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      await _authService.logout();
+      if (mounted) {
+        Navigator.popUntil(context, (route) => route.isFirst);
+      }
+    }
+  }
+
+  void _checkAutoVerify() {
+    final emailOtp = _emailControllers.map((c) => c.text).join();
+    final phoneOtp = _phoneControllers.map((c) => c.text).join();
+
+    if (emailOtp.length == 6 && !_emailVerified && !_isLoading) {
+      _verifyEmail();
+    }
+    if (phoneOtp.length == 6 && !_phoneVerified && !_isLoading) {
+      _verifyPhone();
     }
   }
 
@@ -236,17 +339,33 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               // Email OTP Group
               Align(
                 alignment: Alignment.centerLeft,
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Email Code sent to: ',
-                    style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
-                    children: [
-                      TextSpan(
-                        text: widget.email,
-                        style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: 'Email Code sent to: ',
+                        style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                        children: [
+                          TextSpan(
+                            text: widget.email,
+                            style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    if (_emailVerified)
+                      const Row(
+                        children: [
+                          Icon(Icons.check_circle, color: FemFlowColors.primary, size: 16),
+                          SizedBox(width: 4),
+                          Text(
+                            'Verified',
+                            style: TextStyle(color: FemFlowColors.primary, fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                  ],
                 ),
               ),
               const SizedBox(height: 12),
@@ -256,23 +375,40 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 onChanged: (val) {
                   _checkAutoVerify();
                 },
+                isEnabled: !_emailVerified,
               ),
               const SizedBox(height: 24),
 
               // Phone OTP Group
               Align(
                 alignment: Alignment.centerLeft,
-                child: RichText(
-                  text: TextSpan(
-                    text: 'SMS Code sent to: ',
-                    style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
-                    children: [
-                      TextSpan(
-                        text: widget.phone,
-                        style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: 'SMS Code sent to: ',
+                        style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                        children: [
+                          TextSpan(
+                            text: widget.phone,
+                            style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    if (_phoneVerified)
+                      const Row(
+                        children: [
+                          Icon(Icons.check_circle, color: FemFlowColors.primary, size: 16),
+                          SizedBox(width: 4),
+                          Text(
+                            'Verified',
+                            style: TextStyle(color: FemFlowColors.primary, fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                  ],
                 ),
               ),
               const SizedBox(height: 12),
@@ -282,6 +418,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 onChanged: (val) {
                   _checkAutoVerify();
                 },
+                isEnabled: !_phoneVerified,
               ),
               const SizedBox(height: 32),
 
@@ -412,6 +549,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     required List<TextEditingController> controllers,
     required List<FocusNode> focusNodes,
     required Function(String) onChanged,
+    required bool isEnabled,
   }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -424,7 +562,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
             maxLength: 1,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            enabled: isEnabled,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: isEnabled ? FemFlowColors.textPrimary : FemFlowColors.textMuted,
+            ),
             decoration: InputDecoration(
               counterText: "",
               contentPadding: const EdgeInsets.symmetric(vertical: 10),
@@ -432,12 +575,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(color: FemFlowColors.border),
               ),
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(color: FemFlowColors.border, width: 1.0),
+              ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(color: FemFlowColors.primary, width: 1.5),
               ),
               filled: true,
-              fillColor: Colors.white,
+              fillColor: isEnabled ? Colors.white : FemFlowColors.border.withOpacity(0.3),
             ),
             onChanged: (value) {
               if (_error != null) {

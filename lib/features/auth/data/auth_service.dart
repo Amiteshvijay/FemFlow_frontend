@@ -52,17 +52,23 @@ class AuthService {
     return Map<String, dynamic>.from(response);
   }
 
-  Future<void> verifySignupOtp({
+  Future<Map<String, dynamic>> verifySignupOtp({
     required String verificationId,
-    required String emailOtp,
-    required String phoneOtp,
+    String? emailOtp,
+    String? phoneOtp,
   }) async {
     debugPrint('Attempting signup OTP verification for: $verificationId');
-    final response = await _apiClient.post('/auth/signup/verify-otp/', body: {
+    final Map<String, dynamic> body = {
       'verification_id': verificationId,
-      'email_otp': emailOtp,
-      'phone_otp': phoneOtp,
-    });
+    };
+    if (emailOtp != null && emailOtp.isNotEmpty) {
+      body['email_otp'] = emailOtp;
+    }
+    if (phoneOtp != null && phoneOtp.isNotEmpty) {
+      body['phone_otp'] = phoneOtp;
+    }
+
+    final response = await _apiClient.post('/auth/signup/verify-otp/', body: body);
 
     if (response['success'] == true && response['access'] != null && response['refresh'] != null) {
       await _tokenStorage.saveTokens(
@@ -70,6 +76,7 @@ class AuthService {
         refresh: response['refresh'],
       );
     }
+    return Map<String, dynamic>.from(response);
   }
 
   Future<void> resendSignupOtp({
