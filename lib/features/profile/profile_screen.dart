@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
@@ -44,6 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _isLoading = true;
   bool _isUploadingAvatar = false;
   String? _errorMessage;
+  List<VoucherModel> _vouchers = [];
 
   @override
   void initState() {
@@ -93,9 +95,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     try {
       final profile = await _profileService.getProfile();
+      List<VoucherModel> vouchers = [];
+      try {
+        vouchers = await _profileService.getVouchers();
+      } catch (e) {
+        debugPrint('Failed to fetch vouchers: $e');
+      }
+
       if (mounted) {
         setState(() {
           _profile = profile;
+          _vouchers = vouchers;
           _isLoading = false;
         });
       }
@@ -183,6 +193,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 32),
                       if (!isPartner) ...[
                         _buildSubscriptionMenu(context),
+                        const SizedBox(height: 16),
+                        _buildVouchersSection(context),
                         const SizedBox(height: 16),
                       ],
                       _buildMenuSection(context),
@@ -487,6 +499,112 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildVouchersSection(BuildContext context) {
+    final activeVouchers = _vouchers.where((v) => v.isActive && !v.isSpent).toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          child: Text(
+            'FemFlow Credits',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: FemFlowColors.textPrimary,
+            ),
+          ),
+        ),
+        AppCard(
+          padding: const EdgeInsets.all(16),
+          child: activeVouchers.isEmpty
+              ? const Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text(
+                      'No active vouchers. You will see credit vouchers here if you cancel appointments or receive credits.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: FemFlowColors.textSecondary,
+                      ),
+                    ),
+                  ),
+                )
+              : SizedBox(
+                  height: 80,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: activeVouchers.length,
+                    itemBuilder: (context, index) {
+                      final voucher = activeVouchers[index];
+                      return GestureDetector(
+                         onTap: () {
+                           Clipboard.setData(ClipboardData(text: voucher.code));
+                           ScaffoldMessenger.of(context).showSnackBar(
+                             SnackBar(
+                               content: Text('Voucher code "${voucher.code}" copied to clipboard!'),
+                               behavior: SnackBarBehavior.floating,
+                               duration: const Duration(seconds: 2),
+                             ),
+                           );
+                         },
+                         child: Container(
+                           width: 200,
+                           margin: const EdgeInsets.only(right: 12),
+                           padding: const EdgeInsets.all(10),
+                           decoration: BoxDecoration(
+                             color: FemFlowColors.blushMist,
+                             borderRadius: BorderRadius.circular(10),
+                             border: Border.all(
+                               color: FemFlowColors.primary.withValues(alpha: 0.3),
+                               style: BorderStyle.solid,
+                               width: 1.5,
+                             ),
+                           ),
+                           child: Row(
+                             children: [
+                               const Icon(Icons.card_giftcard, color: FemFlowColors.primary, size: 24),
+                               const SizedBox(width: 8),
+                               Expanded(
+                                 child: Column(
+                                   mainAxisAlignment: MainAxisAlignment.center,
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     Text(
+                                       voucher.code,
+                                       style: const TextStyle(
+                                         fontWeight: FontWeight.bold,
+                                         fontSize: 13,
+                                         color: FemFlowColors.textPrimary,
+                                         letterSpacing: 1.1,
+                                       ),
+                                     ),
+                                     const SizedBox(height: 2),
+                                     Text(
+                                       'Value: ₹${voucher.value.toInt()}',
+                                       style: const TextStyle(
+                                         fontSize: 11,
+                                         color: FemFlowColors.textSecondary,
+                                       ),
+                                     ),
+                                   ],
+                                 ),
+                               ),
+                               const Icon(Icons.copy_rounded, color: FemFlowColors.textMuted, size: 16),
+                             ],
+                           ),
+                         ),
+                       );
+                    },
+                  ),
+                ),
+        ),
+      ],
     );
   }
 

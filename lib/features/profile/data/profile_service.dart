@@ -365,4 +365,47 @@ class ProfileService {
       'otp': otp,
     });
   }
+
+  Future<List<VoucherModel>> getVouchers() async {
+    final response = await _apiClient.get('/doctor-consultation/vouchers/');
+    if (response is List) {
+      return response.map((item) => VoucherModel.fromJson(item)).toList();
+    }
+    return [];
+  }
+}
+
+class VoucherModel {
+  final int id;
+  final String code;
+  final double value;
+  final bool isActive;
+  final bool isSpent;
+  final DateTime? spentAt;
+  final DateTime createdAt;
+  final DateTime? expiryDate;
+
+  VoucherModel({
+    required this.id,
+    required this.code,
+    required this.value,
+    required this.isActive,
+    required this.isSpent,
+    this.spentAt,
+    required this.createdAt,
+    this.expiryDate,
+  });
+
+  factory VoucherModel.fromJson(Map<String, dynamic> json) {
+    return VoucherModel(
+      id: json['id'],
+      code: json['code'] ?? '',
+      value: (json['value'] as num).toDouble(),
+      isActive: json['is_active'] ?? false,
+      isSpent: json['is_spent'] ?? false,
+      spentAt: json['spent_at'] != null ? DateTime.parse(json['spent_at']) : null,
+      createdAt: DateTime.parse(json['created_at']),
+      expiryDate: json['expiry_date'] != null ? DateTime.parse(json['expiry_date']) : null,
+    );
+  }
 }
