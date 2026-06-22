@@ -670,135 +670,152 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
   Widget _buildAIChatBubble(int index, ChatMessageModel message, String time) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Column(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            constraints: const BoxConstraints(maxWidth: 280),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: FemFlowColors.aiWellness.withValues(alpha: 0.1),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
-                bottomRight: Radius.circular(16),
-              ),
-              border: Border.all(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
+          CircleAvatar(
+            backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+            radius: 18,
+            child: const Icon(
+              Icons.face_3,
+              color: FemFlowColors.primary,
+              size: 20,
             ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  message.content,
-                  style: const TextStyle(color: FemFlowColors.textPrimary, height: 1.4),
-                ),
-                if (message.toolsUsed != null && message.toolsUsed!.isNotEmpty) ...[
-                  const SizedBox(height: 12),
-                  const Divider(color: FemFlowColors.border, height: 1),
-                  const SizedBox(height: 8),
-                  const Row(
-                    children: [
-                      Icon(Icons.auto_awesome, size: 14, color: FemFlowColors.primary),
-                      SizedBox(width: 6),
-                      Text(
-                        'FemAI Agent Executed Tasks:',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: FemFlowColors.primary,
-                        ),
-                      ),
-                    ],
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 280),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: FemFlowColors.aiWellness.withValues(alpha: 0.1),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                      bottomRight: Radius.circular(16),
+                    ),
+                    border: Border.all(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
                   ),
-                  const SizedBox(height: 8),
-                  ...message.toolsUsed!.map((tool) {
-                    final info = _getAgentActionInfo(tool);
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 6),
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: info.color.withOpacity(0.2)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.02),
-                            blurRadius: 4,
-                            offset: const Offset(0, 1),
-                          ),
-                        ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        message.content,
+                        style: const TextStyle(color: FemFlowColors.textPrimary, height: 1.4),
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: info.color.withOpacity(0.1),
-                              shape: BoxShape.circle,
+                      if (message.toolsUsed != null && message.toolsUsed!.isNotEmpty) ...[
+                        const SizedBox(height: 12),
+                        const Divider(color: FemFlowColors.border, height: 1),
+                        const SizedBox(height: 8),
+                        const Row(
+                          children: [
+                            Icon(Icons.auto_awesome, size: 14, color: FemFlowColors.primary),
+                            SizedBox(width: 6),
+                            Text(
+                              'FemAI Agent Executed Tasks:',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: FemFlowColors.primary,
+                              ),
                             ),
-                            child: Icon(info.icon, size: 14, color: info.color),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Column(
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        ...message.toolsUsed!.map((tool) {
+                          final info = _getAgentActionInfo(tool);
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 6),
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.9),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: info.color.withValues(alpha: 0.2)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.02),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  info.title,
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold,
-                                    color: info.color,
+                                Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: info.color.withValues(alpha: 0.1),
+                                    shape: BoxShape.circle,
                                   ),
+                                  child: Icon(info.icon, size: 14, color: info.color),
                                 ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  info.description,
-                                  style: const TextStyle(
-                                    fontSize: 9,
-                                    color: FemFlowColors.textSecondary,
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        info.title,
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          color: info.color,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        info.description,
+                                        style: const TextStyle(
+                                          fontSize: 9,
+                                          color: FemFlowColors.textSecondary,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                          );
+                        }),
+                      ],
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  time,
+                  style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _messages[index].isLiked = !_messages[index].isLiked;
+                        });
+                      },
+                      child: Icon(
+                        _messages[index].isLiked ? Icons.favorite : Icons.favorite_border,
+                        size: 16,
+                        color: _messages[index].isLiked ? Colors.red : FemFlowColors.textMuted,
                       ),
-                    );
-                  }),
-                ],
+                    ),
+                    const SizedBox(width: 12),
+                    GestureDetector(
+                      onTap: () {
+                        Share.share(message.content);
+                      },
+                      child: const Icon(Icons.ios_share, size: 16, color: FemFlowColors.textMuted),
+                    ),
+                  ],
+                ),
               ],
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            time,
-            style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _messages[index].isLiked = !_messages[index].isLiked;
-                  });
-                },
-                child: Icon(
-                  _messages[index].isLiked ? Icons.favorite : Icons.favorite_border,
-                  size: 16,
-                  color: _messages[index].isLiked ? Colors.red : FemFlowColors.textMuted,
-                ),
-              ),
-              const SizedBox(width: 12),
-              GestureDetector(
-                onTap: () {
-                  Share.share(message.content);
-                },
-                child: const Icon(Icons.ios_share, size: 16, color: FemFlowColors.textMuted),
-              ),
-            ],
           ),
         ],
       ),
@@ -961,20 +978,54 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
   Widget _buildTypingIndicator() {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: FemFlowColors.aiWellness.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: const SizedBox(
-          width: 30,
-          child: LinearProgressIndicator(
-            backgroundColor: Colors.transparent,
-            valueColor: AlwaysStoppedAnimation<Color>(FemFlowColors.aiWellness),
-            minHeight: 2,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+            radius: 18,
+            child: const Icon(
+              Icons.face_3,
+              color: FemFlowColors.primary,
+              size: 20,
+            ),
           ),
-        ),
+          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: FemFlowColors.aiWellness.withValues(alpha: 0.1),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+                bottomRight: Radius.circular(16),
+              ),
+              border: Border.all(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(FemFlowColors.primary),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  'FemAI is thinking...',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: FemFlowColors.textSecondary,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
