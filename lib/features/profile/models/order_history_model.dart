@@ -1,0 +1,71 @@
+class OrderHistoryItem {
+  final int id;
+  final String uuid;
+  final String orderId;
+  final String type; // 'Subscription' or 'Consultation'
+  final String displayName;
+  final double amount;
+  final String currency;
+  final String status; // pending, success, failed, verification_pending, rejected
+  final DateTime createdAt;
+  final String? utrNumber;
+  final String? paymentScreenshot;
+  final Map<String, dynamic> details;
+  final String? upiLink;
+  final String? qrCodeUrl;
+
+  OrderHistoryItem({
+    required this.id,
+    required this.uuid,
+    required this.orderId,
+    required this.type,
+    required this.displayName,
+    required this.amount,
+    required this.currency,
+    required this.status,
+    required this.createdAt,
+    this.utrNumber,
+    this.paymentScreenshot,
+    required this.details,
+    this.upiLink,
+    this.qrCodeUrl,
+  });
+
+  factory OrderHistoryItem.fromJson(Map<String, dynamic> json) {
+    return OrderHistoryItem(
+      id: json['id'] ?? 0,
+      uuid: json['uuid'] ?? '',
+      orderId: json['order_id'] ?? '',
+      type: json['type'] ?? '',
+      displayName: json['display_name'] ?? '',
+      amount: (json['amount'] as num).toDouble(),
+      currency: json['currency'] ?? 'INR',
+      status: json['status'] ?? 'pending',
+      createdAt: DateTime.parse(json['created_at']),
+      utrNumber: json['utr_number'],
+      paymentScreenshot: json['payment_screenshot'],
+      details: Map<String, dynamic>.from(json['details'] ?? {}),
+      upiLink: json['upi_link'],
+      qrCodeUrl: json['qr_code_url'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'uuid': uuid,
+      'order_id': orderId,
+      'type': type,
+      'display_name': displayName,
+      'amount': amount,
+      'currency': currency,
+      'status': status,
+      'created_at': createdAt.toIso8601String(),
+      'utr_number': utrNumber,
+      'payment_screenshot': paymentScreenshot,
+      'details': details,
+      'upi_link': upiLink,
+      'qr_code_url': qrCodeUrl,
+    };
+  }
+}

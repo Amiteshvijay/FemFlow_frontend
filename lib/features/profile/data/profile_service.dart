@@ -1,4 +1,6 @@
+import 'dart:io';
 import '../../../core/network/api_client.dart';
+import '../models/order_history_model.dart';
 
 class UserProfile {
   final int? id;
@@ -372,6 +374,46 @@ class ProfileService {
       return response.map((item) => VoucherModel.fromJson(item)).toList();
     }
     return [];
+  }
+
+  Future<List<OrderHistoryItem>> getOrderHistory() async {
+    final response = await _apiClient.get('/users/orders/');
+    if (response != null && response['orders'] != null) {
+      final List ordersJson = response['orders'];
+      return ordersJson.map((item) => OrderHistoryItem.fromJson(item)).toList();
+    }
+    return [];
+  }
+
+  Future<void> submitSubscriptionUtr({
+    required String orderId,
+    required String utrNumber,
+    File? screenshotFile,
+  }) async {
+    await _apiClient.multipartPost(
+      '/subscriptions/payment/submit-utr/',
+      fields: {
+        'order_id': orderId,
+        'utr_number': utrNumber,
+      },
+      fileFieldName: 'payment_screenshot',
+      file: screenshotFile,
+    );
+  }
+
+  Future<void> submitConsultationUtr({
+    required int bookingId,
+    required String utrNumber,
+    File? screenshotFile,
+  }) async {
+    await _apiClient.multipartPost(
+      '/doctor-consultation/bookings/$bookingId/submit-utr/',
+      fields: {
+        'utr_number': utrNumber,
+      },
+      fileFieldName: 'payment_screenshot',
+      file: screenshotFile,
+    );
   }
 }
 
