@@ -66,9 +66,15 @@ class _PermissionEducationScreenState extends State<PermissionEducationScreen> {
             ),
             const SizedBox(height: 16),
             const Text(
-              'By connecting your health data, FemFlow can provide more accurate cycle and wellness predictions.',
+              'By connecting your health data via Health Connect, FemFlow can provide more accurate cycle and wellness predictions. Your data is synced securely from your device.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16, color: FemFlowColors.textSecondary, height: 1.5),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'FemFlow reads data like steps, activity, and sleep to correlate them with your hormonal phases for better insights.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted, fontStyle: FontStyle.italic),
             ),
             const SizedBox(height: 48),
             _buildBenefitRow(Icons.auto_awesome, 'Improved Cycle Prediction', 'Syncing steps and activity helps AI detect patterns.'),

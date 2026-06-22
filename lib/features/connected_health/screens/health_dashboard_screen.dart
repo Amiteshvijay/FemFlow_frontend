@@ -192,9 +192,19 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
 
   Widget _buildSecurityNote() {
     return const Center(
-      child: Text(
-        'Your health data is encrypted and private.',
-        style: TextStyle(fontSize: 11, color: FemFlowColors.textMuted, fontStyle: FontStyle.italic),
+      child: Column(
+        children: [
+          Text(
+            'Your health data is encrypted and private.',
+            style: TextStyle(fontSize: 11, color: FemFlowColors.textMuted, fontStyle: FontStyle.italic),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'FemFlow uses Health Connect to provide personalized wellness insights. You can revoke access anytime in settings.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 10, color: FemFlowColors.textMuted),
+          ),
+        ],
       ),
     );
   }

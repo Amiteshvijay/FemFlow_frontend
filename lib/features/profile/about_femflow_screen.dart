@@ -81,9 +81,39 @@ class _AboutFemFlowScreenState extends State<AboutFemFlowScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Version: ${_data?.version ?? '1.0.0'}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                            Text('Version: ${_data?.version ?? '1.0.21'}', style: const TextStyle(fontWeight: FontWeight.bold)),
                             const SizedBox(height: 12),
                             Text(_data?.description ?? '', style: const TextStyle(color: FemFlowColors.textSecondary, height: 1.5)),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      AppCard(
+                        padding: EdgeInsets.zero,
+                        child: Column(
+                          children: [
+                            _buildLinkItem(
+                              icon: Icons.policy_outlined,
+                              label: 'Privacy Policy',
+                              onTap: () => _launchURL('https://www.femflow.in/privacy-policy'),
+                            ),
+                            const Divider(height: 1, indent: 56),
+                            _buildLinkItem(
+                              icon: Icons.description_outlined,
+                              label: 'Terms of Service',
+                              onTap: () => _launchURL('https://www.femflow.in/terms'),
+                            ),
+                            const Divider(height: 1, indent: 56),
+                            _buildLinkItem(
+                              icon: Icons.info_outline,
+                              label: 'Safety Disclaimer',
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => const SafetyDisclaimerScreen()),
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -91,5 +121,25 @@ class _AboutFemFlowScreenState extends State<AboutFemFlowScreen> {
                   ),
                 ),
     );
+  }
+
+  Widget _buildLinkItem({required IconData icon, required String label, required VoidCallback onTap}) {
+    return ListTile(
+      leading: Icon(icon, color: FemFlowColors.primary, size: 22),
+      title: Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+      trailing: const Icon(Icons.open_in_new, size: 16, color: FemFlowColors.textMuted),
+      onTap: onTap,
+    );
+  }
+
+  Future<void> _launchURL(String url) async {
+    final uri = Uri.parse(url);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+    } catch (e) {
+      // Handle error
+    }
   }
 }
