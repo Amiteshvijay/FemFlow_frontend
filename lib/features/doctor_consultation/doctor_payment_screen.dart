@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import '../../../core/security/app_lock_service.dart';
-import '../../../core/theme/femflow_colors.dart';
-import '../../../shared/widgets/app_card.dart';
-import 'models/doctor_models.dart';
-import 'data/doctor_consultation_service.dart';
-import 'my_doctor_bookings_screen.dart';
-import '../../shell/main_shell.dart';
+import 'package:femflow/core/security/app_lock_service.dart';
+import 'package:femflow/core/theme/femflow_colors.dart';
+import 'package:femflow/features/doctor_consultation/models/doctor_models.dart';
+import 'package:femflow/features/doctor_consultation/data/doctor_consultation_service.dart';
+import 'package:femflow/features/shell/main_shell.dart';
 
 class DoctorPaymentScreen extends StatefulWidget {
   final DoctorProfile doctor;

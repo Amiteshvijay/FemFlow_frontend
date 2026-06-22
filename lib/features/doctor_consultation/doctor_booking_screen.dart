@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:femflow/core/theme/femflow_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:femflow/features/auth/providers/auth_provider.dart';
-import '../../core/security/app_lock_service.dart';
 import 'package:femflow/shared/widgets/app_card.dart';
 import 'data/doctor_consultation_service.dart';
 import 'models/doctor_models.dart';
