@@ -237,11 +237,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                               }
                             },
                             icon: const Icon(Icons.account_balance_wallet),
-                            label: const Text('Launch UPI Apps', style: TextStyle(fontWeight: FontWeight.bold)),
+                            label: const Text('Pay now', style: TextStyle(fontWeight: FontWeight.bold)),
                           ),
                         ),
                       const SizedBox(height: 8),
-                      const Text('UPI ID: femflow@upi', style: TextStyle(color: FemFlowColors.textMuted, fontSize: 11)),
+                      const Text('UPI ID: femflow@ybl', style: TextStyle(color: FemFlowColors.textMuted, fontSize: 11)),
                     ],
                   ),
                 ),
