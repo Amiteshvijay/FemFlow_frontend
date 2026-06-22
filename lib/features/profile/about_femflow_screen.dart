@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/support_service.dart';
+import 'safety_disclaimer_screen.dart';
 
 class AboutFemFlowScreen extends StatefulWidget {
   const AboutFemFlowScreen({super.key});
