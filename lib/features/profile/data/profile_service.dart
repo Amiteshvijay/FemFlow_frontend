@@ -377,7 +377,7 @@ class ProfileService {
   }
 
   Future<List<OrderHistoryItem>> getOrderHistory() async {
-    final response = await _apiClient.get('/users/orders/');
+    final response = await _apiClient.get('/auth/orders/');
     if (response != null && response['orders'] != null) {
       final List ordersJson = response['orders'];
       return ordersJson.map((item) => OrderHistoryItem.fromJson(item)).toList();
