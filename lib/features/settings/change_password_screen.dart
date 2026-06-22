@@ -22,6 +22,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool _obscureCurrent = true;
   bool _obscureNew = true;
   bool _obscureConfirm = true;
+  bool _showGuidelines = false;
 
   @override
   void initState() {
@@ -176,15 +177,29 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               controller: _newPasswordController,
               decoration: InputDecoration(
                 labelText: 'New Password',
-                suffixIcon: IconButton(
-                  icon: Icon(_obscureNew ? Icons.visibility : Icons.visibility_off),
-                  onPressed: () => setState(() => _obscureNew = !_obscureNew),
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.help_outline_rounded,
+                        color: _showGuidelines ? FemFlowColors.primary : Colors.grey,
+                      ),
+                      onPressed: () => setState(() => _showGuidelines = !_showGuidelines),
+                    ),
+                    IconButton(
+                      icon: Icon(_obscureNew ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () => setState(() => _obscureNew = !_obscureNew),
+                    ),
+                  ],
                 ),
               ),
               obscureText: _obscureNew,
             ),
-            const SizedBox(height: 8),
-            PasswordGuidelines(password: _newPasswordController.text),
+            if (_showGuidelines) ...[
+              const SizedBox(height: 8),
+              PasswordGuidelines(password: _newPasswordController.text),
+            ],
             const SizedBox(height: 16),
             TextField(
               controller: _confirmPasswordController,

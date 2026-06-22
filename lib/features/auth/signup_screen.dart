@@ -23,6 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _referralController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _isLoading = false;
+  bool _showGuidelines = false;
   final AuthService _authService = AuthService();
 
   @override
@@ -67,17 +68,21 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Future<void> _handleSignup() async {
-    if (_fullNameController.text.isEmpty ||
-        _mobileNoController.text.isEmpty ||
-        _emailController.text.isEmpty ||
-        _passwordController.text.isEmpty) {
+    final fullName = _fullNameController.text.trim();
+    final mobileNo = _mobileNoController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+    final referralCode = _referralController.text.trim();
+
+    if (fullName.isEmpty || mobileNo.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields')),
+        const SnackBar(content: Text('All fields are required')),
       );
       return;
     }
 
-    if (_passwordController.text != _confirmPasswordController.text) {
+    if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Passwords do not match')),
       );
@@ -119,11 +124,11 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() => _isLoading = true);
     try {
       final response = await _authService.requestSignupOtp(
-        mobileNo: _mobileNoController.text.trim(),
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-        fullName: _fullNameController.text.trim(),
-        referralCode: _referralController.text.trim(),
+        mobileNo: mobileNo,
+        email: email,
+        password: password,
+        fullName: fullName,
+        referralCode: referralCode.isEmpty ? null : referralCode,
       );
       
       // Clear pending referral on success
@@ -136,8 +141,8 @@ class _SignupScreenState extends State<SignupScreen> {
           MaterialPageRoute(
             builder: (_) => OtpVerificationScreen(
               verificationId: verificationId,
-              email: _emailController.text.trim(),
-              phone: _mobileNoController.text.trim(),
+              email: email,
+              phone: mobileNo,
             ),
           ),
         );
@@ -213,9 +218,11 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(height: 16),
               _buildField('Email', _emailController, Icons.email_outlined),
               const SizedBox(height: 16),
-              _buildPasswordField('Password', _passwordController),
-              const SizedBox(height: 8),
-              PasswordGuidelines(password: _passwordController.text),
+              _buildPasswordField('Password', _passwordController, showHint: true),
+              if (_showGuidelines) ...[
+                const SizedBox(height: 8),
+                PasswordGuidelines(password: _passwordController.text),
+              ],
               const SizedBox(height: 16),
               _buildPasswordField('Confirm Password', _confirmPasswordController),
               const SizedBox(height: 16),
@@ -274,18 +281,31 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildPasswordField(String label, TextEditingController controller) {
+  Widget _buildPasswordField(String label, TextEditingController controller, {bool showHint = false}) {
     return TextField(
       controller: controller,
       obscureText: !_isPasswordVisible,
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: const Icon(Icons.lock_outline),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-          ),
-          onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+        suffixIcon: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (showHint)
+              IconButton(
+                icon: Icon(
+                  Icons.help_outline_rounded,
+                  color: _showGuidelines ? FemFlowColors.primary : Colors.grey,
+                ),
+                onPressed: () => setState(() => _showGuidelines = !_showGuidelines),
+              ),
+            IconButton(
+              icon: Icon(
+                _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+              ),
+              onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+            ),
+          ],
         ),
         filled: true,
         fillColor: Colors.white,
@@ -297,3 +317,4 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 }
+
