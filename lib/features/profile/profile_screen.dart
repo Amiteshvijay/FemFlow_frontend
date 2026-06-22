@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
@@ -439,6 +440,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   context,
                   MaterialPageRoute(builder: (context) => const ReferralScreen()),
                 );
+              },
+            ),
+            _buildMenuItem(
+              context,
+              icon: Icons.history_rounded,
+              label: 'Order & Payment History',
+              subtitle: 'Verify UTR, upload screenshots & view details',
+              showDivider: true,
+              onTap: () async {
+                final url = Uri.parse('http://127.0.0.1:5173/order-history');
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                }
               },
             ),
           ],

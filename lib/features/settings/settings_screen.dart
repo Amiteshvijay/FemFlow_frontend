@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'change_password_screen.dart';
@@ -175,21 +174,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         featureKey: 'export_data', 
                         premiumScreen: const DataExportScreen()
                       ),
-                    ),
-                  ]),
-                  const SizedBox(height: 20),
-
-                  _buildSectionTitle('Billing & Payments', icon: Icons.payment),
-                  _buildSettingsGroup([
-                    _buildSettingsRow(
-                      'Order & Payment History', 
-                      subtitle: 'Verify UTR, upload screenshots & view details',
-                      onTap: () async {
-                        final url = Uri.parse('http://127.0.0.1:5173/order-history');
-                        if (await canLaunchUrl(url)) {
-                          await launchUrl(url, mode: LaunchMode.externalApplication);
-                        }
-                      },
                     ),
                   ]),
                   const SizedBox(height: 40),
