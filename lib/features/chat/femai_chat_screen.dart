@@ -1033,10 +1033,14 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
   Widget _buildSafetyDisclaimer() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.orange.withValues(alpha: 0.05),
+        border: Border(top: BorderSide(color: Colors.orange.withValues(alpha: 0.1))),
+      ),
       child: const Text(
-        'FemAI gives educational information only and is not a substitute for medical advice.',
+        'Medical Disclaimer: FemAI provides educational info only. It is not a medical device and does not diagnose or treat conditions. Always consult a healthcare professional for medical advice.',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 10, color: FemFlowColors.textMuted),
+        style: TextStyle(fontSize: 10, color: FemFlowColors.textSecondary, fontWeight: FontWeight.w500),
       ),
     );
   }

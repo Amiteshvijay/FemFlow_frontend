@@ -42,13 +42,13 @@ class SafetyDisclaimerScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'FemFlow and FemAI are designed to provide educational information and cycle tracking assistance only. The content and insights provided are not intended to be a substitute for professional medical advice, diagnosis, or treatment.',
-                    style: TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, height: 1.5),
+                    'FemFlow and FemAI are designed to provide educational information and cycle tracking assistance only. Important: FemFlow is NOT a medical device and does not diagnose, treat, cure, or prevent any medical condition. The content and insights provided are not intended to be a substitute for professional medical advice, diagnosis, or treatment.',
+                    style: TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, height: 1.5, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 16),
                   _buildDisclaimerPoint(
-                    'Not for Medical Use',
-                    'Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.',
+                    'Seek Professional Advice',
+                    'Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on FemFlow.',
                   ),
                   _buildDisclaimerPoint(
                     'No Contraceptive Guarantee',

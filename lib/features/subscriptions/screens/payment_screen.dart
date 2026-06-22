@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/security/app_lock_service.dart';
 import '../../../core/theme/femflow_colors.dart';
 import '../models/subscription_models.dart';
@@ -18,27 +18,25 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  late Razorpay _razorpay;
   final SubscriptionService _service = SubscriptionService();
+  final TextEditingController _utrController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  
   bool _isProcessing = false;
   String _statusMessage = 'Initializing secure payment...';
   bool _showRetryButton = false;
+  Map<String, dynamic>? _orderData;
 
   @override
   void initState() {
     super.initState();
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    
-    // Auto-initiate order
+    // Auto-initiate order creation
     Future.microtask(() => _startPayment());
   }
 
   @override
   void dispose() {
-    _razorpay.clear();
+    _utrController.dispose();
     super.dispose();
   }
 
@@ -48,13 +46,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       _isProcessing = true;
       _statusMessage = 'Creating secure order...';
       _showRetryButton = false;
-    });
-
-    // Timeout to show retry button if it hangs
-    Future.delayed(const Duration(seconds: 15), () {
-      if (mounted && _isProcessing && !_showRetryButton) {
-        setState(() => _showRetryButton = true);
-      }
+      _orderData = null;
     });
 
     try {
@@ -65,100 +57,57 @@ class _PaymentScreenState extends State<PaymentScreen> {
       debugPrint('DEBUG: Order created successfully: $orderData');
       
       if (!mounted) return;
-      setState(() => _statusMessage = 'Opening secure gateway...');
-
-      var options = {
-        'key': orderData['key_id'],
-        'amount': orderData['amount'],
-        'name': 'FemFlow Premium',
-        'description': widget.plan.name,
-        'order_id': orderData['order_id'],
-        'timeout': 300,
-        'external': {
-          'wallets': ['paytm']
-        }
-      };
-
-      // Add prefill only if we have data (optional)
-      // options['prefill'] = {'contact': '', 'email': ''};
-
-      debugPrint('DEBUG: Opening Razorpay with options: $options');
-      context.read<AppLockService>().setTrustedExternalFlowActive(true);
-      _razorpay.open(options);
-      
-      // We keep _isProcessing = true until we get a success or error event
-      // This keeps the spinner visible until the Razorpay UI takes over
+      setState(() {
+        _isProcessing = false;
+        _orderData = orderData;
+      });
     } catch (e, stack) {
-      debugPrint('DEBUG: Razorpay Init Error: $e');
+      debugPrint('DEBUG: UPI Order Creation Error: $e');
       debugPrint('DEBUG: Stack Trace: $stack');
       if (mounted) {
         setState(() {
           _isProcessing = false;
           _showRetryButton = true;
+          _statusMessage = 'Failed to create payment order.';
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to initialize: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to initialize payment: $e'))
+        );
       }
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+  Future<void> _submitUtr(String orderId, String utrNumber) async {
     if (!mounted) return;
     setState(() {
       _isProcessing = true;
-      _statusMessage = 'Verifying payment status...';
-      _showRetryButton = false; // Hide retry button during active verification
+      _statusMessage = 'Submitting UTR for verification...';
     });
 
     try {
-      final verifyData = {
-        'razorpay_order_id': response.orderId,
-        'razorpay_payment_id': response.paymentId,
-        'razorpay_signature': response.signature,
-      };
-
-      if (!mounted) return;
-      
-      await context.read<SubscriptionProvider>().verifyPayment(verifyData);
+      final provider = context.read<SubscriptionProvider>();
+      await provider.submitUtr(orderId, utrNumber);
       
       if (mounted) {
-        // SUCCESS: Explicitly stop processing and show dialog
-        context.read<AppLockService>().setTrustedExternalFlowActive(false);
         setState(() {
           _isProcessing = false;
-          _statusMessage = 'Payment Verified!';
         });
-        _showSuccessDialog();
+        _showSuccessDialog(utrNumber);
       }
     } catch (e) {
-      debugPrint('DEBUG: Verification Error: $e');
+      debugPrint('DEBUG: UTR Submission Error: $e');
       if (mounted) {
-        context.read<AppLockService>().setTrustedExternalFlowActive(false);
         setState(() {
           _isProcessing = false;
-          _statusMessage = 'Verification failed. Please check your internet.';
-          _showRetryButton = true;
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Payment verification failed: $e'),
-          action: SnackBarAction(label: 'Retry', onPressed: () => _handlePaymentSuccess(response)),
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to submit UTR: $e'))
+        );
       }
     }
   }
 
-  void _handlePaymentError(PaymentFailureResponse response) {
-    if (mounted) {
-      context.read<AppLockService>().setTrustedExternalFlowActive(false);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Payment failed: ${response.message}')));
-      Navigator.pop(context);
-    }
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    // Handle external wallet
-  }
-
-  void _showSuccessDialog() {
+  void _showSuccessDialog(String utrNumber) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -167,12 +116,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.check_circle, color: Colors.green, size: 64),
+            const Icon(Icons.check_circle_outline_rounded, color: Colors.green, size: 64),
             const SizedBox(height: 24),
-            const Text('Payment Successful!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Text(
+              'Verification Submitted',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 12),
             Text(
-              'Your ${widget.plan.name} is now active. Enjoy your premium wellness insights.',
+              'Your payment of ₹${_orderData?['amount'] ?? widget.plan.price} with UTR $utrNumber has been submitted for verification. '
+              'Your premium features will activate shortly once verified by support.',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 14, color: Colors.black87),
             ),
@@ -187,14 +140,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 onPressed: () async {
-                  // 1. Refresh global subscription status immediately
+                  // Refresh global subscription status immediately
                   final provider = context.read<SubscriptionProvider>();
                   await provider.loadStatus();
                   
                   if (!context.mounted) return;
 
-                  // 2. Robust navigation back to Home
-                  // We clear everything and go back to index 0 of the shell
+                  // Robust navigation back to Home
                   Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (_) => const MainShell()),
                     (route) => false,
@@ -211,56 +163,254 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isProcessing || _orderData == null) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.close, color: Colors.black),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircularProgressIndicator(color: FemFlowColors.primary),
+                const SizedBox(height: 32),
+                Text(
+                  _statusMessage,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: FemFlowColors.textPrimary,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Please do not close the app or press back.',
+                  style: TextStyle(fontSize: 13, color: FemFlowColors.textMuted),
+                ),
+                if (_showRetryButton) ...[
+                  const SizedBox(height: 48),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: _startPayment,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Retry'),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        side: const BorderSide(color: FemFlowColors.primary),
+                        foregroundColor: FemFlowColors.primary,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    final amount = _orderData!['amount'];
+    final orderId = _orderData!['order_id'];
+    final upiLink = _orderData!['upi_link'];
+    final qrCodeUrl = _orderData!['qr_code_url'];
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        title: const Text('Secure Checkout', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircularProgressIndicator(color: FemFlowColors.primary),
-              const SizedBox(height: 32),
-              Text(
-                _statusMessage,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: FemFlowColors.textPrimary,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Please do not close the app or press back.',
-                style: TextStyle(fontSize: 13, color: FemFlowColors.textMuted),
-              ),
-              if (_showRetryButton) ...[
-                const SizedBox(height: 48),
-                SizedBox(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Plan Summary Card
+                Container(
                   width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: _startPayment,
-                    icon: const Icon(Icons.refresh),
-                    label: const Text('Retry Initialization'),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      side: const BorderSide(color: FemFlowColors.primary),
-                      foregroundColor: FemFlowColors.primary,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: FemFlowColors.blushMist.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.2)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.plan.name,
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Total Amount: ₹${amount.toString()}',
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Order Ref: $orderId',
+                        style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+                      ),
+                    ],
                   ),
                 ),
+                const SizedBox(height: 28),
+
+                // Step 1: Payment Method
+                const Text(
+                  'Step 1: Choose Payment Option',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                ),
+                const SizedBox(height: 12),
+
+                // UPI intent launch button
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: FemFlowColors.primary,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: () async {
+                      if (upiLink != null && upiLink.isNotEmpty) {
+                        try {
+                          context.read<AppLockService>().setTrustedExternalFlowActive(true);
+                          await launchUrl(Uri.parse(upiLink), mode: LaunchMode.externalApplication);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Could not open payment apps: $e'))
+                          );
+                        }
+                      }
+                    },
+                    icon: const Icon(Icons.account_balance_wallet_outlined),
+                    label: const Text('Pay via PhonePe / GPay / Paytm', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                  ),
+                ),
+                
+                const SizedBox(height: 20),
+                const Center(
+                  child: Text(
+                    '— OR —',
+                    style: TextStyle(color: FemFlowColors.textMuted, fontSize: 13, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // QR code scanner box
+                if (qrCodeUrl != null) ...[
+                  Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 220,
+                          width: 220,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey[200]!, width: 2),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              qrCodeUrl,
+                              fit: const BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(child: Text('Failed to load QR code image'));
+                              },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Scan this QR code using any UPI app to pay',
+                          style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+
+                const Divider(height: 48),
+
+                // Step 2: Verification Details
+                const Text(
+                  'Step 2: Submit UTR Number to Activate',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'After completing your payment, copy the 12-digit UTR/Transaction ID from GPay, PhonePe, or Paytm and submit below.',
+                  style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary, height: 1.4),
+                ),
+                const SizedBox(height: 16),
+
+                TextFormField(
+                  controller: _utrController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'UTR / Transaction Reference Number',
+                    hintText: 'Enter 12-digit UTR number',
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    prefixIcon: const Icon(Icons.receipt_long),
+                    helperText: 'e.g. 612345678901',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter the UTR number';
+                    }
+                    final trimmedValue = value.trim();
+                    if (trimmedValue.length != 12 || !RegExp(r'^\d+$').hasMatch(trimmedValue)) {
+                      return 'Please enter a valid 12-digit numeric UTR';
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 32),
+
+                // Action button to verify
+                SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _submitUtr(orderId, _utrController.text.trim());
+                      }
+                    },
+                    child: const Text('Submit UTR & Verify', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  ),
+                ),
+                const SizedBox(height: 32),
               ],
-            ],
+            ),
           ),
         ),
       ),

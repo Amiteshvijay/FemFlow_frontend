@@ -137,6 +137,21 @@ class SubscriptionProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> submitUtr(String orderId, String utrNumber) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      await _service.submitUtr(orderId, utrNumber);
+      _error = null;
+    } catch (e) {
+      _error = e.toString();
+      rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
   void reset() {
     _status = null;
     _plans = [];

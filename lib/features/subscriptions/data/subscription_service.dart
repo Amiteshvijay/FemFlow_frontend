@@ -53,4 +53,11 @@ class SubscriptionService {
     final response = await _apiClient.post('/subscriptions/cancel/verify/', body: {'otp': otp});
     return UserSubscriptionStatus.fromJson(response['subscription']);
   }
+
+  Future<void> submitUtr(String orderId, String utrNumber) async {
+    await _apiClient.post('/subscriptions/payment/submit-utr/', body: {
+      'order_id': orderId,
+      'utr_number': utrNumber,
+    });
+  }
 }

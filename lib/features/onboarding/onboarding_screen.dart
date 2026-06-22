@@ -32,6 +32,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       subtitle: 'Ask questions, get gentle insights, and feel supported through every phase.',
       icon: Icons.chat_bubble_outline_rounded,
     ),
+    OnboardingData(
+      title: 'Medical Disclaimer',
+      subtitle: 'FemFlow is not a medical device and does not diagnose or treat conditions. Always consult a healthcare professional for medical advice or treatment.',
+      icon: Icons.info_outline_rounded,
+    ),
   ];
 
   @override
