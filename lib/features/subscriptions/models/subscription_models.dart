@@ -71,6 +71,7 @@ class UserSubscriptionStatus {
   final String? planKey;
   final bool isLifetime;
   final String? baseUrl;
+  final bool hasUsedTrial;
 
   UserSubscriptionStatus({
     required this.status,
@@ -83,6 +84,7 @@ class UserSubscriptionStatus {
     this.planKey,
     this.isLifetime = false,
     this.baseUrl,
+    required this.hasUsedTrial,
   });
 
   factory UserSubscriptionStatus.fromJson(Map<String, dynamic> json) {
@@ -97,6 +99,7 @@ class UserSubscriptionStatus {
       planKey: json['plan_key'],
       isLifetime: json['is_lifetime'] ?? false,
       baseUrl: json['base_url'],
+      hasUsedTrial: json['has_used_trial'] ?? false,
     );
   }
 

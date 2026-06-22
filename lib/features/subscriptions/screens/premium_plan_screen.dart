@@ -132,35 +132,39 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
        );
     }
 
-    return AppCard(
-      color: FemFlowColors.blushMist.withValues(alpha: 0.5),
-      border: const BorderSide(color: FemFlowColors.primary, width: 1),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: const BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
-            child: const Icon(Icons.star_rounded, color: Colors.white, size: 24),
-          ),
-          const SizedBox(width: 16),
-          const Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '1-Month Free Trial',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
-                ),
-                Text(
-                  'For new members. No charge today.',
-                  style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
-                ),
-              ],
+    if (provider.status?.status == 'free' && provider.status?.hasUsedTrial == false) {
+      return AppCard(
+        color: FemFlowColors.blushMist.withValues(alpha: 0.5),
+        border: const BorderSide(color: FemFlowColors.primary, width: 1),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: const BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
+              child: const Icon(Icons.star_rounded, color: Colors.white, size: 24),
             ),
-          ),
-        ],
-      ),
-    );
+            const SizedBox(width: 16),
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '1-Month Free Trial',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
+                  ),
+                  Text(
+                    'For new members. No charge today.',
+                    style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
   }
 
   Widget _buildPlanCard(SubscriptionPlan plan, int index) {
@@ -342,7 +346,7 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
   }
 
   Widget _buildSubscribeButton(SubscriptionProvider provider) {
-    bool isFree = provider.status?.status == 'free';
+    bool isFree = provider.status?.status == 'free' && provider.status?.hasUsedTrial == false;
     final selectedPlan = provider.plans[_selectedPlanIndex];
 
     String label = 'Subscribe Now';
@@ -370,7 +374,7 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
   }
 
   void _handleAction(SubscriptionProvider provider) async {
-    if (provider.status?.status == 'free') {
+    if (provider.status?.status == 'free' && provider.status?.hasUsedTrial == false) {
       final success = await provider.startTrial();
       if (success && mounted) {
         _showSuccessScreen(isTrial: true);
