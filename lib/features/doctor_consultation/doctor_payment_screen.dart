@@ -1,38 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 import '../../../core/security/app_lock_service.dart';
 import '../../../core/theme/femflow_colors.dart';
-import '../models/subscription_models.dart';
-import '../providers/subscription_provider.dart';
-import '../data/subscription_service.dart';
+import '../../../shared/widgets/app_card.dart';
+import 'models/doctor_models.dart';
+import 'data/doctor_consultation_service.dart';
+import 'my_doctor_bookings_screen.dart';
 import '../../shell/main_shell.dart';
 
-class PaymentScreen extends StatefulWidget {
-  final SubscriptionPlan plan;
+class DoctorPaymentScreen extends StatefulWidget {
+  final DoctorProfile doctor;
+  final DateTime date;
+  final String time;
+  final String mode;
+  final int bookingId;
+  final Map<String, dynamic> paymentOrder;
 
-  const PaymentScreen({super.key, required this.plan});
+  const DoctorPaymentScreen({
+    super.key,
+    required this.doctor,
+    required this.date,
+    required this.time,
+    required this.mode,
+    required this.bookingId,
+    required this.paymentOrder,
+  });
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  State<DoctorPaymentScreen> createState() => _DoctorPaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
-  final SubscriptionService _service = SubscriptionService();
+class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> {
+  final DoctorConsultationService _service = DoctorConsultationService();
   final TextEditingController _utrController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
-  bool _isProcessing = false;
-  String _statusMessage = 'Initializing secure payment...';
-  bool _showRetryButton = false;
-  Map<String, dynamic>? _orderData;
 
-  @override
-  void initState() {
-    super.initState();
-    // Auto-initiate order creation
-    Future.microtask(() => _startPayment());
-  }
+  bool _isProcessing = false;
 
   @override
   void dispose() {
@@ -40,54 +45,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
     super.dispose();
   }
 
-  Future<void> _startPayment() async {
+  Future<void> _submitUtr(String utrNumber) async {
     if (!mounted) return;
     setState(() {
       _isProcessing = true;
-      _statusMessage = 'Creating secure order...';
-      _showRetryButton = false;
-      _orderData = null;
     });
 
     try {
-      final orderData = await _service.createOrder(
-        planId: widget.plan.id,
-        planKey: widget.plan.planKey,
-      );
-      debugPrint('DEBUG: Order created successfully: $orderData');
-      
-      if (!mounted) return;
-      setState(() {
-        _isProcessing = false;
-        _orderData = orderData;
-      });
-    } catch (e, stack) {
-      debugPrint('DEBUG: UPI Order Creation Error: $e');
-      debugPrint('DEBUG: Stack Trace: $stack');
-      if (mounted) {
-        setState(() {
-          _isProcessing = false;
-          _showRetryButton = true;
-          _statusMessage = 'Failed to create payment order.';
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to initialize payment: $e'))
-        );
-      }
-    }
-  }
-
-  Future<void> _submitUtr(String orderId, String utrNumber) async {
-    if (!mounted) return;
-    setState(() {
-      _isProcessing = true;
-      _statusMessage = 'Submitting UTR for verification...';
-    });
-
-    try {
-      final provider = context.read<SubscriptionProvider>();
-      await provider.submitUtr(orderId, utrNumber);
-      
+      await _service.submitUtr(widget.bookingId, utrNumber);
       if (mounted) {
         setState(() {
           _isProcessing = false;
@@ -101,7 +66,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           _isProcessing = false;
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to submit UTR: $e'))
+          SnackBar(content: Text('Failed to submit UTR: $e')),
         );
       }
     }
@@ -119,13 +84,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
             const Icon(Icons.check_circle_outline_rounded, color: Colors.green, size: 64),
             const SizedBox(height: 24),
             const Text(
-              'Verification Submitted',
+              'Booking Requested',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             Text(
-              'Your payment of ₹${_orderData?['amount'] ?? widget.plan.price} with UTR $utrNumber has been submitted for verification. '
-              'Your premium features will activate shortly once verified by support.',
+              'Your payment of ₹${widget.paymentOrder['amount'] ?? widget.doctor.consultationFee} with UTR $utrNumber has been submitted for verification. '
+              'Your booking status is now "Verification Pending" and will be confirmed shortly after support verification.',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 14, color: Colors.black87),
             ),
@@ -139,14 +104,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
-                onPressed: () async {
-                  // Refresh global subscription status immediately
-                  final provider = context.read<SubscriptionProvider>();
-                  await provider.loadStatus();
-                  
-                  if (!context.mounted) return;
-
-                  // Robust navigation back to Home
+                onPressed: () {
                   Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (_) => const MainShell()),
                     (route) => false,
@@ -163,72 +121,35 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isProcessing || _orderData == null) {
+    final amount = widget.paymentOrder['amount'] ?? widget.doctor.consultationFee;
+    final upiLink = widget.paymentOrder['upi_link'];
+    final qrCodeUrl = widget.paymentOrder['qr_code_url'];
+    final paymentOrderNumber = widget.paymentOrder['payment_order_number'] ?? widget.paymentOrder['transaction_note'] ?? 'FF-PAY';
+    final dateStr = DateFormat('MMMM dd, yyyy').format(widget.date);
+
+    if (_isProcessing) {
       return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.close, color: Colors.black),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ),
         body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const CircularProgressIndicator(color: FemFlowColors.primary),
-                const SizedBox(height: 32),
-                Text(
-                  _statusMessage,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: FemFlowColors.textPrimary,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Please do not close the app or press back.',
-                  style: TextStyle(fontSize: 13, color: FemFlowColors.textMuted),
-                ),
-                if (_showRetryButton) ...[
-                  const SizedBox(height: 48),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: _startPayment,
-                      icon: const Icon(Icons.refresh),
-                      label: const Text('Retry'),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        side: const BorderSide(color: FemFlowColors.primary),
-                        foregroundColor: FemFlowColors.primary,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      ),
-                    ),
-                  ),
-                ],
-              ],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(color: FemFlowColors.primary),
+              const SizedBox(height: 24),
+              const Text(
+                'Submitting payment reference...',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            ],
           ),
         ),
       );
     }
 
-    final amount = _orderData!['amount'];
-    final orderId = _orderData!['order_id'];
-    final upiLink = _orderData!['upi_link'];
-    final qrCodeUrl = _orderData!['qr_code_url'];
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Secure Checkout', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: const Text('Consultation Checkout', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
@@ -244,7 +165,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Plan Summary Card
+                // Booking Details Card
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
@@ -257,17 +178,32 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.plan.name,
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+                        widget.doctor.fullName,
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${widget.doctor.speciality} • ${widget.mode.toUpperCase()}',
+                        style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                      ),
+                      const Divider(height: 24),
+                      Text(
+                        'Date: $dateStr',
+                        style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Time: ${widget.time}',
+                        style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 4),
                       Text(
                         'Total Amount: ₹${amount.toString()}',
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Order Ref: $orderId',
+                        'Order Reference: $paymentOrderNumber',
                         style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
                       ),
                     ],
@@ -358,7 +294,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                 // Step 2: Verification Details
                 const Text(
-                  'Step 2: Submit UTR Number to Activate',
+                  'Step 2: Submit UTR Number to Verify',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
                 ),
                 const SizedBox(height: 8),
@@ -404,10 +340,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        _submitUtr(orderId, _utrController.text.trim());
+                        _submitUtr(_utrController.text.trim());
                       }
                     },
-                    child: const Text('Submit UTR & Verify', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    child: const Text('Submit UTR & Book', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   ),
                 ),
                 const SizedBox(height: 32),

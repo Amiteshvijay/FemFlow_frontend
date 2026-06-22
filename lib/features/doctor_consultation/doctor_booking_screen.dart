@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:femflow/features/auth/providers/auth_provider.dart';
 import '../../core/security/app_lock_service.dart';
 import 'package:femflow/shared/widgets/app_card.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'data/doctor_consultation_service.dart';
 import 'models/doctor_models.dart';
 import 'doctor_payment_success_screen.dart';
+import 'doctor_payment_screen.dart';
 
 class DoctorBookingScreen extends StatefulWidget {
   final DoctorProfile doctor;
@@ -27,7 +27,6 @@ class DoctorBookingScreen extends StatefulWidget {
 
 class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
   final DoctorConsultationService _service = DoctorConsultationService();
-  late Razorpay _razorpay;
 
   String? _selectedMode;
   DateTime? _selectedDate;
@@ -47,11 +46,6 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
     super.initState();
     _selectedMode = widget.doctor.consultationModes.isNotEmpty ? widget.doctor.consultationModes.first : null;
     
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-
     _fetchBookingHistory();
   }
 
@@ -118,7 +112,6 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
 
   @override
   void dispose() {
-    _razorpay.clear();
     _notesController.dispose();
     super.dispose();
   }
@@ -144,72 +137,6 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
         SnackBar(content: Text('Failed to load slots: $e')),
       );
     }
-  }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    setState(() {
-      _isBooking = true;
-    });
-    try {
-      final bookingId = _currentBookingId;
-      if (bookingId == null) return;
-
-      final verification = await _service.verifyPayment(
-        bookingId: bookingId,
-        razorpayOrderId: response.orderId!,
-        razorpayPaymentId: response.paymentId!,
-        razorpaySignature: response.signature!,
-      );
-
-      if (verification['booking_status'] == 'confirmed') {
-        if (!mounted) return;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => DoctorPaymentSuccessScreen(
-              doctor: widget.doctor,
-              date: _selectedDate!,
-              time: _selectedTime!,
-              mode: _selectedMode!,
-              bookingId: bookingId,
-            ),
-          ),
-        );
-      } else {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Payment verification failed. Please contact support.')),
-        );
-      }
-    } catch (e) {
-      if (!mounted) return;
-      context.read<AppLockService>().setTrustedExternalFlowActive(false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Verification error: $e')),
-      );
-    } finally {
-      setState(() {
-        _isBooking = false;
-      });
-    }
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    if (mounted) {
-      context.read<AppLockService>().setTrustedExternalFlowActive(false);
-    }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Payment failed: ${response.message}')),
-    );
-    setState(() {
-      _isBooking = false;
-    });
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('External wallet selected: ${response.walletName}')),
-    );
   }
 
   int? _currentBookingId;
@@ -260,32 +187,24 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
         return;
       }
 
-      final orderResponse = await _service.createPaymentOrder(_currentBookingId!);
-
-      final options = {
-        'key': orderResponse['key_id'],
-        'amount': orderResponse['amount'],
-        'currency': orderResponse['currency'],
-        'name': 'FemFlow',
-        'description': widget.originalBookingId != null
-            ? 'Follow-up Consultation with ${widget.doctor.fullName}'
-            : 'Doctor Consultation with ${widget.doctor.fullName}',
-        'order_id': orderResponse['razorpay_order_id'],
-        'prefill': {
-          'contact': '',
-          'email': 'user@example.com'
-        },
-        'theme': {
-          'color': '#E85D8B'
-        }
-      };
+      final paymentOrder = bookingResponse['payment_order'];
 
       if (!mounted) return;
-      context.read<AppLockService>().setTrustedExternalFlowActive(true);
-      _razorpay.open(options);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => DoctorPaymentScreen(
+            doctor: widget.doctor,
+            date: _selectedDate!,
+            time: _selectedTime!,
+            mode: _selectedMode!,
+            bookingId: _currentBookingId!,
+            paymentOrder: paymentOrder,
+          ),
+        ),
+      );
     } catch (e) {
       if (!mounted) return;
-      context.read<AppLockService>().setTrustedExternalFlowActive(false);
       setState(() {
         _isBooking = false;
       });
@@ -744,7 +663,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
               const SizedBox(height: 16),
               const Center(
                 child: Text(
-                  'Your payment is securely processed by Razorpay.',
+                  'Your payment is securely verified via UPI / QR code.',
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ),

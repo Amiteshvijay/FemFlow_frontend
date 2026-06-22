@@ -68,23 +68,10 @@ class DoctorConsultationService {
     return response;
   }
 
-  Future<Map<String, dynamic>> createPaymentOrder(int bookingId) async {
-    final response = await _apiClient.post('/doctor-consultation/bookings/$bookingId/create-payment-order/', body: {});
-    return response;
-  }
-
-  Future<Map<String, dynamic>> verifyPayment({
-    required int bookingId,
-    required String razorpayOrderId,
-    required String razorpayPaymentId,
-    required String razorpaySignature,
-  }) async {
-    final response = await _apiClient.post('/doctor-consultation/bookings/$bookingId/verify-payment/', body: {
-      'razorpay_order_id': razorpayOrderId,
-      'razorpay_payment_id': razorpayPaymentId,
-      'razorpay_signature': razorpaySignature,
+  Future<void> submitUtr(int bookingId, String utrNumber) async {
+    await _apiClient.post('/doctor-consultation/bookings/$bookingId/submit-utr/', body: {
+      'utr_number': utrNumber,
     });
-    return response;
   }
 
   Future<List<DoctorBooking>> getMyBookings() async {

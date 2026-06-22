@@ -114,7 +114,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
           _buildDetailRow('Plan Name', widget.invoice.planName ?? 'Premium Subscription'),
           _buildDetailRow('Billing Date', DateFormat('MMMM dd, yyyy').format(widget.invoice.createdAt)),
           _buildDetailRow('Status', widget.invoice.status.toUpperCase(), valueColor: Colors.green),
-          _buildDetailRow('Payment Mode', 'Razorpay'),
+          _buildDetailRow('Payment Mode', 'UPI / QR Verification'),
         ],
       ),
     );

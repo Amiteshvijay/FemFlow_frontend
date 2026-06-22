@@ -78,7 +78,7 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
                 const SizedBox(height: 16),
                 const Center(
                   child: Text(
-                    'Cancel anytime. Secure payment via Razorpay.',
+                    'Cancel anytime. Secure payment via UPI / QR verification.',
                     style: TextStyle(color: FemFlowColors.textMuted, fontSize: 12),
                   ),
                 ),
