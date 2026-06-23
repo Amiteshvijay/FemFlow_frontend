@@ -143,6 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                _buildMedicalDisclaimerBanner(),
+                const SizedBox(height: 16),
                 _buildHeader(context),
                 const SizedBox(height: 24),
                 _buildThisWeekSection(),
@@ -178,6 +180,30 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
+  Widget _buildMedicalDisclaimerBanner() {
+    return AppCard(
+      color: Colors.red.withValues(alpha: 0.05),
+      border: const BorderSide(color: Colors.red, width: 0.5),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: const Row(
+        children: [
+          Icon(Icons.warning_amber_rounded, color: Colors.red, size: 20),
+          SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              'FemFlow is NOT a medical device. Always consult a doctor for medical advice or treatment.',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildWellnessScoreCard(bool isPremium) {
     if (_isLoadingDashboard) return const SizedBox.shrink();
