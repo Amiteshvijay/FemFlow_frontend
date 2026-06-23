@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import '../../../core/network/api_client.dart';
 import '../models/order_history_model.dart';
 
@@ -378,11 +379,36 @@ class ProfileService {
 
   Future<List<OrderHistoryItem>> getOrderHistory() async {
     final response = await _apiClient.get('/auth/orders/');
-    if (response != null && response['orders'] != null) {
-      final List ordersJson = response['orders'];
-      return ordersJson.map((item) => OrderHistoryItem.fromJson(item)).toList();
+    debugPrint('[OrderHistory] API response type: ${response.runtimeType}');
+
+    List<dynamic> ordersJson = [];
+
+    if (response is Map<String, dynamic>) {
+      if (response.containsKey('orders') && response['orders'] is List) {
+        ordersJson = response['orders'] as List<dynamic>;
+      } else if (response.containsKey('results') && response['results'] is List) {
+        ordersJson = response['results'] as List<dynamic>;
+      } else {
+        debugPrint('[OrderHistory] Unexpected Map keys: ${response.keys.toList()}');
+      }
+    } else if (response is List) {
+      ordersJson = response;
+    } else {
+      debugPrint('[OrderHistory] Unexpected response type: ${response.runtimeType}');
     }
-    return [];
+
+    debugPrint('[OrderHistory] Found ${ordersJson.length} orders');
+
+    final List<OrderHistoryItem> items = [];
+    for (int i = 0; i < ordersJson.length; i++) {
+      try {
+        items.add(OrderHistoryItem.fromJson(Map<String, dynamic>.from(ordersJson[i])));
+      } catch (e) {
+        debugPrint('[OrderHistory] Error parsing order at index $i: $e');
+        debugPrint('[OrderHistory] Raw data: ${ordersJson[i]}');
+      }
+    }
+    return items;
   }
 
   Future<void> submitSubscriptionUtr({

@@ -116,13 +116,15 @@ class ApiClient {
       }
       final response = await http
           .get(uri, headers: await _getHeaders())
-          .timeout(const Duration(seconds: 15));
+          .timeout(const Duration(seconds: 30));
       return _processResponse(response);
     } on SocketException {
       throw ApiException(
         message: 'MAINTENANCE_MODE',
         statusCode: 503,
       );
+    } on ApiException {
+      rethrow;
     } catch (e) {
       throw ApiException(
         message: 'Network error: $e',
@@ -139,13 +141,15 @@ class ApiClient {
             headers: await _getHeaders(),
             body: body != null ? jsonEncode(body) : null,
           )
-          .timeout(const Duration(seconds: 15));
+          .timeout(const Duration(seconds: 30));
       return _processResponse(response);
     } on SocketException {
       throw ApiException(
         message: 'MAINTENANCE_MODE',
         statusCode: 503,
       );
+    } on ApiException {
+      rethrow;
     } catch (e) {
       throw ApiException(
         message: 'Network error: $e',

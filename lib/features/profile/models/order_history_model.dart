@@ -32,16 +32,28 @@ class OrderHistoryItem {
   });
 
   factory OrderHistoryItem.fromJson(Map<String, dynamic> json) {
+    double parsedAmount = 0.0;
+    if (json['amount'] != null) {
+      parsedAmount = (json['amount'] is num)
+          ? (json['amount'] as num).toDouble()
+          : double.tryParse(json['amount'].toString()) ?? 0.0;
+    }
+
+    DateTime parsedDate = DateTime.now();
+    if (json['created_at'] != null) {
+      parsedDate = DateTime.tryParse(json['created_at'].toString()) ?? DateTime.now();
+    }
+
     return OrderHistoryItem(
       id: json['id'] ?? 0,
       uuid: json['uuid'] ?? '',
-      orderId: json['order_id'] ?? '',
+      orderId: json['order_id'] ?? json['booking_number'] ?? '',
       type: json['type'] ?? '',
-      displayName: json['display_name'] ?? '',
-      amount: (json['amount'] as num).toDouble(),
+      displayName: json['display_name'] ?? json['plan_name'] ?? 'Order',
+      amount: parsedAmount,
       currency: json['currency'] ?? 'INR',
       status: json['status'] ?? 'pending',
-      createdAt: DateTime.parse(json['created_at']),
+      createdAt: parsedDate,
       utrNumber: json['utr_number'],
       paymentScreenshot: json['payment_screenshot'],
       details: Map<String, dynamic>.from(json['details'] ?? {}),

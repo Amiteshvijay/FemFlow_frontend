@@ -38,7 +38,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     });
 
     try {
+      debugPrint('[OrderHistoryScreen] Fetching order history...');
       final orders = await _profileService.getOrderHistory();
+      debugPrint('[OrderHistoryScreen] Received ${orders.length} orders');
       if (mounted) {
         setState(() {
           _allOrders = orders;
@@ -46,7 +48,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
         });
         _applyFilters();
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint('[OrderHistoryScreen] Error fetching orders: $e');
+      debugPrint('[OrderHistoryScreen] Stack trace: $stackTrace');
       if (mounted) {
         setState(() {
           _isLoading = false;
