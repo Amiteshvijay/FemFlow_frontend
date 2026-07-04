@@ -143,8 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildMedicalDisclaimerBanner(),
-                const SizedBox(height: 16),
                 _buildHeader(context),
                 const SizedBox(height: 24),
                 _buildThisWeekSection(),
@@ -171,6 +169,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const RecommendedExerciseSection(),
                 const SizedBox(height: 24),
                 _buildExpertInsightsSection(),
+                const SizedBox(height: 24),
+                _buildMedicalDisclaimerBanner(),
                 const SizedBox(height: 40),
               ],
             ),

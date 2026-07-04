@@ -54,10 +54,28 @@ class SubscriptionService {
     return UserSubscriptionStatus.fromJson(response['subscription']);
   }
 
-  Future<void> submitUtr(String orderId, String utrNumber) async {
-    await _apiClient.post('/subscriptions/payment/submit-utr/', body: {
-      'order_id': orderId,
-      'utr_number': utrNumber,
-    });
+  Future<void> submitUtr(String orderId, String utrNumber, dynamic screenshotFile) async {
+    await _apiClient.multipartPost(
+      '/subscriptions/payment/submit-utr/',
+      fields: {
+        'order_id': orderId,
+        'utr_number': utrNumber,
+      },
+      fileFieldName: 'payment_screenshot',
+      file: screenshotFile,
+    );
+  }
+
+  Future<void> updatePaymentStage(String orderId, String stage, [Map<String, dynamic>? metadata]) async {
+    try {
+      await _apiClient.post('/subscriptions/payment/update-stage/', body: {
+        'order_id': orderId,
+        'stage': stage,
+        'metadata': metadata ?? {},
+      });
+    } catch (e) {
+      // Fail silently to not block user checkout
+      print('DEBUG: Failed to update payment stage: $e');
+    }
   }
 }

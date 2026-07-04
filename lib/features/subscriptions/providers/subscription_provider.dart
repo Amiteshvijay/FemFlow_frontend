@@ -137,11 +137,11 @@ class SubscriptionProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> submitUtr(String orderId, String utrNumber) async {
+  Future<void> submitUtr(String orderId, String utrNumber, dynamic screenshotFile) async {
     _isLoading = true;
     notifyListeners();
     try {
-      await _service.submitUtr(orderId, utrNumber);
+      await _service.submitUtr(orderId, utrNumber, screenshotFile);
       _error = null;
     } catch (e) {
       _error = e.toString();

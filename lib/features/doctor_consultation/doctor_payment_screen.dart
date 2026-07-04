@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:universal_io/io.dart';
 import 'package:femflow/core/security/app_lock_service.dart';
 import 'package:femflow/core/theme/femflow_colors.dart';
 import 'package:femflow/features/doctor_consultation/models/doctor_models.dart';
@@ -35,7 +37,18 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> {
   final TextEditingController _utrController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  final ImagePicker _imagePicker = ImagePicker();
+  File? _selectedScreenshot;
+  bool _showQrCode = false;
   bool _isProcessing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final orderId = widget.paymentOrder['payment_order_number'] ?? widget.paymentOrder['transaction_note'] ?? 'FF-PAY';
+    _service.updatePaymentStage(orderId, 'initiated');
+    _service.updatePaymentStage(orderId, 'checkout_viewed');
+  }
 
   @override
   void dispose() {
@@ -43,14 +56,42 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> {
     super.dispose();
   }
 
+  Future<void> _pickScreenshot() async {
+    try {
+      final pickedFile = await _imagePicker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 80,
+      );
+      if (pickedFile != null) {
+        setState(() {
+          _selectedScreenshot = File(pickedFile.path);
+        });
+      }
+    } catch (e) {
+      debugPrint('Failed to pick screenshot: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to pick image: $e')),
+      );
+    }
+  }
+
   Future<void> _submitUtr(String utrNumber) async {
+    if (_selectedScreenshot == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Payment screenshot is mandatory. Please upload first.')),
+      );
+      return;
+    }
     if (!mounted) return;
     setState(() {
       _isProcessing = true;
     });
 
+    final orderId = widget.paymentOrder['payment_order_number'] ?? widget.paymentOrder['transaction_note'] ?? 'FF-PAY';
+    await _service.updatePaymentStage(orderId, 'utr_submitted');
+
     try {
-      await _service.submitUtr(widget.bookingId, utrNumber);
+      await _service.submitUtr(widget.bookingId, utrNumber, _selectedScreenshot);
       if (mounted) {
         setState(() {
           _isProcessing = false;
@@ -229,8 +270,12 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> {
                     onPressed: () async {
                       if (upiLink != null && upiLink.isNotEmpty) {
                         try {
+                          await _service.updatePaymentStage(paymentOrderNumber, 'upi_intent_launched');
                           context.read<AppLockService>().setTrustedExternalFlowActive(true);
-                          await launchUrl(Uri.parse(upiLink), mode: LaunchMode.externalApplication);
+                          final launched = await launchUrl(Uri.parse(upiLink), mode: LaunchMode.externalApplication);
+                          if (launched) {
+                            await _service.updatePaymentStage(paymentOrderNumber, 'upi_app_opened');
+                          }
                         } catch (e) {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -245,17 +290,41 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> {
                   ),
                 ),
                 
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
                 const Center(
                   child: Text(
                     '— OR —',
                     style: TextStyle(color: FemFlowColors.textMuted, fontSize: 13, fontWeight: FontWeight.w600),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
+
+                // QR Code Button Toggle
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: FemFlowColors.primary, width: 1.5),
+                      foregroundColor: FemFlowColors.primary,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: () async {
+                      setState(() {
+                        _showQrCode = !_showQrCode;
+                      });
+                      if (_showQrCode) {
+                        await _service.updatePaymentStage(paymentOrderNumber, 'qr_code_viewed');
+                      }
+                    },
+                    icon: const Icon(Icons.qr_code_2_rounded),
+                    label: Text(_showQrCode ? 'Hide QR Code' : 'Pay using QR Code', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                  ),
+                ),
 
                 // QR code scanner box
-                if (qrCodeUrl != null) ...[
+                if (_showQrCode && qrCodeUrl != null) ...[
+                  const SizedBox(height: 20),
                   Center(
                     child: Column(
                       children: [
@@ -290,9 +359,81 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> {
 
                 const Divider(height: 48),
 
-                // Step 2: Verification Details
+                // Step 2: Upload Payment Screenshot (Mandatory)
                 const Text(
-                  'Step 2: Submit UTR Number to Verify',
+                  'Step 2: Upload Payment Screenshot (Mandatory)',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Please upload a screenshot of your successful transaction receipt.',
+                  style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                ),
+                const SizedBox(height: 16),
+
+                InkWell(
+                  onTap: _pickScreenshot,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[50],
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: _selectedScreenshot != null ? Colors.green[200]! : Colors.grey[300]!,
+                        width: 1.5,
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                    child: _selectedScreenshot != null
+                        ? Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.file(
+                                  _selectedScreenshot!,
+                                  height: 150,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.check_circle, color: Colors.green, size: 18),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    'Screenshot selected. Tap to change.',
+                                    style: TextStyle(color: Colors.green, fontSize: 13, fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        : const Column(
+                            children: [
+                              Icon(Icons.cloud_upload_outlined, color: FemFlowColors.primary, size: 36),
+                              SizedBox(height: 8),
+                              Text(
+                                'Tap to upload payment screenshot',
+                                style: TextStyle(color: FemFlowColors.primary, fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'JPG, PNG formats supported',
+                                style: TextStyle(color: FemFlowColors.textMuted, fontSize: 11),
+                              ),
+                            ],
+                          ),
+                  ),
+                ),
+
+                const Divider(height: 48),
+
+                // Step 3: Verification Details
+                const Text(
+                  'Step 3: Submit UTR Number to Verify',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
                 ),
                 const SizedBox(height: 8),

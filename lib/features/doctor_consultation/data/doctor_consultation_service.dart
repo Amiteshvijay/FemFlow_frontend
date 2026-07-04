@@ -68,10 +68,28 @@ class DoctorConsultationService {
     return response;
   }
 
-  Future<void> submitUtr(int bookingId, String utrNumber) async {
-    await _apiClient.post('/doctor-consultation/bookings/$bookingId/submit-utr/', body: {
-      'utr_number': utrNumber,
-    });
+  Future<void> submitUtr(int bookingId, String utrNumber, dynamic screenshotFile) async {
+    await _apiClient.multipartPost(
+      '/doctor-consultation/bookings/$bookingId/submit-utr/',
+      fields: {
+        'utr_number': utrNumber,
+      },
+      fileFieldName: 'payment_screenshot',
+      file: screenshotFile,
+    );
+  }
+
+  Future<void> updatePaymentStage(String orderId, String stage, [Map<String, dynamic>? metadata]) async {
+    try {
+      await _apiClient.post('/doctor-consultation/payment/update-stage/', body: {
+        'order_id': orderId,
+        'stage': stage,
+        'metadata': metadata ?? {},
+      });
+    } catch (e) {
+      // Fail silently to not block user checkout
+      print('DEBUG: Failed to update doctor payment stage: $e');
+    }
   }
 
   Future<List<DoctorBooking>> getMyBookings() async {
