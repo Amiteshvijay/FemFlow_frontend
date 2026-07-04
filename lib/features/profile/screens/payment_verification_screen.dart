@@ -6,6 +6,7 @@ import '../../../core/security/app_lock_service.dart';
 import 'package:provider/provider.dart';
 import '../data/profile_service.dart';
 import '../models/order_history_model.dart';
+import '../../subscriptions/providers/subscription_provider.dart';
 
 class PaymentVerificationScreen extends StatefulWidget {
   final OrderHistoryItem order;
@@ -134,6 +135,7 @@ class _PaymentVerificationScreenState extends State<PaymentVerificationScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 onPressed: () {
+                  context.read<SubscriptionProvider>().loadStatus();
                   Navigator.pop(context); // Pop dialog
                   Navigator.pop(context, true); // Pop verification screen and pass true to trigger reload
                 },

@@ -104,6 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
 
       if (mounted) {
+        context.read<SubscriptionProvider>().loadStatus();
         setState(() {
           _profile = profile;
           _vouchers = vouchers;
@@ -448,11 +449,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               label: 'Order & Payment History',
               subtitle: 'Verify UTR, upload screenshots & view details',
               showDivider: true,
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const OrderHistoryScreen()),
                 );
+                _fetchProfile();
               },
             ),
           ],
