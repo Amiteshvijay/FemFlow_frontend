@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +13,8 @@ class DeepLinkService {
 
   final _appLinks = AppLinks();
   String? _pendingReferralCode;
+  final _uriController = StreamController<Uri>.broadcast();
+  Stream<Uri> get uriStream => _uriController.stream;
 
   Uri? _pendingUri;
 
@@ -78,6 +81,7 @@ class DeepLinkService {
 
   void _handleUri(Uri uri) async {
     debugPrint('Received Deep Link: $uri');
+    _uriController.add(uri);
     
     // Referral Pattern: https://femflow.app/ref/CODE
     if (uri.path.startsWith('/ref/')) {

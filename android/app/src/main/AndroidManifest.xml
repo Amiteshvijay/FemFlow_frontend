@@ -81,6 +81,14 @@
                 <data android:scheme="femflow" android:host="partner" android:pathPrefix="/accept" />
             </intent-filter>
 
+            <!-- Custom Scheme Deep Link for UPI Payment Callback -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="femflow" android:host="upi-callback" />
+            </intent-filter>
+
             <!-- Web Links (App Links) for Partner Invites -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
