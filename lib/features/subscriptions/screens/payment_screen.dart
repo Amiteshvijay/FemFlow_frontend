@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,6 +33,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   bool _showRetryButton = false;
   Map<String, dynamic>? _orderData;
 
+  Timer? _countdownTimer;
+  int _secondsRemaining = 300; // 5 minutes
+
   @override
   void initState() {
     super.initState();
@@ -41,8 +45,48 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void dispose() {
+    _countdownTimer?.cancel();
     _utrController.dispose();
     super.dispose();
+  }
+
+  void _startCountdown() {
+    _countdownTimer?.cancel();
+    _secondsRemaining = 300;
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_secondsRemaining > 0) {
+        if (mounted) {
+          setState(() {
+            _secondsRemaining--;
+          });
+        }
+      } else {
+        _countdownTimer?.cancel();
+        _handlePaymentTimeout();
+      }
+    });
+  }
+
+  String _formatTime(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
+  void _handlePaymentTimeout() async {
+    if (_orderData != null) {
+      final orderId = _orderData!['order_id'];
+      await _service.updatePaymentStage(orderId, 'abandoned');
+    }
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Payment session has expired. Please try again.'),
+          duration: Duration(seconds: 5),
+        ),
+      );
+      Navigator.pop(context);
+    }
   }
 
   Future<void> _pickScreenshot() async {
@@ -89,6 +133,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       // Report initiated & checkout_viewed
       _service.updatePaymentStage(orderData['order_id'], 'initiated');
       _service.updatePaymentStage(orderData['order_id'], 'checkout_viewed');
+      _startCountdown();
     } catch (e, stack) {
       debugPrint('DEBUG: UPI Order Creation Error: $e');
       debugPrint('DEBUG: Stack Trace: $stack');
@@ -118,12 +163,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
       _statusMessage = 'Submitting UTR for verification...';
     });
 
-    await _service.updatePaymentStage(orderId, 'utr_submitted');
-
     try {
       final provider = context.read<SubscriptionProvider>();
       await provider.submitUtr(orderId, utrNumber, _selectedScreenshot);
       
+      await _service.updatePaymentStage(orderId, 'utr_submitted');
+
       if (mounted) {
         setState(() {
           _isProcessing = false;
@@ -280,6 +325,33 @@ class _PaymentScreenState extends State<PaymentScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Countdown Timer Card
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.red[50],
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.red[100]!),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.timer_outlined, color: Colors.red, size: 20),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Payment session expires in: ${_formatTime(_secondsRemaining)}',
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 // Plan Summary Card
                 Container(
                   width: double.infinity,
