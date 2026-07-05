@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/femai_icon.dart';
-import '../log_period/period_calendar_editor_screen.dart';
+
 import '../symptoms/symptoms_screen.dart';
 import '../auth/data/auth_service.dart';
 import '../cycles/data/cycle_service.dart';
@@ -884,13 +884,13 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         _quickActionCard(
           context,
-          icon: Icons.opacity,
-          label: 'Period',
-          color: FemFlowColors.period,
-          onTap: () async {
-            final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => PeriodCalendarEditorScreen(initialStartDate: DateTime.now())));
-            if (result == true) _handleRefresh();
-          },
+          icon: Icons.science_outlined,
+          label: 'Lab Test',
+          color: FemFlowColors.primary,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const LabTestsHomeScreen()),
+          ),
         ),
         _quickActionCard(
           context,
@@ -1017,16 +1017,7 @@ class _HomeScreenState extends State<HomeScreen> {
             MaterialPageRoute(builder: (context) => const EventListScreen()),
           ),
         ),
-        _quickActionCard(
-          context,
-          icon: Icons.science_outlined,
-          label: 'Lab Tests',
-          color: FemFlowColors.primary,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const LabTestsHomeScreen()),
-          ),
-        ),
+
       ],
     );
   }

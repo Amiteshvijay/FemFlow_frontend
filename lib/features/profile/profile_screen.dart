@@ -30,6 +30,7 @@ import '../premium/premium_guard.dart';
 import '../referrals/referral_screen.dart';
 import '../tips/providers/tips_provider.dart';
 import '../exercises/providers/exercise_provider.dart';
+import '../lab_tests/lab_tests_home_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -403,6 +404,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const DoctorConsultationHomeScreen()),
+                );
+              },
+            ),
+            _buildMenuItem(
+              context,
+              icon: Icons.science_outlined,
+              label: 'Book Lab Test',
+              showDivider: true,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LabTestsHomeScreen()),
                 );
               },
             ),

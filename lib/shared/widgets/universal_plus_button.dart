@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/femflow_colors.dart';
-import '../../features/log_period/period_calendar_editor_screen.dart';
+
 import '../../features/symptoms/symptoms_screen.dart';
 import '../../features/doctor_consultation/doctor_consultation_home_screen.dart';
 import '../../features/premium/premium_guard.dart';
+import '../../features/lab_tests/lab_tests_home_screen.dart';
 
 class UniversalPlusButton extends StatelessWidget {
   final VoidCallback? onLogged;
@@ -40,10 +41,10 @@ class UniversalPlusButton extends StatelessWidget {
                 children: [
                   _buildAction(
                     context, 
-                    Icons.opacity, 
-                    'Period', 
-                    FemFlowColors.period, 
-                    () => PeriodCalendarEditorScreen(initialStartDate: DateTime.now())
+                    Icons.science_outlined, 
+                    'Lab Test', 
+                    FemFlowColors.primary, 
+                    () => const LabTestsHomeScreen()
                   ),
                   _buildAction(
                     context, 
