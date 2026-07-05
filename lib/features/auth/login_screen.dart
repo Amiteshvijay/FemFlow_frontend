@@ -146,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const Text(
-                    'Understand. Track. Thrive.',
+                    'Cycle, Health & Care',
                     style: TextStyle(
                       fontSize: 16,
                       color: FemFlowColors.textSecondary,

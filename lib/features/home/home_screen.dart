@@ -30,6 +30,7 @@ import '../expert_insights/models/insight_models.dart';
 import '../expert_insights/widgets/expert_insight_card.dart';
 import '../expert_insights/screens/expert_insights_discovery_screen.dart';
 import '../events/event_list_screen.dart';
+import '../lab_tests/lab_tests_home_screen.dart';
 import 'package:provider/provider.dart';
 import '../subscriptions/providers/subscription_provider.dart';
 
@@ -150,6 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 _buildPillReminderSection(isPremium),
                 const SizedBox(height: 16),
                 _buildWellnessScoreCard(isPremium),
+                const SizedBox(height: 16),
+                _buildLabTestCard(),
                 const SizedBox(height: 24),
                 const Text(
                   'Quick Actions',
@@ -257,6 +260,144 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLabTestCard() {
+    return AppCard(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const LabTestsHomeScreen()),
+        );
+      },
+      color: FemFlowColors.blushMist,
+      border: BorderSide(color: FemFlowColors.primary.withValues(alpha: 0.2), width: 1),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: FemFlowColors.primary.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.science_outlined, color: FemFlowColors.primary, size: 24),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Book Lab Test',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: FemFlowColors.textPrimary,
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    Text(
+                      'Find trusted diagnostic centres near you and book home sample collection.',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: FemFlowColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const LabTestsHomeScreen()),
+                    );
+                  },
+                  icon: const Icon(Icons.search, size: 16, color: Colors.white),
+                  label: const Text('Search Tests', style: TextStyle(fontSize: 12, color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: FemFlowColors.primary,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const LabTestsHomeScreen(useCurrentLocation: true)),
+                    );
+                  },
+                  icon: const Icon(Icons.my_location, size: 16, color: FemFlowColors.primary),
+                  label: const Text('Use Location', style: TextStyle(fontSize: 12, color: FemFlowColors.primary)),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: FemFlowColors.primary,
+                    side: const BorderSide(color: FemFlowColors.primary),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const Divider(height: 24, thickness: 0.5, color: FemFlowColors.border),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const LabTestsHomeScreen(initialTab: 1)),
+                  );
+                },
+                child: const Row(
+                  children: [
+                    Icon(Icons.spa_outlined, size: 14, color: FemFlowColors.textSecondary),
+                    SizedBox(width: 4),
+                    Text(
+                      'Browse Packages',
+                      style: TextStyle(fontSize: 11, color: FemFlowColors.textSecondary, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const LabTestsHomeScreen(initialTab: 0)),
+                  );
+                },
+                child: const Row(
+                  children: [
+                    Icon(Icons.upload_file_outlined, size: 14, color: FemFlowColors.textSecondary),
+                    SizedBox(width: 4),
+                    Text(
+                      'Upload Report',
+                      style: TextStyle(fontSize: 11, color: FemFlowColors.textSecondary, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -874,6 +1015,16 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const EventListScreen()),
+          ),
+        ),
+        _quickActionCard(
+          context,
+          icon: Icons.science_outlined,
+          label: 'Lab Tests',
+          color: FemFlowColors.primary,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const LabTestsHomeScreen()),
           ),
         ),
       ],

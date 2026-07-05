@@ -59,7 +59,7 @@ class FemFlowBrandHeader extends StatelessWidget {
           if (showTagline) ...[
             const SizedBox(height: 4),
             const Text(
-              'Understand. Track. Thrive.',
+              'Cycle, Health & Care',
               style: TextStyle(
                 fontSize: 16,
                 color: FemFlowColors.textSecondary,
