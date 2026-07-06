@@ -31,6 +31,7 @@ import '../expert_insights/widgets/expert_insight_card.dart';
 import '../expert_insights/screens/expert_insights_discovery_screen.dart';
 import '../events/event_list_screen.dart';
 import '../lab_tests/lab_tests_home_screen.dart';
+import '../log_period/period_daily_log_screen.dart';
 import 'package:provider/provider.dart';
 import '../subscriptions/providers/subscription_provider.dart';
 
@@ -151,8 +152,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 _buildPillReminderSection(isPremium),
                 const SizedBox(height: 16),
                 _buildWellnessScoreCard(isPremium),
-                const SizedBox(height: 16),
-                _buildLabTestCard(),
                 const SizedBox(height: 24),
                 const Text(
                   'Quick Actions',
@@ -168,6 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 RepaintBoundary(child: _buildAIInsightCard(isPremium)),
                 const SizedBox(height: 24),
                 const EverydayTipsSection(),
+                const SizedBox(height: 24),
+                _buildLabTestCard(),
                 const SizedBox(height: 24),
                 const RecommendedExerciseSection(),
                 const SizedBox(height: 24),
@@ -882,6 +883,16 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisSpacing: 12,
       childAspectRatio: 0.9,
       children: [
+        _quickActionCard(
+          context,
+          icon: Icons.water_drop_outlined,
+          label: 'Period',
+          color: FemFlowColors.period,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PeriodDailyLogScreen(date: DateTime.now())),
+          ),
+        ),
         _quickActionCard(
           context,
           icon: Icons.science_outlined,
