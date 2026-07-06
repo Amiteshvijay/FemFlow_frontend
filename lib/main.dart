@@ -19,6 +19,7 @@ import 'package:femflow/core/services/background_sync_service.dart';
 import 'package:femflow/core/navigation/navigator_service.dart';
 import 'package:femflow/features/auth/providers/auth_provider.dart';
 import 'package:femflow/features/onboarding/brand_splash_screen.dart';
+import 'package:femflow/features/lab_tests/providers/cart_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,7 @@ void main() async {
           update: (_, sub, auth) => auth!..updateSubscriptionProvider(sub),
         ),
         ChangeNotifierProvider(create: (_) => ExerciseProvider()),
+        ChangeNotifierProvider(create: (_) => LabCartProvider()),
       ],
       child: const MyApp(),
     ),

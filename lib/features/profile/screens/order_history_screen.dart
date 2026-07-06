@@ -192,12 +192,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: ['All', 'Subscription', 'Consultation'].map((type) {
+                           children: ['All', 'Subscription', 'Consultation', 'LabTest'].map((type) {
                             final isSelected = _selectedType == type;
+                            final displayLabel = type == 'LabTest' ? 'Lab Test' : type;
                             return Padding(
                               padding: const EdgeInsets.only(right: 8),
                               child: ChoiceChip(
-                                label: Text(type),
+                                label: Text(displayLabel),
                                 selected: isSelected,
                                 onSelected: (selected) {
                                   if (selected) {
@@ -303,7 +304,19 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
 
   Widget _buildOrderCard(OrderHistoryItem order) {
     final formattedDate = DateFormat('MMM dd, yyyy  hh:mm a').format(order.createdAt);
-    final isSubscription = order.type == 'Subscription';
+    IconData iconData;
+    Color iconColor;
+
+    if (order.type == 'Subscription') {
+      iconData = Icons.workspace_premium;
+      iconColor = Colors.pink;
+    } else if (order.type == 'LabTest') {
+      iconData = Icons.biotech_outlined;
+      iconColor = Colors.teal;
+    } else {
+      iconData = Icons.video_call;
+      iconColor = Colors.purple;
+    }
     
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -325,12 +338,12 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: (isSubscription ? Colors.pink : Colors.purple).withValues(alpha: 0.1),
+                color: iconColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                isSubscription ? Icons.workspace_premium : Icons.video_call,
-                color: isSubscription ? Colors.pink : Colors.purple,
+                iconData,
+                color: iconColor,
                 size: 24,
               ),
             ),

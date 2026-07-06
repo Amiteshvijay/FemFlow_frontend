@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/femflow_colors.dart';
 import '../../../shared/widgets/app_card.dart';
+import 'package:femflow/features/lab_tests/widgets/lab_partner_review_bottom_sheet.dart';
 import '../models/order_history_model.dart';
 import 'payment_verification_screen.dart';
 
@@ -79,6 +80,19 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     final formattedDate = DateFormat('MMMM dd, yyyy  hh:mm a').format(_order.createdAt);
     final isPending = ['pending', 'pending_payment', 'paymentpending'].contains(_order.status.toLowerCase());
 
+    IconData iconData;
+    Color iconColor;
+    if (isSubscription) {
+      iconData = Icons.workspace_premium;
+      iconColor = Colors.pink;
+    } else if (_order.type == 'LabTest') {
+      iconData = Icons.biotech_outlined;
+      iconColor = Colors.teal;
+    } else {
+      iconData = Icons.video_call;
+      iconColor = Colors.purple;
+    }
+
     return PopScope(
       canPop: true,
       onPopInvokedWithResult: (didPop, result) {
@@ -114,12 +128,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: (isSubscription ? Colors.pink : Colors.purple).withValues(alpha: 0.1),
+                        color: iconColor.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        isSubscription ? Icons.workspace_premium : Icons.video_call,
-                        color: isSubscription ? Colors.pink : Colors.purple,
+                        iconData,
+                        color: iconColor,
                         size: 40,
                       ),
                     ),
@@ -173,6 +187,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     _buildDetailRow('Date Created', formattedDate),
                     if (isSubscription) ...[
                       _buildDetailRow('Plan Package', _order.details['plan_name'] ?? 'Premium'),
+                    ] else if (_order.type == 'LabTest') ...[
+                      _buildDetailRow('Lab Partner', _order.details['lab_name'] ?? 'N/A'),
+                      _buildDetailRow('Branch Branch', _order.details['branch_name'] ?? 'N/A'),
+                      _buildDetailRow('Test Date', _order.details['booking_date'] ?? 'N/A'),
                     ] else ...[
                       _buildDetailRow('Doctor Name', 'Dr. ${_order.details['doctor_name'] ?? 'Consultant'}'),
                       _buildDetailRow('Appointment Date', _order.details['appointment_date'] ?? 'N/A'),
@@ -339,6 +357,60 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     ],
                   ),
                 ),
+                if (_order.type == 'LabTest') ...[
+                  if (_order.details['report_url'] != null) ...[
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          elevation: 0,
+                        ),
+                        onPressed: () async {
+                          final uri = Uri.parse(_order.details['report_url']);
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri, mode: LaunchMode.externalApplication);
+                          }
+                        },
+                        icon: const Icon(Icons.download_rounded),
+                        label: const Text('Download Lab Report', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                      ),
+                    ),
+                  ],
+                  if (_order.status.toLowerCase() == 'success' && _order.details['has_review'] != true) ...[
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: FemFlowColors.primary),
+                          foregroundColor: FemFlowColors.primary,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        ),
+                        onPressed: () async {
+                          final result = await showModalBottomSheet<bool>(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => LabPartnerReviewBottomSheet(order: _order),
+                          );
+                          if (result == true) {
+                            setState(() {
+                              _hasUpdated = true;
+                              _order.details['has_review'] = true;
+                            });
+                          }
+                        },
+                        icon: const Icon(Icons.star_outline_rounded),
+                        label: const Text('Rate Lab Partner', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                      ),
+                    ),
+                  ],
+                ],
               ],
             ],
           ),

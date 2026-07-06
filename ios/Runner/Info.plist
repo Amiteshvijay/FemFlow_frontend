@@ -83,5 +83,9 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>FemFlow needs access to your location to recommend lab test partners near you.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>FemFlow needs access to your location to recommend lab test partners near you.</string>
 </dict>
 </plist>

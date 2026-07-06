@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../data/profile_service.dart';
 import '../models/order_history_model.dart';
 import '../../subscriptions/providers/subscription_provider.dart';
+import 'package:femflow/core/network/api_client.dart';
 
 class PaymentVerificationScreen extends StatefulWidget {
   final OrderHistoryItem order;
@@ -74,6 +75,16 @@ class _PaymentVerificationScreenState extends State<PaymentVerificationScreen> {
           orderId: widget.order.orderId,
           utrNumber: utr,
           screenshotFile: _screenshotFile,
+        );
+      } else if (widget.order.type == 'LabTest') {
+        final ApiClient apiClient = ApiClient();
+        await apiClient.multipartPost(
+          '/labs/orders/${widget.order.id}/submit-utr/',
+          fields: {
+            'utr_number': utr,
+          },
+          fileFieldName: 'payment_screenshot',
+          file: _screenshotFile,
         );
       } else {
         // Consultation

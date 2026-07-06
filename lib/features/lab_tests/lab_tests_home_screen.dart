@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:femflow/core/theme/femflow_colors.dart';
 import 'package:femflow/shared/widgets/app_card.dart';
+import 'package:femflow/features/lab_tests/providers/cart_provider.dart';
+import 'package:femflow/features/lab_tests/lab_cart_screen.dart';
 
 class LabTestsHomeScreen extends StatefulWidget {
   final bool useCurrentLocation;
@@ -101,18 +105,97 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
     },
   ];
 
+  Future<void> _detectCurrentLocation() async {
+    setState(() {
+      _selectedLocation = "Detecting location...";
+    });
+
+    try {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        final result = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Location Services Disabled'),
+            content: const Text('Please enable location services to find nearest labs.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text('Open Settings'),
+              ),
+            ],
+          ),
+        );
+        if (result == true) {
+          await Geolocator.openLocationSettings();
+        }
+        setState(() {
+          _selectedLocation = "Delhi Enclave, Safdarjung";
+        });
+        return;
+      }
+
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          setState(() {
+            _selectedLocation = "Permission Denied (Delhi)";
+          });
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        final result = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Location Permission Denied'),
+            content: const Text('Location permissions are permanently denied. Please enable them in app settings.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text('Open Settings'),
+              ),
+            ],
+          ),
+        );
+        if (result == true) {
+          await Geolocator.openAppSettings();
+        }
+        setState(() {
+          _selectedLocation = "Delhi Enclave, Safdarjung";
+        });
+        return;
+      }
+
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      setState(() {
+        _selectedLocation = "Current Location (${position.latitude.toStringAsFixed(2)}, ${position.longitude.toStringAsFixed(2)})";
+      });
+    } catch (e) {
+      setState(() {
+        _selectedLocation = "Delhi Enclave, Safdarjung";
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     if (widget.useCurrentLocation) {
-      _selectedLocation = "Current Location (Detecting...)";
-      Future.delayed(const Duration(seconds: 1), () {
-        if (mounted) {
-          setState(() {
-            _selectedLocation = "Safdarjung Enclave, New Delhi";
-          });
-        }
-      });
+      _detectCurrentLocation();
     }
   }
 
@@ -145,10 +228,8 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
               const SizedBox(height: 16),
               OutlinedButton.icon(
                 onPressed: () {
-                  setState(() {
-                    _selectedLocation = "Current Location (Safdarjung)";
-                  });
                   Navigator.pop(context);
+                  _detectCurrentLocation();
                 },
                 icon: const Icon(Icons.my_location, color: FemFlowColors.primary),
                 label: const Text('Use Current Location', style: TextStyle(color: FemFlowColors.primary)),
@@ -324,6 +405,7 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        context.read<LabCartProvider>().addItem(package);
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -367,9 +449,48 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
         foregroundColor: FemFlowColors.textPrimary,
         title: const Text('Lab Test Booking', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_bag_outlined),
-            onPressed: () {},
+          Consumer<LabCartProvider>(
+            builder: (context, cart, child) {
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.shopping_bag_outlined),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LabCartScreen()),
+                      );
+                    },
+                  ),
+                  if (cart.itemCount > 0)
+                    Positioned(
+                      right: 4,
+                      top: 4,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '${cart.itemCount}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
           )
         ],
       ),
