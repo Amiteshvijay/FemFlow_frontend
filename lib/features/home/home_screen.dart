@@ -888,10 +888,13 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: Icons.water_drop_outlined,
           label: 'Period',
           color: FemFlowColors.period,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PeriodDailyLogScreen(date: DateTime.now())),
-          ),
+          onTap: () async {
+            final result = await Navigator.push(
+              context, 
+              MaterialPageRoute(builder: (context) => PeriodCalendarEditorScreen(initialStartDate: DateTime.now()))
+            );
+            if (result == true) _handleRefresh();
+          },
         ),
         _quickActionCard(
           context,
