@@ -32,6 +32,7 @@ import '../expert_insights/screens/expert_insights_discovery_screen.dart';
 import '../events/event_list_screen.dart';
 import '../lab_tests/lab_tests_home_screen.dart';
 import '../log_period/period_daily_log_screen.dart';
+import '../log_period/period_calendar_editor_screen.dart';
 import 'package:provider/provider.dart';
 import '../subscriptions/providers/subscription_provider.dart';
 
