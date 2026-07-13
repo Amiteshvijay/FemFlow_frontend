@@ -105,8 +105,21 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.calendar_today_outlined, size: 20),
-            onPressed: () {
-              // Optional: show date picker to jump to another date
+            onPressed: () async {
+              final date = await showDatePicker(
+                context: context,
+                initialDate: _currentDate,
+                firstDate: DateTime.utc(2020, 1, 1),
+                lastDate: DateTime.now().add(const Duration(days: 365)),
+              );
+              if (date != null && mounted) {
+                final dayIndex = _initialIndex + date.difference(widget.selectedDate).inDays;
+                _contentPageController.animateToPage(
+                  dayIndex, 
+                  duration: const Duration(milliseconds: 300), 
+                  curve: Curves.easeInOut
+                );
+              }
             },
           ),
         ],
