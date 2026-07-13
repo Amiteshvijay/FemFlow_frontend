@@ -315,7 +315,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
           SnackBar(
             content: const Text('Logs cleared'),
             behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 5),
+            duration: const Duration(seconds: 2),
             action: SnackBarAction(
               label: 'Undo',
               onPressed: () => _undoClearLogs(snapshot),

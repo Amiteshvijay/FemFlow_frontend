@@ -71,7 +71,7 @@ class _MoodListScreenState extends State<MoodListScreen> {
       );
       if (mounted) {
         Navigator.pop(context, true);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Mood logged")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Mood logged"), duration: Duration(seconds: 2)));
       }
     } catch (e) {
       setState(() => _isLoading = false);

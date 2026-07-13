@@ -160,7 +160,11 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Flow logged successfully'), behavior: SnackBarBehavior.floating),
+          const SnackBar(
+            content: Text('Flow logged successfully'), 
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+          ),
         );
       }
     } catch (e) {
