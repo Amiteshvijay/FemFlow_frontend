@@ -131,7 +131,9 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                       borderRadius: BorderRadius.circular(10.5),
                       child: doctor.profileImage != null
                           ? Image.network(
-                              doctor.profileImage!,
+                              doctor.profileImage!.startsWith('http')
+                                  ? doctor.profileImage!
+                                  : 'https://femflow.in${doctor.profileImage}',
                               fit: BoxFit.cover,
                               alignment: Alignment.topCenter,
                               errorBuilder: (context, error, stackTrace) =>

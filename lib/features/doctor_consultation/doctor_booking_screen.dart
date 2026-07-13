@@ -299,9 +299,26 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
             // Doctor Summary
             AppCard(
               child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.grey.shade200,
-                  child: const Icon(Icons.person, color: Colors.grey),
+                leading: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(8),
+                    image: widget.doctor.profileImage != null
+                        ? DecorationImage(
+                            image: NetworkImage(
+                              widget.doctor.profileImage!.startsWith('http')
+                                  ? widget.doctor.profileImage!
+                                  : 'https://femflow.in${widget.doctor.profileImage}',
+                            ),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                  child: widget.doctor.profileImage == null
+                      ? const Icon(Icons.person, color: Colors.grey)
+                      : null,
                 ),
                 title: Text(widget.doctor.fullName, style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(widget.originalBookingId != null
