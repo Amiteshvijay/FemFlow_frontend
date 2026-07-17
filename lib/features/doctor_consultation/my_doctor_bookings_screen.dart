@@ -85,10 +85,15 @@ class _MyDoctorBookingsScreenState extends State<MyDoctorBookingsScreen> with Si
 
   Widget _buildBookingList(String status) {
     final filteredBookings = _bookings.where((b) {
+      final bookingStatus = b.status.toLowerCase();
       if (status == 'confirmed') {
-        return b.status == 'confirmed';
+        return bookingStatus == 'confirmed' ||
+            bookingStatus == 'upcoming' ||
+            bookingStatus == 'booked' ||
+            bookingStatus == 'in_progress' ||
+            bookingStatus == 'in progress';
       }
-      return b.status == status;
+      return bookingStatus == status.toLowerCase();
     }).toList();
 
     if (filteredBookings.isEmpty) {
@@ -154,7 +159,7 @@ class _MyDoctorBookingsScreenState extends State<MyDoctorBookingsScreen> with Si
               ],
             ),
             const SizedBox(height: 12),
-            if (booking.status == 'confirmed') ...[
+            if (booking.status.toLowerCase() == 'confirmed' || booking.status.toLowerCase() == 'upcoming' || booking.status.toLowerCase() == 'booked') ...[
               const Divider(),
               const SizedBox(height: 4),
               Row(
@@ -181,8 +186,10 @@ class _MyDoctorBookingsScreenState extends State<MyDoctorBookingsScreen> with Si
 
   Widget _buildStatusBadge(String status) {
     Color color;
-    switch (status) {
+    switch (status.toLowerCase()) {
       case 'confirmed':
+      case 'upcoming':
+      case 'booked':
         color = Colors.green;
         break;
       case 'completed':
@@ -192,7 +199,14 @@ class _MyDoctorBookingsScreenState extends State<MyDoctorBookingsScreen> with Si
         color = Colors.red;
         break;
       case 'pending_payment':
+      case 'paymentpending':
+      case 'verificationpending':
+      case 'verification_pending':
         color = Colors.orange;
+        break;
+      case 'in_progress':
+      case 'in progress':
+        color = Colors.purple;
         break;
       default:
         color = Colors.grey;

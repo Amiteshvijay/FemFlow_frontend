@@ -34,7 +34,9 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   }
 
   bool get _canReschedule {
-    if (_booking == null || _booking!.status != 'confirmed') return false;
+    if (_booking == null) return false;
+    final status = _booking!.status.toLowerCase();
+    if (status != 'confirmed' && status != 'upcoming' && status != 'booked') return false;
     
     try {
       final appointment = DateTime.parse('${_booking!.appointmentDate} ${_booking!.appointmentTime}');
@@ -180,7 +182,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                       const SizedBox(height: 24),
                       _buildAppointmentSection(),
                       const SizedBox(height: 24),
-                      if (_booking!.status == 'completed') ...[
+                      if (_booking!.status.toLowerCase() == 'completed') ...[
                         _buildPrescriptionSection(),
                         const SizedBox(height: 24),
                       ],
@@ -604,7 +606,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   Widget _buildActionButtons() {
     return Column(
       children: [
-        if (_booking!.status == 'confirmed' && _booking!.consultationMode.toLowerCase() != 'offline') ...[
+        if ((_booking!.status.toLowerCase() == 'confirmed' || _booking!.status.toLowerCase() == 'upcoming' || _booking!.status.toLowerCase() == 'booked') && _booking!.consultationMode.toLowerCase() != 'offline') ...[
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -639,7 +641,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
           ),
           const SizedBox(height: 12),
         ],
-        if (_booking!.status == 'completed' && !_booking!.hasReview) ...[
+        if (_booking!.status.toLowerCase() == 'completed' && !_booking!.hasReview) ...[
           SizedBox(
             width: double.infinity,
             child: PrimaryButton(
@@ -720,11 +722,18 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   }
 
   Color _getStatusColor(String status) {
-    switch (status) {
-      case 'confirmed': return Colors.green;
+    switch (status.toLowerCase()) {
+      case 'confirmed':
+      case 'upcoming':
+      case 'booked':
+        return Colors.green;
       case 'completed': return Colors.blue;
       case 'cancelled': return Colors.red;
-      case 'pending_payment': return Colors.orange;
+      case 'pending_payment':
+      case 'paymentpending':
+      case 'verificationpending':
+      case 'verification_pending':
+        return Colors.orange;
       case 'in_progress': return Colors.purple;
       case 'review_submitted': return Colors.teal;
       default: return Colors.grey;

@@ -286,7 +286,9 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
       final booking = await _service.getBookingDetail(widget.bookingId);
       if (!mounted) return;
       
-      if (booking.paymentStatus == 'paid' || booking.status == 'confirmed' || booking.status == 'verification_pending') {
+      final payStatus = booking.paymentStatus.toLowerCase();
+      final bookStatus = booking.status.toLowerCase();
+      if (payStatus == 'paid' || bookStatus == 'confirmed' || bookStatus == 'upcoming' || bookStatus == 'booked' || bookStatus == 'verification_pending' || bookStatus == 'verificationpending') {
         _showSuccessDialog('UPI Automatic Verification');
       } else {
         setState(() {
