@@ -346,9 +346,23 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
 
   void _handleRazorpayError(PaymentFailureResponse response) {
     debugPrint('Razorpay Payment Error: ${response.code} | ${response.message}');
+    
+    // Update backend stage to failed or abandoned
+    try {
+      final orderId = _orderData?['order_id'] ?? 'FF-SUB';
+      final stage = response.code == 2 ? 'abandoned' : 'failed';
+      _service.updatePaymentStage(orderId, stage);
+    } catch (_) {}
+
     if (mounted) {
+      String errorMsg = 'Payment failed. Please try again.';
+      if (response.code == 2) {
+        errorMsg = 'Payment was cancelled.';
+      } else if (response.message != null && response.message!.isNotEmpty && response.message != 'undefined') {
+        errorMsg = response.message!;
+      }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Payment cancelled or failed: ${response.message}')),
+        SnackBar(content: Text(errorMsg)),
       );
     }
   }
