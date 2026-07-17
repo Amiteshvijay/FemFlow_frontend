@@ -194,9 +194,13 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
       'name': 'FemFlow Doctor Consultation',
       'description': 'Consultation with Dr. ${widget.doctor.fullName}',
       'order_id': _rzpOrderData!['razorpay_order_id'],
+      'image': 'https://femflow.in/logo.png',
       'prefill': {
         'contact': userContact,
         'email': userEmail,
+      },
+      'theme': {
+        'color': '#E85D8B'
       },
       'external': {
         'wallets': ['paytm']

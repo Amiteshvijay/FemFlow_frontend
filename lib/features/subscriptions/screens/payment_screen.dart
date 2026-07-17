@@ -422,9 +422,13 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
       'name': 'FemFlow Premium',
       'description': 'Subscription to ${widget.plan.name}',
       'order_id': _orderData!['order_id'],
+      'image': 'https://femflow.in/logo.png',
       'prefill': {
         'contact': userContact,
         'email': userEmail,
+      },
+      'theme': {
+        'color': '#E85D8B'
       },
       'external': {
         'wallets': ['paytm']
