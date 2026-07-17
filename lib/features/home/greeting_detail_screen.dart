@@ -33,7 +33,7 @@ class _GreetingDetailScreenState extends State<GreetingDetailScreen> {
 
     try {
       final response = await _apiClient.get(
-        '/users/greeting/',
+        '/auth/greeting/',
         queryParams: {'type': widget.greetingType},
       );
       if (response != null && response is Map) {
