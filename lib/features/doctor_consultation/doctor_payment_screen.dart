@@ -49,7 +49,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
   bool _isProcessing = false;
 
   Timer? _countdownTimer;
-  int _secondsRemaining = 300; // 5 minutes
+  int _secondsRemaining = 180; // 3 minutes
 
   // UPI Response and Fallback tracking fields
   bool _isWaitingForUpiResponse = false;
@@ -387,7 +387,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
 
   void _startCountdown() {
     _countdownTimer?.cancel();
-    _secondsRemaining = 300;
+    _secondsRemaining = 180;
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_secondsRemaining > 0) {
         if (mounted) {
@@ -479,6 +479,26 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
     }
   }
 
+  String get _amountDisplay {
+    double consultationFee = widget.doctor.consultationFee;
+    double platformFee = consultationFee * 0.005;
+    double fallbackAmount = consultationFee + platformFee;
+    
+    double rawAmountDouble;
+    final orderAmount = widget.paymentOrder['amount'];
+    if (orderAmount != null) {
+      if (orderAmount is num) {
+        rawAmountDouble = orderAmount.toDouble();
+      } else {
+        rawAmountDouble = double.tryParse(orderAmount.toString()) ?? fallbackAmount;
+      }
+    } else {
+      rawAmountDouble = fallbackAmount;
+    }
+    
+    return rawAmountDouble % 1 == 0 ? rawAmountDouble.toInt().toString() : rawAmountDouble.toStringAsFixed(2);
+  }
+
   void _showSuccessDialog(String utrNumber) {
     showDialog(
       context: context,
@@ -496,7 +516,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
             ),
             const SizedBox(height: 12),
             Text(
-              'Your payment of ₹${widget.paymentOrder['amount'] ?? widget.doctor.consultationFee} with UTR $utrNumber has been submitted for verification. '
+              'Your payment of ₹$_amountDisplay with UTR $utrNumber has been submitted for verification. '
               'Your booking status is now "Verification Pending" and will be confirmed shortly after support verification.',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 14, color: Colors.black87),
@@ -528,7 +548,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
 
   @override
   Widget build(BuildContext context) {
-    final amount = widget.paymentOrder['amount'] ?? widget.doctor.consultationFee;
+    final amountStr = _amountDisplay;
     final upiLink = widget.paymentOrder['upi_link'];
     final qrCodeUrl = widget.paymentOrder['qr_code_url'];
     final paymentOrderNumber = widget.paymentOrder['payment_order_number'] ?? widget.paymentOrder['transaction_note'] ?? 'FF-PAY';
@@ -632,7 +652,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Total Amount: ₹${amount.toString()}',
+                        'Total Amount: ₹$amountStr',
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
                       ),
                       const SizedBox(height: 4),

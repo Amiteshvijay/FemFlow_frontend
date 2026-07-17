@@ -7,6 +7,13 @@ import 'package:femflow/features/lab_tests/widgets/lab_partner_review_bottom_she
 import '../models/order_history_model.dart';
 import 'payment_verification_screen.dart';
 
+// Automatic Payment resumes
+import 'package:femflow/features/doctor_consultation/doctor_payment_screen.dart';
+import 'package:femflow/features/doctor_consultation/data/doctor_consultation_service.dart';
+import 'package:femflow/features/subscriptions/screens/payment_screen.dart';
+import 'package:femflow/features/subscriptions/data/subscription_service.dart';
+import 'package:femflow/features/lab_tests/lab_payment_screen.dart';
+
 class OrderDetailScreen extends StatefulWidget {
   final OrderHistoryItem order;
 
@@ -19,11 +26,98 @@ class OrderDetailScreen extends StatefulWidget {
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
   late OrderHistoryItem _order;
   bool _hasUpdated = false;
+  bool _isResumingPayment = false;
 
   @override
   void initState() {
     super.initState();
     _order = widget.order;
+  }
+
+  Future<void> _handlePaymentResumption() async {
+    setState(() {
+      _isResumingPayment = true;
+    });
+
+    try {
+      if (_order.type == 'Consultation') {
+        final booking = await DoctorConsultationService().getBookingDetail(_order.id);
+        final doctor = await DoctorConsultationService().getDoctorDetail(booking.doctorId);
+        final date = DateTime.tryParse(booking.appointmentDate) ?? DateTime.now();
+
+        if (!mounted) return;
+        final result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DoctorPaymentScreen(
+              doctor: doctor,
+              date: date,
+              time: booking.appointmentTime,
+              mode: booking.consultationMode,
+              bookingId: booking.id,
+              paymentOrder: {
+                'payment_order_number': booking.bookingIdDisplay,
+                'amount': booking.consultationFee,
+              },
+            ),
+          ),
+        );
+        if (result == true || result == null) {
+          setState(() {
+            _hasUpdated = true;
+          });
+        }
+      } else if (_order.type == 'Subscription') {
+        final plans = await SubscriptionService().getPlans();
+        final planName = _order.details['plan_name'] ?? _order.displayName;
+        final planKey = _order.details['plan_key'] ?? '';
+        final plan = plans.firstWhere(
+          (p) => p.planKey == planKey || p.name.toLowerCase() == planName.toLowerCase(),
+          orElse: () => plans.first,
+        );
+
+        if (!mounted) return;
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PaymentScreen(plan: plan),
+          ),
+        );
+        setState(() {
+          _hasUpdated = true;
+        });
+      } else if (_order.type == 'LabTest') {
+        if (!mounted) return;
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LabPaymentScreen(
+              orderId: _order.id,
+              orderNumber: _order.orderId,
+              packageName: _order.displayName,
+              amount: _order.amount,
+              upiLink: _order.upiLink,
+              qrCodeUrl: _order.qrCodeUrl,
+            ),
+          ),
+        );
+        setState(() {
+          _hasUpdated = true;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to resume payment: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isResumingPayment = false;
+        });
+      }
+    }
   }
 
   Color _getStatusColor(String status) {
@@ -211,152 +305,201 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               const SizedBox(height: 12),
 
               if (isPending) ...[
-                // Scan and Pay details
-                AppCard(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.payment_outlined, color: FemFlowColors.primary, size: 20),
-                          SizedBox(width: 8),
-                          Text('UPI Scan & Pay', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      if (_order.qrCodeUrl != null)
-                        Center(
-                          child: Container(
-                            height: 160,
-                            width: 160,
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey[200]!, width: 2),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Image.network(_order.qrCodeUrl!, fit: BoxFit.contain),
-                          ),
+                if (_order.type == 'LabTest') ...[
+                  // Scan and Pay details
+                  AppCard(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.payment_outlined, color: FemFlowColors.primary, size: 20),
+                            SizedBox(width: 8),
+                            Text('UPI Scan & Pay', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                          ],
                         ),
-                      const SizedBox(height: 12),
-                      if (_order.upiLink != null)
+                        const SizedBox(height: 16),
+                        if (_order.qrCodeUrl != null)
+                          Center(
+                            child: Container(
+                              height: 160,
+                              width: 160,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[200]!, width: 2),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Image.network(_order.qrCodeUrl!, fit: BoxFit.contain),
+                            ),
+                          ),
+                        const SizedBox(height: 12),
+                        if (_order.upiLink != null)
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: FemFlowColors.primary,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              ),
+                              onPressed: () async {
+                                final uri = Uri.parse(_order.upiLink!);
+                                if (await canLaunchUrl(uri)) {
+                                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                }
+                              },
+                              icon: const Icon(Icons.account_balance_wallet),
+                              label: const Text('Pay now', style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                        const SizedBox(height: 8),
+                        const Text('UPI ID: femflow@ybl', style: TextStyle(color: FemFlowColors.textMuted, fontSize: 11)),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Button to upload verification
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      onPressed: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaymentVerificationScreen(order: _order),
+                          ),
+                        );
+                        if (result == true) {
+                          setState(() {
+                            _hasUpdated = true;
+                            _order = OrderHistoryItem(
+                              id: _order.id,
+                              uuid: _order.uuid,
+                              orderId: _order.orderId,
+                              type: _order.type,
+                              displayName: _order.displayName,
+                              amount: _order.amount,
+                              currency: _order.currency,
+                              status: 'verification_pending',
+                              createdAt: _order.createdAt,
+                              details: _order.details,
+                              upiLink: _order.upiLink,
+                              qrCodeUrl: _order.qrCodeUrl,
+                            );
+                          });
+                        }
+                      },
+                      icon: const Icon(Icons.upload_file),
+                      label: const Text('Submit UTR & Screenshot', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                    ),
+                  ),
+                ] else ...[
+                  AppCard(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.lock_outline, color: FemFlowColors.primary, size: 20),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Secure Payment Gateway',
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'This payment is automatically processed. Press the button below to pay securely via Razorpay.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.grey, fontSize: 13, height: 1.4),
+                        ),
+                        const SizedBox(height: 20),
                         SizedBox(
                           width: double.infinity,
+                          height: 50,
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: FemFlowColors.primary,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
-                            onPressed: () async {
-                              final uri = Uri.parse(_order.upiLink!);
+                            onPressed: _isResumingPayment ? null : _handlePaymentResumption,
+                            icon: _isResumingPayment
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                  )
+                                : const Icon(Icons.payment),
+                            label: const Text('Pay Securely', style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ] else ...[
+                if (_order.type == 'LabTest') ...[
+                  AppCard(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        if (_order.utrNumber != null)
+                          _buildDetailRow('UTR Reference', _order.utrNumber!, isMono: true)
+                        else
+                          _buildDetailRow('UTR Reference', 'Not submitted'),
+                        const SizedBox(height: 8),
+                        if (_order.paymentScreenshot != null) ...[
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Payment Screenshot', style: TextStyle(color: FemFlowColors.textSecondary)),
+                              Text('Uploaded', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          GestureDetector(
+                            onTap: () async {
+                              final uri = Uri.parse(_order.paymentScreenshot!);
                               if (await canLaunchUrl(uri)) {
                                 await launchUrl(uri, mode: LaunchMode.externalApplication);
                               }
                             },
-                            icon: const Icon(Icons.account_balance_wallet),
-                            label: const Text('Pay now', style: TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                        ),
-                      const SizedBox(height: 8),
-                      const Text('UPI ID: femflow@ybl', style: TextStyle(color: FemFlowColors.textMuted, fontSize: 11)),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                // Button to upload verification
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    onPressed: () async {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PaymentVerificationScreen(order: _order),
-                        ),
-                      );
-                      if (result == true) {
-                        setState(() {
-                          _hasUpdated = true;
-                          // Mimic verification submission status update
-                          _order = OrderHistoryItem(
-                            id: _order.id,
-                            uuid: _order.uuid,
-                            orderId: _order.orderId,
-                            type: _order.type,
-                            displayName: _order.displayName,
-                            amount: _order.amount,
-                            currency: _order.currency,
-                            status: 'verification_pending',
-                            createdAt: _order.createdAt,
-                            details: _order.details,
-                            upiLink: _order.upiLink,
-                            qrCodeUrl: _order.qrCodeUrl,
-                          );
-                        });
-                      }
-                    },
-                    icon: const Icon(Icons.upload_file),
-                    label: const Text('Submit UTR & Screenshot', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                  ),
-                ),
-              ] else ...[
-                AppCard(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      if (_order.utrNumber != null)
-                        _buildDetailRow('UTR Reference', _order.utrNumber!, isMono: true)
-                      else
-                        _buildDetailRow('UTR Reference', 'Not submitted'),
-                      const SizedBox(height: 8),
-                      if (_order.paymentScreenshot != null) ...[
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Payment Screenshot', style: TextStyle(color: FemFlowColors.textSecondary)),
-                            Text('Uploaded', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        GestureDetector(
-                          onTap: () async {
-                            final uri = Uri.parse(_order.paymentScreenshot!);
-                            if (await canLaunchUrl(uri)) {
-                              await launchUrl(uri, mode: LaunchMode.externalApplication);
-                            }
-                          },
-                          child: Container(
-                            height: 120,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey[200]!),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                _order.paymentScreenshot!,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Center(child: Text('Click to view full image'));
-                                },
+                            child: Container(
+                              height: 120,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[200]!),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.network(
+                                  _order.paymentScreenshot!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Center(child: Text('Click to view full image'));
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ] else
-                        _buildDetailRow('Screenshot File', 'No file uploaded'),
-                    ],
+                        ] else
+                          _buildDetailRow('Screenshot File', 'No file uploaded'),
+                      ],
+                    ),
                   ),
-                ),
+                ],
                 if (_order.type == 'LabTest') ...[
                   if (_order.details['report_url'] != null) ...[
                     const SizedBox(height: 20),

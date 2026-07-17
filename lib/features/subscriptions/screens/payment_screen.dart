@@ -38,7 +38,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
   Map<String, dynamic>? _orderData;
 
   Timer? _countdownTimer;
-  int _secondsRemaining = 300; // 5 minutes
+  int _secondsRemaining = 180; // 3 minutes
 
   // UPI Response and Fallback tracking fields
   bool _isWaitingForUpiResponse = false;
@@ -253,7 +253,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
 
   void _startCountdown() {
     _countdownTimer?.cancel();
-    _secondsRemaining = 300;
+    _secondsRemaining = 180;
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_secondsRemaining > 0) {
         if (mounted) {

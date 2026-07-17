@@ -230,6 +230,12 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
     final isFree = _isSelectedSlotFree;
     final isCooldown = _isCooldownActive;
 
+    final consultationFee = widget.followUpFee ?? widget.doctor.consultationFee;
+    final platformFee = consultationFee * 0.005;
+    final totalAmount = consultationFee + platformFee;
+    final platformFeeStr = platformFee % 1 == 0 ? platformFee.toInt().toString() : platformFee.toStringAsFixed(2);
+    final totalAmountStr = totalAmount % 1 == 0 ? totalAmount.toInt().toString() : totalAmount.toStringAsFixed(2);
+
     bool isButtonEnabled = true;
     String buttonText = '';
 
@@ -255,8 +261,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
         }
       }
     } else {
-      final fee = widget.followUpFee ?? widget.doctor.consultationFee;
-      buttonText = 'Pay & Book - ₹${fee.toInt()}';
+      buttonText = 'Pay & Book - ₹$totalAmountStr';
     }
 
     return Scaffold(
@@ -627,14 +632,14 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                       ] else ...[
                         _buildSummaryRow(
                           widget.originalBookingId != null ? 'Follow-up Fee (50%)' : 'Consultation Fee', 
-                          '₹${(widget.followUpFee ?? widget.doctor.consultationFee).toInt()}'
+                          '₹${consultationFee.toInt()}'
                         ),
                         const SizedBox(height: 8),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Platform Fee', style: TextStyle(color: Colors.grey)),
-                            Text('₹0', style: TextStyle(color: Colors.green)),
+                            const Text('Platform Fee', style: TextStyle(color: Colors.grey)),
+                            Text('₹$platformFeeStr', style: const TextStyle(color: Colors.black87)),
                           ],
                         ),
                         const Divider(),
@@ -643,7 +648,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                           children: [
                             const Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
-                              '₹${(widget.followUpFee ?? widget.doctor.consultationFee).toInt()}', 
+                              '₹$totalAmountStr', 
                               style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)
                             ),
                           ],
@@ -679,7 +684,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
               const SizedBox(height: 16),
               const Center(
                 child: Text(
-                  'Your payment is securely verified via UPI / QR code.',
+                  'Your payment is securely processed via Razorpay.',
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ),
