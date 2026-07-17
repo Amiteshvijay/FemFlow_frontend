@@ -668,20 +668,74 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
                 const SizedBox(height: 28),
 
                 // Razorpay Checkout launch button
-                SizedBox(
+                Container(
                   width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton.icon(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: FemFlowColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: FemFlowColors.primary,
+                      padding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     onPressed: () {
                       _launchRazorpayCheckout();
                     },
-                    icon: const Icon(Icons.payment_rounded),
-                    label: const Text('Pay Securely (Cards, UPI, Netbanking)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [FemFlowColors.primary, FemFlowColors.deepRose],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Container(
+                        height: 58,
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.lock_outline_rounded, size: 18, color: Colors.white),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'Proceed to Pay  •  ₹$amountStr',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Cards, UPI, Netbanking & Wallets',
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.8),
+                                fontSize: 11,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 0.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 32),
