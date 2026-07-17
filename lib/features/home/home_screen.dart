@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../../core/theme/femflow_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/femai_icon.dart';
+import 'greeting_detail_screen.dart';
 
 import '../symptoms/symptoms_screen.dart';
 import '../auth/data/auth_service.dart';
@@ -747,10 +748,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildSecondaryEventCard(Map event) {
     final color = _getEventColor(event['type']);
     final eventDateStr = event['date'];
+    final isGreeting = event['type'] == 'birthday' || event['type'] == 'anniversary';
     
     return AppCard(
       onTap: () {
-        if (eventDateStr != null) {
+        if (isGreeting) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GreetingDetailScreen(
+                greetingType: event['type'],
+              ),
+            ),
+          );
+        } else if (eventDateStr != null) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => DateDetailScreen(selectedDate: DateTime.parse(eventDateStr))),
@@ -778,7 +789,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          const Text('Estimated', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+          isGreeting
+              ? const Icon(Icons.chevron_right, color: FemFlowColors.textSecondary)
+              : const Text('Estimated', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
         ],
       ),
     );
@@ -793,6 +806,10 @@ class _HomeScreenState extends State<HomeScreen> {
         return FemFlowColors.fertileWindow;
       case 'ovulation':
         return FemFlowColors.ovulation;
+      case 'birthday':
+        return Colors.pinkAccent;
+      case 'anniversary':
+        return Colors.purpleAccent;
       default:
         return FemFlowColors.textSecondary;
     }
@@ -807,6 +824,10 @@ class _HomeScreenState extends State<HomeScreen> {
         return Icons.favorite;
       case 'ovulation':
         return Icons.wb_sunny;
+      case 'birthday':
+        return Icons.cake;
+      case 'anniversary':
+        return Icons.celebration;
       default:
         return Icons.info_outline;
     }
