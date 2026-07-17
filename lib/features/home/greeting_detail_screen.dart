@@ -172,7 +172,6 @@ class _GreetingDetailScreenState extends State<GreetingDetailScreen> {
                             // MNC Style Card
                             AppCard(
                               color: FemFlowColors.white,
-                              elevation: 2,
                               padding: const EdgeInsets.all(24.0),
                               child: Text(
                                 _content,
