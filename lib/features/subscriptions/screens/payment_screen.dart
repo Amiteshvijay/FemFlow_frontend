@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:universal_io/io.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../../core/security/app_lock_service.dart';
 import '../../../core/theme/femflow_colors.dart';
 import '../models/subscription_models.dart';
@@ -11,6 +12,7 @@ import '../providers/subscription_provider.dart';
 import '../data/subscription_service.dart';
 import '../../shell/main_shell.dart';
 import '../../../../core/services/deep_link_service.dart';
+import '../../auth/providers/auth_provider.dart';
 
 class PaymentScreen extends StatefulWidget {
   final SubscriptionPlan plan;
@@ -44,10 +46,19 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
   int _upiSecondsRemaining = 60; // 1 minute
   StreamSubscription<Uri>? _linkSubscription;
 
+  late Razorpay _razorpay;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    
+    // Initialize Razorpay client
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handleRazorpaySuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handleRazorpayError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleRazorpayExternalWallet);
+
     // Auto-initiate order creation
     Future.microtask(() => _startPayment());
 
@@ -62,6 +73,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _razorpay.clear();
     _linkSubscription?.cancel();
     _countdownTimer?.cancel();
     _upiTimeoutTimer?.cancel();
@@ -298,6 +310,137 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
     }
   }
 
+  void _handleRazorpaySuccess(PaymentSuccessResponse response) async {
+    setState(() {
+      _isProcessing = true;
+      _statusMessage = 'Verifying payment status...';
+    });
+    
+    try {
+      final verifyData = {
+        'razorpay_order_id': response.orderId ?? _orderData?['order_id'],
+        'razorpay_payment_id': response.paymentId,
+        'razorpay_signature': response.signature,
+      };
+      
+      final provider = context.read<SubscriptionProvider>();
+      await provider.verifyPayment(verifyData);
+      
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+        _showRazorpaySuccessDialog();
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Payment verification failed: $e. Please contact support.')),
+        );
+      }
+    }
+  }
+
+  void _handleRazorpayError(PaymentFailureResponse response) {
+    debugPrint('Razorpay Payment Error: ${response.code} | ${response.message}');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Payment cancelled or failed: ${response.message}')),
+      );
+    }
+  }
+
+  void _handleRazorpayExternalWallet(ExternalWalletResponse response) {
+    debugPrint('External Wallet Selected: ${response.walletName}');
+  }
+
+  void _showRazorpaySuccessDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.check_circle_outline_rounded, color: Colors.green, size: 64),
+            const SizedBox(height: 24),
+            const Text(
+              'Payment Successful!',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Your payment of ₹${_orderData?['amount'] ?? widget.plan.price} has been successfully verified. '
+              'Your premium features are now active!',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14, color: Colors.black87),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: FemFlowColors.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                onPressed: () async {
+                  final provider = context.read<SubscriptionProvider>();
+                  await provider.loadStatus();
+                  
+                  if (!context.mounted) return;
+ 
+                  Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const MainShell()),
+                    (route) => false,
+                  );
+                },
+                child: const Text('Go to Home', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _launchRazorpayCheckout() {
+    if (_orderData == null) return;
+    
+    final authProvider = context.read<AuthProvider>();
+    final userEmail = authProvider.profile?.email ?? '';
+    final userContact = authProvider.profile?.mobileNumber ?? '';
+
+    var options = {
+      'key': _orderData!['key_id'],
+      'amount': (_orderData!['amount'] * 100).toInt(),
+      'name': 'FemFlow Premium',
+      'description': 'Subscription to ${widget.plan.name}',
+      'order_id': _orderData!['order_id'],
+      'prefill': {
+        'contact': userContact,
+        'email': userEmail,
+      },
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint('Razorpay Checkout Launch Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not open Razorpay checkout: $e')),
+      );
+    }
+  }
+
   Future<void> _startPayment() async {
     if (!mounted) return;
     setState(() {
@@ -324,6 +467,9 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
       _service.updatePaymentStage(orderData['order_id'], 'initiated');
       _service.updatePaymentStage(orderData['order_id'], 'checkout_viewed');
       _startCountdown();
+      
+      // Auto-launch Razorpay checkout
+      _launchRazorpayCheckout();
     } catch (e, stack) {
       debugPrint('DEBUG: UPI Order Creation Error: $e');
       debugPrint('DEBUG: Stack Trace: $stack');
@@ -620,7 +766,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
                     ),
                   ),
                 ] else ...[
-                  // UPI intent launch button
+                  // Razorpay Checkout launch button
                   SizedBox(
                     width: double.infinity,
                     height: 52,
@@ -628,6 +774,32 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
                       style: ElevatedButton.styleFrom(
                         backgroundColor: FemFlowColors.primary,
                         foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      onPressed: () {
+                        _launchRazorpayCheckout();
+                      },
+                      icon: const Icon(Icons.payment_rounded),
+                      label: const Text('Pay Securely (Cards, UPI, Netbanking)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Center(
+                    child: Text(
+                      '— OR —',
+                      style: TextStyle(color: FemFlowColors.textMuted, fontSize: 13, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // UPI intent launch button (Secondary fallback)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: FemFlowColors.primary, width: 1.5),
+                        foregroundColor: FemFlowColors.primary,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                       onPressed: () async {

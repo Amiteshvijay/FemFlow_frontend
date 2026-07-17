@@ -92,6 +92,16 @@ class DoctorConsultationService {
     }
   }
 
+  Future<Map<String, dynamic>> createRazorpayOrder(int bookingId) async {
+    final response = await _apiClient.post('/doctor-consultation/bookings/$bookingId/create-payment-order/');
+    return response as Map<String, dynamic>;
+  }
+
+  Future<Map<String, dynamic>> verifyRazorpayPayment(int bookingId, Map<String, dynamic> data) async {
+    final response = await _apiClient.post('/doctor-consultation/bookings/$bookingId/verify-payment/', body: data);
+    return response as Map<String, dynamic>;
+  }
+
   Future<List<DoctorBooking>> getMyBookings() async {
     final response = await _apiClient.get('/doctor-consultation/my-bookings/');
     final List<dynamic> data = response;

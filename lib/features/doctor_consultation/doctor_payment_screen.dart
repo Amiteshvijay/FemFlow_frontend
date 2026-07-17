@@ -5,12 +5,15 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:universal_io/io.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:femflow/core/security/app_lock_service.dart';
 import 'package:femflow/core/theme/femflow_colors.dart';
 import 'package:femflow/features/doctor_consultation/models/doctor_models.dart';
 import 'package:femflow/features/doctor_consultation/data/doctor_consultation_service.dart';
 import 'package:femflow/features/shell/main_shell.dart';
 import 'package:femflow/core/services/deep_link_service.dart';
+import 'package:femflow/features/auth/providers/auth_provider.dart';
+import 'doctor_payment_success_screen.dart';
 
 class DoctorPaymentScreen extends StatefulWidget {
   final DoctorProfile doctor;
@@ -54,14 +57,27 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
   int _upiSecondsRemaining = 60; // 1 minute
   StreamSubscription<Uri>? _linkSubscription;
 
+  late Razorpay _razorpay;
+  Map<String, dynamic>? _rzpOrderData;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    
+    // Initialize Razorpay client
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handleRazorpaySuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handleRazorpayError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleRazorpayExternalWallet);
+
     final orderId = widget.paymentOrder['payment_order_number'] ?? widget.paymentOrder['transaction_note'] ?? 'FF-PAY';
     _service.updatePaymentStage(orderId, 'initiated');
     _service.updatePaymentStage(orderId, 'checkout_viewed');
     _startCountdown();
+
+    // Auto-initiate Razorpay order creation
+    Future.microtask(() => _initiateRazorpayOrder());
 
     // Listen to incoming deep links for payment callback
     _linkSubscription = DeepLinkService().uriStream.listen((uri) {
@@ -74,11 +90,127 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _razorpay.clear();
     _linkSubscription?.cancel();
     _countdownTimer?.cancel();
     _upiTimeoutTimer?.cancel();
     _utrController.dispose();
     super.dispose();
+  }
+
+  Future<void> _initiateRazorpayOrder() async {
+    setState(() {
+      _isProcessing = true;
+    });
+    try {
+      final rzpOrderData = await _service.createRazorpayOrder(widget.bookingId);
+      if (mounted) {
+        setState(() {
+          _rzpOrderData = rzpOrderData;
+          _isProcessing = false;
+        });
+        // Auto-launch checkout dialog
+        _launchRazorpayCheckout();
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+        debugPrint('Failed to initialize Razorpay order: $e');
+      }
+    }
+  }
+
+  void _handleRazorpaySuccess(PaymentSuccessResponse response) async {
+    if (!mounted) return;
+    setState(() {
+      _isProcessing = true;
+    });
+    
+    try {
+      final verifyData = {
+        'razorpay_order_id': response.orderId ?? _rzpOrderData?['razorpay_order_id'],
+        'razorpay_payment_id': response.paymentId,
+        'razorpay_signature': response.signature,
+      };
+      
+      await _service.verifyRazorpayPayment(widget.bookingId, verifyData);
+      
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+        
+        // Navigate to success screen
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => DoctorPaymentSuccessScreen(
+              doctor: widget.doctor,
+              date: widget.date,
+              time: widget.time,
+              mode: widget.mode,
+              bookingId: widget.bookingId,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Payment verification failed: $e. Please contact support.')),
+        );
+      }
+    }
+  }
+
+  void _handleRazorpayError(PaymentFailureResponse response) {
+    debugPrint('Razorpay Payment Error: ${response.code} | ${response.message}');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Payment cancelled or failed: ${response.message}')),
+      );
+    }
+  }
+
+  void _handleRazorpayExternalWallet(ExternalWalletResponse response) {
+    debugPrint('External Wallet Selected: ${response.walletName}');
+  }
+
+  void _launchRazorpayCheckout() {
+    if (_rzpOrderData == null) return;
+    
+    final authProvider = context.read<AuthProvider>();
+    final userEmail = authProvider.profile?.email ?? '';
+    final userContact = authProvider.profile?.mobileNumber ?? '';
+
+    var options = {
+      'key': _rzpOrderData!['key_id'],
+      'amount': _rzpOrderData!['amount'], // already in paise
+      'name': 'FemFlow Doctor Consultation',
+      'description': 'Consultation with Dr. ${widget.doctor.fullName}',
+      'order_id': _rzpOrderData!['razorpay_order_id'],
+      'prefill': {
+        'contact': userContact,
+        'email': userEmail,
+      },
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint('Razorpay Checkout Launch Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not open Razorpay checkout: $e')),
+      );
+    }
   }
 
   @override
@@ -556,7 +688,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
                     ),
                   ),
                 ] else ...[
-                  // UPI intent launch button
+                  // Razorpay Checkout launch button
                   SizedBox(
                     width: double.infinity,
                     height: 52,
@@ -564,6 +696,32 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
                       style: ElevatedButton.styleFrom(
                         backgroundColor: FemFlowColors.primary,
                         foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      onPressed: () {
+                        _launchRazorpayCheckout();
+                      },
+                      icon: const Icon(Icons.payment_rounded),
+                      label: const Text('Pay Securely (Cards, UPI, Netbanking)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Center(
+                    child: Text(
+                      '— OR —',
+                      style: TextStyle(color: FemFlowColors.textMuted, fontSize: 13, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // UPI intent launch button (Secondary fallback)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: FemFlowColors.primary, width: 1.5),
+                        foregroundColor: FemFlowColors.primary,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                       onPressed: () async {
