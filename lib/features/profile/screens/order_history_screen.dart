@@ -66,6 +66,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
         // Search filter
         final matchesSearch = order.orderId.toLowerCase().contains(_searchQuery.toLowerCase()) ||
             order.displayName.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+            order.id.toString().contains(_searchQuery) ||
+            order.uuid.toLowerCase().contains(_searchQuery.toLowerCase()) ||
             (order.utrNumber != null && order.utrNumber!.toLowerCase().contains(_searchQuery.toLowerCase()));
 
         // Type filter

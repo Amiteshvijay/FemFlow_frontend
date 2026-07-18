@@ -499,8 +499,28 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ],
                     ),
                   ),
+                ] else ...[
+                  if (_order.utrNumber != null || _order.details['razorpay_payment_id'] != null)
+                    AppCard(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          _buildDetailRow(
+                            'Payment ID',
+                            _order.details['razorpay_payment_id'] ?? _order.utrNumber!,
+                            isMono: true,
+                          ),
+                          if (_order.details['razorpay_order_id'] != null) ...[
+                            const SizedBox(height: 8),
+                            _buildDetailRow('Gateway Order ID', _order.details['razorpay_order_id']!, isMono: true),
+                          ],
+                        ],
+                      ),
+                    ),
                 ],
-                if (_order.type == 'LabTest') ...[
+              ],
+
+              if (_order.type == 'LabTest') ...[
                   if (_order.details['report_url'] != null) ...[
                     const SizedBox(height: 20),
                     SizedBox(
