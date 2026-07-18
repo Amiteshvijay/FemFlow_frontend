@@ -518,7 +518,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                     ),
                 ],
-              ],
 
               if (_order.type == 'LabTest') ...[
                   if (_order.details['report_url'] != null) ...[
