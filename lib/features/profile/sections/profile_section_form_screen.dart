@@ -60,7 +60,7 @@ class _ProfileSectionFormScreenState extends State<ProfileSectionFormScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Save failed: $e'), backgroundColor: FemLyraColors.period),
+          SnackBar(content: Text('Save failed: $e'), backgroundColor: FemFlowColors.period),
         );
       }
     } finally {
@@ -71,7 +71,7 @@ class _ProfileSectionFormScreenState extends State<ProfileSectionFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(icon: const Icon(Icons.arrow_back_ios_new, size: 20), onPressed: () => Navigator.pop(context)),
         title: Text(widget.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),

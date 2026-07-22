@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../data/profile_service.dart';
 import '../models/order_history_model.dart';
 import '../../subscriptions/providers/subscription_provider.dart';
-import 'package:FemLyra/core/network/api_client.dart';
+import 'package:femlyra/core/network/api_client.dart';
 
 class PaymentVerificationScreen extends StatefulWidget {
   final OrderHistoryItem order;
@@ -133,7 +133,7 @@ class _PaymentVerificationScreenState extends State<PaymentVerificationScreen> {
             const Text(
               'Your UTR details have been uploaded. The admin verification team is validating the transaction. Updates will reflect shortly.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
+              style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -141,7 +141,7 @@ class _PaymentVerificationScreenState extends State<PaymentVerificationScreen> {
               height: 44,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemLyraColors.primary,
+                  backgroundColor: FemFlowColors.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -162,17 +162,17 @@ class _PaymentVerificationScreenState extends State<PaymentVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Verify Payment',
-          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
+          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -185,14 +185,14 @@ class _PaymentVerificationScreenState extends State<PaymentVerificationScreen> {
             children: [
               const Text(
                 'Submit payment transaction details below to verify your purchase.',
-                style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary, height: 1.4),
+                style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.4),
               ),
               const SizedBox(height: 28),
 
               // UTR Number Input
               const Text(
                 '12-DIGIT TRANSACTION UTR NUMBER',
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary, letterSpacing: 1.1),
               ),
               const SizedBox(height: 8),
               TextFormField(
@@ -222,7 +222,7 @@ class _PaymentVerificationScreenState extends State<PaymentVerificationScreen> {
               // Screenshot Picker Card
               const Text(
                 'TRANSACTION SCREENSHOT (OPTIONAL)',
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary, letterSpacing: 1.1),
               ),
               const SizedBox(height: 8),
               GestureDetector(
@@ -249,22 +249,22 @@ class _PaymentVerificationScreenState extends State<PaymentVerificationScreen> {
                             const SizedBox(height: 12),
                             const Text(
                               'Tap to change image',
-                              style: TextStyle(color: FemLyraColors.primary, fontSize: 13, fontWeight: FontWeight.bold),
+                              style: TextStyle(color: FemFlowColors.primary, fontSize: 13, fontWeight: FontWeight.bold),
                             ),
                           ],
                         )
                       : const Column(
                           children: [
-                            Icon(Icons.add_photo_alternate_outlined, size: 40, color: FemLyraColors.textMuted),
+                            Icon(Icons.add_photo_alternate_outlined, size: 40, color: FemFlowColors.textMuted),
                             SizedBox(height: 12),
                             Text(
                               'Select Screenshot from Gallery',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemLyraColors.textPrimary),
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemFlowColors.textPrimary),
                             ),
                             SizedBox(height: 4),
                             Text(
                               'Accepts PNG, JPG, JPEG (Max 5MB)',
-                              style: TextStyle(color: FemLyraColors.textMuted, fontSize: 11),
+                              style: TextStyle(color: FemFlowColors.textMuted, fontSize: 11),
                             ),
                           ],
                         ),
@@ -279,7 +279,7 @@ class _PaymentVerificationScreenState extends State<PaymentVerificationScreen> {
                 height: 52,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: FemLyraColors.primary,
+                    backgroundColor: FemFlowColors.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     elevation: 0,

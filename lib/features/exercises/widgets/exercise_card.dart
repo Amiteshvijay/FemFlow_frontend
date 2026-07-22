@@ -61,15 +61,15 @@ class ExerciseCard extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: FemLyraColors.textPrimary,
+                              color: FemFlowColors.textPrimary,
                             ),
                           ),
                         ),
                         if (exercise.isCustom)
                            Container(
                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                             decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
-                             child: const Text('MY EXERCISE', style: TextStyle(color: FemLyraColors.primary, fontSize: 8, fontWeight: FontWeight.bold)),
+                             decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
+                             child: const Text('MY EXERCISE', style: TextStyle(color: FemFlowColors.primary, fontSize: 8, fontWeight: FontWeight.bold)),
                            ),
                       ],
                     ),
@@ -78,7 +78,7 @@ class ExerciseCard extends StatelessWidget {
                       '${exercise.durationMinutes} min • ${exercise.intensity.toUpperCase()}',
                       style: const TextStyle(
                         fontSize: 13,
-                        color: FemLyraColors.textSecondary,
+                        color: FemFlowColors.textSecondary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -92,10 +92,10 @@ class ExerciseCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: FemLyraColors.aiWellness.withValues(alpha: 0.05),
+                color: FemFlowColors.aiWellness.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: FemLyraColors.aiWellness.withValues(alpha: 0.1),
+                  color: FemFlowColors.aiWellness.withValues(alpha: 0.1),
                 ),
               ),
               child: Row(
@@ -106,7 +106,7 @@ class ExerciseCard extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 12,
                         fontStyle: FontStyle.italic,
-                        color: FemLyraColors.textPrimary,
+                        color: FemFlowColors.textPrimary,
                       ),
                     ),
                   ),
@@ -122,7 +122,7 @@ class ExerciseCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 13,
-                color: FemLyraColors.textMuted,
+                color: FemFlowColors.textMuted,
                 height: 1.4,
               ),
             ),
@@ -146,12 +146,12 @@ class ExerciseCard extends StatelessWidget {
   Color _getPhaseColor(String phase) {
     switch (phase.toLowerCase()) {
       case 'menstrual':
-      case 'period': return FemLyraColors.period;
-      case 'follicular': return FemLyraColors.primary;
+      case 'period': return FemFlowColors.period;
+      case 'follicular': return FemFlowColors.primary;
       case 'ovulatory':
-      case 'ovulation': return FemLyraColors.ovulation;
+      case 'ovulation': return FemFlowColors.ovulation;
       case 'luteal': return Colors.orange;
-      default: return FemLyraColors.primary;
+      default: return FemFlowColors.primary;
     }
   }
 

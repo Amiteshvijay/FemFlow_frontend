@@ -19,8 +19,8 @@ class CalorieRequirementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      color: FemLyraColors.primary.withValues(alpha: 0.05),
-      border: BorderSide(color: FemLyraColors.primary.withValues(alpha: 0.2)),
+      color: FemFlowColors.primary.withValues(alpha: 0.05),
+      border: BorderSide(color: FemFlowColors.primary.withValues(alpha: 0.2)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -33,7 +33,7 @@ class CalorieRequirementCard extends StatelessWidget {
               ),
               if (onEdit != null)
                 IconButton(
-                  icon: const Icon(Icons.edit, size: 20, color: FemLyraColors.primary),
+                  icon: const Icon(Icons.edit, size: 20, color: FemFlowColors.primary),
                   onPressed: onEdit,
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -50,7 +50,7 @@ class CalorieRequirementCard extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  color: FemLyraColors.primary,
+                  color: FemFlowColors.primary,
                 ),
               ),
               const SizedBox(width: 4),
@@ -59,7 +59,7 @@ class CalorieRequirementCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: FemLyraColors.textSecondary,
+                  color: FemFlowColors.textSecondary,
                 ),
               ),
             ],
@@ -69,7 +69,7 @@ class CalorieRequirementCard extends StatelessWidget {
             explanation,
             style: const TextStyle(
               fontSize: 13,
-              color: FemLyraColors.textSecondary,
+              color: FemFlowColors.textSecondary,
               fontStyle: FontStyle.italic,
             ),
           ),

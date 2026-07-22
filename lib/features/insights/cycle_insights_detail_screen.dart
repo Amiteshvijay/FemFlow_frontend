@@ -47,7 +47,7 @@ class _CycleInsightsDetailScreenState extends State<CycleInsightsDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('Cycle Insights', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
@@ -59,16 +59,16 @@ class _CycleInsightsDetailScreenState extends State<CycleInsightsDetailScreen> {
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
                   _buildCycleSummaryCards(),
                   const SizedBox(height: 24),
-                  _buildTrendChart('Cycle Length Trend', _trends?['cycle_length_trend'] as List? ?? [], FemLyraColors.ovulation),
+                  _buildTrendChart('Cycle Length Trend', _trends?['cycle_length_trend'] as List? ?? [], FemFlowColors.ovulation),
                   const SizedBox(height: 24),
-                  _buildTrendChart('Period Length Trend', _trends?['period_length_trend'] as List? ?? [], FemLyraColors.period),
+                  _buildTrendChart('Period Length Trend', _trends?['period_length_trend'] as List? ?? [], FemFlowColors.period),
                   const SizedBox(height: 24),
                   _buildHistoryTable(),
                   const SizedBox(height: 24),
@@ -89,7 +89,7 @@ class _CycleInsightsDetailScreenState extends State<CycleInsightsDetailScreen> {
             'Regularity',
             (cycle['cycle_regularity'] ?? '--').toString().toUpperCase(),
             Icons.sync,
-            FemLyraColors.primary,
+            FemFlowColors.primary,
           ),
         ),
         const SizedBox(width: 16),
@@ -98,7 +98,7 @@ class _CycleInsightsDetailScreenState extends State<CycleInsightsDetailScreen> {
             'Confidence',
             (cycle['prediction_confidence'] ?? '--').toString().toUpperCase(),
             Icons.verified_user_outlined,
-            FemLyraColors.ovulation,
+            FemFlowColors.ovulation,
           ),
         ),
       ],
@@ -112,7 +112,7 @@ class _CycleInsightsDetailScreenState extends State<CycleInsightsDetailScreen> {
         children: [
           Icon(icon, color: color, size: 20),
           const SizedBox(height: 12),
-          Text(label, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
+          Text(label, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
           const SizedBox(height: 4),
           Text(value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
         ],
@@ -202,7 +202,7 @@ class _CycleInsightsDetailScreenState extends State<CycleInsightsDetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(DateFormat('MMM dd, yyyy').format(start), style: const TextStyle(fontWeight: FontWeight.w500)),
-                          const Text('Period Start', style: TextStyle(fontSize: 11, color: FemLyraColors.textMuted)),
+                          const Text('Period Start', style: TextStyle(fontSize: 11, color: FemFlowColors.textMuted)),
                         ],
                       ),
                     ),
@@ -223,20 +223,20 @@ class _CycleInsightsDetailScreenState extends State<CycleInsightsDetailScreen> {
     return Column(
       children: [
         Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
-        Text(label, style: const TextStyle(fontSize: 10, color: FemLyraColors.textMuted)),
+        Text(label, style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted)),
       ],
     );
   }
 
   Widget _buildAIRecommendation() {
     return AppCard(
-      color: FemLyraColors.lavender.withValues(alpha: 0.2),
-      border: const BorderSide(color: FemLyraColors.lavender),
+      color: FemFlowColors.lavender.withValues(alpha: 0.2),
+      border: const BorderSide(color: FemFlowColors.lavender),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Text(
           _overview?['ai_recommendation'] ?? 'Maintain consistent sleep and logging to improve predictions.',
-          style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary, height: 1.5),
+          style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.5),
         ),
       ),
     );

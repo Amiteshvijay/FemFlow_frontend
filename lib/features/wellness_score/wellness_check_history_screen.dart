@@ -39,24 +39,24 @@ class _WellnessCheckHistoryScreenState extends State<WellnessCheckHistoryScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Check History', style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
+        title: const Text('Check History', style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : _history.isEmpty
               ? _buildEmptyState()
               : RefreshIndicator(
                   onRefresh: _fetchHistory,
-                  color: FemLyraColors.primary,
+                  color: FemFlowColors.primary,
                   child: ListView.builder(
                     padding: const EdgeInsets.all(20),
                     itemCount: _history.length,
@@ -89,7 +89,7 @@ class _WellnessCheckHistoryScreenState extends State<WellnessCheckHistoryScreen>
                 ),
                 Text(
                   DateFormat('MMM dd, yyyy').format(DateTime.parse(res.completedAt)),
-                  style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
+                  style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
                 ),
               ],
             ),
@@ -99,24 +99,24 @@ class _WellnessCheckHistoryScreenState extends State<WellnessCheckHistoryScreen>
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: FemLyraColors.primary.withValues(alpha: 0.1),
+                    color: FemFlowColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     'Score: ${res.normalizedScore}',
-                    style: const TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold, fontSize: 12),
+                    style: const TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 12),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     res.resultLabel,
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: FemLyraColors.textSecondary),
+                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: FemFlowColors.textSecondary),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const Icon(Icons.chevron_right, size: 16, color: FemLyraColors.textMuted),
+                const Icon(Icons.chevron_right, size: 16, color: FemFlowColors.textMuted),
               ],
             ),
           ],
@@ -130,11 +130,11 @@ class _WellnessCheckHistoryScreenState extends State<WellnessCheckHistoryScreen>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.history_toggle_off, size: 80, color: FemLyraColors.textMuted.withValues(alpha: 0.3)),
+          Icon(Icons.history_toggle_off, size: 80, color: FemFlowColors.textMuted.withValues(alpha: 0.3)),
           const SizedBox(height: 24),
-          const Text('No wellness checks yet', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
+          const Text('No wellness checks yet', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
           const SizedBox(height: 8),
-          const Text('Start your first check to personalize your score.', style: TextStyle(color: FemLyraColors.textSecondary)),
+          const Text('Start your first check to personalize your score.', style: TextStyle(color: FemFlowColors.textSecondary)),
         ],
       ),
     );

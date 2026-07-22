@@ -36,19 +36,19 @@ class _WellnessAccuracyScreenState extends State<WellnessAccuracyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Accuracy Level', style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
+        title: const Text('Accuracy Level', style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -56,11 +56,11 @@ class _WellnessAccuracyScreenState extends State<WellnessAccuracyScreen> {
                 children: [
                   _buildMainLevelCard(),
                   const SizedBox(height: 40),
-                  const Text('Why this accuracy?', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: FemLyraColors.textPrimary)),
+                  const Text('Why this accuracy?', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: FemFlowColors.textPrimary)),
                   const SizedBox(height: 16),
                   const Text(
                     'Your accuracy is calculated based on how consistently you log your daily check-ins, cycles, symptoms, and wellness checks.',
-                    style: TextStyle(color: FemLyraColors.textSecondary, height: 1.5),
+                    style: TextStyle(color: FemFlowColors.textSecondary, height: 1.5),
                   ),
                   const SizedBox(height: 32),
                   ...(_data!['reasons'] as List).map((r) => _buildReasonRow(r, true)),
@@ -82,7 +82,7 @@ class _WellnessAccuracyScreenState extends State<WellnessAccuracyScreen> {
       padding: const EdgeInsets.all(40),
       child: Column(
         children: [
-          const Text('FemLyra Accuracy Level', style: TextStyle(fontSize: 16, color: FemLyraColors.textSecondary, fontWeight: FontWeight.w500)),
+          const Text('FemLyra Accuracy Level', style: TextStyle(fontSize: 16, color: FemFlowColors.textSecondary, fontWeight: FontWeight.w500)),
           const SizedBox(height: 32),
           Stack(
             alignment: Alignment.center,
@@ -115,7 +115,7 @@ class _WellnessAccuracyScreenState extends State<WellnessAccuracyScreen> {
           const Text(
             'High accuracy helps FemAI provide deeper insights tailored to your body patterns.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: FemLyraColors.textMuted, height: 1.5),
+            style: TextStyle(fontSize: 14, color: FemFlowColors.textMuted, height: 1.5),
           ),
         ],
       ),
@@ -136,7 +136,7 @@ class _WellnessAccuracyScreenState extends State<WellnessAccuracyScreen> {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(fontSize: 15, color: FemLyraColors.textPrimary, fontWeight: FontWeight.w500),
+              style: const TextStyle(fontSize: 15, color: FemFlowColors.textPrimary, fontWeight: FontWeight.w500),
             ),
           ),
         ],
@@ -146,16 +146,16 @@ class _WellnessAccuracyScreenState extends State<WellnessAccuracyScreen> {
 
   Widget _buildActionCard() {
     return AppCard(
-      color: FemLyraColors.primary.withValues(alpha: 0.05),
-      border: const BorderSide(color: FemLyraColors.primary),
+      color: FemFlowColors.primary.withValues(alpha: 0.05),
+      border: const BorderSide(color: FemFlowColors.primary),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Next Best Action', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 16)),
+          const Text('Next Best Action', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary, fontSize: 16)),
           const SizedBox(height: 12),
           Text(
             _data!['next_best_action'] ?? 'Complete a Quick Body & Mind Check today.',
-            style: const TextStyle(fontSize: 15, color: FemLyraColors.textPrimary, height: 1.4),
+            style: const TextStyle(fontSize: 15, color: FemFlowColors.textPrimary, height: 1.4),
           ),
         ],
       ),

@@ -56,7 +56,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       body: SafeArea(
         child: Column(
           children: [
@@ -74,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: const Text(
                         'Skip',
                         style: TextStyle(
-                          color: FemLyraColors.textSecondary,
+                          color: FemFlowColors.textSecondary,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -122,14 +122,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       children: [
                         const Text(
                           'Already have an account? ',
-                          style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
+                          style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
                         ),
                         GestureDetector(
                           onTap: _navigateToLogin,
                           child: const Text(
                             'Login',
                             style: TextStyle(
-                              color: FemLyraColors.primary,
+                              color: FemFlowColors.primary,
                               fontWeight: FontWeight.bold,
                               fontSize: 13,
                             ),
@@ -157,7 +157,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               'Cycle, Health & Care',
               style: TextStyle(
                 fontSize: 16,
-                color: FemLyraColors.textSecondary,
+                color: FemFlowColors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -169,7 +169,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: FemLyraColors.textPrimary,
+              color: FemFlowColors.textPrimary,
               height: 1.2,
             ),
           ),
@@ -179,7 +179,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 14,
-              color: FemLyraColors.textSecondary,
+              color: FemFlowColors.textSecondary,
               height: 1.5,
             ),
           ),
@@ -188,14 +188,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             width: 240,
             height: 240,
             decoration: const BoxDecoration(
-              color: FemLyraColors.blushMist,
+              color: FemFlowColors.blushMist,
               shape: BoxShape.circle,
             ),
             child: Center(
               child: Icon(
                 data.icon,
                 size: 80,
-                color: FemLyraColors.primary,
+                color: FemFlowColors.primary,
               ),
             ),
           ),
@@ -214,7 +214,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           width: _currentPage == index ? 12 : 8,
           height: 8,
           decoration: BoxDecoration(
-            color: _currentPage == index ? FemLyraColors.primary : FemLyraColors.border,
+            color: _currentPage == index ? FemFlowColors.primary : FemFlowColors.border,
             borderRadius: BorderRadius.circular(4),
           ),
         ),

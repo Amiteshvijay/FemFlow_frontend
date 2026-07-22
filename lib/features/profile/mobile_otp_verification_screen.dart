@@ -67,7 +67,7 @@ class _MobileOtpVerificationScreenState extends State<MobileOtpVerificationScree
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString()), backgroundColor: FemLyraColors.period),
+          SnackBar(content: Text(e.toString()), backgroundColor: FemFlowColors.period),
         );
       }
     } finally {
@@ -90,7 +90,7 @@ class _MobileOtpVerificationScreenState extends State<MobileOtpVerificationScree
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to resend OTP: $e'), backgroundColor: FemLyraColors.period),
+          SnackBar(content: Text('Failed to resend OTP: $e'), backgroundColor: FemFlowColors.period),
         );
       }
     } finally {
@@ -108,7 +108,7 @@ class _MobileOtpVerificationScreenState extends State<MobileOtpVerificationScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -125,7 +125,7 @@ class _MobileOtpVerificationScreenState extends State<MobileOtpVerificationScree
             Text(
               'Enter the OTP sent to ${widget.mobileNumber}',
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary),
+              style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary),
             ),
             const SizedBox(height: 40),
             TextField(
@@ -140,7 +140,7 @@ class _MobileOtpVerificationScreenState extends State<MobileOtpVerificationScree
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: FemLyraColors.border),
+                  borderSide: const BorderSide(color: FemFlowColors.border),
                 ),
               ),
             ),
@@ -155,7 +155,7 @@ class _MobileOtpVerificationScreenState extends State<MobileOtpVerificationScree
               onPressed: _canResend ? _resendOtp : null,
               child: Text(
                 _canResend ? 'Resend OTP' : 'Resend OTP in $_secondsRemaining seconds',
-                style: TextStyle(color: _canResend ? FemLyraColors.primary : FemLyraColors.textMuted),
+                style: TextStyle(color: _canResend ? FemFlowColors.primary : FemFlowColors.textMuted),
               ),
             ),
           ],

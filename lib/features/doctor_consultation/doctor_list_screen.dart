@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:FemLyra/core/theme/FemLyra_colors.dart';
-import 'package:FemLyra/shared/widgets/app_card.dart';
+import 'package:femlyra/core/theme/FemLyra_colors.dart';
+import 'package:femlyra/shared/widgets/app_card.dart';
 import 'data/doctor_consultation_service.dart';
 import 'models/doctor_models.dart';
 import 'doctor_detail_screen.dart';
@@ -159,7 +159,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                             ],
                           ],
                         ),
-                        Text(doctor.speciality, style: TextStyle(color: FemLyraColors.primary, fontSize: 13)),
+                        Text(doctor.speciality, style: TextStyle(color: FemFlowColors.primary, fontSize: 13)),
                         Text('${doctor.experienceYears} years experience • ${doctor.qualification}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
                       ],
                     ),
@@ -231,7 +231,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                         MaterialPageRoute(builder: (_) => DoctorBookingScreen(doctor: doctor)),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: FemLyraColors.primary,
+                        backgroundColor: FemFlowColors.primary,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         elevation: 0,

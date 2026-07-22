@@ -44,7 +44,7 @@ class _SymptomsInsightsDetailScreenState extends State<SymptomsInsightsDetailScr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('Symptoms Insights', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
@@ -56,7 +56,7 @@ class _SymptomsInsightsDetailScreenState extends State<SymptomsInsightsDetailScr
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -100,10 +100,10 @@ class _SymptomsInsightsDetailScreenState extends State<SymptomsInsightsDetailScr
                 setState(() => _selectedRange = e.key);
                 _fetchData();
               },
-              selectedColor: FemLyraColors.primary,
-              labelStyle: TextStyle(color: isSelected ? Colors.white : FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
+              selectedColor: FemFlowColors.primary,
+              labelStyle: TextStyle(color: isSelected ? Colors.white : FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
               backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: isSelected ? Colors.transparent : FemLyraColors.border)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: isSelected ? Colors.transparent : FemFlowColors.border)),
             ),
           );
         }).toList(),
@@ -137,14 +137,14 @@ class _SymptomsInsightsDetailScreenState extends State<SymptomsInsightsDetailScr
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(name[0].toUpperCase() + name.substring(1), style: const TextStyle(fontSize: 14)),
-              Text('${(progress * 100).toInt()}%', style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
+              Text('${(progress * 100).toInt()}%', style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
             ],
           ),
           const SizedBox(height: 8),
           LinearProgressIndicator(
             value: progress,
-            backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
-            valueColor: const AlwaysStoppedAnimation<Color>(FemLyraColors.primary),
+            backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+            valueColor: const AlwaysStoppedAnimation<Color>(FemFlowColors.primary),
             borderRadius: BorderRadius.circular(4),
             minHeight: 8,
           ),
@@ -179,10 +179,10 @@ class _SymptomsInsightsDetailScreenState extends State<SymptomsInsightsDetailScr
                       return FlSpot(e.key.toDouble(), intensity);
                     }).toList(),
                     isCurved: true,
-                    color: FemLyraColors.primary,
+                    color: FemFlowColors.primary,
                     barWidth: 3,
                     dotData: FlDotData(show: false),
-                    belowBarData: BarAreaData(show: true, color: FemLyraColors.primary.withValues(alpha: 0.1)),
+                    belowBarData: BarAreaData(show: true, color: FemFlowColors.primary.withValues(alpha: 0.1)),
                   ),
                 ],
               ),
@@ -195,8 +195,8 @@ class _SymptomsInsightsDetailScreenState extends State<SymptomsInsightsDetailScr
 
   Widget _buildAIInsight() {
     return AppCard(
-      color: FemLyraColors.lavender.withValues(alpha: 0.2),
-      border: const BorderSide(color: FemLyraColors.lavender),
+      color: FemFlowColors.lavender.withValues(alpha: 0.2),
+      border: const BorderSide(color: FemFlowColors.lavender),
       child: const Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -204,11 +204,11 @@ class _SymptomsInsightsDetailScreenState extends State<SymptomsInsightsDetailScr
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('AI Insight', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.aiWellness)),
+                Text('AI Insight', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
                 SizedBox(height: 8),
                 Text(
                   'Cramps and fatigue often peak 2 days before your period. Prioritize iron-rich foods and light rest during this window.',
-                  style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary, height: 1.5),
+                  style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.5),
                 ),
               ],
             ),
@@ -227,12 +227,12 @@ class _SymptomsInsightsDetailScreenState extends State<SymptomsInsightsDetailScr
       ),
       child: const Row(
         children: [
-          Icon(Icons.info_outline, size: 18, color: FemLyraColors.textMuted),
+          Icon(Icons.info_outline, size: 18, color: FemFlowColors.textMuted),
           SizedBox(width: 12),
           Expanded(
             child: Text(
               'If symptoms are severe, unusual, or affect daily life, please consult a qualified doctor.',
-              style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
+              style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
             ),
           ),
         ],

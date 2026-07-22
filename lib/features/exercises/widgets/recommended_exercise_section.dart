@@ -40,29 +40,29 @@ class _RecommendedExerciseSectionState extends State<RecommendedExerciseSection>
                   children: [
                     Text(
                       'Phase-Based Fitness',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
                     ),
                     SizedBox(width: 8),
-                    Icon(Icons.lock_outline, color: FemLyraColors.primary, size: 18),
+                    Icon(Icons.lock_outline, color: FemFlowColors.primary, size: 18),
                   ],
                 ),
                 const SizedBox(height: 16),
                 AppCard(
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PremiumFeaturePreviewScreen(featureKey: 'fitness_recommendations'))),
-                  color: FemLyraColors.primary.withValues(alpha: 0.05),
-                  border: BorderSide(color: FemLyraColors.primary.withValues(alpha: 0.2)),
+                  color: FemFlowColors.primary.withValues(alpha: 0.05),
+                  border: BorderSide(color: FemFlowColors.primary.withValues(alpha: 0.2)),
                   child: const Column(
                     children: [
                       Text(
                         'Unlock daily exercise recommendations synced with your cycle phases.',
-                        style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13, height: 1.4),
+                        style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13, height: 1.4),
                       ),
                       SizedBox(height: 16),
                       Row(
                         children: [
                           Text(
                             'Unlock with Premium >',
-                            style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold, fontSize: 13),
+                            style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 13),
                           ),
                         ],
                       ),
@@ -76,7 +76,7 @@ class _RecommendedExerciseSectionState extends State<RecommendedExerciseSection>
         return Consumer<ExerciseProvider>(
           builder: (context, provider, child) {
             if (provider.isLoading && provider.recommended.isEmpty) {
-              return const Center(child: CircularProgressIndicator(color: FemLyraColors.primary));
+              return const Center(child: CircularProgressIndicator(color: FemFlowColors.primary));
             }
 
             if (provider.recommended.isEmpty) {
@@ -99,7 +99,7 @@ class _RecommendedExerciseSectionState extends State<RecommendedExerciseSection>
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: FemLyraColors.textPrimary,
+                                color: FemFlowColors.textPrimary,
                               ),
                             ),
                           ),
@@ -111,7 +111,7 @@ class _RecommendedExerciseSectionState extends State<RecommendedExerciseSection>
                         context,
                         MaterialPageRoute(builder: (_) => const ExerciseLibraryScreen()),
                       ),
-                      child: const Text('View all', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.w600)),
+                      child: const Text('View all', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.w600)),
                     ),
                   ],
                 ),

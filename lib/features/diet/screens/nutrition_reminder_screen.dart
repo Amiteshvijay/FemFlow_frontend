@@ -120,11 +120,11 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel', style: TextStyle(color: FemLyraColors.textSecondary)),
+            child: const Text('Cancel', style: TextStyle(color: FemFlowColors.textSecondary)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete', style: TextStyle(color: FemLyraColors.period, fontWeight: FontWeight.bold)),
+            child: const Text('Delete', style: TextStyle(color: FemFlowColors.period, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -170,7 +170,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Label / Name', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
+                    const Text('Label / Name', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
                     const SizedBox(height: 8),
                     TextField(
                       controller: labelController,
@@ -181,7 +181,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text('Reminder Type', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
+                    const Text('Reminder Type', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
                     const SizedBox(height: 8),
                     DropdownButtonFormField<String>(
                       initialValue: reminderType,
@@ -202,7 +202,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    const Text('Reminder Time', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
+                    const Text('Reminder Time', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
                     const SizedBox(height: 8),
                     InkWell(
                       onTap: () async {
@@ -227,7 +227,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                               _formatTimeOfDay(selectedTime.hour, selectedTime.minute),
                               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                             ),
-                            const Icon(Icons.access_time_rounded, color: FemLyraColors.primary, size: 20),
+                            const Icon(Icons.access_time_rounded, color: FemFlowColors.primary, size: 20),
                           ],
                         ),
                       ),
@@ -238,7 +238,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, null),
-                  child: const Text('Cancel', style: TextStyle(color: FemLyraColors.textSecondary)),
+                  child: const Text('Cancel', style: TextStyle(color: FemFlowColors.textSecondary)),
                 ),
                 TextButton(
                   onPressed: () {
@@ -296,7 +296,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                   },
                   child: Text(
                     isEditing ? 'Save' : 'Add',
-                    style: const TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold),
+                    style: const TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -320,22 +320,22 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Daily Reminders',
-          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
+          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -348,19 +348,19 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                       children: [
                         const Row(
                           children: [
-                            Icon(Icons.notifications_active_outlined, color: FemLyraColors.primary, size: 24),
+                            Icon(Icons.notifications_active_outlined, color: FemFlowColors.primary, size: 24),
                             SizedBox(width: 12),
                             Text(
                               'Enable Notifications',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary),
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
                             ),
                           ],
                         ),
                         Switch(
                           value: _remindersEnabled,
                           onChanged: _toggleReminders,
-                          activeTrackColor: FemLyraColors.primary.withValues(alpha: 0.5),
-                          activeThumbColor: FemLyraColors.primary,
+                          activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
+                          activeThumbColor: FemFlowColors.primary,
                         ),
                       ],
                     ),
@@ -368,7 +368,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                   const SizedBox(height: 16),
                   const Text(
                     'Customize Timeline',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary),
                   ),
                   const SizedBox(height: 12),
                   if (_reminders.isEmpty)
@@ -401,13 +401,13 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: FemLyraColors.primary.withValues(alpha: 0.08),
+                    color: FemFlowColors.primary.withValues(alpha: 0.08),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     reminder.icon,
                     size: 18,
-                    color: FemLyraColors.primary,
+                    color: FemFlowColors.primary,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -419,7 +419,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: FemLyraColors.textPrimary,
+                        color: FemFlowColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -427,7 +427,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                       reminder.isCustom ? 'Custom Reminder' : 'System Reminder',
                       style: const TextStyle(
                         fontSize: 11,
-                        color: FemLyraColors.textMuted,
+                        color: FemFlowColors.textMuted,
                       ),
                     ),
                   ],
@@ -447,7 +447,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: FemLyraColors.primary.withValues(alpha: 0.08),
+                      color: FemFlowColors.primary.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -455,13 +455,13 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                         Text(
                           _formatTimeOfDay(reminder.hour, reminder.minute),
                           style: const TextStyle(
-                            color: FemLyraColors.primary,
+                            color: FemFlowColors.primary,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(Icons.edit, size: 12, color: FemLyraColors.primary),
+                        const Icon(Icons.edit, size: 12, color: FemFlowColors.primary),
                       ],
                     ),
                   ),
@@ -469,7 +469,7 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
                 if (reminder.isCustom) ...[
                   const SizedBox(width: 8),
                   IconButton(
-                    icon: const Icon(Icons.delete_outline_rounded, color: FemLyraColors.period, size: 20),
+                    icon: const Icon(Icons.delete_outline_rounded, color: FemFlowColors.period, size: 20),
                     onPressed: () => _deleteReminder(reminder),
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
@@ -489,11 +489,11 @@ class _NutritionReminderScreenState extends State<NutritionReminderScreen> {
         padding: const EdgeInsets.symmetric(vertical: 40),
         child: Column(
           children: [
-            const Icon(Icons.notifications_off_outlined, color: FemLyraColors.textMuted, size: 48),
+            const Icon(Icons.notifications_off_outlined, color: FemFlowColors.textMuted, size: 48),
             const SizedBox(height: 12),
             const Text(
               'No reminders configured',
-              style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary),
+              style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary),
             ),
           ],
         ),

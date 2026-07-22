@@ -7,7 +7,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:FemLyra/main.dart';
+import 'package:femlyra/main.dart';
 
 void main() {
   testWidgets('FemLyra shell navigation smoke test', (

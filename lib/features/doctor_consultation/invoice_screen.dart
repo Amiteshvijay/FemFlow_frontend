@@ -4,11 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:open_filex/open_filex.dart';
-import 'package:FemLyra/core/theme/FemLyra_colors.dart';
-import 'package:FemLyra/features/doctor_consultation/data/doctor_consultation_service.dart';
-import 'package:FemLyra/features/doctor_consultation/models/doctor_models.dart';
+import 'package:femlyra/core/theme/FemLyra_colors.dart';
+import 'package:femlyra/features/doctor_consultation/data/doctor_consultation_service.dart';
+import 'package:femlyra/features/doctor_consultation/models/doctor_models.dart';
 import 'package:provider/provider.dart';
-import 'package:FemLyra/core/security/app_lock_service.dart';
+import 'package:femlyra/core/security/app_lock_service.dart';
 
 class InvoiceScreen extends StatefulWidget {
   final int bookingId;
@@ -125,13 +125,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   Widget build(BuildContext context) {
     if (!_isAuthorized && context.read<AppLockService>().isEnabled) {
       return const Scaffold(
-        backgroundColor: FemLyraColors.warmWhite,
-        body: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)),
+        backgroundColor: FemFlowColors.warmWhite,
+        body: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)),
       );
     }
 
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('Tax Invoice', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
@@ -149,7 +149,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : _booking == null || _booking!.invoice == null
               ? _buildMissingInvoice()
               : SingleChildScrollView(
@@ -215,7 +215,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: const BoxDecoration(
-              color: FemLyraColors.primary,
+              color: FemFlowColors.primary,
               borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
             ),
             child: Row(
@@ -286,7 +286,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                     const Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                     Text(
                       '₹${total.toStringAsFixed(2)}', 
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemLyraColors.primary)
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemFlowColors.primary)
                     ),
                   ],
                 ),

@@ -4,11 +4,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:FemLyra/core/navigation/navigator_service.dart';
-import 'package:FemLyra/features/diet/screens/diet_home_screen.dart';
-import 'package:FemLyra/features/pill_reminder/pill_reminder_list_screen.dart';
-import 'package:FemLyra/features/reminders/reminders_screen.dart';
-import 'package:FemLyra/features/journal/journal_screen.dart';
+import 'package:femlyra/core/navigation/navigator_service.dart';
+import 'package:femlyra/features/diet/screens/diet_home_screen.dart';
+import 'package:femlyra/features/pill_reminder/pill_reminder_list_screen.dart';
+import 'package:femlyra/features/reminders/reminders_screen.dart';
+import 'package:femlyra/features/journal/journal_screen.dart';
 
 // Action constants for medication reminders
 const String actionTake = 'MED_TAKE';

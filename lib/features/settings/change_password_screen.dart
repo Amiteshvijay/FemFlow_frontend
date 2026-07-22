@@ -148,7 +148,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -183,7 +183,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     IconButton(
                       icon: Icon(
                         Icons.help_outline_rounded,
-                        color: _showGuidelines ? FemLyraColors.primary : Colors.grey,
+                        color: _showGuidelines ? FemFlowColors.primary : Colors.grey,
                       ),
                       onPressed: () => setState(() => _showGuidelines = !_showGuidelines),
                     ),

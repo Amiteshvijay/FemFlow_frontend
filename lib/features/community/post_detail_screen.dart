@@ -106,22 +106,22 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: FemLyraColors.textPrimary, size: 20),
+          icon: const Icon(Icons.arrow_back_ios_new, color: FemFlowColors.textPrimary, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Discussion',
-          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
+          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : _error != null
               ? _buildErrorState()
               : _buildContent(),
@@ -146,7 +146,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             const Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 40),
-                child: Text('No replies yet. Be the first to reply!', style: TextStyle(color: FemLyraColors.textMuted)),
+                child: Text('No replies yet. Be the first to reply!', style: TextStyle(color: FemFlowColors.textMuted)),
               ),
             )
           else
@@ -168,16 +168,16 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             children: [
               CircleAvatar(
                 radius: 18,
-                backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
+                backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
                 backgroundImage: _post!.authorAvatar != null ? NetworkImage(_post!.authorAvatar!) : null,
-                child: _post!.authorAvatar == null ? const Icon(Icons.person, size: 20, color: FemLyraColors.primary) : null,
+                child: _post!.authorAvatar == null ? const Icon(Icons.person, size: 20, color: FemFlowColors.primary) : null,
               ),
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(_post!.authorName, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(timeStr, style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted)),
+                  Text(timeStr, style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted)),
                 ],
               ),
             ],
@@ -185,7 +185,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           const SizedBox(height: 20),
           PostContentWidget(
             content: _post!.content,
-            style: const TextStyle(fontSize: 15, color: FemLyraColors.textPrimary, height: 1.6),
+            style: const TextStyle(fontSize: 15, color: FemFlowColors.textPrimary, height: 1.6),
           ),
           if (_post!.imageUrl != null) ...[
             const SizedBox(height: 20),
@@ -206,26 +206,26 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               IconButton(
                 icon: Icon(
                   _post!.userReaction == 'up' ? Icons.thumb_up : Icons.thumb_up_outlined,
-                  color: _post!.userReaction == 'up' ? FemLyraColors.primary : FemLyraColors.textMuted,
+                  color: _post!.userReaction == 'up' ? FemFlowColors.primary : FemFlowColors.textMuted,
                   size: 20,
                 ),
                 onPressed: () => _handleReact('up'),
               ),
-              Text(_post!.likesCount.toString(), style: const TextStyle(color: FemLyraColors.textMuted, fontSize: 13)),
+              Text(_post!.likesCount.toString(), style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 13)),
               const SizedBox(width: 16),
               IconButton(
                 icon: Icon(
                   _post!.userReaction == 'down' ? Icons.thumb_down : Icons.thumb_down_outlined,
-                  color: _post!.userReaction == 'down' ? Colors.redAccent : FemLyraColors.textMuted,
+                  color: _post!.userReaction == 'down' ? Colors.redAccent : FemFlowColors.textMuted,
                   size: 20,
                 ),
                 onPressed: () => _handleReact('down'),
               ),
-              Text(_post!.dislikesCount.toString(), style: const TextStyle(color: FemLyraColors.textMuted, fontSize: 13)),
+              Text(_post!.dislikesCount.toString(), style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 13)),
               const SizedBox(width: 24),
-              const Icon(Icons.chat_bubble_outline, color: FemLyraColors.textMuted, size: 20),
+              const Icon(Icons.chat_bubble_outline, color: FemFlowColors.textMuted, size: 20),
               const SizedBox(width: 8),
-              Text(_post!.replyCount.toString(), style: const TextStyle(color: FemLyraColors.textMuted, fontSize: 13)),
+              Text(_post!.replyCount.toString(), style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 13)),
             ],
           ),
         ],
@@ -261,7 +261,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                     children: [
                       Text(reply.authorName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                       const Spacer(),
-                      Text(timeStr, style: const TextStyle(fontSize: 10, color: FemLyraColors.textMuted)),
+                      Text(timeStr, style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted)),
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -294,7 +294,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 hintText: 'Add a reply...',
                 hintStyle: const TextStyle(fontSize: 14),
                 filled: true,
-                fillColor: FemLyraColors.warmWhite,
+                fillColor: FemFlowColors.warmWhite,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
                   borderSide: BorderSide.none,
@@ -307,7 +307,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           _isSubmittingReply
               ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2))
               : IconButton(
-                  icon: const Icon(Icons.send_rounded, color: FemLyraColors.primary),
+                  icon: const Icon(Icons.send_rounded, color: FemFlowColors.primary),
                   onPressed: _submitReply,
                 ),
         ],
@@ -320,7 +320,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_error!, style: const TextStyle(color: FemLyraColors.textSecondary)),
+          Text(_error!, style: const TextStyle(color: FemFlowColors.textSecondary)),
           const SizedBox(height: 16),
           ElevatedButton(onPressed: _loadData, child: const Text('Retry')),
         ],

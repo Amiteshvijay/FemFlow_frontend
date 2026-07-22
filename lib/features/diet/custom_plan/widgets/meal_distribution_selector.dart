@@ -32,7 +32,7 @@ class MealDistributionSelector extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(meal.substring(0, 1).toUpperCase() + meal.substring(1), style: const TextStyle(fontSize: 14)),
-            Text('${distribution[meal]}%', style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
+            Text('${distribution[meal]}%', style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
           ],
         ),
         Slider(
@@ -40,8 +40,8 @@ class MealDistributionSelector extends StatelessWidget {
           min: 0,
           max: 100,
           divisions: 20,
-          activeColor: FemLyraColors.primary,
-          inactiveColor: FemLyraColors.primary.withValues(alpha: 0.1),
+          activeColor: FemFlowColors.primary,
+          inactiveColor: FemFlowColors.primary.withValues(alpha: 0.1),
           onChanged: (val) {
             final newDist = Map<String, int>.from(distribution);
             newDist[meal] = val.round();

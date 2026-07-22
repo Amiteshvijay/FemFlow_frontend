@@ -6,13 +6,13 @@ import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:universal_io/io.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:FemLyra/core/security/app_lock_service.dart';
-import 'package:FemLyra/core/theme/FemLyra_colors.dart';
-import 'package:FemLyra/features/doctor_consultation/models/doctor_models.dart';
-import 'package:FemLyra/features/doctor_consultation/data/doctor_consultation_service.dart';
-import 'package:FemLyra/features/shell/main_shell.dart';
-import 'package:FemLyra/core/services/deep_link_service.dart';
-import 'package:FemLyra/features/auth/providers/auth_provider.dart';
+import 'package:femlyra/core/security/app_lock_service.dart';
+import 'package:femlyra/core/theme/FemLyra_colors.dart';
+import 'package:femlyra/features/doctor_consultation/models/doctor_models.dart';
+import 'package:femlyra/features/doctor_consultation/data/doctor_consultation_service.dart';
+import 'package:femlyra/features/shell/main_shell.dart';
+import 'package:femlyra/core/services/deep_link_service.dart';
+import 'package:femlyra/features/auth/providers/auth_provider.dart';
 import 'doctor_payment_success_screen.dart';
 
 class DoctorPaymentScreen extends StatefulWidget {
@@ -343,7 +343,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.help_outline_rounded, color: FemLyraColors.primary, size: 48),
+              const Icon(Icons.help_outline_rounded, color: FemFlowColors.primary, size: 48),
               const SizedBox(height: 16),
               const Text(
                 'Confirm Payment Status',
@@ -380,7 +380,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: FemLyraColors.primary,
+                        backgroundColor: FemFlowColors.primary,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         padding: const EdgeInsets.symmetric(vertical: 14),
@@ -543,7 +543,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
               height: 48,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemLyraColors.primary,
+                  backgroundColor: FemFlowColors.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -577,7 +577,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CircularProgressIndicator(color: FemLyraColors.primary),
+              const CircularProgressIndicator(color: FemFlowColors.primary),
               const SizedBox(height: 24),
               const Text(
                 'Submitting payment reference...',
@@ -640,41 +640,41 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: FemLyraColors.blushMist.withValues(alpha: 0.3),
+                    color: FemFlowColors.blushMist.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: FemLyraColors.primary.withValues(alpha: 0.2)),
+                    border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.2)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         widget.doctor.fullName,
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         '${widget.doctor.speciality} • ${widget.mode.toUpperCase()}',
-                        style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
+                        style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
                       ),
                       const Divider(height: 24),
                       Text(
                         'Date: $dateStr',
-                        style: const TextStyle(fontSize: 14, color: FemLyraColors.textPrimary, fontWeight: FontWeight.w500),
+                        style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Time: ${widget.time}',
-                        style: const TextStyle(fontSize: 14, color: FemLyraColors.textPrimary, fontWeight: FontWeight.w500),
+                        style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Total Amount: ₹$amountStr',
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Order Reference: $paymentOrderNumber',
-                        style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
+                        style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
                       ),
                     ],
                   ),
@@ -688,7 +688,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: FemLyraColors.primary.withValues(alpha: 0.3),
+                        color: FemFlowColors.primary.withValues(alpha: 0.3),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -708,7 +708,7 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
                     child: Ink(
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
-                          colors: [FemLyraColors.primary, FemLyraColors.deepRose],
+                          colors: [FemFlowColors.primary, FemFlowColors.deepRose],
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                         ),

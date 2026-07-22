@@ -75,27 +75,27 @@ class _ReferralScreenState extends State<ReferralScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Invite Friends',
-          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
+          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : _errorMessage != null
               ? _buildErrorState()
               : RefreshIndicator(
                   onRefresh: _fetchData,
-                  color: FemLyraColors.primary,
+                  color: FemFlowColors.primary,
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(24),
@@ -107,14 +107,14 @@ class _ReferralScreenState extends State<ReferralScreen> {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: FemLyraColors.textPrimary,
+                            color: FemFlowColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 12),
                         const Text(
                           'Invite a friend to start her wellness journey with your referral code. When she joins and activates Premium, she gets 3 months free, and you also receive 3 months of Premium added to your account.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: FemLyraColors.textSecondary, height: 1.4),
+                          style: TextStyle(color: FemFlowColors.textSecondary, height: 1.4),
                         ),
                         const SizedBox(height: 32),
                         ReferralCodeCard(code: _profile!.referralCode),
@@ -148,13 +148,13 @@ class _ReferralScreenState extends State<ReferralScreen> {
                                 Text(
                                   'View All Referral History',
                                   style: TextStyle(
-                                    color: FemLyraColors.primary,
+                                    color: FemFlowColors.primary,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                   ),
                                 ),
                                 SizedBox(width: 4),
-                                Icon(Icons.arrow_forward_ios_rounded, size: 12, color: FemLyraColors.primary),
+                                Icon(Icons.arrow_forward_ios_rounded, size: 12, color: FemFlowColors.primary),
                               ],
                             ),
                           ),
@@ -194,7 +194,7 @@ class _ReferralScreenState extends State<ReferralScreen> {
           Container(
             width: 24,
             height: 24,
-            decoration: const BoxDecoration(color: FemLyraColors.primary, shape: BoxShape.circle),
+            decoration: const BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
             alignment: Alignment.center,
             child: Text(
               num.toString(),
@@ -202,7 +202,7 @@ class _ReferralScreenState extends State<ReferralScreen> {
             ),
           ),
           const SizedBox(width: 12),
-          Expanded(child: Text(text, style: const TextStyle(color: FemLyraColors.textPrimary))),
+          Expanded(child: Text(text, style: const TextStyle(color: FemFlowColors.textPrimary))),
         ],
       ),
     );
@@ -213,7 +213,7 @@ class _ReferralScreenState extends State<ReferralScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_errorMessage!, style: const TextStyle(color: FemLyraColors.period)),
+          Text(_errorMessage!, style: const TextStyle(color: FemFlowColors.period)),
           TextButton(onPressed: _fetchData, child: const Text('Retry')),
         ],
       ),
@@ -231,12 +231,12 @@ class _ReferralScreenState extends State<ReferralScreen> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: FemLyraColors.textPrimary,
+              color: FemFlowColors.textPrimary,
             ),
           ),
         ),
         AppCard(
-          color: FemLyraColors.softBlush,
+          color: FemFlowColors.softBlush,
           padding: const EdgeInsets.all(16),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,10 +244,10 @@ class _ReferralScreenState extends State<ReferralScreen> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: FemLyraColors.primary.withValues(alpha: 0.1),
+                  color: FemFlowColors.primary.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.favorite_rounded, color: FemLyraColors.primary, size: 24),
+                child: const Icon(Icons.favorite_rounded, color: FemFlowColors.primary, size: 24),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -259,18 +259,18 @@ class _ReferralScreenState extends State<ReferralScreen> {
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: FemLyraColors.textPrimary,
+                        color: FemFlowColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 8),
                     if (invitor.mobileNo.isNotEmpty) ...[
                       Row(
                         children: [
-                          const Icon(Icons.phone_rounded, size: 14, color: FemLyraColors.textSecondary),
+                          const Icon(Icons.phone_rounded, size: 14, color: FemFlowColors.textSecondary),
                           const SizedBox(width: 8),
                           Text(
                             invitor.mobileNo,
-                            style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
+                            style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
                           ),
                         ],
                       ),
@@ -279,12 +279,12 @@ class _ReferralScreenState extends State<ReferralScreen> {
                     if (invitor.email.isNotEmpty)
                       Row(
                         children: [
-                          const Icon(Icons.email_rounded, size: 14, color: FemLyraColors.textSecondary),
+                          const Icon(Icons.email_rounded, size: 14, color: FemFlowColors.textSecondary),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               invitor.email,
-                              style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
+                              style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),

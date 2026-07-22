@@ -63,12 +63,12 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       body: FutureBuilder<DailyTipDetailModel?>(
         future: _detailFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: FemLyraColors.primary));
+            return const Center(child: CircularProgressIndicator(color: FemFlowColors.primary));
           }
           if (snapshot.hasError) {
             final error = snapshot.error.toString();
@@ -103,7 +103,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
                 if (tip.whyItMatters.isNotEmpty) ...[
                   _buildSectionHeader('Why it matters', Icons.lightbulb_outline, Colors.orange),
                   const SizedBox(height: 12),
-                  Text(tip.whyItMatters, style: const TextStyle(fontSize: 16, height: 1.6, color: FemLyraColors.textPrimary)),
+                  Text(tip.whyItMatters, style: const TextStyle(fontSize: 16, height: 1.6, color: FemFlowColors.textPrimary)),
                   const SizedBox(height: 32),
                 ],
                 if (tip.whatToDo.isNotEmpty) ...[
@@ -187,21 +187,21 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
 
   Widget _buildAISummary(DailyTipDetailModel tip) {
     return AppCard(
-      color: FemLyraColors.aiWellness.withValues(alpha: 0.05),
-      border: BorderSide(color: FemLyraColors.aiWellness.withValues(alpha: 0.2)),
+      color: FemFlowColors.aiWellness.withValues(alpha: 0.05),
+      border: BorderSide(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('AI PERSONALIZED INSIGHT', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: FemLyraColors.aiWellness, letterSpacing: 1.2)),
+          const Text('AI PERSONALIZED INSIGHT', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: FemFlowColors.aiWellness, letterSpacing: 1.2)),
           const SizedBox(height: 16),
           Text(
             tip.aiInsight ?? "Your body is moving through its natural rhythm. Supporting it with kindness is the best focus for today.",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 1.5, color: FemLyraColors.textPrimary, fontStyle: FontStyle.italic),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 1.5, color: FemFlowColors.textPrimary, fontStyle: FontStyle.italic),
           ),
           const SizedBox(height: 16),
           Text(
             tip.detail,
-            style: const TextStyle(fontSize: 15, height: 1.6, color: FemLyraColors.textSecondary),
+            style: const TextStyle(fontSize: 15, height: 1.6, color: FemFlowColors.textSecondary),
           ),
         ],
       ),
@@ -213,7 +213,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
       children: [
         Icon(icon, color: color, size: 22),
         const SizedBox(width: 10),
-        Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
+        Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
       ],
     );
   }
@@ -231,7 +231,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
             child: Icon(Icons.add, size: 14, color: phaseColor),
           ),
           const SizedBox(width: 16),
-          Expanded(child: Text(text, style: const TextStyle(fontSize: 16, color: FemLyraColors.textPrimary))),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 16, color: FemFlowColors.textPrimary))),
         ],
       ),
     );
@@ -247,7 +247,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
             const Text('Recommended for you', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             TextButton(
               onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ExerciseHomeScreen())),
-              child: const Text('View all', style: TextStyle(color: FemLyraColors.primary)),
+              child: const Text('View all', style: TextStyle(color: FemFlowColors.primary)),
             ),
           ],
         ),
@@ -256,18 +256,18 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ExerciseHomeScreen())),
           child: const Row(
             children: [
-              Icon(Icons.play_circle_fill, color: FemLyraColors.primary, size: 48),
+              Icon(Icons.play_circle_fill, color: FemFlowColors.primary, size: 48),
               SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Start Today\'s Routine', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                    Text('Cycle-synced movement for your current energy', style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary)),
+                    Text('Cycle-synced movement for your current energy', style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary)),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
+              Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
             ],
           ),
         ),
@@ -287,9 +287,9 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
             label: Text(currentSavedStatus ? 'Saved' : 'Save Tip'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: currentSavedStatus ? FemLyraColors.primary : FemLyraColors.textPrimary,
+              foregroundColor: currentSavedStatus ? FemFlowColors.primary : FemFlowColors.textPrimary,
               elevation: 0,
-              side: BorderSide(color: currentSavedStatus ? FemLyraColors.primary : Colors.grey[300]!),
+              side: BorderSide(color: currentSavedStatus ? FemFlowColors.primary : Colors.grey[300]!),
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
@@ -303,7 +303,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
             label: const Text('Share'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: FemLyraColors.textPrimary,
+              foregroundColor: FemFlowColors.textPrimary,
               elevation: 0,
               side: BorderSide(color: Colors.grey[300]!),
               padding: const EdgeInsets.symmetric(vertical: 12),
@@ -327,9 +327,9 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.info_outline, size: 18, color: FemLyraColors.textMuted),
+          const Icon(Icons.info_outline, size: 18, color: FemFlowColors.textMuted),
           const SizedBox(width: 12),
-          Expanded(child: Text(disclaimer, style: const TextStyle(fontSize: 13, color: FemLyraColors.textMuted, height: 1.5))),
+          Expanded(child: Text(disclaimer, style: const TextStyle(fontSize: 13, color: FemFlowColors.textMuted, height: 1.5))),
         ],
       ),
     );
@@ -369,11 +369,11 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
 
   Color _getPhaseColor(String? phase) {
     switch (phase?.toLowerCase()) {
-      case 'menstrual': return FemLyraColors.period;
-      case 'follicular': return FemLyraColors.primary;
-      case 'ovulatory': return FemLyraColors.ovulation;
+      case 'menstrual': return FemFlowColors.period;
+      case 'follicular': return FemFlowColors.primary;
+      case 'ovulatory': return FemFlowColors.ovulation;
       case 'luteal': return Colors.orange;
-      default: return FemLyraColors.primary;
+      default: return FemFlowColors.primary;
     }
   }
 }

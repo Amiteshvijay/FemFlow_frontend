@@ -88,11 +88,11 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
             const SizedBox(height: 16),
             Text(
               '${result.wellnessScore ?? "--"}',
-              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
+              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
             ),
             Text(
               result.status ?? 'Stay consistent!',
-              style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary),
+              style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary),
             ),
             const SizedBox(height: 24),
             PrimaryButton(
@@ -115,18 +115,18 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Column(
           children: const [
-            Text('Daily Check-in', style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
-            Text('How are you feeling today?', style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 12)),
+            Text('Daily Check-in', style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
+            Text('How are you feeling today?', style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 12)),
           ],
         ),
         centerTitle: true,
@@ -185,7 +185,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
       padding: const EdgeInsets.only(bottom: 12, left: 4),
       child: Text(
         title,
-        style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary, fontSize: 16),
+        style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary, fontSize: 16),
       ),
     );
   }
@@ -201,15 +201,15 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
           selected: isSelected,
           onSelected: (_) => onSelect(opt),
           backgroundColor: Colors.white,
-          selectedColor: FemLyraColors.primary,
+          selectedColor: FemFlowColors.primary,
           labelStyle: TextStyle(
-            color: isSelected ? Colors.white : FemLyraColors.textPrimary,
+            color: isSelected ? Colors.white : FemFlowColors.textPrimary,
             fontSize: 12,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
-            side: BorderSide(color: isSelected ? Colors.transparent : FemLyraColors.border),
+            side: BorderSide(color: isSelected ? Colors.transparent : FemFlowColors.border),
           ),
           showCheckmark: false,
         );
@@ -228,15 +228,15 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
           selected: isSelected,
           onSelected: (_) => onToggle(opt),
           backgroundColor: Colors.white,
-          selectedColor: FemLyraColors.primary,
+          selectedColor: FemFlowColors.primary,
           labelStyle: TextStyle(
-            color: isSelected ? Colors.white : FemLyraColors.textPrimary,
+            color: isSelected ? Colors.white : FemFlowColors.textPrimary,
             fontSize: 12,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
-            side: BorderSide(color: isSelected ? Colors.transparent : FemLyraColors.border),
+            side: BorderSide(color: isSelected ? Colors.transparent : FemFlowColors.border),
           ),
           showCheckmark: false,
         );
@@ -252,7 +252,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildSectionTitle(label),
-            Text('${value.toInt()}/10', style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
+            Text('${value.toInt()}/10', style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
           ],
         ),
         Slider(
@@ -260,8 +260,8 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
           min: 0,
           max: 10,
           divisions: 10,
-          activeColor: FemLyraColors.primary,
-          inactiveColor: FemLyraColors.border,
+          activeColor: FemFlowColors.primary,
+          inactiveColor: FemFlowColors.border,
           onChanged: onChanged,
         ),
         const SizedBox(height: 12),
@@ -277,8 +277,8 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
         hintText: 'Add notes about your day...',
         filled: true,
         fillColor: Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
       ),
     );
   }

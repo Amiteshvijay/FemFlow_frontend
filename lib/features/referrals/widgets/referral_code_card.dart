@@ -11,15 +11,15 @@ class ReferralCodeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      color: FemLyraColors.primary.withValues(alpha: 0.05),
-      border: BorderSide(color: FemLyraColors.primary.withValues(alpha: 0.2)),
+      color: FemFlowColors.primary.withValues(alpha: 0.05),
+      border: BorderSide(color: FemFlowColors.primary.withValues(alpha: 0.2)),
       child: Column(
         children: [
           const Text(
             'Your Referral Code',
             style: TextStyle(
               fontSize: 14,
-              color: FemLyraColors.textSecondary,
+              color: FemFlowColors.textSecondary,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -30,7 +30,7 @@ class ReferralCodeCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: FemLyraColors.border),
+              border: Border.all(color: FemFlowColors.border),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -44,7 +44,7 @@ class ReferralCodeCard extends StatelessWidget {
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2,
-                        color: FemLyraColors.primary,
+                        color: FemFlowColors.primary,
                       ),
                     ),
                   ),
@@ -62,7 +62,7 @@ class ReferralCodeCard extends StatelessWidget {
                   },
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
-                  icon: const Icon(Icons.copy, color: FemLyraColors.primary, size: 20),
+                  icon: const Icon(Icons.copy, color: FemFlowColors.primary, size: 20),
                 ),
               ],
             ),

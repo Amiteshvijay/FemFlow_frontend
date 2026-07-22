@@ -84,7 +84,7 @@ class _MoodListScreenState extends State<MoodListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: _isSearching 
           ? TextField(
@@ -105,7 +105,7 @@ class _MoodListScreenState extends State<MoodListScreen> {
         ],
       ),
       body: _isLoading && _catalog == null
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : Column(
               children: [
                 Expanded(

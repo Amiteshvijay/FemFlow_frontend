@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:FemLyra/core/theme/FemLyra_colors.dart';
-import 'package:FemLyra/shared/widgets/app_card.dart';
+import 'package:femlyra/core/theme/FemLyra_colors.dart';
+import 'package:femlyra/shared/widgets/app_card.dart';
 import 'data/doctor_consultation_service.dart';
 import 'models/doctor_models.dart';
 import 'doctor_list_screen.dart';
@@ -165,7 +165,7 @@ class _DoctorConsultationHomeScreenState extends State<DoctorConsultationHomeScr
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(_getIconData(cat.iconName), color: FemLyraColors.primary, size: 28),
+            Icon(_getIconData(cat.iconName), color: FemFlowColors.primary, size: 28),
             const SizedBox(height: 6),
             Text(
               cat.name,

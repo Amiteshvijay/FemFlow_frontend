@@ -19,7 +19,7 @@ class PostContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final baseStyle = style ?? const TextStyle(
       fontSize: 14,
-      color: FemLyraColors.textPrimary,
+      color: FemFlowColors.textPrimary,
       height: 1.5,
     );
 

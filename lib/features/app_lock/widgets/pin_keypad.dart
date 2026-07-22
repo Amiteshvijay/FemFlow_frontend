@@ -73,14 +73,14 @@ class PinKeypad extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
-          border: Border.all(color: FemLyraColors.border),
+          border: Border.all(color: FemFlowColors.border),
         ),
         child: Text(
           value,
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
-            color: FemLyraColors.textPrimary,
+            color: FemFlowColors.textPrimary,
           ),
         ),
       ),
@@ -98,7 +98,7 @@ class PinKeypad extends StatelessWidget {
         child: Icon(
           icon,
           size: 28,
-          color: FemLyraColors.textSecondary,
+          color: FemFlowColors.textSecondary,
         ),
       ),
     );

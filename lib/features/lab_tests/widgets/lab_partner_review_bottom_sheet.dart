@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:FemLyra/core/theme/FemLyra_colors.dart';
-import 'package:FemLyra/core/network/api_client.dart';
-import 'package:FemLyra/shared/widgets/primary_button.dart';
-import 'package:FemLyra/features/profile/models/order_history_model.dart';
+import 'package:femlyra/core/theme/FemLyra_colors.dart';
+import 'package:femlyra/core/network/api_client.dart';
+import 'package:femlyra/shared/widgets/primary_button.dart';
+import 'package:femlyra/features/profile/models/order_history_model.dart';
 
 class LabPartnerReviewBottomSheet extends StatefulWidget {
   final OrderHistoryItem order;
@@ -102,7 +102,7 @@ class _LabPartnerReviewBottomSheetState extends State<LabPartnerReviewBottomShee
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: FemLyraColors.primary),
+                  borderSide: const BorderSide(color: FemFlowColors.primary),
                 ),
               ),
             ),
@@ -123,8 +123,8 @@ class _LabPartnerReviewBottomSheetState extends State<LabPartnerReviewBottomShee
       children: [
         CircleAvatar(
           radius: 25,
-          backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
-          child: const Icon(Icons.biotech_outlined, color: FemLyraColors.primary),
+          backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+          child: const Icon(Icons.biotech_outlined, color: FemFlowColors.primary),
         ),
         const SizedBox(width: 16),
         Column(

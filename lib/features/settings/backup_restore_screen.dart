@@ -128,7 +128,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -144,9 +144,9 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
             AppCard(
               child: Column(
                 children: [
-                  const Icon(Icons.cloud_upload_outlined, size: 48, color: FemLyraColors.primary),
+                  const Icon(Icons.cloud_upload_outlined, size: 48, color: FemFlowColors.primary),
                   const SizedBox(height: 16),
-                  Text('Last cloud sync: $_lastBackup', style: const TextStyle(color: FemLyraColors.textSecondary)),
+                  Text('Last cloud sync: $_lastBackup', style: const TextStyle(color: FemFlowColors.textSecondary)),
                   const SizedBox(height: 24),
                   PrimaryButton(
                     label: 'Sync Status Now',
@@ -168,15 +168,15 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
                   const SizedBox(height: 8),
                   const Text(
                     'Upload a previously exported FemLyra JSON file to restore all your cycle history and health logs. WARNING: This will overwrite current data.',
-                    style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary, height: 1.4),
+                    style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary, height: 1.4),
                   ),
                   const SizedBox(height: 20),
                   OutlinedButton(
                     onPressed: _isLoading ? null : _handleRestore,
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 50),
-                      side: const BorderSide(color: FemLyraColors.primary),
-                      foregroundColor: FemLyraColors.primary,
+                      side: const BorderSide(color: FemFlowColors.primary),
+                      foregroundColor: FemFlowColors.primary,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: _isLoading 

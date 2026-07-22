@@ -64,17 +64,17 @@ class _PrivacyAISectionState extends State<PrivacyAISection> {
 
   Widget _buildConsentCard() {
     return AppCard(
-      color: FemLyraColors.blushMist,
+      color: FemFlowColors.blushMist,
       child: Column(
         children: [
-          const Icon(Icons.security, color: FemLyraColors.primary, size: 40),
+          const Icon(Icons.security, color: FemFlowColors.primary, size: 40),
           const SizedBox(height: 16),
           const Text('Clinical-Grade Privacy', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
           const SizedBox(height: 8),
           const Text(
             'We use your health data ONLY to provide personalized insights and predictions. Your data is never sold or used for public AI training.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, height: 1.5),
+            style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, height: 1.5),
           ),
         ],
       ),
@@ -86,7 +86,7 @@ class _PrivacyAISectionState extends State<PrivacyAISection> {
       title: Text(label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
       value: _data[key] == true,
       onChanged: (val) => _updateField(key, val),
-      activeThumbColor: FemLyraColors.primary,
+      activeThumbColor: FemFlowColors.primary,
       contentPadding: EdgeInsets.zero,
     );
   }

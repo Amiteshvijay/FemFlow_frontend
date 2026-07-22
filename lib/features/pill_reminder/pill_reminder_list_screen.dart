@@ -67,15 +67,15 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('Medications', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
-          labelColor: FemLyraColors.primary,
-          unselectedLabelColor: FemLyraColors.textMuted,
-          indicatorColor: FemLyraColors.primary,
+          labelColor: FemFlowColors.primary,
+          unselectedLabelColor: FemFlowColors.textMuted,
+          indicatorColor: FemFlowColors.primary,
           tabs: const [
             Tab(text: 'Timeline'),
             Tab(text: 'My Medicines'),
@@ -98,7 +98,7 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
         ).then((_) => _fetchData()),
         label: const Text('Add Medicine'),
         icon: const Icon(Icons.add),
-        backgroundColor: FemLyraColors.primary,
+        backgroundColor: FemFlowColors.primary,
       ),
     );
   }
@@ -138,7 +138,7 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: isSelected ? FemLyraColors.primary : Colors.transparent,
+                color: isSelected ? FemFlowColors.primary : Colors.transparent,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -148,7 +148,7 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
-                      color: isSelected ? Colors.white : FemLyraColors.textMuted,
+                      color: isSelected ? Colors.white : FemFlowColors.textMuted,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -157,7 +157,7 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: isSelected ? Colors.white : FemLyraColors.textPrimary,
+                      color: isSelected ? Colors.white : FemFlowColors.textPrimary,
                     ),
                   ),
                 ],
@@ -266,7 +266,7 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
               leading: _getMedicineIcon(med.medicineType),
               title: Text(med.name, style: const TextStyle(fontWeight: FontWeight.bold)),
               subtitle: Text('${med.dosageValue ?? ''} • ${med.repeatType.toUpperCase()}'),
-              trailing: const Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
+              trailing: const Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
             ),
           ),
         );
@@ -281,7 +281,7 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
         children: [
           Icon(Icons.event_available, size: 64, color: Colors.green.withValues(alpha: 0.2)),
           const SizedBox(height: 16),
-          const Text('No doses scheduled for this day.', style: TextStyle(color: FemLyraColors.textSecondary)),
+          const Text('No doses scheduled for this day.', style: TextStyle(color: FemFlowColors.textSecondary)),
         ],
       ),
     );
@@ -294,7 +294,7 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
         child: Text(
           'No medications added yet.\nAdd your first medicine to start tracking.',
           textAlign: TextAlign.center,
-          style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 16),
+          style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 16),
         ),
       ),
     );
@@ -305,7 +305,7 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
       case 'taken': return Colors.green;
       case 'skipped': return Colors.orange;
       case 'missed': return Colors.red;
-      default: return FemLyraColors.textMuted;
+      default: return FemFlowColors.textMuted;
     }
   }
 
@@ -320,8 +320,8 @@ class _PillReminderListScreenState extends State<PillReminderListScreen> with Si
       default: icon = Icons.medication;
     }
     return CircleAvatar(
-      backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
-      child: Icon(icon, color: FemLyraColors.primary, size: 20),
+      backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+      child: Icon(icon, color: FemFlowColors.primary, size: 20),
     );
   }
 }

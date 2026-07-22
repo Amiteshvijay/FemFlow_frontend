@@ -72,7 +72,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)));
+      return const Scaffold(body: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)));
     }
 
     if (_entry == null) {
@@ -82,12 +82,12 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     final category = NoteCategory.fromValue(_entry!.noteType);
 
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
@@ -125,12 +125,12 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
             const SizedBox(height: 24),
             Text(
               _entry!.title,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
             ),
             const SizedBox(height: 8),
             Text(
               _entry!.date != null ? DateFormat('MMMM dd, yyyy').format(DateTime.parse(_entry!.date!)) : '',
-              style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
+              style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
             ),
             const SizedBox(height: 24),
             _buildInsightStrip(),
@@ -139,7 +139,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
               width: double.infinity,
               child: Text(
                 _entry!.content,
-                style: const TextStyle(fontSize: 16, color: FemLyraColors.textPrimary, height: 1.6),
+                style: const TextStyle(fontSize: 16, color: FemFlowColors.textPrimary, height: 1.6),
               ),
             ),
             if (_entry!.tags.isNotEmpty) ...[
@@ -214,12 +214,12 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: FemLyraColors.blushMist,
+        color: FemFlowColors.blushMist,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
         '#$tag',
-        style: const TextStyle(fontSize: 12, color: FemLyraColors.primary, fontWeight: FontWeight.w600),
+        style: const TextStyle(fontSize: 12, color: FemFlowColors.primary, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -228,11 +228,11 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: const [
-        Icon(Icons.lock_outline, size: 14, color: FemLyraColors.textMuted),
+        Icon(Icons.lock_outline, size: 14, color: FemFlowColors.textMuted),
         SizedBox(width: 4),
         Text(
           'Private note • Only you can see this',
-          style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
+          style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
         ),
       ],
     );

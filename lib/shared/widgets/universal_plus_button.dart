@@ -43,14 +43,14 @@ class UniversalPlusButton extends StatelessWidget {
                     context, 
                     Icons.science_outlined, 
                     'Lab Test', 
-                    FemLyraColors.primary, 
+                    FemFlowColors.primary, 
                     () => const LabTestsHomeScreen()
                   ),
                   _buildAction(
                     context, 
                     Icons.sentiment_satisfied_alt, 
                     'Symptoms', 
-                    FemLyraColors.primary, 
+                    FemFlowColors.primary, 
                     () => const SymptomsScreen()
                   ),
                   _buildAction(
@@ -110,7 +110,7 @@ class UniversalPlusButton extends StatelessWidget {
             textAlign: TextAlign.center, 
             maxLines: 1, 
             overflow: TextOverflow.ellipsis, 
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: FemFlowColors.textPrimary),
           ),
         ],
       ),
@@ -126,11 +126,11 @@ class UniversalPlusButton extends StatelessWidget {
           width: 56,
           height: 56,
           decoration: BoxDecoration(
-            color: FemLyraColors.primary,
+            color: FemFlowColors.primary,
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: FemLyraColors.primary.withValues(alpha: 0.3),
+                color: FemFlowColors.primary.withValues(alpha: 0.3),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),

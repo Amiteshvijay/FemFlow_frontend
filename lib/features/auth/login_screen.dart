@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            backgroundColor: FemLyraColors.period,
+            backgroundColor: FemFlowColors.period,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             margin: const EdgeInsets.all(20),
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Image.asset(
                     'assets/icons/FemLyra_app_icon_1024.png',
                     height: 80,
-                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 80, color: FemLyraColors.primary),
+                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 80, color: FemFlowColors.primary),
                   ),
                   const SizedBox(height: 16),
                   const Text(
@@ -142,14 +142,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      color: FemLyraColors.primary,
+                      color: FemFlowColors.primary,
                     ),
                   ),
                   const Text(
                     'Cycle, Health & Care',
                     style: TextStyle(
                       fontSize: 16,
-                      color: FemLyraColors.textSecondary,
+                      color: FemFlowColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: FemLyraColors.border),
+                    borderSide: const BorderSide(color: FemFlowColors.border),
                   ),
                 ),
               ),
@@ -198,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: FemLyraColors.border),
+                    borderSide: const BorderSide(color: FemFlowColors.border),
                   ),
                 ),
               ),
@@ -235,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text(
                       'Sign Up',
                       style: TextStyle(
-                        color: FemLyraColors.primary,
+                        color: FemFlowColors.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

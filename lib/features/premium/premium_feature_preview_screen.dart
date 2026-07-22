@@ -17,12 +17,12 @@ class PremiumFeaturePreviewScreen extends StatelessWidget {
     final feature = PremiumFeatureConfig.getFeature(featureKey);
 
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
@@ -63,13 +63,13 @@ class PremiumFeaturePreviewScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: FemLyraColors.primary.withValues(alpha: 0.05),
+                  color: FemFlowColors.primary.withValues(alpha: 0.05),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   feature.icon,
                   size: 64,
-                  color: FemLyraColors.primary,
+                  color: FemFlowColors.primary,
                 ),
               ),
               const SizedBox(height: 24),
@@ -79,7 +79,7 @@ class PremiumFeaturePreviewScreen extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: FemLyraColors.textPrimary,
+                  color: FemFlowColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 12),
@@ -88,7 +88,7 @@ class PremiumFeaturePreviewScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 16,
-                  color: FemLyraColors.textSecondary,
+                  color: FemFlowColors.textSecondary,
                   height: 1.5,
                 ),
               ),
@@ -105,7 +105,7 @@ class PremiumFeaturePreviewScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: FemLyraColors.textPrimary,
+                        color: FemFlowColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -125,7 +125,7 @@ class PremiumFeaturePreviewScreen extends StatelessWidget {
                               benefit,
                               style: const TextStyle(
                                 fontSize: 15,
-                                color: FemLyraColors.textPrimary,
+                                color: FemFlowColors.textPrimary,
                                 height: 1.3,
                               ),
                             ),
@@ -155,7 +155,7 @@ class PremiumFeaturePreviewScreen extends StatelessWidget {
                 child: const Text(
                   'Maybe Later',
                   style: TextStyle(
-                    color: FemLyraColors.textSecondary,
+                    color: FemFlowColors.textSecondary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -166,7 +166,7 @@ class PremiumFeaturePreviewScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 12,
-                  color: FemLyraColors.textMuted,
+                  color: FemFlowColors.textMuted,
                   fontStyle: FontStyle.italic,
                 ),
               ),

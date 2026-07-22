@@ -26,7 +26,7 @@ class _PermissionEducationScreenState extends State<PermissionEducationScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Permission request failed: $e'), backgroundColor: FemLyraColors.period),
+          SnackBar(content: Text('Permission request failed: $e'), backgroundColor: FemFlowColors.period),
         );
       }
     } finally {
@@ -37,12 +37,12 @@ class _PermissionEducationScreenState extends State<PermissionEducationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -53,28 +53,28 @@ class _PermissionEducationScreenState extends State<PermissionEducationScreen> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: FemLyraColors.primary.withValues(alpha: 0.1),
+                color: FemFlowColors.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.favorite_rounded, size: 60, color: FemLyraColors.primary),
+              child: const Icon(Icons.favorite_rounded, size: 60, color: FemFlowColors.primary),
             ),
             const SizedBox(height: 32),
             const Text(
               'Unlock Smarter Insights',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
             ),
             const SizedBox(height: 16),
             const Text(
               'By connecting your health data via Health Connect, FemLyra can provide more accurate cycle and wellness predictions. Your data is synced securely from your device.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: FemLyraColors.textSecondary, height: 1.5),
+              style: TextStyle(fontSize: 16, color: FemFlowColors.textSecondary, height: 1.5),
             ),
             const SizedBox(height: 12),
             const Text(
               'FemLyra reads data like steps, activity, and sleep to correlate them with your hormonal phases for better insights.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted, fontStyle: FontStyle.italic),
+              style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted, fontStyle: FontStyle.italic),
             ),
             const SizedBox(height: 48),
             _buildBenefitRow(Icons.auto_awesome, 'Improved Cycle Prediction', 'Syncing steps and activity helps AI detect patterns.'),
@@ -91,7 +91,7 @@ class _PermissionEducationScreenState extends State<PermissionEducationScreen> {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Not Now', style: TextStyle(color: FemLyraColors.textMuted)),
+              child: const Text('Not Now', style: TextStyle(color: FemFlowColors.textMuted)),
             ),
           ],
         ),
@@ -105,8 +105,8 @@ class _PermissionEducationScreenState extends State<PermissionEducationScreen> {
       children: [
         Container(
           padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(12)),
-          child: Icon(icon, color: FemLyraColors.primary, size: 20),
+          decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(12)),
+          child: Icon(icon, color: FemFlowColors.primary, size: 20),
         ),
         const SizedBox(width: 20),
         Expanded(
@@ -115,7 +115,7 @@ class _PermissionEducationScreenState extends State<PermissionEducationScreen> {
             children: [
               Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               const SizedBox(height: 4),
-              Text(subtitle, style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary)),
+              Text(subtitle, style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary)),
             ],
           ),
         ),

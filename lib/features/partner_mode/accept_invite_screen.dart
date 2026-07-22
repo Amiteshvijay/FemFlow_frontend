@@ -114,7 +114,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('Accept Invitation'),
         centerTitle: true,
@@ -124,18 +124,18 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Icon(Icons.favorite, size: 64, color: FemLyraColors.primary),
+            const Icon(Icons.favorite, size: 64, color: FemFlowColors.primary),
             const SizedBox(height: 24),
             const Text(
               'Join Your Partner',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
             ),
             const SizedBox(height: 12),
             Text(
               'You have been invited to support your partner on FemLyra. Enter your pairing code and create a password to set up your account.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
+              style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
             ),
             const SizedBox(height: 32),
             Text(

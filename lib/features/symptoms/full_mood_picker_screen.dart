@@ -46,7 +46,7 @@ class _FullMoodPickerScreenState extends State<FullMoodPickerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.close),
@@ -58,12 +58,12 @@ class _FullMoodPickerScreenState extends State<FullMoodPickerScreen> {
           if (_selectedMoods.isNotEmpty)
             TextButton(
               onPressed: () => setState(() => _selectedMoods.clear()),
-              child: const Text('Clear all', style: TextStyle(color: FemLyraColors.primary)),
+              child: const Text('Clear all', style: TextStyle(color: FemFlowColors.primary)),
             ),
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : Column(
               children: [
                 Padding(
@@ -73,14 +73,14 @@ class _FullMoodPickerScreenState extends State<FullMoodPickerScreen> {
                     children: [
                       const Text(
                         'How are you feeling today?',
-                        style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 14),
+                        style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 14),
                       ),
                       const SizedBox(height: 16),
                       TextField(
                         onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
                         decoration: InputDecoration(
                           hintText: 'Search moods',
-                          prefixIcon: const Icon(Icons.search, color: FemLyraColors.textMuted),
+                          prefixIcon: const Icon(Icons.search, color: FemFlowColors.textMuted),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -134,7 +134,7 @@ class _FullMoodPickerScreenState extends State<FullMoodPickerScreen> {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: FemLyraColors.textPrimary,
+              color: FemFlowColors.textPrimary,
             ),
           ),
         ),
@@ -165,10 +165,10 @@ class _FullMoodPickerScreenState extends State<FullMoodPickerScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? FemLyraColors.blushMist : FemLyraColors.white,
+          color: isSelected ? FemFlowColors.blushMist : FemFlowColors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? FemLyraColors.primary : FemLyraColors.border,
+            color: isSelected ? FemFlowColors.primary : FemFlowColors.border,
             width: isSelected ? 1.5 : 1,
           ),
         ),
@@ -180,7 +180,7 @@ class _FullMoodPickerScreenState extends State<FullMoodPickerScreen> {
             Text(
               mood.label,
               style: TextStyle(
-                color: isSelected ? FemLyraColors.primary : FemLyraColors.textSecondary,
+                color: isSelected ? FemFlowColors.primary : FemFlowColors.textSecondary,
                 fontSize: 13,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),

@@ -74,15 +74,15 @@ class _HealthWellnessSectionState extends State<HealthWellnessSection> {
             padding: const EdgeInsets.only(bottom: 12),
             child: AppCard(
               onTap: () => _updateField('goal', g['val']),
-              color: isSelected ? FemLyraColors.blushMist : Colors.white,
-              border: BorderSide(color: isSelected ? FemLyraColors.primary : FemLyraColors.border),
+              color: isSelected ? FemFlowColors.blushMist : Colors.white,
+              border: BorderSide(color: isSelected ? FemFlowColors.primary : FemFlowColors.border),
               child: Row(
                 children: [
-                  Icon(g['icon'] as IconData, color: isSelected ? FemLyraColors.primary : FemLyraColors.textSecondary),
+                  Icon(g['icon'] as IconData, color: isSelected ? FemFlowColors.primary : FemFlowColors.textSecondary),
                   const SizedBox(width: 16),
-                  Text(g['label'] as String, style: TextStyle(fontWeight: isSelected ? FontWeight.bold : FontWeight.normal, color: isSelected ? FemLyraColors.primary : FemLyraColors.textPrimary)),
+                  Text(g['label'] as String, style: TextStyle(fontWeight: isSelected ? FontWeight.bold : FontWeight.normal, color: isSelected ? FemFlowColors.primary : FemFlowColors.textPrimary)),
                   const Spacer(),
-                  if (isSelected) const Icon(Icons.check_circle, color: FemLyraColors.primary, size: 20),
+                  if (isSelected) const Icon(Icons.check_circle, color: FemFlowColors.primary, size: 20),
                 ],
               ),
             ),
@@ -109,11 +109,11 @@ class _HealthWellnessSectionState extends State<HealthWellnessSection> {
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   decoration: BoxDecoration(
-                    color: isSelected ? FemLyraColors.primary : Colors.white,
-                    border: Border.all(color: isSelected ? FemLyraColors.primary : FemLyraColors.border),
+                    color: isSelected ? FemFlowColors.primary : Colors.white,
+                    border: Border.all(color: isSelected ? FemFlowColors.primary : FemFlowColors.border),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(l, textAlign: TextAlign.center, style: TextStyle(fontSize: 10, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal, color: isSelected ? Colors.white : FemLyraColors.textSecondary)),
+                  child: Text(l, textAlign: TextAlign.center, style: TextStyle(fontSize: 10, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal, color: isSelected ? Colors.white : FemFlowColors.textSecondary)),
                 ),
               ),
             );
@@ -126,14 +126,14 @@ class _HealthWellnessSectionState extends State<HealthWellnessSection> {
   Widget _buildInitialWellnessPreview() {
     final score = _calculateInitialWellness();
     return AppCard(
-      color: FemLyraColors.aiWellness.withValues(alpha: 0.05),
-      border: BorderSide(color: FemLyraColors.aiWellness.withValues(alpha: 0.2)),
+      color: FemFlowColors.aiWellness.withValues(alpha: 0.05),
+      border: BorderSide(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
       child: Column(
         children: [
-          const Text('Predicted Wellness Score', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.aiWellness)),
+          const Text('Predicted Wellness Score', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
           const SizedBox(height: 8),
-          Text('$score', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: FemLyraColors.aiWellness)),
-          const Text('Based on your current input', style: TextStyle(fontSize: 10, color: FemLyraColors.textSecondary)),
+          Text('$score', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
+          const Text('Based on your current input', style: TextStyle(fontSize: 10, color: FemFlowColors.textSecondary)),
         ],
       ),
     );

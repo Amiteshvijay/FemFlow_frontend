@@ -67,29 +67,29 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: FemLyraColors.textPrimary, size: 20),
+          icon: const Icon(Icons.arrow_back_ios_new, color: FemFlowColors.textPrimary, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           _room?.name ?? widget.roomName ?? 'Community Room',
-          style: const TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
+          style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : _error != null
               ? _buildErrorState()
               : _buildContent(),
       floatingActionButton: !_isLoading && _error == null
           ? FloatingActionButton(
               onPressed: _navigateToCreatePost,
-              backgroundColor: FemLyraColors.primary,
+              backgroundColor: FemFlowColors.primary,
               child: const Icon(Icons.add, color: Colors.white),
             )
           : null,
@@ -99,21 +99,21 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
   Widget _buildContent() {
     return RefreshIndicator(
       onRefresh: _loadData,
-      color: FemLyraColors.primary,
+      color: FemFlowColors.primary,
       child: ListView(
         padding: const EdgeInsets.all(20),
         children: [
           if (_room?.description != null)
             Text(
               _room!.description,
-              style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
+              style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
             ),
           const SizedBox(height: 20),
           _buildSafetyBanner(),
           const SizedBox(height: 24),
           const Text(
             'Supportive Discussions',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
           ),
           const SizedBox(height: 16),
           if (_posts.isEmpty)
@@ -141,7 +141,7 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
           Expanded(
             child: Text(
               'Community support is not medical advice. Please consult a doctor for health concerns.',
-              style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, height: 1.4),
+              style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, height: 1.4),
             ),
           ),
         ],
@@ -166,9 +166,9 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
               children: [
                 CircleAvatar(
                   radius: 14,
-                  backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
+                  backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
                   backgroundImage: post.authorAvatar != null ? NetworkImage(post.authorAvatar!) : null,
-                  child: post.authorAvatar == null ? const Icon(Icons.person, size: 16, color: FemLyraColors.primary) : null,
+                  child: post.authorAvatar == null ? const Icon(Icons.person, size: 16, color: FemFlowColors.primary) : null,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -178,7 +178,7 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
                 const Spacer(),
                 Text(
                   timeStr,
-                  style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted),
+                  style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted),
                 ),
               ],
             ),
@@ -187,7 +187,7 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
               content: post.content,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 14, color: FemLyraColors.textPrimary, height: 1.5),
+              style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, height: 1.5),
             ),
             if (post.imageUrl != null) ...[
               const SizedBox(height: 12),
@@ -208,19 +208,19 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
                 _actionItem(
                   post.userReaction == 'up' ? Icons.thumb_up : Icons.thumb_up_outlined, 
                   post.likesCount.toString(),
-                  color: post.userReaction == 'up' ? FemLyraColors.primary : FemLyraColors.textMuted,
+                  color: post.userReaction == 'up' ? FemFlowColors.primary : FemFlowColors.textMuted,
                 ),
                 const SizedBox(width: 20),
                 _actionItem(
                   post.userReaction == 'down' ? Icons.thumb_down : Icons.thumb_down_outlined, 
                   post.dislikesCount.toString(),
-                  color: post.userReaction == 'down' ? Colors.redAccent : FemLyraColors.textMuted,
+                  color: post.userReaction == 'down' ? Colors.redAccent : FemFlowColors.textMuted,
                 ),
                 const SizedBox(width: 20),
-                _actionItem(Icons.chat_bubble_outline, post.replyCount.toString(), color: FemLyraColors.textMuted),
+                _actionItem(Icons.chat_bubble_outline, post.replyCount.toString(), color: FemFlowColors.textMuted),
                 const Spacer(),
                 IconButton(
-                  icon: const Icon(Icons.flag_outlined, size: 18, color: FemLyraColors.textMuted),
+                  icon: const Icon(Icons.flag_outlined, size: 18, color: FemFlowColors.textMuted),
                   onPressed: () => _showReportDialog(post.id),
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
@@ -236,9 +236,9 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
   Widget _actionItem(IconData icon, String count, {Color? color}) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: color ?? FemLyraColors.textMuted),
+        Icon(icon, size: 18, color: color ?? FemFlowColors.textMuted),
         const SizedBox(width: 4),
-        Text(count, style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
+        Text(count, style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
       ],
     );
   }
@@ -253,19 +253,19 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
             const SizedBox(height: 24),
             const Text(
               'No posts yet',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
             ),
             const SizedBox(height: 8),
             const Text(
               'Start the first supportive conversation in this room.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: FemLyraColors.textSecondary),
+              style: TextStyle(color: FemFlowColors.textSecondary),
             ),
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: _navigateToCreatePost,
               style: ElevatedButton.styleFrom(
-                backgroundColor: FemLyraColors.primary,
+                backgroundColor: FemFlowColors.primary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -283,7 +283,7 @@ class _CommunityRoomScreenState extends State<CommunityRoomScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_error!, style: const TextStyle(color: FemLyraColors.textSecondary)),
+          Text(_error!, style: const TextStyle(color: FemFlowColors.textSecondary)),
           const SizedBox(height: 16),
           ElevatedButton(onPressed: _loadData, child: const Text('Retry')),
         ],

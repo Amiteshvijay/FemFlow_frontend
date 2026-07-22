@@ -27,7 +27,7 @@ class CategoryChipGroup extends StatelessWidget {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: FemLyraColors.textPrimary,
+              color: FemFlowColors.textPrimary,
             ),
           ),
         ),
@@ -50,17 +50,17 @@ class CategoryChipGroup extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? FemLyraColors.blushMist : FemLyraColors.white,
+          color: isSelected ? FemFlowColors.blushMist : FemFlowColors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? FemLyraColors.primary : FemLyraColors.border,
+            color: isSelected ? FemFlowColors.primary : FemFlowColors.border,
             width: isSelected ? 1.5 : 1,
           ),
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: isSelected ? FemLyraColors.primary : FemLyraColors.textSecondary,
+            color: isSelected ? FemFlowColors.primary : FemFlowColors.textSecondary,
             fontSize: 13,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),

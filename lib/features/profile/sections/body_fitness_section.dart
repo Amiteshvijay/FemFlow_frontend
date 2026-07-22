@@ -71,20 +71,20 @@ class _BodyFitnessSectionState extends State<BodyFitnessSection> {
     }
 
     return AppCard(
-      color: FemLyraColors.blushMist,
+      color: FemFlowColors.blushMist,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Column(
             children: [
-              const Text('Calculated BMI', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
-              Text(bmi > 0 ? bmi.toString() : '--', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
+              const Text('Calculated BMI', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+              Text(bmi > 0 ? bmi.toString() : '--', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
             ],
           ),
-          Container(height: 40, width: 1, color: FemLyraColors.border),
+          Container(height: 40, width: 1, color: FemFlowColors.border),
           Column(
             children: [
-              const Text('Category', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
+              const Text('Category', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
               Text(bmi > 0 ? category : 'Enter Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color)),
             ],
           ),
@@ -102,7 +102,7 @@ class _BodyFitnessSectionState extends State<BodyFitnessSection> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-            Text(currentVal.toStringAsFixed(0), style: const TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold, fontSize: 18)),
+            Text(currentVal.toStringAsFixed(0), style: const TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 18)),
           ],
         ),
         Slider(
@@ -110,7 +110,7 @@ class _BodyFitnessSectionState extends State<BodyFitnessSection> {
           min: min,
           max: max,
           divisions: divisions,
-          activeColor: FemLyraColors.primary,
+          activeColor: FemFlowColors.primary,
           onChanged: (val) => _updateField(key, val),
         ),
       ],
@@ -131,8 +131,8 @@ class _BodyFitnessSectionState extends State<BodyFitnessSection> {
             return FilterChip(
               label: Text(o),
               selected: isSelected,
-              selectedColor: FemLyraColors.primary.withValues(alpha: 0.2),
-              checkmarkColor: FemLyraColors.primary,
+              selectedColor: FemFlowColors.primary.withValues(alpha: 0.2),
+              checkmarkColor: FemFlowColors.primary,
               onSelected: (val) => _updateField(key, val ? o : null),
             );
           }).toList(),

@@ -66,7 +66,7 @@ class ExpertInsightCard extends StatelessWidget {
                         ),
                         child: Text(
                           insight.categoryName,
-                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
+                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
                         ),
                       ),
                     ),

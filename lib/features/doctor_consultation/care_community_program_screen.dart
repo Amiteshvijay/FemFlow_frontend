@@ -127,12 +127,12 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
 
     if (!isPremium) {
       return Scaffold(
-        backgroundColor: FemLyraColors.warmWhite,
+        backgroundColor: FemFlowColors.warmWhite,
         appBar: AppBar(
           title: const Text('Care Community Program', style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          foregroundColor: FemLyraColors.textPrimary,
+          foregroundColor: FemFlowColors.textPrimary,
         ),
         body: Center(
           child: Padding(
@@ -140,18 +140,18 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.lock_outline, size: 64, color: FemLyraColors.primary),
+                const Icon(Icons.lock_outline, size: 64, color: FemFlowColors.primary),
                 const SizedBox(height: 16),
                 const Text(
                   'Care Community Program is for Premium users only.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
                 ),
                 const SizedBox(height: 8),
                 const Text(
                   'Upgrade to Premium to get access to sponsored medical consultations and enroll in the program.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
+                  style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
@@ -160,7 +160,7 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
                     MaterialPageRoute(builder: (_) => const PremiumPlanScreen()),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: FemLyraColors.primary,
+                    backgroundColor: FemFlowColors.primary,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
@@ -175,15 +175,15 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
     }
 
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('Care Community Program', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: FemLyraColors.textPrimary,
+        foregroundColor: FemFlowColors.textPrimary,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -221,13 +221,13 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
-            color: FemLyraColors.primary,
+            color: FemFlowColors.primary,
           ),
         ),
         SizedBox(height: 8),
         Text(
           'Join our social impact initiative offering sponsored medical consultations for users in need.',
-          style: TextStyle(fontSize: 15, color: FemLyraColors.textSecondary, height: 1.4),
+          style: TextStyle(fontSize: 15, color: FemFlowColors.textSecondary, height: 1.4),
         ),
       ],
     );
@@ -247,8 +247,8 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
       statusTitle = 'Enrolled';
       statusSubtitle = 'You are an active participant in the program.';
     } else if (isPremium) {
-      cardColor = FemLyraColors.primary.withValues(alpha: 0.08);
-      iconColor = FemLyraColors.primary;
+      cardColor = FemFlowColors.primary.withValues(alpha: 0.08);
+      iconColor = FemFlowColors.primary;
       icon = Icons.info_outline;
       statusTitle = 'Not Enrolled';
       statusSubtitle = 'You are eligible to join. Tap participate below.';
@@ -273,12 +273,12 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
               children: [
                 Text(
                   statusTitle,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   statusSubtitle,
-                  style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
+                  style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
                 ),
               ],
             ),
@@ -304,9 +304,9 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Lifetime Consultations', style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
+                    const Text('Lifetime Consultations', style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
                     const SizedBox(height: 6),
-                    Text('$_usageCount / 2 used', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
+                    Text('$_usageCount / 2 used', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
                   ],
                 ),
               ),
@@ -317,7 +317,7 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Cooldown Status', style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
+                    const Text('Cooldown Status', style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
                     const SizedBox(height: 6),
                     Text(
                       _isCooldownActive ? 'Active' : 'No Cooldown',
@@ -389,10 +389,10 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: FemLyraColors.primary.withValues(alpha: 0.08),
+              color: FemFlowColors.primary.withValues(alpha: 0.08),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: FemLyraColors.primary, size: 20),
+            child: Icon(icon, color: FemFlowColors.primary, size: 20),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -401,12 +401,12 @@ class _CareCommunityProgramScreenState extends State<CareCommunityProgramScreen>
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemLyraColors.textPrimary),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemFlowColors.textPrimary),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   description,
-                  style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, height: 1.4),
+                  style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, height: 1.4),
                 ),
               ],
             ),

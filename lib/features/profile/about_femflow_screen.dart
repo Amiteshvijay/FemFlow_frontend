@@ -46,7 +46,7 @@ class _AboutFemLyraScreenState extends State<AboutFemLyraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -56,7 +56,7 @@ class _AboutFemLyraScreenState extends State<AboutFemLyraScreen> {
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : _error != null
               ? Center(child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -73,11 +73,11 @@ class _AboutFemLyraScreenState extends State<AboutFemLyraScreen> {
                       Image.asset(
                         'assets/icons/FemLyra_app_icon_1024.png',
                         height: 100,
-                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 100, color: FemLyraColors.primary),
+                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 100, color: FemFlowColors.primary),
                       ),
                       const SizedBox(height: 20),
-                      Text(_data?.appName ?? 'FemLyra', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
-                      Text(_data?.tagline ?? '', style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary)),
+                      Text(_data?.appName ?? 'FemLyra', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
+                      Text(_data?.tagline ?? '', style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary)),
                       const SizedBox(height: 40),
                       AppCard(
                         child: Column(
@@ -85,7 +85,7 @@ class _AboutFemLyraScreenState extends State<AboutFemLyraScreen> {
                           children: [
                             Text('Version: ${_data?.version ?? '1.0.21'}', style: const TextStyle(fontWeight: FontWeight.bold)),
                             const SizedBox(height: 12),
-                            Text(_data?.description ?? '', style: const TextStyle(color: FemLyraColors.textSecondary, height: 1.5)),
+                            Text(_data?.description ?? '', style: const TextStyle(color: FemFlowColors.textSecondary, height: 1.5)),
                           ],
                         ),
                       ),
@@ -127,9 +127,9 @@ class _AboutFemLyraScreenState extends State<AboutFemLyraScreen> {
 
   Widget _buildLinkItem({required IconData icon, required String label, required VoidCallback onTap}) {
     return ListTile(
-      leading: Icon(icon, color: FemLyraColors.primary, size: 22),
+      leading: Icon(icon, color: FemFlowColors.primary, size: 22),
       title: Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-      trailing: const Icon(Icons.open_in_new, size: 16, color: FemLyraColors.textMuted),
+      trailing: const Icon(Icons.open_in_new, size: 16, color: FemFlowColors.textMuted),
       onTap: onTap,
     );
   }

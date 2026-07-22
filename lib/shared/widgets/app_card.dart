@@ -30,10 +30,10 @@ class AppCard extends StatelessWidget {
         width: width,
         padding: padding ?? const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color ?? FemLyraColors.white,
+          color: color ?? FemFlowColors.white,
           borderRadius: BorderRadius.circular(borderRadius ?? 16),
           border: Border.all(
-            color: border?.color ?? FemLyraColors.border,
+            color: border?.color ?? FemFlowColors.border,
             width: border?.width ?? 1,
           ),
         ),

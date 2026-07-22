@@ -52,17 +52,17 @@ class _JournalScreenState extends State<JournalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'FemLyra Journal',
-          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -73,7 +73,7 @@ class _JournalScreenState extends State<JournalScreen> {
           _buildSearchAndFilters(),
           Expanded(
             child: _isLoading
-                ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+                ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
                 : _entries.isEmpty
                     ? _buildEmptyState()
                     : _buildEntryList(),
@@ -88,7 +88,7 @@ class _JournalScreenState extends State<JournalScreen> {
           );
           if (result == true) _fetchEntries();
         },
-        backgroundColor: FemLyraColors.primary,
+        backgroundColor: FemFlowColors.primary,
         icon: const Icon(Icons.edit_calendar, color: Colors.white),
         label: const Text('New Entry', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       ),
@@ -104,7 +104,7 @@ class _JournalScreenState extends State<JournalScreen> {
         children: const [
           Text(
             'Your private cycle and wellness diary',
-            style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 14),
+            style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 14),
           ),
         ],
       ),
@@ -122,7 +122,7 @@ class _JournalScreenState extends State<JournalScreen> {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 15),
         children: [
-          _buildSummaryCard('Total Notes', total.toString(), FemLyraColors.primary),
+          _buildSummaryCard('Total Notes', total.toString(), FemFlowColors.primary),
           _buildSummaryCard('Pinned', pinned.toString(), Colors.orange),
           _buildSummaryCard('Privacy', 'Active', Colors.green),
         ],
@@ -144,7 +144,7 @@ class _JournalScreenState extends State<JournalScreen> {
           children: [
             Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color)),
             const SizedBox(height: 4),
-            Text(label, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
+            Text(label, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
           ],
         ),
       ),
@@ -161,17 +161,17 @@ class _JournalScreenState extends State<JournalScreen> {
             onSubmitted: (_) => _fetchEntries(),
             decoration: InputDecoration(
               hintText: 'Search your journal...',
-              prefixIcon: const Icon(Icons.search, color: FemLyraColors.textMuted),
+              prefixIcon: const Icon(Icons.search, color: FemFlowColors.textMuted),
               filled: true,
               fillColor: Colors.white,
               contentPadding: EdgeInsets.zero,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: FemLyraColors.border),
+                borderSide: const BorderSide(color: FemFlowColors.border),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: FemLyraColors.border),
+                borderSide: const BorderSide(color: FemFlowColors.border),
               ),
             ),
           ),
@@ -199,14 +199,14 @@ class _JournalScreenState extends State<JournalScreen> {
                     _fetchEntries();
                   },
                   backgroundColor: Colors.white,
-                  selectedColor: isAll ? FemLyraColors.primary : category?.color,
+                  selectedColor: isAll ? FemFlowColors.primary : category?.color,
                   labelStyle: TextStyle(
-                    color: isSelected ? Colors.white : FemLyraColors.textPrimary,
+                    color: isSelected ? Colors.white : FemFlowColors.textPrimary,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(color: isSelected ? Colors.transparent : FemLyraColors.border),
+                    side: BorderSide(color: isSelected ? Colors.transparent : FemFlowColors.border),
                   ),
                   showCheckmark: false,
                 ),
@@ -221,7 +221,7 @@ class _JournalScreenState extends State<JournalScreen> {
   Widget _buildEntryList() {
     return RefreshIndicator(
       onRefresh: _fetchEntries,
-      color: FemLyraColors.primary,
+      color: FemFlowColors.primary,
       child: ListView.builder(
         padding: const EdgeInsets.all(20),
         itemCount: _entries.length,
@@ -271,21 +271,21 @@ class _JournalScreenState extends State<JournalScreen> {
                                 const SizedBox(width: 8),
                                 Text(
                                   entry.date != null ? DateFormat('MMM dd').format(DateTime.parse(entry.date!)) : '',
-                                  style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
+                                  style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 8),
                             Text(
                               entry.title,
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 4),
                             Text(
                               entry.content,
-                              style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
+                              style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -314,12 +314,12 @@ class _JournalScreenState extends State<JournalScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: FemLyraColors.blushMist,
+        color: FemFlowColors.blushMist,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
         '#$tag',
-        style: const TextStyle(fontSize: 10, color: FemLyraColors.primary, fontWeight: FontWeight.w600),
+        style: const TextStyle(fontSize: 10, color: FemFlowColors.primary, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -332,21 +332,21 @@ class _JournalScreenState extends State<JournalScreen> {
           Container(
             padding: const EdgeInsets.all(30),
             decoration: const BoxDecoration(
-              color: FemLyraColors.blushMist,
+              color: FemFlowColors.blushMist,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.auto_stories_outlined, size: 60, color: FemLyraColors.primary),
+            child: const Icon(Icons.auto_stories_outlined, size: 60, color: FemFlowColors.primary),
           ),
           const SizedBox(height: 20),
           const Text(
             'No journal entries yet',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
           ),
           const SizedBox(height: 10),
           const Text(
             'Start with one small note about how your body feels today.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: FemLyraColors.textSecondary),
+            style: TextStyle(color: FemFlowColors.textSecondary),
           ),
         ],
       ),

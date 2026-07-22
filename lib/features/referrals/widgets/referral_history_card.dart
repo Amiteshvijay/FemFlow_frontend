@@ -23,7 +23,7 @@ class ReferralHistoryCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: FemLyraColors.textPrimary,
+              color: FemFlowColors.textPrimary,
             ),
           ),
         ),
@@ -45,7 +45,7 @@ class ReferralHistoryCard extends StatelessWidget {
                       ),
                       Text(
                         'Joined ${DateFormat('MMM d, yyyy').format(item.createdAt)}',
-                        style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
+                        style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
                       ),
                     ],
                   ),

@@ -10,7 +10,7 @@ class MaintenanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -21,13 +21,13 @@ class MaintenanceScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(32),
                 decoration: BoxDecoration(
-                  color: FemLyraColors.primary.withValues(alpha: 0.05),
+                  color: FemFlowColors.primary.withValues(alpha: 0.05),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.auto_awesome_outlined,
                   size: 80,
-                  color: FemLyraColors.primary,
+                  color: FemFlowColors.primary,
                 ),
               ),
               const SizedBox(height: 48),
@@ -37,7 +37,7 @@ class MaintenanceScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: FemLyraColors.textPrimary,
+                  color: FemFlowColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 16),
@@ -46,7 +46,7 @@ class MaintenanceScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
-                  color: FemLyraColors.textSecondary,
+                  color: FemFlowColors.textSecondary,
                   height: 1.6,
                 ),
               ),
@@ -60,7 +60,7 @@ class MaintenanceScreen extends StatelessWidget {
                 'Thank you for your patience.',
                 style: TextStyle(
                   fontSize: 12,
-                  color: FemLyraColors.textMuted,
+                  color: FemFlowColors.textMuted,
                   fontStyle: FontStyle.italic,
                 ),
               ),

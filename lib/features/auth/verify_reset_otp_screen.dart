@@ -51,12 +51,12 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -74,7 +74,7 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
               Text(
                 'Enter the 6-digit code sent to your email.',
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: FemLyraColors.textSecondary),
+                style: const TextStyle(color: FemFlowColors.textSecondary),
               ),
               const SizedBox(height: 40),
               Row(
@@ -84,7 +84,7 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
               if (_error != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 24),
-                  child: Text(_error!, style: const TextStyle(color: FemLyraColors.period, fontSize: 13)),
+                  child: Text(_error!, style: const TextStyle(color: FemFlowColors.period, fontSize: 13)),
                 ),
               const SizedBox(height: 40),
               PrimaryButton(

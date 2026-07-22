@@ -26,7 +26,7 @@ class _FullSymptomsPickerScreenState extends State<FullSymptomsPickerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.close),
@@ -38,7 +38,7 @@ class _FullSymptomsPickerScreenState extends State<FullSymptomsPickerScreen> {
           if (_selectedSymptoms.isNotEmpty)
             TextButton(
               onPressed: () => setState(() => _selectedSymptoms.clear()),
-              child: const Text('Clear all', style: TextStyle(color: FemLyraColors.primary)),
+              child: const Text('Clear all', style: TextStyle(color: FemFlowColors.primary)),
             ),
         ],
       ),
@@ -51,14 +51,14 @@ class _FullSymptomsPickerScreenState extends State<FullSymptomsPickerScreen> {
               children: [
                 const Text(
                   'Choose everything you feel today.',
-                  style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 14),
+                  style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 14),
                 ),
                 const SizedBox(height: 16),
                 TextField(
                   onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
                   decoration: InputDecoration(
                     hintText: 'Search symptoms',
-                    prefixIcon: const Icon(Icons.search, color: FemLyraColors.textMuted),
+                    prefixIcon: const Icon(Icons.search, color: FemFlowColors.textMuted),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(

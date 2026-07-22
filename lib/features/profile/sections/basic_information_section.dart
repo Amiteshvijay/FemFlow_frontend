@@ -70,8 +70,8 @@ class _BasicInformationSectionState extends State<BasicInformationSection> {
         prefixIcon: icon != null ? Icon(icon, size: 20) : null,
         filled: true,
         fillColor: Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
       ),
     );
   }
@@ -81,14 +81,14 @@ class _BasicInformationSectionState extends State<BasicInformationSection> {
     final date = dateStr != null ? DateTime.tryParse(dateStr) : null;
     
     return ListTile(
-      title: Text(label, style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary)),
+      title: Text(label, style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary)),
       subtitle: Text(
         date != null ? DateFormat('MMMM d, yyyy').format(date) : 'Select date',
-        style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+        style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
       ),
-      trailing: const Icon(Icons.calendar_today, size: 20, color: FemLyraColors.primary),
+      trailing: const Icon(Icons.calendar_today, size: 20, color: FemFlowColors.primary),
       tileColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: const BorderSide(color: FemLyraColors.border)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: const BorderSide(color: FemFlowColors.border)),
       onTap: () async {
         final picked = await showDatePicker(
           context: context,
@@ -111,7 +111,7 @@ class _BasicInformationSectionState extends State<BasicInformationSection> {
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
       ),
       items: options.map((o) => DropdownMenuItem(value: o, child: Text(o))).toList(),
       onChanged: (val) => _updateField(key, val),

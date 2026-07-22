@@ -58,25 +58,25 @@ class _WellnessScoreDashboardScreenState extends State<WellnessScoreDashboardScr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'FemLyra Wellness Score',
-          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : RefreshIndicator(
               onRefresh: _loadData,
-              color: FemLyraColors.primary,
+              color: FemFlowColors.primary,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -103,14 +103,14 @@ class _WellnessScoreDashboardScreenState extends State<WellnessScoreDashboardScr
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [FemLyraColors.primary, FemLyraColors.primary.withValues(alpha: 0.8)],
+          colors: [FemFlowColors.primary, FemFlowColors.primary.withValues(alpha: 0.8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: FemLyraColors.primary.withValues(alpha: 0.3),
+            color: FemFlowColors.primary.withValues(alpha: 0.3),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -176,19 +176,19 @@ class _WellnessScoreDashboardScreenState extends State<WellnessScoreDashboardScr
     if (_weeklyData == null) return const SizedBox.shrink();
 
     return AppCard(
-      color: FemLyraColors.aiWellness.withValues(alpha: 0.05),
-      border: BorderSide(color: FemLyraColors.aiWellness.withValues(alpha: 0.2)),
+      color: FemFlowColors.aiWellness.withValues(alpha: 0.05),
+      border: BorderSide(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'AI Reflection',
-            style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.aiWellness),
+            style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness),
           ),
           const SizedBox(height: 8),
           Text(
             _weeklyData?.aiSummary ?? 'No summary available yet.',
-            style: const TextStyle(color: FemLyraColors.textPrimary, height: 1.4),
+            style: const TextStyle(color: FemFlowColors.textPrimary, height: 1.4),
           ),
         ],
       ),
@@ -207,7 +207,7 @@ class _WellnessScoreDashboardScreenState extends State<WellnessScoreDashboardScr
         _buildActionCard(
           'Daily Check-in',
           Icons.edit_note,
-          FemLyraColors.primary,
+          FemFlowColors.primary,
           () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DailyCheckinScreen())).then((_) => _loadData()),
         ),
         _buildActionCard(
@@ -229,7 +229,7 @@ class _WellnessScoreDashboardScreenState extends State<WellnessScoreDashboardScr
         _buildActionCard(
           'Wellness Checks',
           Icons.assignment_turned_in_outlined,
-          FemLyraColors.ovulation,
+          FemFlowColors.ovulation,
           () => Navigator.push(context, MaterialPageRoute(builder: (_) => const WellnessChecksScreen())).then((_) => _loadData()),
         ),
         _buildActionCard(
@@ -260,7 +260,7 @@ class _WellnessScoreDashboardScreenState extends State<WellnessScoreDashboardScr
           const SizedBox(height: 12),
           Text(
             label,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FemLyraColors.textPrimary),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FemFlowColors.textPrimary),
           ),
         ],
       ),
@@ -276,12 +276,12 @@ class _WellnessScoreDashboardScreenState extends State<WellnessScoreDashboardScr
       ),
       child: const Row(
         children: [
-          Icon(Icons.info_outline, size: 20, color: FemLyraColors.textMuted),
+          Icon(Icons.info_outline, size: 20, color: FemFlowColors.textMuted),
           SizedBox(width: 12),
           Expanded(
             child: Text(
               'This score is an educational wellness indicator and not a medical diagnosis.',
-              style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
+              style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
             ),
           ),
         ],

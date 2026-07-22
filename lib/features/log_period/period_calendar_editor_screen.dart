@@ -120,7 +120,7 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: FemLyraColors.period),
+          SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
         );
       }
     } finally {
@@ -131,7 +131,7 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.close),
@@ -178,8 +178,8 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
               titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             calendarStyle: const CalendarStyle(
-              todayDecoration: BoxDecoration(color: FemLyraColors.blushMist, shape: BoxShape.circle),
-              todayTextStyle: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold),
+              todayDecoration: BoxDecoration(color: FemFlowColors.blushMist, shape: BoxShape.circle),
+              todayTextStyle: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold),
             ),
             calendarBuilders: CalendarBuilders(
               defaultBuilder: (context, day, focusedDay) => _buildDayWidget(day),
@@ -213,10 +213,10 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
       runSpacing: 8,
       alignment: WrapAlignment.center,
       children: [
-        _buildLegendItem('Period', FemLyraColors.period),
-        _buildLegendItem('Predicted', FemLyraColors.period.withValues(alpha: 0.5), isOutline: true),
+        _buildLegendItem('Period', FemFlowColors.period),
+        _buildLegendItem('Predicted', FemFlowColors.period.withValues(alpha: 0.5), isOutline: true),
         _buildLegendItem('PMS', const Color(0xFFE8A838)),
-        _buildLegendItem('Fertile', FemLyraColors.ovulation.withValues(alpha: 0.3)),
+        _buildLegendItem('Fertile', FemFlowColors.ovulation.withValues(alpha: 0.3)),
         _buildLegendItem('Ovulation', Colors.teal),
       ],
     );
@@ -243,7 +243,7 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
             ),
           ),
         const SizedBox(width: 4),
-        Text(label, style: const TextStyle(fontSize: 10, color: FemLyraColors.textSecondary)),
+        Text(label, style: const TextStyle(fontSize: 10, color: FemFlowColors.textSecondary)),
       ],
     );
   }
@@ -277,43 +277,43 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
     bool isPMS = status.contains('pms');
 
     Color? bgColor;
-    Color textColor = isOutside ? FemLyraColors.textMuted : FemLyraColors.textPrimary;
+    Color textColor = isOutside ? FemFlowColors.textMuted : FemFlowColors.textPrimary;
     BoxShape shape = BoxShape.circle;
     Border? border;
 
     if (isStart || isEnd) {
-      bgColor = FemLyraColors.primary;
+      bgColor = FemFlowColors.primary;
       textColor = Colors.white;
     } else if (inRange) {
-      bgColor = FemLyraColors.primary.withValues(alpha: 0.2);
+      bgColor = FemFlowColors.primary.withValues(alpha: 0.2);
     } else {
       // Apply server predictions
       if (isOvulation) {
         bgColor = Colors.teal;
         textColor = Colors.white;
       } else if (isPredicted) {
-        border = Border.all(color: FemLyraColors.period.withValues(alpha: 0.5), width: 1.5);
-        textColor = FemLyraColors.textPrimary;
+        border = Border.all(color: FemFlowColors.period.withValues(alpha: 0.5), width: 1.5);
+        textColor = FemFlowColors.textPrimary;
       } else if (isFertile) {
-        bgColor = FemLyraColors.ovulation.withValues(alpha: 0.3);
-        textColor = FemLyraColors.textPrimary;
+        bgColor = FemFlowColors.ovulation.withValues(alpha: 0.3);
+        textColor = FemFlowColors.textPrimary;
       } else if (isPMS) {
         bgColor = const Color(0xFFFFF3E0);
         textColor = const Color(0xFFE8A838);
       } else if (isPeriod) {
-        bgColor = FemLyraColors.period.withValues(alpha: 0.3);
-        textColor = FemLyraColors.textPrimary;
+        bgColor = FemFlowColors.period.withValues(alpha: 0.3);
+        textColor = FemFlowColors.textPrimary;
       } else if (isPredictedEnd) {
-        border = Border.all(color: FemLyraColors.primary, width: 1.5, style: BorderStyle.solid);
-        textColor = FemLyraColors.primary;
+        border = Border.all(color: FemFlowColors.primary, width: 1.5, style: BorderStyle.solid);
+        textColor = FemFlowColors.primary;
       } else if (inPredictedRange) {
-        bgColor = FemLyraColors.primary.withValues(alpha: 0.05);
+        bgColor = FemFlowColors.primary.withValues(alpha: 0.05);
       }
     }
 
     bool isToday = _isSameDay(day, DateTime.now());
     if (isToday && bgColor == null && border == null) {
-      bgColor = FemLyraColors.blushMist;
+      bgColor = FemFlowColors.blushMist;
     }
 
     return Container(
@@ -353,8 +353,8 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Selected Range', style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 14)),
-              Text(rangeText, style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
+              const Text('Selected Range', style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 14)),
+              Text(rangeText, style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
             ],
           ),
           const Divider(height: 24),
@@ -363,12 +363,12 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
                padding: const EdgeInsets.only(bottom: 12),
                child: Row(
                  children: [
-                   const Icon(Icons.info_outline, size: 16, color: FemLyraColors.textMuted),
+                   const Icon(Icons.info_outline, size: 16, color: FemFlowColors.textMuted),
                    const SizedBox(width: 8),
                    Expanded(
                      child: Text(
                        'Based on your history, your period may last until ${DateFormat('d MMM').format(_predictedEndDate!)}.',
-                       style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
+                       style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
                      ),
                    ),
                  ],
@@ -380,7 +380,7 @@ class _PeriodCalendarEditorScreenState extends State<PeriodCalendarEditorScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Period Length', style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 12)),
+                    const Text('Period Length', style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 12)),
                     Text(
                       _endDate != null 
                         ? '${_endDate!.difference(_startDate).inDays + 1} days' 

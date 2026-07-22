@@ -85,12 +85,12 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
     final subtitle = _isConfirming ? "Please re-enter your PIN" : "Enter a 4-digit PIN to secure your app";
 
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -103,7 +103,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: FemLyraColors.textPrimary,
+                color: FemFlowColors.textPrimary,
               ),
             ),
             const SizedBox(height: 12),
@@ -111,7 +111,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
               subtitle,
               style: const TextStyle(
                 fontSize: 16,
-                color: FemLyraColors.textSecondary,
+                color: FemFlowColors.textSecondary,
               ),
             ),
             const SizedBox(height: 48),
@@ -126,9 +126,9 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: index < currentInput.length 
-                      ? FemLyraColors.primary 
-                      : FemLyraColors.border,
-                  border: Border.all(color: FemLyraColors.border),
+                      ? FemFlowColors.primary 
+                      : FemFlowColors.border,
+                  border: Border.all(color: FemFlowColors.border),
                 ),
               )),
             ),
@@ -137,7 +137,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
             if (_error != null)
               Text(
                 _error!,
-                style: const TextStyle(color: FemLyraColors.period, fontSize: 13),
+                style: const TextStyle(color: FemFlowColors.period, fontSize: 13),
               ),
             
             const Spacer(),

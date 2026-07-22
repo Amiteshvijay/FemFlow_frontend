@@ -71,8 +71,8 @@ class _HormonalHealthSectionState extends State<HormonalHealthSection> {
         suffixText: suffix,
         filled: true,
         fillColor: Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
       ),
     );
   }
@@ -82,7 +82,7 @@ class _HormonalHealthSectionState extends State<HormonalHealthSection> {
       title: Text(label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
       value: _data[key] == true,
       onChanged: (val) => _updateField(key, val),
-      activeThumbColor: FemLyraColors.primary,
+      activeThumbColor: FemFlowColors.primary,
       contentPadding: EdgeInsets.zero,
     );
   }
@@ -104,11 +104,11 @@ class _HormonalHealthSectionState extends State<HormonalHealthSection> {
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   decoration: BoxDecoration(
-                    color: isSelected ? FemLyraColors.primary : Colors.white,
-                    border: Border.all(color: isSelected ? FemLyraColors.primary : FemLyraColors.border),
+                    color: isSelected ? FemFlowColors.primary : Colors.white,
+                    border: Border.all(color: isSelected ? FemFlowColors.primary : FemFlowColors.border),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(l, textAlign: TextAlign.center, style: TextStyle(fontSize: 10, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal, color: isSelected ? Colors.white : FemLyraColors.textSecondary)),
+                  child: Text(l, textAlign: TextAlign.center, style: TextStyle(fontSize: 10, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal, color: isSelected ? Colors.white : FemFlowColors.textSecondary)),
                 ),
               ),
             );
@@ -133,8 +133,8 @@ class _HormonalHealthSectionState extends State<HormonalHealthSection> {
             return FilterChip(
               label: Text(o),
               selected: isSelected,
-              selectedColor: FemLyraColors.primary.withValues(alpha: 0.2),
-              checkmarkColor: FemLyraColors.primary,
+              selectedColor: FemFlowColors.primary.withValues(alpha: 0.2),
+              checkmarkColor: FemFlowColors.primary,
               onSelected: (val) => _updateField(effectiveKey, val),
             );
           }).toList(),

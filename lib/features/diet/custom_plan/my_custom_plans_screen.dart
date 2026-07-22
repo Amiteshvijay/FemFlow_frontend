@@ -73,7 +73,7 @@ class _MyCustomPlansScreenState extends State<MyCustomPlansScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('My Custom Plans', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -100,7 +100,7 @@ class _MyCustomPlansScreenState extends State<MyCustomPlansScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.restaurant_menu_rounded, size: 64, color: FemLyraColors.primary.withValues(alpha: 0.2)),
+            Icon(Icons.restaurant_menu_rounded, size: 64, color: FemFlowColors.primary.withValues(alpha: 0.2)),
             const SizedBox(height: 16),
             const Text(
               'No custom plans yet',
@@ -110,7 +110,7 @@ class _MyCustomPlansScreenState extends State<MyCustomPlansScreen> {
             const Text(
               'Generate your first personalized nutrition plan to see it here.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: FemLyraColors.textSecondary),
+              style: TextStyle(color: FemFlowColors.textSecondary),
             ),
           ],
         ),
@@ -133,7 +133,7 @@ class _MyCustomPlansScreenState extends State<MyCustomPlansScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(plan.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text('${plan.targetCalories} kcal · ${plan.mealFrequency.replaceAll('_', ' ')}', style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
+                      Text('${plan.targetCalories} kcal · ${plan.mealFrequency.replaceAll('_', ' ')}', style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
                     ],
                   ),
                 ),
@@ -153,10 +153,10 @@ class _MyCustomPlansScreenState extends State<MyCustomPlansScreen> {
                     },
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      side: const BorderSide(color: FemLyraColors.primary),
+                      side: const BorderSide(color: FemFlowColors.primary),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
-                    child: const Text('View', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
+                    child: const Text('View', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -213,7 +213,7 @@ class _MyCustomPlansScreenState extends State<MyCustomPlansScreen> {
         label = 'ARCHIVED';
         break;
       default:
-        color = FemLyraColors.primary;
+        color = FemFlowColors.primary;
         label = status.toUpperCase();
     }
 

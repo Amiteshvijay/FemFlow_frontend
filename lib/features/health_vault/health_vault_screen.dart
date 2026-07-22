@@ -62,17 +62,17 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Health Vault',
-          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -82,7 +82,7 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
           _buildSearchAndFilters(),
           Expanded(
             child: _isLoading
-                ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+                ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
                 : _documents.isEmpty
                     ? _buildEmptyState()
                     : _buildDocumentList(),
@@ -97,7 +97,7 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
           );
           if (result == true) _fetchDocuments();
         },
-        backgroundColor: FemLyraColors.primary,
+        backgroundColor: FemFlowColors.primary,
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text('Upload Document', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       ),
@@ -113,7 +113,7 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
         children: [
           const Text(
             'Securely store your health documents',
-            style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 14),
+            style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 14),
           ),
           const SizedBox(height: 10),
           Row(
@@ -141,17 +141,17 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
             onSubmitted: (_) => _fetchDocuments(),
             decoration: InputDecoration(
               hintText: 'Search documents...',
-              prefixIcon: const Icon(Icons.search, color: FemLyraColors.textMuted),
+              prefixIcon: const Icon(Icons.search, color: FemFlowColors.textMuted),
               filled: true,
               fillColor: Colors.white,
               contentPadding: const EdgeInsets.symmetric(vertical: 0),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: FemLyraColors.border),
+                borderSide: const BorderSide(color: FemFlowColors.border),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: FemLyraColors.border),
+                borderSide: const BorderSide(color: FemFlowColors.border),
               ),
             ),
           ),
@@ -169,22 +169,22 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: FilterChip(
                   label: Text(filter['label']),
-                  avatar: Icon(filter['icon'], size: 16, color: isSelected ? Colors.white : FemLyraColors.textSecondary),
+                  avatar: Icon(filter['icon'], size: 16, color: isSelected ? Colors.white : FemFlowColors.textSecondary),
                   selected: isSelected,
                   onSelected: (selected) {
                     setState(() => _selectedFilter = filter['value']);
                     _fetchDocuments();
                   },
                   backgroundColor: Colors.white,
-                  selectedColor: FemLyraColors.primary,
+                  selectedColor: FemFlowColors.primary,
                   labelStyle: TextStyle(
-                    color: isSelected ? Colors.white : FemLyraColors.textPrimary,
+                    color: isSelected ? Colors.white : FemFlowColors.textPrimary,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                     fontSize: 13,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20), 
-                    side: BorderSide(color: isSelected ? FemLyraColors.primary : FemLyraColors.border)
+                    side: BorderSide(color: isSelected ? FemFlowColors.primary : FemFlowColors.border)
                   ),
                   showCheckmark: false,
                 ),
@@ -200,7 +200,7 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
   Widget _buildDocumentList() {
     return RefreshIndicator(
       onRefresh: _fetchDocuments,
-      color: FemLyraColors.primary,
+      color: FemFlowColors.primary,
       child: ListView.builder(
         padding: const EdgeInsets.all(20),
         itemCount: _documents.length,
@@ -226,20 +226,20 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
                       children: [
                         Text(
                           doc.title,
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary),
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 4),
                         Text(
                           '${doc.documentTypeLabel} • ${doc.documentDate != null ? DateFormat('MMM dd, yyyy').format(doc.documentDate!) : 'No date'}',
-                          style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
+                          style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
                         ),
                         if (doc.notes != null && doc.notes!.isNotEmpty) ...[
                           const SizedBox(height: 4),
                           Text(
                             doc.notes!,
-                            style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted, fontStyle: FontStyle.italic),
+                            style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted, fontStyle: FontStyle.italic),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -247,7 +247,7 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
                       ],
                     ),
                   ),
-                  const Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
+                  const Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
                 ],
               ),
             ),
@@ -308,21 +308,21 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
           Container(
             padding: const EdgeInsets.all(30),
             decoration: const BoxDecoration(
-              color: FemLyraColors.blushMist,
+              color: FemFlowColors.blushMist,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.folder_open_outlined, size: 60, color: FemLyraColors.primary),
+            child: const Icon(Icons.folder_open_outlined, size: 60, color: FemFlowColors.primary),
           ),
           const SizedBox(height: 20),
           const Text(
             'No documents yet',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
           ),
           const SizedBox(height: 10),
           const Text(
             'Upload your first health document to keep it safe.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: FemLyraColors.textSecondary),
+            style: TextStyle(color: FemFlowColors.textSecondary),
           ),
           const SizedBox(height: 30),
           SizedBox(
@@ -336,10 +336,10 @@ class _HealthVaultScreenState extends State<HealthVaultScreen> {
                 if (result == true) _fetchDocuments();
               },
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: FemLyraColors.primary),
+                side: const BorderSide(color: FemFlowColors.primary),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              child: const Text('Upload Document', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
+              child: const Text('Upload Document', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
             ),
           ),
         ],

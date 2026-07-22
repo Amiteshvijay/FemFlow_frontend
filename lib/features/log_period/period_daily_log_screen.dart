@@ -119,7 +119,7 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
                     TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
                     TextButton(
                       onPressed: () => Navigator.pop(ctx, true),
-                      child: const Text('Update Existing', style: TextStyle(color: FemLyraColors.primary)),
+                      child: const Text('Update Existing', style: TextStyle(color: FemFlowColors.primary)),
                     ),
                   ],
                 ),
@@ -170,7 +170,7 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: FemLyraColors.period),
+          SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
         );
       }
     } finally {
@@ -181,7 +181,7 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.close),
@@ -200,11 +200,11 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
                 children: [
                   Text(
                     DateFormat('EEEE').format(widget.date),
-                    style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary),
+                    style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary),
                   ),
                   Text(
                     DateFormat('d MMMM').format(widget.date),
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
                   ),
                 ],
               ),
@@ -232,21 +232,21 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
                   onTap: () => setState(() => _selectedFlow = option['key']),
                   child: AppCard(
                     padding: EdgeInsets.zero,
-                    color: isSelected ? FemLyraColors.blushMist : Colors.white,
+                    color: isSelected ? FemFlowColors.blushMist : Colors.white,
                     border: BorderSide(
-                      color: isSelected ? FemLyraColors.primary : FemLyraColors.border,
+                      color: isSelected ? FemFlowColors.primary : FemFlowColors.border,
                       width: isSelected ? 1.5 : 1,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(option['icon'], color: isSelected ? FemLyraColors.primary : FemLyraColors.textMuted, size: 20),
+                        Icon(option['icon'], color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted, size: 20),
                         const SizedBox(width: 8),
                         Text(
                           option['label'],
                           style: TextStyle(
                             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                            color: isSelected ? FemLyraColors.primary : FemLyraColors.textPrimary,
+                            color: isSelected ? FemFlowColors.primary : FemFlowColors.textPrimary,
                           ),
                         ),
                       ],
@@ -266,11 +266,11 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
                         _endPeriodChecked = val ?? false;
                       });
                     },
-                    activeColor: FemLyraColors.primary,
+                    activeColor: FemFlowColors.primary,
                   ),
                   const Text(
                     'End Period Today',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: FemLyraColors.textPrimary),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: FemFlowColors.textPrimary),
                   ),
                 ],
               ),
@@ -290,11 +290,11 @@ class _PeriodDailyLogScreenState extends State<PeriodDailyLogScreen> {
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: const BorderSide(color: FemLyraColors.border),
+                  borderSide: const BorderSide(color: FemFlowColors.border),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: const BorderSide(color: FemLyraColors.border),
+                  borderSide: const BorderSide(color: FemFlowColors.border),
                 ),
               ),
             ),

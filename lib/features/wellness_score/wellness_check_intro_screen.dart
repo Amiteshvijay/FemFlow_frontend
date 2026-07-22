@@ -43,16 +43,16 @@ class _WellnessCheckIntroScreenState extends State<WellnessCheckIntroScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)));
+      return const Scaffold(body: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)));
     }
 
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -63,12 +63,12 @@ class _WellnessCheckIntroScreenState extends State<WellnessCheckIntroScreen> {
           children: [
             Text(
               _template!.title,
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
             ),
             const SizedBox(height: 12),
             Text(
               _template!.description,
-              style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary, height: 1.5),
+              style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary, height: 1.5),
             ),
             const SizedBox(height: 32),
             _buildInfoRow(Icons.help_outline, '${_template!.questionCount} questions'),
@@ -77,11 +77,11 @@ class _WellnessCheckIntroScreenState extends State<WellnessCheckIntroScreen> {
             _buildInfoRow(Icons.info_outline, 'Not a medical diagnosis'),
             const SizedBox(height: 32),
             AppCard(
-              color: FemLyraColors.aiWellness.withValues(alpha: 0.05),
+              color: FemFlowColors.aiWellness.withValues(alpha: 0.05),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('How this helps:', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.aiWellness)),
+                  const Text('How this helps:', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
                   const SizedBox(height: 12),
                   const Text('• Understand recent patterns', style: TextStyle(fontSize: 14, height: 1.6)),
                   const Text('• Improve Accuracy Level', style: TextStyle(fontSize: 14, height: 1.6)),
@@ -101,7 +101,7 @@ class _WellnessCheckIntroScreenState extends State<WellnessCheckIntroScreen> {
             Center(
               child: TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Maybe Later', style: TextStyle(color: FemLyraColors.textMuted)),
+                child: const Text('Maybe Later', style: TextStyle(color: FemFlowColors.textMuted)),
               ),
             ),
           ],
@@ -115,7 +115,7 @@ class _WellnessCheckIntroScreenState extends State<WellnessCheckIntroScreen> {
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: FemLyraColors.primary),
+          Icon(icon, size: 20, color: FemFlowColors.primary),
           const SizedBox(width: 12),
           Text(label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
         ],

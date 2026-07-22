@@ -67,7 +67,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -75,12 +75,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         title: const Text(
           'Settings',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
         ),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -197,10 +197,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       padding: const EdgeInsets.only(left: 4, bottom: 8),
       child: Row(
         children: [
-          if (icon != null) ...[Icon(icon, size: 16, color: FemLyraColors.textSecondary), const SizedBox(width: 8)],
+          if (icon != null) ...[Icon(icon, size: 16, color: FemFlowColors.textSecondary), const SizedBox(width: 8)],
           Text(
             title.toUpperCase(),
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary, letterSpacing: 1.1),
           ),
         ],
       ),
@@ -233,8 +233,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: FemLyraColors.border.withValues(alpha: 0.5), width: 0.5)),
-          color: isSelected ? FemLyraColors.primary.withValues(alpha: 0.05) : null,
+          border: Border(bottom: BorderSide(color: FemFlowColors.border.withValues(alpha: 0.5), width: 0.5)),
+          color: isSelected ? FemFlowColors.primary.withValues(alpha: 0.05) : null,
         ),
         child: Row(
           children: [
@@ -244,13 +244,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   Text(
                     label,
-                    style: TextStyle(fontSize: 16, color: textColor ?? (isSelected ? FemLyraColors.primary : FemLyraColors.textPrimary), fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
+                    style: TextStyle(fontSize: 16, color: textColor ?? (isSelected ? FemFlowColors.primary : FemFlowColors.textPrimary), fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
                   ),
                   if (subtitle != null) ...[
                     const SizedBox(height: 2),
                     Text(
                       subtitle,
-                      style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
+                      style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
                     ),
                   ],
                 ],
@@ -259,19 +259,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
             if (value != null)
               Text(
                 value,
-                style: const TextStyle(fontSize: 14, color: FemLyraColors.textMuted),
+                style: const TextStyle(fontSize: 14, color: FemFlowColors.textMuted),
               ),
             if (isToggle)
               Switch(
                 value: toggleValue,
                 onChanged: onToggleChanged,
-                activeThumbColor: FemLyraColors.primary,
-                activeTrackColor: FemLyraColors.primary.withValues(alpha: 0.3),
+                activeThumbColor: FemFlowColors.primary,
+                activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.3),
               )
             else if (showChevron && !isToggle)
-              const Icon(Icons.chevron_right, color: FemLyraColors.textMuted, size: 20),
+              const Icon(Icons.chevron_right, color: FemFlowColors.textMuted, size: 20),
             if (isSelected)
-              const Icon(Icons.check, color: FemLyraColors.primary, size: 18),
+              const Icon(Icons.check, color: FemFlowColors.primary, size: 18),
           ],
         ),
       ),

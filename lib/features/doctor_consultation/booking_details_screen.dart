@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import 'package:FemLyra/core/theme/FemLyra_colors.dart';
-import 'package:FemLyra/shared/widgets/app_card.dart';
-import 'package:FemLyra/shared/widgets/primary_button.dart';
+import 'package:femlyra/core/theme/FemLyra_colors.dart';
+import 'package:femlyra/shared/widgets/app_card.dart';
+import 'package:femlyra/shared/widgets/primary_button.dart';
 import 'data/doctor_consultation_service.dart';
 import 'models/doctor_models.dart';
 import 'invoice_screen.dart';
@@ -168,7 +168,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
         foregroundColor: Colors.black,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : _booking == null
               ? const Center(child: Text('Booking not found'))
               : SingleChildScrollView(
@@ -252,11 +252,11 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
       onTap: onTap,
       child: Row(
         children: [
-          Icon(icon, size: 18, color: FemLyraColors.primary),
+          Icon(icon, size: 18, color: FemFlowColors.primary),
           const SizedBox(width: 12),
-          Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
+          Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
           const Spacer(),
-          const Icon(Icons.chevron_right, size: 18, color: FemLyraColors.primary),
+          const Icon(Icons.chevron_right, size: 18, color: FemFlowColors.primary),
         ],
       ),
     );
@@ -449,7 +449,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                     ],
                   ),
                 ),
-                trailing: const Icon(Icons.chevron_right, color: FemLyraColors.primary),
+                trailing: const Icon(Icons.chevron_right, color: FemFlowColors.primary),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -511,8 +511,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
-                  child: const Icon(Icons.person, color: FemLyraColors.primary),
+                  backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+                  child: const Icon(Icons.person, color: FemFlowColors.primary),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -586,11 +586,11 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => InvoiceScreen(bookingId: _booking!.id))),
                     child: Row(
                       children: [
-                        const Icon(Icons.description_outlined, size: 18, color: FemLyraColors.primary),
+                        const Icon(Icons.description_outlined, size: 18, color: FemFlowColors.primary),
                         const SizedBox(width: 12),
-                        const Text('View Invoice', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
+                        const Text('View Invoice', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
                         const Spacer(),
-                        const Icon(Icons.chevron_right, size: 18, color: FemLyraColors.primary),
+                        const Icon(Icons.chevron_right, size: 18, color: FemFlowColors.primary),
                       ],
                     ),
                   ),
@@ -631,7 +631,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: FemLyraColors.primary,
+                backgroundColor: FemFlowColors.primary,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -667,13 +667,13 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
             child: OutlinedButton(
               onPressed: _isActionLoading ? null : _handleReschedule,
               style: OutlinedButton.styleFrom(
-                foregroundColor: FemLyraColors.primary,
-                side: const BorderSide(color: FemLyraColors.primary),
+                foregroundColor: FemFlowColors.primary,
+                side: const BorderSide(color: FemFlowColors.primary),
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               child: _isActionLoading 
-                ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: FemLyraColors.primary))
+                ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: FemFlowColors.primary))
                 : const Text('Reschedule Appointment', style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),

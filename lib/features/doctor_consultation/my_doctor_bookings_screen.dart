@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:FemLyra/core/theme/FemLyra_colors.dart';
-import 'package:FemLyra/shared/widgets/app_card.dart';
+import 'package:femlyra/core/theme/FemLyra_colors.dart';
+import 'package:femlyra/shared/widgets/app_card.dart';
 import 'data/doctor_consultation_service.dart';
 import 'models/doctor_models.dart';
 import 'booking_details_screen.dart';
@@ -60,9 +60,9 @@ class _MyDoctorBookingsScreenState extends State<MyDoctorBookingsScreen> with Si
         foregroundColor: Colors.black,
         bottom: TabBar(
           controller: _tabController,
-          labelColor: FemLyraColors.primary,
+          labelColor: FemFlowColors.primary,
           unselectedLabelColor: Colors.grey,
-          indicatorColor: FemLyraColors.primary,
+          indicatorColor: FemFlowColors.primary,
           tabs: const [
             Tab(text: 'Upcoming'),
             Tab(text: 'Completed'),

@@ -22,7 +22,7 @@ class ReferralStatsCard extends StatelessWidget {
                 Icons.people_outline,
                 Colors.blue,
               ),
-              Container(height: 40, width: 1, color: FemLyraColors.border),
+              Container(height: 40, width: 1, color: FemFlowColors.border),
               _buildStatItem(
                 'Months Earned',
                 profile.rewardMonthsEarned.toString(),
@@ -65,14 +65,14 @@ class ReferralStatsCard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: FemLyraColors.textPrimary,
+              color: FemFlowColors.textPrimary,
             ),
           ),
           Text(
             label,
             style: const TextStyle(
               fontSize: 12,
-              color: FemLyraColors.textSecondary,
+              color: FemFlowColors.textSecondary,
             ),
           ),
         ],

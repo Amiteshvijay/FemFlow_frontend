@@ -124,9 +124,9 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: FemLyraColors.primary,
+              primary: FemFlowColors.primary,
               onPrimary: Colors.white,
-              onSurface: FemLyraColors.textPrimary,
+              onSurface: FemFlowColors.textPrimary,
             ),
           ),
           child: child!,
@@ -198,7 +198,7 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
   Widget _buildGoalOption(String value, String label) {
     return ListTile(
       title: Text(label),
-      trailing: _profile?.goal == value ? const Icon(Icons.check, color: FemLyraColors.primary) : null,
+      trailing: _profile?.goal == value ? const Icon(Icons.check, color: FemFlowColors.primary) : null,
       onTap: () {
         setState(() {
           _profile = UserProfile(
@@ -218,7 +218,7 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -231,7 +231,7 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -241,7 +241,7 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: Column(
                         children: [
-                          Text(_errorMessage!, style: const TextStyle(color: FemLyraColors.period)),
+                          Text(_errorMessage!, style: const TextStyle(color: FemFlowColors.period)),
                           TextButton(onPressed: _fetchData, child: const Text('Retry')),
                         ],
                       ),
@@ -259,13 +259,13 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
                             const SnackBar(content: Text('Average cycle length is calculated from your logs.')),
                           ),
                         ),
-                        const Divider(height: 1, indent: 16, endIndent: 16, color: FemLyraColors.border),
+                        const Divider(height: 1, indent: 16, endIndent: 16, color: FemFlowColors.border),
                         _buildSettingRow(
                           'Last Period Start Date', 
                           _formatDate(_dashboardData?['last_period_start_date']),
                           onTap: _selectLastPeriodDate,
                         ),
-                        const Divider(height: 1, indent: 16, endIndent: 16, color: FemLyraColors.border),
+                        const Divider(height: 1, indent: 16, endIndent: 16, color: FemFlowColors.border),
                         _buildSettingRow(
                           'Tracking Goal', 
                           _getGoalLabel(_profile?.goal),
@@ -295,7 +295,7 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
                             );
                           }),
                         ),
-                        const Divider(height: 1, indent: 16, endIndent: 16, color: FemLyraColors.border),
+                        const Divider(height: 1, indent: 16, endIndent: 16, color: FemFlowColors.border),
                         _buildToggleRow(
                           label: 'PMS reminders',
                           value: _settings?.pmsReminders ?? true,
@@ -312,7 +312,7 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
                             );
                           }),
                         ),
-                        const Divider(height: 1, indent: 16, endIndent: 16, color: FemLyraColors.border),
+                        const Divider(height: 1, indent: 16, endIndent: 16, color: FemFlowColors.border),
                         _buildToggleRow(
                           label: 'Period reminders',
                           value: _settings?.periodReminders ?? true,
@@ -355,7 +355,7 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
             Expanded(
               child: Text(
                 label,
-                style: const TextStyle(fontSize: 16, color: FemLyraColors.textPrimary),
+                style: const TextStyle(fontSize: 16, color: FemFlowColors.textPrimary),
               ),
             ),
             const SizedBox(width: 8),
@@ -366,11 +366,11 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
                   child: Text(
                     value,
                     textAlign: TextAlign.end,
-                    style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
+                    style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Icon(Icons.chevron_right, color: FemLyraColors.textMuted, size: 20),
+                const Icon(Icons.chevron_right, color: FemFlowColors.textMuted, size: 20),
               ],
             ),
           ],
@@ -391,15 +391,15 @@ class _CyclePeriodSettingsScreenState extends State<CyclePeriodSettingsScreen> {
         children: [
           Text(
             label,
-            style: const TextStyle(fontSize: 16, color: FemLyraColors.textPrimary),
+            style: const TextStyle(fontSize: 16, color: FemFlowColors.textPrimary),
           ),
           Switch(
             value: value,
             onChanged: onChanged,
             activeThumbColor: Colors.white,
-            activeTrackColor: FemLyraColors.primary,
+            activeTrackColor: FemFlowColors.primary,
             inactiveThumbColor: Colors.white,
-            inactiveTrackColor: FemLyraColors.border,
+            inactiveTrackColor: FemFlowColors.border,
             trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
           ),
         ],

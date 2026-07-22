@@ -45,7 +45,7 @@ class _ExpertInsightsDiscoveryScreenState extends State<ExpertInsightsDiscoveryS
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -116,7 +116,7 @@ class _ExpertInsightsDiscoveryScreenState extends State<ExpertInsightsDiscoveryS
                     _fetchData();
                   },
                   backgroundColor: Colors.white,
-                  selectedColor: FemLyraColors.primary,
+                  selectedColor: FemFlowColors.primary,
                   labelStyle: TextStyle(
                     color: isSelected ? Colors.white : Colors.black87,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,

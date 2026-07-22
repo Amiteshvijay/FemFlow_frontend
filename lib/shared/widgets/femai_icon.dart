@@ -20,8 +20,8 @@ class FemAIIcon extends StatelessWidget {
       height: size,
       child: CustomPaint(
         painter: _ButterflyPainter(
-          startColor: color ?? (isSelected ? FemLyraColors.aiWellness : FemLyraColors.textMuted),
-          endColor: color ?? (isSelected ? FemLyraColors.primary : FemLyraColors.textMuted),
+          startColor: color ?? (isSelected ? FemFlowColors.aiWellness : FemFlowColors.textMuted),
+          endColor: color ?? (isSelected ? FemFlowColors.primary : FemFlowColors.textMuted),
           opacity: isSelected ? 1.0 : 0.6,
         ),
       ),

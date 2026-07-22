@@ -38,7 +38,7 @@ class _MoodInsightsDetailScreenState extends State<MoodInsightsDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('Mood Insights', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
@@ -50,7 +50,7 @@ class _MoodInsightsDetailScreenState extends State<MoodInsightsDetailScreen> {
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -80,17 +80,17 @@ class _MoodInsightsDetailScreenState extends State<MoodInsightsDetailScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: FemLyraColors.aiWellness.withValues(alpha: 0.1), shape: BoxShape.circle),
-            child: const Icon(Icons.sentiment_satisfied_alt, color: FemLyraColors.aiWellness, size: 32),
+            decoration: BoxDecoration(color: FemFlowColors.aiWellness.withValues(alpha: 0.1), shape: BoxShape.circle),
+            child: const Icon(Icons.sentiment_satisfied_alt, color: FemFlowColors.aiWellness, size: 32),
           ),
           const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Most Common Mood', style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary)),
+              const Text('Most Common Mood', style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary)),
               Text(
                 (top['mood'] ?? 'N/A').toString().toUpperCase(),
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
               ),
             ],
           ),
@@ -104,11 +104,11 @@ class _MoodInsightsDetailScreenState extends State<MoodInsightsDetailScreen> {
     if (dist.isEmpty) return const SizedBox.shrink();
 
     final List<Color> colors = [
-      FemLyraColors.primary,
-      FemLyraColors.ovulation,
-      FemLyraColors.aiWellness,
-      FemLyraColors.fertileWindow,
-      FemLyraColors.pmsCaution
+      FemFlowColors.primary,
+      FemFlowColors.ovulation,
+      FemFlowColors.aiWellness,
+      FemFlowColors.fertileWindow,
+      FemFlowColors.pmsCaution
     ];
 
     return AppCard(
@@ -152,7 +152,7 @@ class _MoodInsightsDetailScreenState extends State<MoodInsightsDetailScreen> {
           children: [
             Container(width: 12, height: 12, decoration: BoxDecoration(color: colors[e.key % colors.length], shape: BoxShape.circle)),
             const SizedBox(width: 8),
-            Text(e.value['mood'], style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
+            Text(e.value['mood'], style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
           ],
         );
       }).toList(),
@@ -186,7 +186,7 @@ class _MoodInsightsDetailScreenState extends State<MoodInsightsDetailScreen> {
                       return FlSpot(e.key.toDouble(), val.toDouble());
                     }).toList(),
                     isCurved: true,
-                    color: FemLyraColors.aiWellness,
+                    color: FemFlowColors.aiWellness,
                     barWidth: 3,
                     dotData: FlDotData(show: true),
                   ),
@@ -195,7 +195,7 @@ class _MoodInsightsDetailScreenState extends State<MoodInsightsDetailScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          const Center(child: Text('Higher points indicate more positive moods', style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: FemLyraColors.textMuted))),
+          const Center(child: Text('Higher points indicate more positive moods', style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: FemFlowColors.textMuted))),
         ],
       ),
     );
@@ -203,14 +203,14 @@ class _MoodInsightsDetailScreenState extends State<MoodInsightsDetailScreen> {
 
   Widget _buildAINote() {
     return AppCard(
-      color: FemLyraColors.lavender.withValues(alpha: 0.1),
-      border: const BorderSide(color: FemLyraColors.lavender),
+      color: FemFlowColors.lavender.withValues(alpha: 0.1),
+      border: const BorderSide(color: FemFlowColors.lavender),
       child: const Row(
         children: [
           Expanded(
             child: Text(
               'Mood changes seem more frequent near your period days. This is a common pattern influenced by hormonal shifts.',
-              style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary, height: 1.5),
+              style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.5),
             ),
           ),
         ],

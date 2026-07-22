@@ -149,14 +149,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final isPartner = auth.profile?.goal == 'support_partner';
 
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text(
           'Profile',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: FemLyraColors.textPrimary,
+            color: FemFlowColors.textPrimary,
           ),
         ),
         centerTitle: true,
@@ -173,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : _errorMessage != null
               ? Center(
                   child: Column(
@@ -181,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: Text(_errorMessage!, textAlign: TextAlign.center, style: const TextStyle(color: FemLyraColors.period)),
+                        child: Text(_errorMessage!, textAlign: TextAlign.center, style: const TextStyle(color: FemFlowColors.period)),
                       ),
                       const SizedBox(height: 16),
                       TextButton(onPressed: _fetchProfile, child: const Text('Retry')),
@@ -220,7 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: 100,
                 height: 100,
                 decoration: const BoxDecoration(
-                  color: FemLyraColors.blushMist,
+                  color: FemFlowColors.blushMist,
                   shape: BoxShape.circle,
                 ),
                 child: ClipOval(
@@ -228,7 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ? Image.network(
                           '${_profile!.avatarUrl!}?v=${DateTime.now().millisecondsSinceEpoch}',
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => const Icon(Icons.person, size: 50, color: FemLyraColors.primary),
+                          errorBuilder: (context, error, stackTrace) => const Icon(Icons.person, size: 50, color: FemFlowColors.primary),
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
                             return const Center(child: CircularProgressIndicator(strokeWidth: 2));
@@ -238,20 +238,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Icon(
                             Icons.person,
                             size: 50,
-                            color: FemLyraColors.primary,
+                            color: FemFlowColors.primary,
                           ),
                         ),
                 ),
               ),
               if (_isUploadingAvatar)
                 const Positioned.fill(
-                  child: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)),
+                  child: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)),
                 )
               else
                 Container(
                   padding: const EdgeInsets.all(6),
                   decoration: const BoxDecoration(
-                    color: FemLyraColors.primary,
+                    color: FemFlowColors.primary,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -269,14 +269,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: FemLyraColors.textPrimary,
+            color: FemFlowColors.textPrimary,
           ),
         ),
         Text(
           _profile?.email ?? 'Not available',
           style: const TextStyle(
             fontSize: 14,
-            color: FemLyraColors.textSecondary,
+            color: FemFlowColors.textSecondary,
           ),
         ),
       ],
@@ -293,7 +293,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: _buildMenuItem(
             context,
             icon: hasPremium ? Icons.star : Icons.workspace_premium_outlined,
-            iconColor: hasPremium ? Colors.orange : FemLyraColors.primary,
+            iconColor: hasPremium ? Colors.orange : FemFlowColors.primary,
             label: hasPremium ? 'My Subscription' : 'Upgrade to Premium',
             subtitle: hasPremium ? 'Manage your premium plan' : 'Unlock 11 AI daily tips & more',
             showDivider: false,
@@ -544,7 +544,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: FemLyraColors.textPrimary,
+              color: FemFlowColors.textPrimary,
             ),
           ),
         ),
@@ -559,7 +559,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13,
-                        color: FemLyraColors.textSecondary,
+                        color: FemFlowColors.textSecondary,
                       ),
                     ),
                   ),
@@ -587,17 +587,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                            margin: const EdgeInsets.only(right: 12),
                            padding: const EdgeInsets.all(10),
                            decoration: BoxDecoration(
-                             color: FemLyraColors.blushMist,
+                             color: FemFlowColors.blushMist,
                              borderRadius: BorderRadius.circular(10),
                              border: Border.all(
-                               color: FemLyraColors.primary.withValues(alpha: 0.3),
+                               color: FemFlowColors.primary.withValues(alpha: 0.3),
                                style: BorderStyle.solid,
                                width: 1.5,
                              ),
                            ),
                            child: Row(
                              children: [
-                               const Icon(Icons.card_giftcard, color: FemLyraColors.primary, size: 24),
+                               const Icon(Icons.card_giftcard, color: FemFlowColors.primary, size: 24),
                                const SizedBox(width: 8),
                                Expanded(
                                  child: Column(
@@ -609,7 +609,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                        style: const TextStyle(
                                          fontWeight: FontWeight.bold,
                                          fontSize: 13,
-                                         color: FemLyraColors.textPrimary,
+                                         color: FemFlowColors.textPrimary,
                                          letterSpacing: 1.1,
                                        ),
                                      ),
@@ -618,13 +618,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                        'Value: ₹${voucher.value.toInt()}',
                                        style: const TextStyle(
                                          fontSize: 11,
-                                         color: FemLyraColors.textSecondary,
+                                         color: FemFlowColors.textSecondary,
                                        ),
                                      ),
                                    ],
                                  ),
                                ),
-                               const Icon(Icons.copy_rounded, color: FemLyraColors.textMuted, size: 16),
+                               const Icon(Icons.copy_rounded, color: FemFlowColors.textMuted, size: 16),
                              ],
                            ),
                          ),
@@ -650,7 +650,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.pop(context);
               _handleLogout();
             },
-            child: const Text('Logout', style: TextStyle(color: FemLyraColors.period)),
+            child: const Text('Logout', style: TextStyle(color: FemFlowColors.period)),
           ),
         ],
       ),
@@ -678,13 +678,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: FemLyraColors.warmWhite,
+                    color: FemFlowColors.warmWhite,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Icon(
                     icon,
                     size: 20,
-                    color: iconColor ?? FemLyraColors.textSecondary,
+                    color: iconColor ?? FemFlowColors.textSecondary,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -699,7 +699,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: FemLyraColors.textPrimary,
+                              color: FemFlowColors.textPrimary,
                             ),
                           ),
                           if (isPremium && !PremiumGuard.isPremium(context)) ...[
@@ -726,7 +726,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           subtitle,
                           style: const TextStyle(
                             fontSize: 12,
-                            color: FemLyraColors.textSecondary,
+                            color: FemFlowColors.textSecondary,
                           ),
                         ),
                     ],
@@ -734,7 +734,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const Icon(
                   Icons.chevron_right,
-                  color: FemLyraColors.textMuted,
+                  color: FemFlowColors.textMuted,
                   size: 20,
                 ),
               ],
@@ -746,7 +746,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             height: 1,
             indent: 60,
             endIndent: 16,
-            color: FemLyraColors.border,
+            color: FemFlowColors.border,
           ),
       ],
     );

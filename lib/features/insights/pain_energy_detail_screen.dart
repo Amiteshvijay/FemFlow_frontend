@@ -38,7 +38,7 @@ class _PainEnergyDetailScreenState extends State<PainEnergyDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('Pain & Energy', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
@@ -50,7 +50,7 @@ class _PainEnergyDetailScreenState extends State<PainEnergyDetailScreen> {
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -99,7 +99,7 @@ class _PainEnergyDetailScreenState extends State<PainEnergyDetailScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          Center(child: Text('30 Day View', style: TextStyle(fontSize: 10, color: FemLyraColors.textMuted))),
+          Center(child: Text('30 Day View', style: TextStyle(fontSize: 10, color: FemFlowColors.textMuted))),
         ],
       ),
     );
@@ -127,7 +127,7 @@ class _PainEnergyDetailScreenState extends State<PainEnergyDetailScreen> {
             highPain 
               ? 'Severe pain level detected. Please consult a qualified doctor if this is unusual or affects your daily life.'
               : 'Your levels look stable. Gentle movement, hydration, and rest may help maintain your energy balance.',
-            style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary, height: 1.5),
+            style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.5),
           ),
         ],
       ),

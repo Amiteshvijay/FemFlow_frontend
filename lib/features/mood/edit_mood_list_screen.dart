@@ -68,13 +68,13 @@ class _EditMoodListScreenState extends State<EditMoodListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text("Edit List", style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: _isLoading && _catalog == null
-          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
           : Column(
               children: [
                 Expanded(
@@ -127,7 +127,7 @@ class _EditMoodListScreenState extends State<EditMoodListScreen> {
                 trailing: Switch(
                   value: isEnabled,
                   onChanged: (_) => _toggleMood(mood.key),
-                  activeTrackColor: FemLyraColors.primary,
+                  activeTrackColor: FemFlowColors.primary,
                 ),
               );
             },

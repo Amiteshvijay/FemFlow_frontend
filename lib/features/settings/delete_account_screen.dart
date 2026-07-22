@@ -8,7 +8,7 @@ class DeleteAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -22,19 +22,19 @@ class DeleteAccountScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.warning_amber_rounded, size: 80, color: FemLyraColors.period),
+            const Icon(Icons.warning_amber_rounded, size: 80, color: FemFlowColors.period),
             const SizedBox(height: 24),
             const Text('Are you sure?', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             const Text(
               'Deleting your account is permanent and will remove all your cycle data. This cannot be undone.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: FemLyraColors.textSecondary),
+              style: TextStyle(color: FemFlowColors.textSecondary),
             ),
             const SizedBox(height: 48),
             PrimaryButton(
               label: 'Delete My Account',
-              backgroundColor: FemLyraColors.period,
+              backgroundColor: FemFlowColors.period,
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('This feature will be available soon.')));
               },

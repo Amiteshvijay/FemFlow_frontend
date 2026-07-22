@@ -85,7 +85,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         title: const Text('Nutrition', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -142,19 +142,19 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
             children: [
               const Row(
                 children: [
-                  Icon(Icons.notifications_active_outlined, color: FemLyraColors.primary, size: 22),
+                  Icon(Icons.notifications_active_outlined, color: FemFlowColors.primary, size: 22),
                   SizedBox(width: 12),
                   Text(
                     'Daily Reminders',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
                   ),
                 ],
               ),
               Switch(
                 value: _remindersEnabled,
                 onChanged: _toggleReminders,
-                activeTrackColor: FemLyraColors.primary.withValues(alpha: 0.5),
-                activeThumbColor: FemLyraColors.primary,
+                activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
+                activeThumbColor: FemFlowColors.primary,
               ),
             ],
           ),
@@ -163,14 +163,14 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
             _remindersEnabled
                 ? 'Active: $_activeRemindersCount alert${_activeRemindersCount == 1 ? "" : "s"} scheduled. Tap to customize.'
                 : 'Keep your nutrition consistent with offline-resilient alerts. Tap to configure.',
-            style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary, height: 1.4),
+            style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary, height: 1.4),
           ),
           const SizedBox(height: 12),
           const Row(
             children: [
               Text(
                 'Configure Alerts >',
-                style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold, fontSize: 13),
+                style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 13),
               ),
             ],
           ),
@@ -199,7 +199,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
           const SizedBox(height: 12),
           const Text(
             'See how your activity today balances with your nutrition goals.',
-            style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
+            style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
           ),
           const SizedBox(height: 12),
           const Row(
@@ -221,12 +221,12 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
       children: [
         Text(
           'Today\'s Nutrition Focus',
-          style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 14, fontWeight: FontWeight.w600),
+          style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 14, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 4),
         Text(
           '$phase PHASE · $focus',
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
         ),
       ],
     );
@@ -234,12 +234,12 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
 
   Widget _buildGoalCard() {
     return AppCard(
-      color: FemLyraColors.primary.withValues(alpha: 0.05),
-      border: BorderSide(color: FemLyraColors.primary.withValues(alpha: 0.2)),
+      color: FemFlowColors.primary.withValues(alpha: 0.05),
+      border: BorderSide(color: FemFlowColors.primary.withValues(alpha: 0.2)),
       child: Row(
         children: [
           const CircleAvatar(
-            backgroundColor: FemLyraColors.primary,
+            backgroundColor: FemFlowColors.primary,
             child: Icon(Icons.track_changes, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 16),
@@ -247,7 +247,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Your Goal', style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 12)),
+                const Text('Your Goal', style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 12)),
                 Text(
                   _plan?.goal.replaceAll('_', ' ').toUpperCase() ?? 'MAINTENANCE',
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -278,12 +278,12 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
               Expanded(
                 child: Row(
                   children: [
-                    const Icon(Icons.restaurant_menu_rounded, color: FemLyraColors.primary, size: 22),
+                    const Icon(Icons.restaurant_menu_rounded, color: FemFlowColors.primary, size: 22),
                     const SizedBox(width: 12),
                     const Expanded(
                       child: Text(
                         'Create Custom Plan',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -294,13 +294,13 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: FemLyraColors.primary.withValues(alpha: 0.08),
+                  color: FemFlowColors.primary.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: const Text(
                   'PERSONALIZED',
                   style: TextStyle(
-                    color: FemLyraColors.primary,
+                    color: FemFlowColors.primary,
                     fontSize: 9,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0.5,
@@ -312,7 +312,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
           const SizedBox(height: 12),
           const Text(
             'Build a plan based on your calorie needs, goals, and doctor advice.',
-            style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary, height: 1.4),
+            style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary, height: 1.4),
           ),
           const SizedBox(height: 16),
           Row(
@@ -327,7 +327,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: FemLyraColors.primary,
+                    color: FemFlowColors.primary,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Row(
@@ -355,8 +355,8 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                 icon: const Icon(Icons.list_alt_rounded, size: 16),
                 label: const Text('My Plans'),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: FemLyraColors.primary,
-                  side: const BorderSide(color: FemLyraColors.primary),
+                  foregroundColor: FemFlowColors.primary,
+                  side: const BorderSide(color: FemFlowColors.primary),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
@@ -411,7 +411,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               title: const Text(
                 'Hydration Calculator',
-                style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+                style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
               ),
               content: SingleChildScrollView(
                 child: Column(
@@ -420,7 +420,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                   children: [
                     const Text(
                       'Calculate your daily fluid intake targets based on personal health metrics.',
-                      style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
+                      style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -433,7 +433,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                             value: selectedWeight,
                             min: 35.0,
                             max: 120.0,
-                            activeColor: FemLyraColors.primary,
+                            activeColor: FemFlowColors.primary,
                             onChanged: (val) {
                               setDialogState(() => selectedWeight = val);
                             },
@@ -448,7 +448,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                         Row(
                           children: [
                             IconButton(
-                              icon: const Icon(Icons.remove_circle_outline, color: FemLyraColors.primary),
+                              icon: const Icon(Icons.remove_circle_outline, color: FemFlowColors.primary),
                               onPressed: () {
                                 if (selectedAge > 10) {
                                   setDialogState(() => selectedAge--);
@@ -456,7 +456,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                               },
                             ),
                             IconButton(
-                              icon: const Icon(Icons.add_circle_outline, color: FemLyraColors.primary),
+                              icon: const Icon(Icons.add_circle_outline, color: FemFlowColors.primary),
                               onPressed: () {
                                 if (selectedAge < 100) {
                                   setDialogState(() => selectedAge++);
@@ -471,8 +471,8 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                     SwitchListTile(
                       title: const Text('Are you pregnant?', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                       value: isPregnant,
-                      activeThumbColor: FemLyraColors.primary,
-                      activeTrackColor: FemLyraColors.primary.withValues(alpha: 0.5),
+                      activeThumbColor: FemFlowColors.primary,
+                      activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
                       contentPadding: EdgeInsets.zero,
                       onChanged: (val) {
                         setDialogState(() => isPregnant = val);
@@ -484,14 +484,14 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Week of pregnancy: ${pregnancyWeek.round()}', style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary)),
+                            Text('Week of pregnancy: ${pregnancyWeek.round()}', style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary)),
                             SizedBox(
                               width: 120,
                               child: Slider(
                                 value: pregnancyWeek,
                                 min: 1.0,
                                 max: 42.0,
-                                activeColor: FemLyraColors.primary,
+                                activeColor: FemFlowColors.primary,
                                 onChanged: (val) {
                                   setDialogState(() => pregnancyWeek = val);
                                 },
@@ -504,8 +504,8 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                     SwitchListTile(
                       title: const Text('Summer heat / heavy exercise?', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                       value: summerHeat,
-                      activeThumbColor: FemLyraColors.primary,
-                      activeTrackColor: FemLyraColors.primary.withValues(alpha: 0.5),
+                      activeThumbColor: FemFlowColors.primary,
+                      activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
                       contentPadding: EdgeInsets.zero,
                       onChanged: (val) {
                         setDialogState(() => summerHeat = val);
@@ -514,8 +514,8 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                     SwitchListTile(
                       title: const Text('Experiencing vomiting/morning sickness?', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                       value: vomiting,
-                      activeThumbColor: FemLyraColors.primary,
-                      activeTrackColor: FemLyraColors.primary.withValues(alpha: 0.5),
+                      activeThumbColor: FemFlowColors.primary,
+                      activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
                       contentPadding: EdgeInsets.zero,
                       onChanged: (val) {
                         setDialogState(() => vomiting = val);
@@ -525,7 +525,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: FemLyraColors.primary.withValues(alpha: 0.08),
+                        color: FemFlowColors.primary.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(
@@ -533,22 +533,22 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                         children: [
                           const Text(
                             'RECOMMENDED DAILY TARGET',
-                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemLyraColors.primary, letterSpacing: 0.5),
+                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemFlowColors.primary, letterSpacing: 0.5),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             '$targetMl ml (${(targetMl / 1000).toStringAsFixed(1)} Liters)',
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
                           ),
                           const SizedBox(height: 8),
                           const Row(
                             children: [
-                              Icon(Icons.info_outline_rounded, size: 14, color: FemLyraColors.textSecondary),
+                              Icon(Icons.info_outline_rounded, size: 14, color: FemFlowColors.textSecondary),
                               SizedBox(width: 6),
                               Expanded(
                                 child: Text(
                                   'Safe drinking rate: Kidneys process about 0.8–1.0L per hour safely.',
-                                  style: TextStyle(fontSize: 11, color: FemLyraColors.textSecondary, height: 1.3),
+                                  style: TextStyle(fontSize: 11, color: FemFlowColors.textSecondary, height: 1.3),
                                 ),
                               ),
                             ],
@@ -562,7 +562,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Cancel', style: TextStyle(color: FemLyraColors.textSecondary)),
+                  child: const Text('Cancel', style: TextStyle(color: FemFlowColors.textSecondary)),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -580,7 +580,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                       }
                     }
                   },
-                  child: const Text('Apply Target', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
+                  child: const Text('Apply Target', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
                 ),
               ],
             );
@@ -610,13 +610,13 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                     onTap: _showHydrationCalculator,
                     child: const Icon(
                       Icons.edit_note_rounded,
-                      color: FemLyraColors.primary,
+                      color: FemFlowColors.primary,
                       size: 20,
                     ),
                   ),
                 ],
               ),
-              Text('$consumed / $target ml', style: const TextStyle(color: FemLyraColors.textSecondary)),
+              Text('$consumed / $target ml', style: const TextStyle(color: FemFlowColors.textSecondary)),
             ],
           ),
           const SizedBox(height: 16),
@@ -732,7 +732,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
         if (_plan?.meals.isEmpty ?? true)
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
-            child: Text('Your personalized meal suggestions will appear here.', style: TextStyle(color: FemLyraColors.textMuted)),
+            child: Text('Your personalized meal suggestions will appear here.', style: TextStyle(color: FemFlowColors.textMuted)),
           )
         else
           ..._plan!.meals.map((meal) => _mealCard(meal)),
@@ -761,12 +761,12 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
               decoration: BoxDecoration(
                 color: meal.isEaten 
                     ? Colors.green.withValues(alpha: 0.1) 
-                    : FemLyraColors.primary.withValues(alpha: 0.1), 
+                    : FemFlowColors.primary.withValues(alpha: 0.1), 
                 shape: BoxShape.circle
               ),
               child: Icon(
                 _getMealIcon(meal.mealType), 
-                color: meal.isEaten ? Colors.green : FemLyraColors.primary, 
+                color: meal.isEaten ? Colors.green : FemFlowColors.primary, 
                 size: 20
               ),
             ),
@@ -780,7 +780,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                       Text(
                         meal.mealType.toUpperCase(), 
                         style: TextStyle(
-                          color: meal.isEaten ? Colors.green : FemLyraColors.textSecondary, 
+                          color: meal.isEaten ? Colors.green : FemFlowColors.textSecondary, 
                           fontSize: 10, 
                           fontWeight: FontWeight.bold
                         )
@@ -807,10 +807,10 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
                       fontWeight: FontWeight.bold, 
                       fontSize: 15,
                       decoration: meal.isEaten ? TextDecoration.lineThrough : null,
-                      color: meal.isEaten ? FemLyraColors.textSecondary : FemLyraColors.textPrimary,
+                      color: meal.isEaten ? FemFlowColors.textSecondary : FemFlowColors.textPrimary,
                     )
                   ),
-                  Text('${meal.calories} kcal · ${meal.protein}g protein', style: const TextStyle(color: FemLyraColors.textMuted, fontSize: 12)),
+                  Text('${meal.calories} kcal · ${meal.protein}g protein', style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 12)),
                 ],
               ),
             ),
@@ -818,7 +818,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
             IconButton(
               icon: Icon(
                 meal.isEaten ? Icons.check_circle : Icons.radio_button_unchecked,
-                color: meal.isEaten ? Colors.green : FemLyraColors.textMuted,
+                color: meal.isEaten ? Colors.green : FemFlowColors.textMuted,
                 size: 24,
               ),
               onPressed: () async {
@@ -939,7 +939,7 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Daily Diet Score', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                Text(score?.explanation ?? 'Log meals to see your score.', style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13)),
+                Text(score?.explanation ?? 'Log meals to see your score.', style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13)),
               ],
             ),
           ),
@@ -950,15 +950,15 @@ class _DietHomeScreenState extends State<DietHomeScreen> {
 
   Widget _buildFemAITipCard() {
     return AppCard(
-      color: FemLyraColors.aiWellness.withValues(alpha: 0.05),
-      border: BorderSide(color: FemLyraColors.aiWellness.withValues(alpha: 0.2)),
+      color: FemFlowColors.aiWellness.withValues(alpha: 0.05),
+      border: BorderSide(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Row(
             children: [
               SizedBox(width: 8),
-              Text('FemAI Food Tip', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.aiWellness)),
+              Text('FemAI Food Tip', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
             ],
           ),
           const SizedBox(height: 8),

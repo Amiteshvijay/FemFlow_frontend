@@ -64,21 +64,21 @@ class _ReferralCodeEntryScreenState extends State<ReferralCodeEntryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Redeem Referral', style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold)),
+        title: const Text('Redeem Referral', style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            const Icon(Icons.card_giftcard, size: 64, color: FemLyraColors.primary),
+            const Icon(Icons.card_giftcard, size: 64, color: FemFlowColors.primary),
             const SizedBox(height: 24),
             const Text(
               'Have a referral code?',
@@ -89,7 +89,7 @@ class _ReferralCodeEntryScreenState extends State<ReferralCodeEntryScreen> {
             const Text(
               'Enter a friend’s code to unlock 3 months FemLyra Premium free.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: FemLyraColors.textSecondary, height: 1.4),
+              style: TextStyle(color: FemFlowColors.textSecondary, height: 1.4),
             ),
             const SizedBox(height: 40),
             
@@ -112,7 +112,7 @@ class _ReferralCodeEntryScreenState extends State<ReferralCodeEntryScreen> {
               if (widget.isFromOnboarding)
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Skip for now', style: TextStyle(color: FemLyraColors.textSecondary)),
+                  child: const Text('Skip for now', style: TextStyle(color: FemFlowColors.textSecondary)),
                 ),
             ] else
               const Column(

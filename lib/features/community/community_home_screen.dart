@@ -8,9 +8,9 @@ import '../../core/network/api_client.dart';
 import '../premium/premium_feature_preview_screen.dart';
 import 'my_posts_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:FemLyra/features/subscriptions/providers/subscription_provider.dart';
-import 'package:FemLyra/features/doctor_consultation/care_community_program_screen.dart';
-import 'package:FemLyra/features/subscriptions/screens/premium_plan_screen.dart';
+import 'package:femlyra/features/subscriptions/providers/subscription_provider.dart';
+import 'package:femlyra/features/doctor_consultation/care_community_program_screen.dart';
+import 'package:femlyra/features/subscriptions/screens/premium_plan_screen.dart';
 import '../auth/providers/auth_provider.dart';
 
 class CommunityHomeScreen extends StatefulWidget {
@@ -112,20 +112,20 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const Scaffold(
-        backgroundColor: FemLyraColors.warmWhite,
-        body: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)),
+        backgroundColor: FemFlowColors.warmWhite,
+        body: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)),
       );
     }
 
     if (_error != null) {
       return Scaffold(
-        backgroundColor: FemLyraColors.warmWhite,
+        backgroundColor: FemFlowColors.warmWhite,
         appBar: AppBar(title: const Text('FemLyra Community')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(_error!, style: const TextStyle(color: FemLyraColors.textSecondary)),
+              Text(_error!, style: const TextStyle(color: FemFlowColors.textSecondary)),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _loadCommunityData,
@@ -142,18 +142,18 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
     }
 
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: FemFlowColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
           'FemLyra Community',
-          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 20),
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.history_rounded, color: FemLyraColors.textPrimary),
+            icon: const Icon(Icons.history_rounded, color: FemFlowColors.textPrimary),
             tooltip: 'My Posts',
             onPressed: () {
               Navigator.push(
@@ -167,7 +167,7 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: _loadCommunityData,
-        color: FemLyraColors.primary,
+        color: FemFlowColors.primary,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -175,21 +175,21 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
             children: [
               const Text(
                 'A safe space to share, learn, and feel supported.',
-                style: TextStyle(fontSize: 16, color: FemLyraColors.textSecondary),
+                style: TextStyle(fontSize: 16, color: FemFlowColors.textSecondary),
               ),
               const SizedBox(height: 24),
               _buildCareCommunityProgramBanner(context),
               const SizedBox(height: 32),
               const Text(
                 'Community Rooms',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
               ),
               const SizedBox(height: 16),
               if (_rooms.isEmpty)
                 const Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 40),
-                    child: Text('No rooms available yet.', style: TextStyle(color: FemLyraColors.textMuted)),
+                    child: Text('No rooms available yet.', style: TextStyle(color: FemFlowColors.textMuted)),
                   ),
                 )
               else
@@ -215,7 +215,7 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
           Expanded(
             child: Text(
               'Community support is not medical advice. Always consult a doctor for health concerns.',
-              style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, height: 1.4),
+              style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, height: 1.4),
             ),
           ),
         ],
@@ -226,8 +226,8 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
   Widget _buildCareCommunityProgramBanner(BuildContext context) {
     final isPremium = context.watch<SubscriptionProvider>().isPremium;
     return AppCard(
-      color: FemLyraColors.blushMist,
-      border: const BorderSide(color: FemLyraColors.primary, width: 0.5),
+      color: FemFlowColors.blushMist,
+      border: const BorderSide(color: FemFlowColors.primary, width: 0.5),
       onTap: () {
         final profile = context.read<AuthProvider>().profile;
         final isEnrolled = profile?.isCommunityCareEnrolled ?? false;
@@ -245,7 +245,7 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: const BoxDecoration(
-              color: FemLyraColors.primary,
+              color: FemFlowColors.primary,
               shape: BoxShape.circle,
             ),
             child: const Icon(Icons.favorite_rounded, color: Colors.white, size: 20),
@@ -257,7 +257,7 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
               children: [
                 const Text(
                   'Care Community Program',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemLyraColors.textPrimary),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemFlowColors.textPrimary),
                 ),
                 const SizedBox(height: 2),
                 Text(
@@ -267,7 +267,7 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right, color: FemLyraColors.primary),
+          const Icon(Icons.chevron_right, color: FemFlowColors.primary),
         ],
       ),
     );
@@ -293,10 +293,10 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: FemLyraColors.primary.withValues(alpha: 0.1),
+                color: FemFlowColors.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(_getRoomIcon(room.icon), color: FemLyraColors.primary, size: 24),
+              child: Icon(_getRoomIcon(room.icon), color: FemFlowColors.primary, size: 24),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -309,17 +309,17 @@ class _CommunityHomeScreenState extends State<CommunityHomeScreen> {
                     room.description,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
+                    style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     '${room.postCount} posts',
-                    style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted, fontWeight: FontWeight.w500),
+                    style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
+            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
           ],
         ),
       ),
