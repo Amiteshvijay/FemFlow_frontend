@@ -12,7 +12,7 @@ import '../auth/data/auth_service.dart';
 import '../../core/security/app_lock_service.dart';
 import 'privacy_security_screen.dart';
 import 'help_support_screen.dart';
-import 'about_FemLyra_screen.dart';
+import 'about_femlyra_screen.dart';
 import 'personal_info_screen.dart';
 import 'cycle_period_settings_screen.dart';
 import '../health_vault/health_vault_screen.dart';
