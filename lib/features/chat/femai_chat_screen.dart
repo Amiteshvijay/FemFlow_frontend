@@ -167,19 +167,19 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: FemFlowColors.white,
+          backgroundColor: FemLyraColors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: const Text(
             'Delete Chat Session',
-            style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+            style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
           ),
           content: Text(
             'Are you sure you want to delete the chat session "$topic"? This cannot be undone.',
-            style: const TextStyle(color: FemFlowColors.textSecondary),
+            style: const TextStyle(color: FemLyraColors.textSecondary),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel', style: TextStyle(color: FemFlowColors.textSecondary)),
+              child: const Text('Cancel', style: TextStyle(color: FemLyraColors.textSecondary)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -257,7 +257,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
       ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [FemFlowColors.primary, FemFlowColors.deepRose],
+          colors: [FemLyraColors.primary, FemLyraColors.deepRose],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -280,17 +280,17 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
           const SizedBox(height: 16),
           ElevatedButton.icon(
             onPressed: _startNewChat,
-            icon: const Icon(Icons.add, color: FemFlowColors.primary, size: 18),
+            icon: const Icon(Icons.add, color: FemLyraColors.primary, size: 18),
             label: const Text(
               'New Chat Session',
               style: TextStyle(
-                color: FemFlowColors.primary,
+                color: FemLyraColors.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: FemFlowColors.primary,
+              foregroundColor: FemLyraColors.primary,
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -312,13 +312,13 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
             Icon(
               Icons.chat_bubble_outline,
               size: 48,
-              color: FemFlowColors.textMuted.withValues(alpha: 0.5),
+              color: FemLyraColors.textMuted.withValues(alpha: 0.5),
             ),
             const SizedBox(height: 12),
             const Text(
               'No past conversations',
               style: TextStyle(
-                color: FemFlowColors.textSecondary,
+                color: FemLyraColors.textSecondary,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
@@ -346,7 +346,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                 style: const TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.bold,
-                  color: FemFlowColors.primary,
+                  color: FemLyraColors.primary,
                   letterSpacing: 1.2,
                 ),
               ),
@@ -371,7 +371,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? FemFlowColors.blushMist
+                        ? FemLyraColors.blushMist
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -383,7 +383,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                     ),
                     leading: Icon(
                       _getTopicIcon(topic),
-                      color: isSelected ? FemFlowColors.primary : FemFlowColors.textSecondary,
+                      color: isSelected ? FemLyraColors.primary : FemLyraColors.textSecondary,
                       size: 20,
                     ),
                     title: Text(
@@ -391,7 +391,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                        color: isSelected ? FemFlowColors.primary : FemFlowColors.textPrimary,
+                        color: isSelected ? FemLyraColors.primary : FemLyraColors.textPrimary,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -400,14 +400,14 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                       displayDate,
                       style: const TextStyle(
                         fontSize: 11,
-                        color: FemFlowColors.textMuted,
+                        color: FemLyraColors.textMuted,
                       ),
                     ),
                     trailing: IconButton(
                       icon: const Icon(
                         Icons.delete_outline,
                         size: 18,
-                        color: FemFlowColors.textMuted,
+                        color: FemLyraColors.textMuted,
                       ),
                       onPressed: () => _confirmDeleteSession(id, topic),
                     ),
@@ -416,7 +416,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                 ),
               );
             }),
-            const Divider(height: 16, color: FemFlowColors.border),
+            const Divider(height: 16, color: FemLyraColors.border),
           ],
         );
       }).toList(),
@@ -565,15 +565,15 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       drawer: Drawer(
-        backgroundColor: FemFlowColors.warmWhite,
+        backgroundColor: FemLyraColors.warmWhite,
         child: Column(
           children: [
             _buildDrawerHeader(),
             Expanded(
               child: _loadingSessions
-                  ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+                  ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
                   : _buildSessionsList(),
             ),
           ],
@@ -587,14 +587,14 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: FemFlowColors.textPrimary,
+                color: FemLyraColors.textPrimary,
               ),
             ),
             Text(
               'Your personal health AI',
               style: TextStyle(
                 fontSize: 12,
-                color: FemFlowColors.textSecondary,
+                color: FemLyraColors.textSecondary,
                 fontWeight: FontWeight.normal,
               ),
             ),
@@ -650,7 +650,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                           ),
                           child: const Icon(
                             Icons.arrow_downward,
-                            color: FemFlowColors.primary,
+                            color: FemLyraColors.primary,
                             size: 20,
                           ),
                         ),
@@ -674,11 +674,11 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+            backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
             radius: 18,
             child: const Icon(
               Icons.face_3,
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
               size: 20,
             ),
           ),
@@ -691,35 +691,35 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                   constraints: const BoxConstraints(maxWidth: 280),
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: FemFlowColors.aiWellness.withValues(alpha: 0.1),
+                    color: FemLyraColors.aiWellness.withValues(alpha: 0.1),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16),
                       bottomRight: Radius.circular(16),
                     ),
-                    border: Border.all(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
+                    border: Border.all(color: FemLyraColors.aiWellness.withValues(alpha: 0.2)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         message.content,
-                        style: const TextStyle(color: FemFlowColors.textPrimary, height: 1.4),
+                        style: const TextStyle(color: FemLyraColors.textPrimary, height: 1.4),
                       ),
                       if (message.toolsUsed != null && message.toolsUsed!.isNotEmpty) ...[
                         const SizedBox(height: 12),
-                        const Divider(color: FemFlowColors.border, height: 1),
+                        const Divider(color: FemLyraColors.border, height: 1),
                         const SizedBox(height: 8),
                         const Row(
                           children: [
-                            Icon(Icons.auto_awesome, size: 14, color: FemFlowColors.primary),
+                            Icon(Icons.auto_awesome, size: 14, color: FemLyraColors.primary),
                             SizedBox(width: 6),
                             Text(
                               'FemAI Agent Executed Tasks:',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                                color: FemFlowColors.primary,
+                                color: FemLyraColors.primary,
                               ),
                             ),
                           ],
@@ -771,7 +771,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                                         info.description,
                                         style: const TextStyle(
                                           fontSize: 9,
-                                          color: FemFlowColors.textSecondary,
+                                          color: FemLyraColors.textSecondary,
                                         ),
                                       ),
                                     ],
@@ -788,7 +788,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                 const SizedBox(height: 4),
                 Text(
                   time,
-                  style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted),
+                  style: const TextStyle(fontSize: 10, color: FemLyraColors.textMuted),
                 ),
                 const SizedBox(height: 8),
                 Row(
@@ -802,7 +802,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                       child: Icon(
                         _messages[index].isLiked ? Icons.favorite : Icons.favorite_border,
                         size: 16,
-                        color: _messages[index].isLiked ? Colors.red : FemFlowColors.textMuted,
+                        color: _messages[index].isLiked ? Colors.red : FemLyraColors.textMuted,
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -810,7 +810,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                       onTap: () {
                         Share.share(message.content);
                       },
-                      child: const Icon(Icons.ios_share, size: 16, color: FemFlowColors.textMuted),
+                      child: const Icon(Icons.ios_share, size: 16, color: FemLyraColors.textMuted),
                     ),
                   ],
                 ),
@@ -832,7 +832,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
             constraints: const BoxConstraints(maxWidth: 280),
             padding: const EdgeInsets.all(16),
             decoration: const BoxDecoration(
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -854,14 +854,14 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                   child: const Icon(
                     Icons.edit_outlined,
                     size: 14,
-                    color: FemFlowColors.textMuted,
+                    color: FemLyraColors.textMuted,
                   ),
                 ),
                 const SizedBox(width: 8),
               ],
               Text(
                 time,
-                style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted),
+                style: const TextStyle(fontSize: 10, color: FemLyraColors.textMuted),
               ),
             ],
           ),
@@ -877,11 +877,11 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: FemFlowColors.white,
+          backgroundColor: FemLyraColors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: const Text(
             'Edit Prompt',
-            style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+            style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
           ),
           content: TextField(
             controller: editController,
@@ -894,11 +894,11 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel', style: TextStyle(color: FemFlowColors.textSecondary)),
+              child: const Text('Cancel', style: TextStyle(color: FemLyraColors.textSecondary)),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: FemFlowColors.primary,
+                backgroundColor: FemLyraColors.primary,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               ),
               onPressed: () {
@@ -982,11 +982,11 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+            backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
             radius: 18,
             child: const Icon(
               Icons.face_3,
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
               size: 20,
             ),
           ),
@@ -994,13 +994,13 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: FemFlowColors.aiWellness.withValues(alpha: 0.1),
+              color: FemLyraColors.aiWellness.withValues(alpha: 0.1),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
                 bottomRight: Radius.circular(16),
               ),
-              border: Border.all(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
+              border: Border.all(color: FemLyraColors.aiWellness.withValues(alpha: 0.2)),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -1010,7 +1010,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                   height: 14,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(FemFlowColors.primary),
+                    valueColor: AlwaysStoppedAnimation<Color>(FemLyraColors.primary),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -1018,7 +1018,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
                   'FemAI is thinking...',
                   style: TextStyle(
                     fontSize: 13,
-                    color: FemFlowColors.textSecondary,
+                    color: FemLyraColors.textSecondary,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
@@ -1040,7 +1040,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
       child: const Text(
         'Medical Disclaimer: FemAI provides educational info only. It is not a medical device and does not diagnose or treat conditions. Always consult a healthcare professional for medical advice.',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 10, color: FemFlowColors.textSecondary, fontWeight: FontWeight.w500),
+        style: TextStyle(fontSize: 10, color: FemLyraColors.textSecondary, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -1049,7 +1049,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 8, 20, MediaQuery.of(context).padding.bottom + 16),
       decoration: const BoxDecoration(
-        color: FemFlowColors.warmWhite,
+        color: FemLyraColors.warmWhite,
       ),
       child: Row(
         children: [
@@ -1059,19 +1059,19 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: FemFlowColors.border),
+                border: Border.all(color: FemLyraColors.border),
               ),
               child: TextField(
                 controller: _messageController,
                 onSubmitted: (_) => _handleSendMessage(),
                 decoration: InputDecoration(
                   hintText: 'Ask anything...',
-                  hintStyle: const TextStyle(color: FemFlowColors.textMuted),
+                  hintStyle: const TextStyle(color: FemLyraColors.textMuted),
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     icon: Icon(
                       _isListening ? Icons.mic : Icons.mic_none,
-                      color: _isListening ? FemFlowColors.primary : FemFlowColors.textMuted,
+                      color: _isListening ? FemLyraColors.primary : FemLyraColors.textMuted,
                     ),
                     onPressed: _listen,
                   ),
@@ -1085,7 +1085,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: const BoxDecoration(
-                color: FemFlowColors.primary,
+                color: FemLyraColors.primary,
                 shape: BoxShape.circle,
               ),
               child: const Icon(Icons.send, color: Colors.white, size: 20),
@@ -1223,7 +1223,7 @@ _AgentActionInfo _getAgentActionInfo(String toolName) {
         icon: Icons.smart_toy,
         title: 'FemAI Action Executed',
         description: 'Ran task: $toolName.',
-        color: FemFlowColors.primary,
+        color: FemLyraColors.primary,
       );
   }
 }

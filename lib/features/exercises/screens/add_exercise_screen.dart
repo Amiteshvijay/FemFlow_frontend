@@ -131,7 +131,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: Text(widget.exerciseToEdit != null ? 'Edit Exercise' : 'Add Exercise', 
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
@@ -199,14 +199,14 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
 
   Widget _buildHeaderCard() {
     return AppCard(
-      color: FemFlowColors.primary.withValues(alpha: 0.05),
-      border: BorderSide(color: FemFlowColors.primary.withValues(alpha: 0.1)),
+      color: FemLyraColors.primary.withValues(alpha: 0.05),
+      border: BorderSide(color: FemLyraColors.primary.withValues(alpha: 0.1)),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: const BoxDecoration(color: FemFlowColors.blushMist, shape: BoxShape.circle),
-            child: const Icon(Icons.fitness_center, color: FemFlowColors.primary),
+            decoration: const BoxDecoration(color: FemLyraColors.blushMist, shape: BoxShape.circle),
+            child: const Icon(Icons.fitness_center, color: FemLyraColors.primary),
           ),
           const SizedBox(width: 16),
           const Expanded(
@@ -215,7 +215,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
               children: [
                 Text('Create your custom routine', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                 SizedBox(height: 4),
-                Text('Build a plan that works with your cycle, energy, and comfort.', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                Text('Build a plan that works with your cycle, energy, and comfort.', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
               ],
             ),
           ),
@@ -225,14 +225,14 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
   }
 
   Widget _sectionTitle(String title) {
-    return Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary));
+    return Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary));
   }
 
   Widget _buildTextField(TextEditingController controller, String label, String hint, {int maxLines = 1, bool required = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemFlowColors.textSecondary)),
+        Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemLyraColors.textSecondary)),
         const SizedBox(height: 8),
         TextFormField(
           controller: controller,
@@ -244,7 +244,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
             fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: Colors.grey[300]!)),
             enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: Colors.grey[300]!)),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: FemFlowColors.primary)),
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: FemLyraColors.primary)),
           ),
           validator: required ? (val) => val == null || val.isEmpty ? 'Please enter $label' : null : null,
         ),
@@ -256,7 +256,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Category', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemFlowColors.textSecondary)),
+        const Text('Category', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemLyraColors.textSecondary)),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -284,7 +284,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Duration (Minutes)', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemFlowColors.textSecondary)),
+        const Text('Duration (Minutes)', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemLyraColors.textSecondary)),
         const SizedBox(height: 12),
         Wrap(
           spacing: 8,
@@ -295,8 +295,8 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
               label: Text('$d min'),
               selected: isSelected,
               onSelected: (_) => setState(() => _duration = d),
-              selectedColor: FemFlowColors.primary,
-              labelStyle: TextStyle(color: isSelected ? Colors.white : FemFlowColors.textPrimary, fontSize: 12),
+              selectedColor: FemLyraColors.primary,
+              labelStyle: TextStyle(color: isSelected ? Colors.white : FemLyraColors.textPrimary, fontSize: 12),
               backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             );
@@ -310,7 +310,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Intensity', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemFlowColors.textSecondary)),
+        const Text('Intensity', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemLyraColors.textSecondary)),
         const SizedBox(height: 12),
         Row(
           children: ['low', 'medium', 'high'].map((level) {
@@ -322,8 +322,8 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
                   label: Center(child: Text(level.toUpperCase())),
                   selected: isSelected,
                   onSelected: (_) => setState(() => _selectedIntensity = level),
-                  selectedColor: FemFlowColors.primary,
-                  labelStyle: TextStyle(color: isSelected ? Colors.white : FemFlowColors.textPrimary, fontSize: 11, fontWeight: FontWeight.bold),
+                  selectedColor: FemLyraColors.primary,
+                  labelStyle: TextStyle(color: isSelected ? Colors.white : FemLyraColors.textPrimary, fontSize: 11, fontWeight: FontWeight.bold),
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -339,7 +339,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Difficulty', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemFlowColors.textSecondary)),
+        const Text('Difficulty', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemLyraColors.textSecondary)),
         const SizedBox(height: 12),
         Row(
           children: ['beginner', 'intermediate', 'advanced'].map((level) {
@@ -351,8 +351,8 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
                   label: Center(child: Text(level.toUpperCase())),
                   selected: isSelected,
                   onSelected: (_) => setState(() => _selectedDifficulty = level),
-                  selectedColor: FemFlowColors.primary,
-                  labelStyle: TextStyle(color: isSelected ? Colors.white : FemFlowColors.textPrimary, fontSize: 10, fontWeight: FontWeight.bold),
+                  selectedColor: FemLyraColors.primary,
+                  labelStyle: TextStyle(color: isSelected ? Colors.white : FemLyraColors.textPrimary, fontSize: 10, fontWeight: FontWeight.bold),
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -382,17 +382,17 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
               }
             });
           },
-          selectedColor: FemFlowColors.primary.withValues(alpha: 0.2),
-          checkmarkColor: FemFlowColors.primary,
+          selectedColor: FemLyraColors.primary.withValues(alpha: 0.2),
+          checkmarkColor: FemLyraColors.primary,
           labelStyle: TextStyle(
-            color: isSelected ? FemFlowColors.primary : FemFlowColors.textPrimary,
+            color: isSelected ? FemLyraColors.primary : FemLyraColors.textPrimary,
             fontSize: 11,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal
           ),
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
-            side: BorderSide(color: isSelected ? FemFlowColors.primary : Colors.grey[300]!)
+            side: BorderSide(color: isSelected ? FemLyraColors.primary : Colors.grey[300]!)
           ),
         );
       }).toList(),

@@ -20,7 +20,7 @@ class PasswordGuidelines extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: FemFlowColors.border.withValues(alpha: 0.5)),
+        border: Border.all(color: FemLyraColors.border.withValues(alpha: 0.5)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -37,7 +37,7 @@ class PasswordGuidelines extends StatelessWidget {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.textPrimary,
+              color: FemLyraColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
@@ -69,7 +69,7 @@ class PasswordGuidelines extends StatelessWidget {
             text,
             style: TextStyle(
               fontSize: 11,
-              color: isMet ? Colors.green.shade700 : FemFlowColors.textSecondary,
+              color: isMet ? Colors.green.shade700 : FemLyraColors.textSecondary,
               fontWeight: isMet ? FontWeight.w500 : FontWeight.normal,
             ),
           ),

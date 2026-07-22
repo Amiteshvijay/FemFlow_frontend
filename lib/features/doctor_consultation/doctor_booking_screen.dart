@@ -283,18 +283,18 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                 padding: const EdgeInsets.all(12),
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: FemFlowColors.primary.withValues(alpha: 0.05),
-                  border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.2)),
+                  color: FemLyraColors.primary.withValues(alpha: 0.05),
+                  border: Border.all(color: FemLyraColors.primary.withValues(alpha: 0.2)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.info_outline, color: FemFlowColors.primary, size: 24),
+                    const Icon(Icons.info_outline, color: FemLyraColors.primary, size: 24),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         'You are booking a follow-up consultation. This session is discounted by 50%.',
-                        style: TextStyle(fontSize: 12, color: FemFlowColors.primary, fontWeight: FontWeight.w500),
+                        style: TextStyle(fontSize: 12, color: FemLyraColors.primary, fontWeight: FontWeight.w500),
                       ),
                     ),
                   ],
@@ -349,9 +349,9 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                         _selectedMode = mode;
                       });
                     },
-                    selectedColor: FemFlowColors.primary.withValues(alpha: 0.2),
+                    selectedColor: FemLyraColors.primary.withValues(alpha: 0.2),
                     labelStyle: TextStyle(
-                      color: isSelected ? FemFlowColors.primary : Colors.black87,
+                      color: isSelected ? FemLyraColors.primary : Colors.black87,
                       fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                     ),
                   ),
@@ -364,14 +364,14 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: FemFlowColors.primary.withValues(alpha: 0.05),
-                  border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.2)),
+                  color: FemLyraColors.primary.withValues(alpha: 0.05),
+                  border: Border.all(color: FemLyraColors.primary.withValues(alpha: 0.2)),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.location_on, color: FemFlowColors.primary, size: 22),
+                    const Icon(Icons.location_on, color: FemLyraColors.primary, size: 22),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Column(
@@ -483,17 +483,17 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                                       Container(
                                         decoration: BoxDecoration(
                                           color: isSelected
-                                              ? FemFlowColors.primary.withValues(alpha: 0.2)
+                                              ? FemLyraColors.primary.withValues(alpha: 0.2)
                                               : isFree && isAvailable
-                                                  ? FemFlowColors.primary.withValues(alpha: 0.06)
+                                                  ? FemLyraColors.primary.withValues(alpha: 0.06)
                                                   : isAvailable
                                                       ? Colors.white
                                                       : Colors.grey.shade100,
                                           border: Border.all(
                                             color: isSelected
-                                                ? FemFlowColors.primary
+                                                ? FemLyraColors.primary
                                                 : isFree && isAvailable
-                                                    ? FemFlowColors.primary.withValues(alpha: 0.4)
+                                                    ? FemLyraColors.primary.withValues(alpha: 0.4)
                                                     : isAvailable
                                                         ? Colors.grey.shade300
                                                         : Colors.grey.shade200,
@@ -508,7 +508,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                                             if (isFree && isAvailable) ...[
                                               const Icon(
                                                 Icons.favorite,
-                                                color: FemFlowColors.primary,
+                                                color: FemLyraColors.primary,
                                                 size: 11,
                                               ),
                                               const SizedBox(width: 4),
@@ -667,7 +667,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
               child: ElevatedButton(
                 onPressed: isButtonEnabled ? _startBooking : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: isButtonEnabled ? FemFlowColors.primary : Colors.grey.shade400,
+                  backgroundColor: isButtonEnabled ? FemLyraColors.primary : Colors.grey.shade400,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

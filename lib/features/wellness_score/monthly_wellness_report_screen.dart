@@ -89,17 +89,17 @@ class _MonthlyWellnessReportScreenState extends State<MonthlyWellnessReportScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Monthly Wellness Report',
-          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -119,7 +119,7 @@ class _MonthlyWellnessReportScreenState extends State<MonthlyWellnessReportScree
           }
 
           if (_isLoading) {
-            return const Center(child: CircularProgressIndicator(color: FemFlowColors.primary));
+            return const Center(child: CircularProgressIndicator(color: FemLyraColors.primary));
           }
           
           if (_report == null) {
@@ -155,16 +155,16 @@ class _MonthlyWellnessReportScreenState extends State<MonthlyWellnessReportScree
 
   Widget _buildMonthlySummary() {
     return AppCard(
-      color: FemFlowColors.primary.withValues(alpha: 0.05),
+      color: FemLyraColors.primary.withValues(alpha: 0.05),
       child: Column(
         children: [
-          Text('${_report!.monthName} ${_report!.year} Average', style: const TextStyle(color: FemFlowColors.textSecondary)),
+          Text('${_report!.monthName} ${_report!.year} Average', style: const TextStyle(color: FemLyraColors.textSecondary)),
           const SizedBox(height: 8),
           Text(
             '${_report!.avgScore}',
-            style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+            style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
           ),
-          Text(_report!.statusLabel, style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
+          Text(_report!.statusLabel, style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -181,8 +181,8 @@ class _MonthlyWellnessReportScreenState extends State<MonthlyWellnessReportScree
   Widget _buildMiniStat(String label, String value) {
     return Column(
       children: [
-        Text(label, style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted)),
-        Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+        Text(label, style: const TextStyle(fontSize: 10, color: FemLyraColors.textMuted)),
+        Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
       ],
     );
   }
@@ -192,7 +192,7 @@ class _MonthlyWellnessReportScreenState extends State<MonthlyWellnessReportScree
       children: [
         _buildInsightItem('Best Area', _report!.bestArea, Icons.bolt, Colors.green),
         _buildInsightItem('Needs Attention', _report!.needsAttention, Icons.bedtime_outlined, Colors.orange),
-        _buildInsightItem('Cycle Pattern', _report!.cyclePattern, Icons.water_drop_outlined, FemFlowColors.period),
+        _buildInsightItem('Cycle Pattern', _report!.cyclePattern, Icons.water_drop_outlined, FemLyraColors.period),
       ],
     );
   }
@@ -209,7 +209,7 @@ class _MonthlyWellnessReportScreenState extends State<MonthlyWellnessReportScree
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                  Text(label, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                   Text(
                     value, 
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
@@ -226,16 +226,16 @@ class _MonthlyWellnessReportScreenState extends State<MonthlyWellnessReportScree
 
   Widget _buildFemAIReflection() {
     return AppCard(
-      color: FemFlowColors.aiWellness.withValues(alpha: 0.05),
-      border: BorderSide(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
+      color: FemLyraColors.aiWellness.withValues(alpha: 0.05),
+      border: BorderSide(color: FemLyraColors.aiWellness.withValues(alpha: 0.2)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('FemAI Monthly Reflection', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
+          const Text('FemAI Monthly Reflection', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.aiWellness)),
           const SizedBox(height: 12),
           Text(
             '“${_report!.aiReflection}”',
-            style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, height: 1.5, fontStyle: FontStyle.italic),
+            style: const TextStyle(fontSize: 14, color: FemLyraColors.textPrimary, height: 1.5, fontStyle: FontStyle.italic),
           ),
         ],
       ),

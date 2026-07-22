@@ -159,7 +159,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                             ],
                           ],
                         ),
-                        Text(doctor.speciality, style: TextStyle(color: FemFlowColors.primary, fontSize: 13)),
+                        Text(doctor.speciality, style: TextStyle(color: FemLyraColors.primary, fontSize: 13)),
                         Text('${doctor.experienceYears} years experience • ${doctor.qualification}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
                       ],
                     ),
@@ -231,7 +231,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                         MaterialPageRoute(builder: (_) => DoctorBookingScreen(doctor: doctor)),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: FemFlowColors.primary,
+                        backgroundColor: FemLyraColors.primary,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         elevation: 0,

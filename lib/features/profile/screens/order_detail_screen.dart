@@ -196,17 +196,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: FemFlowColors.warmWhite,
+        backgroundColor: FemLyraColors.warmWhite,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+            icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
             onPressed: () => Navigator.pop(context, _hasUpdated),
           ),
           title: const Text(
             'Order Details',
-            style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+            style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
         ),
@@ -235,12 +235,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     Text(
                       _order.displayName,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'Order Reference: ${_order.orderId}',
-                      style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, fontFamily: 'monospace'),
+                      style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, fontFamily: 'monospace'),
                     ),
                     const SizedBox(height: 16),
                     // Status Badge
@@ -269,7 +269,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               // Specifications
               const Text(
                 'ORDER SPECIFICATIONS',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary, letterSpacing: 1.1),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
               ),
               const SizedBox(height: 12),
               AppCard(
@@ -300,7 +300,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               // Payment Info
               const Text(
                 'PAYMENT & VERIFICATION INFORMATION',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary, letterSpacing: 1.1),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
               ),
               const SizedBox(height: 12),
 
@@ -314,7 +314,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.payment_outlined, color: FemFlowColors.primary, size: 20),
+                            Icon(Icons.payment_outlined, color: FemLyraColors.primary, size: 20),
                             SizedBox(width: 8),
                             Text('UPI Scan & Pay', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                           ],
@@ -339,7 +339,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: FemFlowColors.primary,
+                                backgroundColor: FemLyraColors.primary,
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                               ),
@@ -354,7 +354,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             ),
                           ),
                         const SizedBox(height: 8),
-                        const Text('UPI ID: FemLyra@ybl', style: TextStyle(color: FemFlowColors.textMuted, fontSize: 11)),
+                        const Text('UPI ID: FemLyra@ybl', style: TextStyle(color: FemLyraColors.textMuted, fontSize: 11)),
                       ],
                     ),
                   ),
@@ -409,7 +409,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.lock_outline, color: FemFlowColors.primary, size: 20),
+                            const Icon(Icons.lock_outline, color: FemLyraColors.primary, size: 20),
                             const SizedBox(width: 8),
                             Text(
                               'Secure Payment Gateway',
@@ -429,7 +429,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           height: 50,
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: FemFlowColors.primary,
+                              backgroundColor: FemLyraColors.primary,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
@@ -463,7 +463,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Payment Screenshot', style: TextStyle(color: FemFlowColors.textSecondary)),
+                              Text('Payment Screenshot', style: TextStyle(color: FemLyraColors.textSecondary)),
                               Text('Uploaded', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
                             ],
                           ),
@@ -550,8 +550,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       height: 52,
                       child: OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: FemFlowColors.primary),
-                          foregroundColor: FemFlowColors.primary,
+                          side: const BorderSide(color: FemLyraColors.primary),
+                          foregroundColor: FemLyraColors.primary,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                         ),
                         onPressed: () async {
@@ -590,7 +590,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         children: [
           Text(
             label,
-            style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+            style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -599,7 +599,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               textAlign: TextAlign.end,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: FemFlowColors.textPrimary,
+                color: FemLyraColors.textPrimary,
                 fontSize: 13,
                 fontFamily: isMono ? 'monospace' : null,
               ),

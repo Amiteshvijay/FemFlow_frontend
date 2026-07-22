@@ -14,15 +14,15 @@ class SubscriptionStatusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('My Subscription', style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold)),
+        title: const Text('My Subscription', style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold)),
       ),
       body: Consumer<SubscriptionProvider>(
         builder: (context, provider, child) {
@@ -67,7 +67,7 @@ class SubscriptionStatusScreen extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: isPremium 
           ? const LinearGradient(
-              colors: [FemFlowColors.primary, Color(0xFFFF8C94)],
+              colors: [FemLyraColors.primary, Color(0xFFFF8C94)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             )
@@ -79,7 +79,7 @@ class SubscriptionStatusScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: (isPremium ? FemFlowColors.primary : Colors.grey).withValues(alpha: 0.2),
+            color: (isPremium ? FemLyraColors.primary : Colors.grey).withValues(alpha: 0.2),
             blurRadius: 15,
             offset: const Offset(0, 8),
           )
@@ -128,7 +128,7 @@ class SubscriptionStatusScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Plan Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemFlowColors.textPrimary)),
+        const Text('Plan Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemLyraColors.textPrimary)),
         const SizedBox(height: 16),
         AppCard(
           padding: const EdgeInsets.all(20),
@@ -152,7 +152,7 @@ class SubscriptionStatusScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Premium Benefits', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemFlowColors.textPrimary)),
+        const Text('Premium Benefits', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemLyraColors.textPrimary)),
         const SizedBox(height: 16),
         AppCard(
           padding: const EdgeInsets.all(20),
@@ -176,9 +176,9 @@ class SubscriptionStatusScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Icon(icon, color: FemFlowColors.primary, size: 20),
+          Icon(icon, color: FemLyraColors.primary, size: 20),
           const SizedBox(width: 12),
-          Expanded(child: Text(text, style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary))),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary))),
         ],
       ),
     );
@@ -190,8 +190,8 @@ class SubscriptionStatusScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: FemFlowColors.textSecondary)),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w600, color: FemFlowColors.textPrimary)),
+          Text(label, style: const TextStyle(color: FemLyraColors.textSecondary)),
+          Text(value, style: const TextStyle(fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary)),
         ],
       ),
     );
@@ -209,7 +209,7 @@ class SubscriptionStatusScreen extends StatelessWidget {
           );
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: FemFlowColors.primary,
+          backgroundColor: FemLyraColors.primary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         ),
         child: const Text('View Premium Plans', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
@@ -231,11 +231,11 @@ class SubscriptionStatusScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: Row(
               children: [
-                const Icon(Icons.history, color: FemFlowColors.textSecondary, size: 20),
+                const Icon(Icons.history, color: FemLyraColors.textSecondary, size: 20),
                 const SizedBox(width: 12),
                 const Text('Billing History', style: TextStyle(fontWeight: FontWeight.w500)),
                 const Spacer(),
-                const Icon(Icons.chevron_right, size: 20, color: FemFlowColors.textMuted),
+                const Icon(Icons.chevron_right, size: 20, color: FemLyraColors.textMuted),
               ],
             ),
           ),

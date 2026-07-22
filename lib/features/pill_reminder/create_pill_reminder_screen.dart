@@ -158,7 +158,7 @@ class _CreatePillReminderScreenState extends State<CreatePillReminderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: Text(widget.reminder == null ? 'Add Medication' : 'Edit Medication'),
         centerTitle: true,
@@ -275,7 +275,7 @@ class _CreatePillReminderScreenState extends State<CreatePillReminderScreen> {
             });
           },
           child: CircleAvatar(
-            backgroundColor: isSelected ? FemFlowColors.primary : Colors.grey.shade200,
+            backgroundColor: isSelected ? FemLyraColors.primary : Colors.grey.shade200,
             radius: 20,
             child: Text(days[index], style: TextStyle(color: isSelected ? Colors.white : Colors.black, fontSize: 12)),
           ),
@@ -339,7 +339,7 @@ class _CreatePillReminderScreenState extends State<CreatePillReminderScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(timing.label, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                          Text(timing.label, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                           Text(timing.time, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -427,7 +427,7 @@ class _CreatePillReminderScreenState extends State<CreatePillReminderScreen> {
                 subtitle: const Text('Get reminded when it\'s time to take your dose'),
                 value: _notificationsEnabled,
                 onChanged: (v) => setState(() => _notificationsEnabled = v),
-                activeThumbColor: FemFlowColors.primary,
+                activeThumbColor: FemLyraColors.primary,
                 contentPadding: EdgeInsets.zero,
               ),
               if (_notificationsEnabled) ...[
@@ -436,7 +436,7 @@ class _CreatePillReminderScreenState extends State<CreatePillReminderScreen> {
                   initialValue: _notificationSound,
                   decoration: const InputDecoration(
                     labelText: 'Reminder Sound',
-                    prefixIcon: Icon(Icons.music_note, color: FemFlowColors.primary),
+                    prefixIcon: Icon(Icons.music_note, color: FemLyraColors.primary),
                     border: InputBorder.none,
                   ),
                   items: const [

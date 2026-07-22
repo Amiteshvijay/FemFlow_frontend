@@ -63,7 +63,7 @@ class _GreetingDetailScreenState extends State<GreetingDetailScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -75,7 +75,7 @@ class _GreetingDetailScreenState extends State<GreetingDetailScreen> {
             end: Alignment.bottomCenter,
             colors: [
               themeColor.withValues(alpha: 0.15),
-              FemFlowColors.white,
+              FemLyraColors.white,
             ],
             stops: const [0.0, 0.4],
           ),
@@ -86,7 +86,7 @@ class _GreetingDetailScreenState extends State<GreetingDetailScreen> {
             child: _isLoading
                 ? const Center(
                     child: CircularProgressIndicator(
-                      color: FemFlowColors.primary,
+                      color: FemLyraColors.primary,
                     ),
                   )
                 : _errorMessage != null
@@ -96,7 +96,7 @@ class _GreetingDetailScreenState extends State<GreetingDetailScreen> {
                           children: [
                             const Icon(
                               Icons.error_outline,
-                              color: FemFlowColors.primary,
+                              color: FemLyraColors.primary,
                               size: 48,
                             ),
                             const SizedBox(height: 16),
@@ -104,14 +104,14 @@ class _GreetingDetailScreenState extends State<GreetingDetailScreen> {
                               _errorMessage!,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                color: FemFlowColors.textSecondary,
+                                color: FemLyraColors.textSecondary,
                                 fontSize: 16,
                               ),
                             ),
                             const SizedBox(height: 24),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: FemFlowColors.primary,
+                                backgroundColor: FemLyraColors.primary,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(24),
                                 ),
@@ -164,21 +164,21 @@ class _GreetingDetailScreenState extends State<GreetingDetailScreen> {
                               'Special greeting from FemAI 🌸',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: FemFlowColors.textSecondary,
+                                color: FemLyraColors.textSecondary,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             const SizedBox(height: 32),
                             // MNC Style Card
                             AppCard(
-                              color: FemFlowColors.white,
+                              color: FemLyraColors.white,
                               padding: const EdgeInsets.all(24.0),
                               child: Text(
                                 _content,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   height: 1.6,
-                                  color: FemFlowColors.textPrimary,
+                                  color: FemLyraColors.textPrimary,
                                 ),
                               ),
                             ),

@@ -102,7 +102,7 @@ class _LabPartnerReviewBottomSheetState extends State<LabPartnerReviewBottomShee
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: FemFlowColors.primary),
+                  borderSide: const BorderSide(color: FemLyraColors.primary),
                 ),
               ),
             ),
@@ -123,8 +123,8 @@ class _LabPartnerReviewBottomSheetState extends State<LabPartnerReviewBottomShee
       children: [
         CircleAvatar(
           radius: 25,
-          backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
-          child: const Icon(Icons.biotech_outlined, color: FemFlowColors.primary),
+          backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
+          child: const Icon(Icons.biotech_outlined, color: FemLyraColors.primary),
         ),
         const SizedBox(width: 16),
         Column(

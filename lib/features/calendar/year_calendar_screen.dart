@@ -64,12 +64,12 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: FemFlowColors.textPrimary, size: 20),
+          icon: const Icon(Icons.arrow_back_ios_new, color: FemLyraColors.textPrimary, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: Row(
@@ -78,7 +78,7 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
             IconButton(icon: const Icon(Icons.chevron_left), onPressed: _prevYear),
             Text(
               '$_selectedYear',
-              style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 20),
+              style: const TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 20),
             ),
             IconButton(icon: const Icon(Icons.chevron_right), onPressed: _nextYear),
           ],
@@ -132,7 +132,7 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
         children: [
           Text(
             monthName,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FemFlowColors.textPrimary),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: FemLyraColors.textPrimary),
           ),
           const SizedBox(height: 6),
           _buildWeekdayHeader(),
@@ -156,7 +156,7 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
             style: const TextStyle(
               fontSize: 8,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.textMuted,
+              color: FemLyraColors.textMuted,
             ),
           ),
         ),
@@ -200,14 +200,14 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
 
     Color? bgColor;
     Border? border;
-    Color textColor = FemFlowColors.textPrimary;
+    Color textColor = FemLyraColors.textPrimary;
 
     if (isPeriod) {
-      bgColor = FemFlowColors.period;
+      bgColor = FemLyraColors.period;
       textColor = Colors.white;
     } else if (isPredicted) {
-      border = Border.all(color: FemFlowColors.period.withValues(alpha: 0.6), width: 1.0);
-      textColor = FemFlowColors.period;
+      border = Border.all(color: FemLyraColors.period.withValues(alpha: 0.6), width: 1.0);
+      textColor = FemLyraColors.period;
     } else if (isOvulation) {
       bgColor = Colors.teal;
       textColor = Colors.white;
@@ -244,7 +244,7 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
             child: Container(
               width: 2,
               height: 2,
-              decoration: const BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: FemLyraColors.primary, shape: BoxShape.circle),
             ),
           ),
       ],
@@ -258,11 +258,11 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
         spacing: 12,
         runSpacing: 8,
         children: [
-          _legendItem('Period', FemFlowColors.period),
-          _legendItem('Predicted', FemFlowColors.period.withValues(alpha: 0.5), isOutline: true),
+          _legendItem('Period', FemLyraColors.period),
+          _legendItem('Predicted', FemLyraColors.period.withValues(alpha: 0.5), isOutline: true),
           _legendItem('Fertile', Colors.teal.withValues(alpha: 0.2)),
           _legendItem('Ovulation', Colors.teal),
-          _legendItem('Logged Data', FemFlowColors.primary, isDot: true),
+          _legendItem('Logged Data', FemLyraColors.primary, isDot: true),
         ],
       ),
     );
@@ -283,7 +283,7 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
           child: isDot ? Center(child: Container(width: 2, height: 2, color: color)) : null,
         ),
         const SizedBox(width: 4),
-        Text(label, style: const TextStyle(fontSize: 10, color: FemFlowColors.textSecondary)),
+        Text(label, style: const TextStyle(fontSize: 10, color: FemLyraColors.textSecondary)),
       ],
     );
   }
@@ -312,7 +312,7 @@ class _YearCalendarScreenState extends State<YearCalendarScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_error!, style: const TextStyle(color: FemFlowColors.textSecondary)),
+          Text(_error!, style: const TextStyle(color: FemLyraColors.textSecondary)),
           const SizedBox(height: 16),
           ElevatedButton(onPressed: _fetchYearData, child: const Text('Retry')),
         ],

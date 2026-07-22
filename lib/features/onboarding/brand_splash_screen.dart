@@ -50,7 +50,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with SingleTicker
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnimation,

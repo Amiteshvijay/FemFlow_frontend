@@ -32,7 +32,7 @@ class FAQScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -58,7 +58,7 @@ class FAQScreen extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: FemFlowColors.textPrimary,
+                          color: FemLyraColors.textPrimary,
                         ),
                       ),
                       shape: const RoundedRectangleBorder(side: BorderSide.none),
@@ -70,7 +70,7 @@ class FAQScreen extends StatelessWidget {
                           faq['answer']!,
                           style: const TextStyle(
                             fontSize: 14,
-                            color: FemFlowColors.textSecondary,
+                            color: FemLyraColors.textSecondary,
                             height: 1.5,
                           ),
                         ),
@@ -93,12 +93,12 @@ class FAQScreen extends StatelessWidget {
               child: Text.rich(
                 TextSpan(
                   text: 'For more FAQs, visit our website ',
-                  style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                  style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
                   children: const [
                     TextSpan(
                       text: 'www.femlyra.com/FAQs',
                       style: TextStyle(
-                        color: FemFlowColors.primary,
+                        color: FemLyraColors.primary,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                       ),

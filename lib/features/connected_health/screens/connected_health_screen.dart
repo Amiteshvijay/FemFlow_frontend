@@ -107,13 +107,13 @@ class _ConnectedHealthScreenState extends State<ConnectedHealthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Connected Health', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : Column(
               children: [
                 _buildTrustBanner(),
@@ -132,15 +132,15 @@ class _ConnectedHealthScreenState extends State<ConnectedHealthScreen> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
-      color: FemFlowColors.primary.withValues(alpha: 0.05),
+      color: FemLyraColors.primary.withValues(alpha: 0.05),
       child: const Row(
         children: [
-          Icon(Icons.shield_outlined, color: FemFlowColors.primary, size: 20),
+          Icon(Icons.shield_outlined, color: FemLyraColors.primary, size: 20),
           SizedBox(width: 12),
           Expanded(
             child: Text(
               'Your health data is encrypted and used only for personalized wellness insights.',
-              style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, height: 1.4),
+              style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, height: 1.4),
             ),
           ),
         ],
@@ -174,7 +174,7 @@ class _ConnectedHealthScreenState extends State<ConnectedHealthScreen> {
           child: Text(
             'Health device syncing is available on our mobile app.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: FemFlowColors.textSecondary, fontStyle: FontStyle.italic),
+            style: TextStyle(color: FemLyraColors.textSecondary, fontStyle: FontStyle.italic),
           ),
         ),
       ));
@@ -207,10 +207,10 @@ class _ConnectedHealthScreenState extends State<ConnectedHealthScreen> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: FemFlowColors.primary.withValues(alpha: 0.1),
+                  color: FemLyraColors.primary.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: FemFlowColors.primary, size: 24),
+                child: Icon(icon, color: FemLyraColors.primary, size: 24),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -219,14 +219,14 @@ class _ConnectedHealthScreenState extends State<ConnectedHealthScreen> {
                   children: [
                     Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                     const SizedBox(height: 2),
-                    Text(subtitle, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                    Text(subtitle, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                   ],
                 ),
               ),
               Switch(
                 value: isConnected,
-                activeThumbColor: FemFlowColors.primary,
-                activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
+                activeThumbColor: FemLyraColors.primary,
+                activeTrackColor: FemLyraColors.primary.withValues(alpha: 0.5),
                 onChanged: (val) => _toggleConnection(platform, isConnected),
               ),
             ],
@@ -236,7 +236,7 @@ class _ConnectedHealthScreenState extends State<ConnectedHealthScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Connection Status', style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
+                const Text('Connection Status', style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
                 Row(
                   children: [
                     const Icon(Icons.check_circle, color: Colors.green, size: 14),
@@ -245,7 +245,7 @@ class _ConnectedHealthScreenState extends State<ConnectedHealthScreen> {
                     const SizedBox(width: 12),
                     Text(
                       'Synced ${DateFormat('HH:mm').format(DateTime.parse(lastSync))}',
-                      style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted),
+                      style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted),
                     ),
                   ],
                 ),
@@ -264,7 +264,7 @@ class _ConnectedHealthScreenState extends State<ConnectedHealthScreen> {
                 icon: const Icon(Icons.analytics_outlined, color: Colors.white, size: 16),
                 label: const Text('View Health Dashboard', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemFlowColors.primary,
+                  backgroundColor: FemLyraColors.primary,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),

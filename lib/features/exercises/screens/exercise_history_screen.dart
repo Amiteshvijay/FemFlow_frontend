@@ -27,7 +27,7 @@ class _ExerciseHistoryScreenState extends State<ExerciseHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Workout History', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
@@ -35,7 +35,7 @@ class _ExerciseHistoryScreenState extends State<ExerciseHistoryScreen> {
       body: Consumer<ExerciseProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-             return const Center(child: CircularProgressIndicator(color: FemFlowColors.primary));
+             return const Center(child: CircularProgressIndicator(color: FemLyraColors.primary));
           }
 
           if (provider.recentLogs.isEmpty) {
@@ -66,10 +66,10 @@ class _ExerciseHistoryScreenState extends State<ExerciseHistoryScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: FemFlowColors.primary.withValues(alpha: 0.1),
+                color: FemLyraColors.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.check_circle, color: FemFlowColors.primary, size: 24),
+              child: const Icon(Icons.check_circle, color: FemLyraColors.primary, size: 24),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -83,7 +83,7 @@ class _ExerciseHistoryScreenState extends State<ExerciseHistoryScreen> {
                   const SizedBox(height: 4),
                   Text(
                     dateStr,
-                    style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 12),
+                    style: const TextStyle(color: FemLyraColors.textMuted, fontSize: 12),
                   ),
                 ],
               ),
@@ -93,12 +93,12 @@ class _ExerciseHistoryScreenState extends State<ExerciseHistoryScreen> {
               children: [
                 Text(
                   '$durationMins min',
-                  style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                  style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                 ),
                 if (log.feedback.containsKey('feeling_after'))
                    Text(
                      (log.feedback['feeling_after'] as List).firstOrNull ?? '',
-                     style: const TextStyle(color: FemFlowColors.primary, fontSize: 10, fontWeight: FontWeight.bold),
+                     style: const TextStyle(color: FemLyraColors.primary, fontSize: 10, fontWeight: FontWeight.bold),
                    ),
               ],
             ),
@@ -117,12 +117,12 @@ class _ExerciseHistoryScreenState extends State<ExerciseHistoryScreen> {
           const SizedBox(height: 24),
           const Text(
             'No workouts logged yet',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
           ),
           const SizedBox(height: 8),
           const Text(
             'Start your first session today!',
-            style: TextStyle(color: FemFlowColors.textSecondary),
+            style: TextStyle(color: FemLyraColors.textSecondary),
           ),
         ],
       ),

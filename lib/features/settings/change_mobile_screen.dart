@@ -133,7 +133,7 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
       children: [
         const Text(
           'Your registered mobile number is:',
-          style: TextStyle(color: FemFlowColors.textSecondary, height: 1.4),
+          style: TextStyle(color: FemLyraColors.textSecondary, height: 1.4),
         ),
         const SizedBox(height: 24),
         Container(
@@ -141,7 +141,7 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: FemFlowColors.border.withOpacity(0.5)),
+            border: Border.all(color: FemLyraColors.border.withOpacity(0.5)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.02),
@@ -155,12 +155,12 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: FemFlowColors.primary.withOpacity(0.1),
+                  color: FemLyraColors.primary.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.phone_outlined,
-                  color: FemFlowColors.primary,
+                  color: FemLyraColors.primary,
                   size: 24,
                 ),
               ),
@@ -172,7 +172,7 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
                     const Text(
                       'Current Mobile Number',
                       style: TextStyle(
-                        color: FemFlowColors.textSecondary,
+                        color: FemLyraColors.textSecondary,
                         fontSize: 12,
                       ),
                     ),
@@ -180,7 +180,7 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
                     Text(
                       widget.currentMobile.isNotEmpty ? widget.currentMobile : 'Not Set',
                       style: const TextStyle(
-                        color: FemFlowColors.textPrimary,
+                        color: FemLyraColors.textPrimary,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -210,7 +210,7 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
       children: [
         const Text(
           'Update your registered mobile number below. A verification code will be sent to the new number.',
-          style: TextStyle(color: FemFlowColors.textSecondary, height: 1.4),
+          style: TextStyle(color: FemLyraColors.textSecondary, height: 1.4),
         ),
         const SizedBox(height: 32),
         TextField(
@@ -226,7 +226,7 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
           const SizedBox(height: 32),
           const Text(
             'Enter the 6-digit verification code sent to your new mobile number:',
-            style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+            style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
           ),
           const SizedBox(height: 16),
           Row(
@@ -241,17 +241,17 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
                   keyboardType: TextInputType.number,
                   maxLength: 1,
                   enabled: !_isLoading,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                   decoration: InputDecoration(
                     counterText: "",
                     contentPadding: const EdgeInsets.symmetric(vertical: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: FemFlowColors.border),
+                      borderSide: const BorderSide(color: FemLyraColors.border),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: FemFlowColors.primary, width: 1.5),
+                      borderSide: const BorderSide(color: FemLyraColors.primary, width: 1.5),
                     ),
                     filled: true,
                     fillColor: Colors.white,
@@ -281,7 +281,7 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
                   _countdown == 0 ? 'Resend Verification Code' : 'Resend Code in ${_countdown}s',
                   style: TextStyle(
                     fontSize: 12,
-                    color: _countdown == 0 ? FemFlowColors.primary : FemFlowColors.textMuted,
+                    color: _countdown == 0 ? FemLyraColors.primary : FemLyraColors.textMuted,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -294,7 +294,7 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
           Center(
             child: Text(
               _error!,
-              style: const TextStyle(color: FemFlowColors.period, fontSize: 13, fontWeight: FontWeight.w500),
+              style: const TextStyle(color: FemLyraColors.period, fontSize: 13, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
           ),
@@ -312,7 +312,7 @@ class _ChangeMobileScreenState extends State<ChangeMobileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),

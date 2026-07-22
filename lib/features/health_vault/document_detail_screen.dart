@@ -118,7 +118,7 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)));
+      return const Scaffold(body: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)));
     }
 
     if (_document == null) {
@@ -126,15 +126,15 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
     }
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Document Detail', style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
+        title: const Text('Document Detail', style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
         actions: [
           IconButton(
@@ -157,7 +157,7 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
             ElevatedButton(
               onPressed: _isDownloading ? null : _openFile,
               style: ElevatedButton.styleFrom(
-                backgroundColor: FemFlowColors.primary,
+                backgroundColor: FemLyraColors.primary,
                 minimumSize: const Size(double.infinity, 54),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
@@ -219,7 +219,7 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
         break;
       default:
         iconData = Icons.insert_drive_file_outlined;
-        color = FemFlowColors.textMuted;
+        color = FemLyraColors.textMuted;
     }
 
     return Column(
@@ -241,7 +241,7 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
       children: [
         Text(
           _document!.title,
-          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
         ),
         const SizedBox(height: 15),
         _buildInfoRow(Icons.category_outlined, 'Category', _document!.documentTypeLabel),
@@ -257,13 +257,13 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: FemFlowColors.textMuted),
+          Icon(icon, size: 18, color: FemLyraColors.textMuted),
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
-              Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemFlowColors.textPrimary)),
+              Text(label, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
+              Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary)),
             ],
           ),
         ],
@@ -277,20 +277,20 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
       children: [
         const Text(
           'Notes',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
         ),
         const SizedBox(height: 10),
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: FemFlowColors.blushMist.withValues(alpha: 0.5),
+            color: FemLyraColors.blushMist.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: FemFlowColors.border),
+            border: Border.all(color: FemLyraColors.border),
           ),
           child: Text(
             _document!.notes!,
-            style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, height: 1.5),
+            style: const TextStyle(fontSize: 14, color: FemLyraColors.textPrimary, height: 1.5),
           ),
         ),
       ],

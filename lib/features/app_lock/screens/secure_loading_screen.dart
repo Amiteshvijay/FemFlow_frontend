@@ -7,17 +7,17 @@ class SecureLoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.lock_outline, size: 64, color: FemFlowColors.primary),
+            Icon(Icons.lock_outline, size: 64, color: FemLyraColors.primary),
             SizedBox(height: 16),
             Text(
               'Securing your data...',
               style: TextStyle(
-                color: FemFlowColors.textSecondary,
+                color: FemLyraColors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),

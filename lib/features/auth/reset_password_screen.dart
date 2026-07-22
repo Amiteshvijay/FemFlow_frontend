@@ -135,12 +135,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -152,7 +152,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             children: [
               const Text(
                 'Reset Password',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
               ),
               const SizedBox(height: 40),
               TextField(
@@ -167,7 +167,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       IconButton(
                         icon: Icon(
                           Icons.help_outline_rounded,
-                          color: _showGuidelines ? FemFlowColors.primary : Colors.grey,
+                          color: _showGuidelines ? FemLyraColors.primary : Colors.grey,
                         ),
                         onPressed: () => setState(() => _showGuidelines = !_showGuidelines),
                       ),

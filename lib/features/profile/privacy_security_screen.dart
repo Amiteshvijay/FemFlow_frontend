@@ -154,7 +154,7 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -162,12 +162,12 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
         ),
         title: const Text(
           'Privacy & Security',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
         ),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -196,7 +196,7 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
       padding: const EdgeInsets.only(left: 4, bottom: 12),
       child: Text(
         title.toUpperCase(),
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary, letterSpacing: 1.1),
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
       ),
     );
   }
@@ -308,7 +308,7 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
   Widget _buildTimeoutOption(AppLockService appLock, int seconds, String label) {
     return ListTile(
       title: Text(label),
-      trailing: appLock.autoLockTimeout == seconds ? const Icon(Icons.check, color: FemFlowColors.primary) : null,
+      trailing: appLock.autoLockTimeout == seconds ? const Icon(Icons.check, color: FemLyraColors.primary) : null,
       onTap: () {
         appLock.setAutoLockTimeout(seconds);
         Navigator.pop(context);
@@ -342,17 +342,17 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
     return Column(
       children: [
         AppCard(
-          color: FemFlowColors.blushMist,
+          color: FemLyraColors.blushMist,
           child: Column(
             children: [
-              const Icon(Icons.security, color: FemFlowColors.primary, size: 40),
+              const Icon(Icons.security, color: FemLyraColors.primary, size: 40),
               const SizedBox(height: 16),
               const Text('Clinical-Grade Privacy', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               const SizedBox(height: 8),
               const Text(
                 'We use your health data ONLY to provide personalized insights and predictions. Your data is never sold or used for public AI training.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, height: 1.5),
+                style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, height: 1.5),
               ),
             ],
           ),
@@ -458,16 +458,16 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(10)),
-            child: Icon(icon, color: FemFlowColors.primary, size: 20),
+            decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(10)),
+            child: Icon(icon, color: FemLyraColors.primary, size: 20),
           ),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: FemFlowColors.textPrimary)),
-                Text(subtitle, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary)),
+                Text(subtitle, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
               ],
             ),
           ),
@@ -475,9 +475,9 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
             value: value,
             onChanged: onChanged,
             activeThumbColor: Colors.white,
-            activeTrackColor: FemFlowColors.primary,
+            activeTrackColor: FemLyraColors.primary,
             inactiveThumbColor: Colors.white,
-            inactiveTrackColor: FemFlowColors.border,
+            inactiveTrackColor: FemLyraColors.border,
             trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
           ),
         ],
@@ -500,20 +500,20 @@ class _PrivacySecurityScreenState extends State<PrivacySecurityScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(10)),
-              child: Icon(icon, color: FemFlowColors.primary, size: 20),
+              decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(10)),
+              child: Icon(icon, color: FemLyraColors.primary, size: 20),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: titleColor ?? FemFlowColors.textPrimary)),
-                  Text(subtitle, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                  Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: titleColor ?? FemLyraColors.textPrimary)),
+                  Text(subtitle, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted, size: 20),
+            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted, size: 20),
           ],
         ),
       ),

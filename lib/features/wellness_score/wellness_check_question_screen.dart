@@ -65,20 +65,20 @@ class _WellnessCheckQuestionScreenState extends State<WellnessCheckQuestionScree
     final progress = (_currentIndex + 1) / widget.template.questions!.length;
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: _previous,
         ),
         title: Column(
           children: [
-            Text(widget.template.title, style: const TextStyle(color: FemFlowColors.textPrimary, fontSize: 14, fontWeight: FontWeight.bold)),
+            Text(widget.template.title, style: const TextStyle(color: FemLyraColors.textPrimary, fontSize: 14, fontWeight: FontWeight.bold)),
             Text(
               'Question ${_currentIndex + 1} of ${widget.template.questions!.length}',
-              style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 11),
+              style: const TextStyle(color: FemLyraColors.textMuted, fontSize: 11),
             ),
           ],
         ),
@@ -88,8 +88,8 @@ class _WellnessCheckQuestionScreenState extends State<WellnessCheckQuestionScree
         children: [
           LinearProgressIndicator(
             value: progress,
-            backgroundColor: FemFlowColors.border.withValues(alpha: 0.3),
-            valueColor: const AlwaysStoppedAnimation<Color>(FemFlowColors.primary),
+            backgroundColor: FemLyraColors.border.withValues(alpha: 0.3),
+            valueColor: const AlwaysStoppedAnimation<Color>(FemLyraColors.primary),
             minHeight: 4,
           ),
           Expanded(
@@ -100,7 +100,7 @@ class _WellnessCheckQuestionScreenState extends State<WellnessCheckQuestionScree
                 children: [
                   Text(
                     question.questionText,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary, height: 1.3),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary, height: 1.3),
                   ),
                   const SizedBox(height: 48),
                   _buildAnswerInput(question),
@@ -137,8 +137,8 @@ class _WellnessCheckQuestionScreenState extends State<WellnessCheckQuestionScree
             if (mounted) _next();
           });
         },
-        color: isSelected ? FemFlowColors.primary : Colors.white,
-        border: BorderSide(color: isSelected ? FemFlowColors.primary : FemFlowColors.border, width: isSelected ? 2 : 1),
+        color: isSelected ? FemLyraColors.primary : Colors.white,
+        border: BorderSide(color: isSelected ? FemLyraColors.primary : FemLyraColors.border, width: isSelected ? 2 : 1),
         child: Row(
           children: [
             Expanded(
@@ -147,7 +147,7 @@ class _WellnessCheckQuestionScreenState extends State<WellnessCheckQuestionScree
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                  color: isSelected ? Colors.white : FemFlowColors.textPrimary,
+                  color: isSelected ? Colors.white : FemLyraColors.textPrimary,
                 ),
               ),
             ),
@@ -164,16 +164,16 @@ class _WellnessCheckQuestionScreenState extends State<WellnessCheckQuestionScree
       children: [
         Text(
           '${currentVal.toInt()}',
-          style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+          style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
         ),
         const SizedBox(height: 24),
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
-            activeTrackColor: FemFlowColors.primary,
-            inactiveTrackColor: FemFlowColors.border,
-            thumbColor: FemFlowColors.primary,
-            overlayColor: FemFlowColors.primary.withValues(alpha: 0.2),
-            valueIndicatorColor: FemFlowColors.primary,
+            activeTrackColor: FemLyraColors.primary,
+            inactiveTrackColor: FemLyraColors.border,
+            thumbColor: FemLyraColors.primary,
+            overlayColor: FemLyraColors.primary.withValues(alpha: 0.2),
+            valueIndicatorColor: FemLyraColors.primary,
           ),
           child: Slider(
             value: currentVal,
@@ -190,8 +190,8 @@ class _WellnessCheckQuestionScreenState extends State<WellnessCheckQuestionScree
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-             Text(question.minValue == 0 && question.domain == 'stress' ? 'Not stressed' : 'Low', style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
-             Text(question.maxValue == 10 ? 'High' : 'Very high', style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
+             Text(question.minValue == 0 && question.domain == 'stress' ? 'Not stressed' : 'Low', style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
+             Text(question.maxValue == 10 ? 'High' : 'Very high', style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
           ],
         ),
       ],
@@ -221,9 +221,9 @@ class _WellnessCheckQuestionScreenState extends State<WellnessCheckQuestionScree
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        side: const BorderSide(color: FemFlowColors.primary),
+                        side: const BorderSide(color: FemLyraColors.primary),
                       ),
-                      child: const Text('Back', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                      child: const Text('Back', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
                     ),
                   ),
                 if (_currentIndex > 0) const SizedBox(width: 16),
@@ -240,7 +240,7 @@ class _WellnessCheckQuestionScreenState extends State<WellnessCheckQuestionScree
             const SizedBox(height: 16),
             const Text(
               'Private and secure • Not a diagnosis',
-              style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+              style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
             ),
           ],
         ),

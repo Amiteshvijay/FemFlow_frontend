@@ -123,7 +123,7 @@ class _RemindersScreenState extends State<RemindersScreen> {
                 const SizedBox(height: 20),
                 TextField(controller: titleController, decoration: const InputDecoration(labelText: 'Title', hintText: 'e.g. Vitamin D')),
                 const SizedBox(height: 12),
-                const Align(alignment: Alignment.centerLeft, child: Text('Category', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary))),
+                const Align(alignment: Alignment.centerLeft, child: Text('Category', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary))),
                 DropdownButton<String>(
                   value: type,
                   isExpanded: true,
@@ -132,7 +132,7 @@ class _RemindersScreenState extends State<RemindersScreen> {
                   onChanged: (val) => setModalState(() => type = val!),
                 ),
                 const SizedBox(height: 12),
-                const Align(alignment: Alignment.centerLeft, child: Text('Repeat', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary))),
+                const Align(alignment: Alignment.centerLeft, child: Text('Repeat', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary))),
                 DropdownButton<String>(
                   value: repeatType,
                   isExpanded: true,
@@ -204,18 +204,18 @@ class _RemindersScreenState extends State<RemindersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Reminders', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+        title: const Text('Reminders', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
         centerTitle: true,
       ),
       body: SafeArea(
         child: _isLoading
-            ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+            ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
             : _error != null
                 ? Center(
                     child: Column(
@@ -277,11 +277,11 @@ class _RemindersScreenState extends State<RemindersScreen> {
 
   Color _getColorForType(String type) {
     switch (type) {
-      case 'period': return FemFlowColors.period;
-      case 'ovulation': return FemFlowColors.ovulation;
-      case 'pill': return FemFlowColors.textSecondary;
-      case 'log_data': return FemFlowColors.primary;
-      default: return FemFlowColors.textMuted;
+      case 'period': return FemLyraColors.period;
+      case 'ovulation': return FemLyraColors.ovulation;
+      case 'pill': return FemLyraColors.textSecondary;
+      case 'log_data': return FemLyraColors.primary;
+      default: return FemLyraColors.textMuted;
     }
   }
 
@@ -315,14 +315,14 @@ class _RemindersScreenState extends State<RemindersScreen> {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: FemFlowColors.textPrimary,
+                    color: FemLyraColors.textPrimary,
                   ),
                 ),
                 Text(
                   '${reminder.scheduleText} · ${reminder.time}',
                   style: const TextStyle(
                     fontSize: 12,
-                    color: FemFlowColors.textSecondary,
+                    color: FemLyraColors.textSecondary,
                   ),
                 ),
               ],
@@ -331,14 +331,14 @@ class _RemindersScreenState extends State<RemindersScreen> {
           Switch(
             value: reminder.isActive,
             onChanged: (val) => onToggle(),
-            activeThumbColor: FemFlowColors.white,
-            activeTrackColor: FemFlowColors.primary,
-            inactiveThumbColor: FemFlowColors.white,
-            inactiveTrackColor: FemFlowColors.border,
+            activeThumbColor: FemLyraColors.white,
+            activeTrackColor: FemLyraColors.primary,
+            inactiveThumbColor: FemLyraColors.white,
+            inactiveTrackColor: FemLyraColors.border,
             trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
           ),
           IconButton(
-            icon: const Icon(Icons.delete_outline, color: FemFlowColors.textMuted, size: 20),
+            icon: const Icon(Icons.delete_outline, color: FemLyraColors.textMuted, size: 20),
             onPressed: () {
               showDialog(
                 context: context,
@@ -350,7 +350,7 @@ class _RemindersScreenState extends State<RemindersScreen> {
                     TextButton(onPressed: () {
                       Navigator.pop(context);
                       onDelete();
-                    }, child: const Text('Delete', style: TextStyle(color: FemFlowColors.period))),
+                    }, child: const Text('Delete', style: TextStyle(color: FemLyraColors.period))),
                   ],
                 ),
               );

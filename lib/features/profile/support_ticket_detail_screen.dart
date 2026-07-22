@@ -40,7 +40,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -55,7 +55,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
         elevation: 0,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _ticket == null
               ? const Center(child: Text('Ticket not found.'))
               : SingleChildScrollView(
@@ -99,7 +99,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
       style: const TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.w800,
-        color: FemFlowColors.textMuted,
+        color: FemLyraColors.textMuted,
         letterSpacing: 1.2,
       ),
     );
@@ -143,7 +143,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
           const SizedBox(height: 20),
           Text(
             _ticket!.subject,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
           ),
           const SizedBox(height: 16),
           const Divider(),
@@ -161,18 +161,18 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
   Widget _buildInfoRow(IconData icon, String label, String value, {Color? color}) {
     return Row(
       children: [
-        Icon(icon, size: 16, color: color ?? FemFlowColors.textMuted),
+        Icon(icon, size: 16, color: color ?? FemLyraColors.textMuted),
         const SizedBox(width: 12),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted)),
+            Text(label, style: const TextStyle(fontSize: 10, color: FemLyraColors.textMuted)),
             Text(
               value,
               style: TextStyle(
                 fontSize: 13, 
                 fontWeight: FontWeight.w600, 
-                color: color ?? FemFlowColors.textPrimary,
+                color: color ?? FemLyraColors.textPrimary,
               ),
             ),
           ],
@@ -199,10 +199,10 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
             children: [
               Text(
                 role,
-                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary),
+                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary),
               ),
               const SizedBox(width: 8),
-              Text(formattedTime, style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted)),
+              Text(formattedTime, style: const TextStyle(fontSize: 10, color: FemLyraColors.textMuted)),
             ],
           ),
           const SizedBox(height: 6),
@@ -210,14 +210,14 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
             padding: const EdgeInsets.all(16),
             constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
             decoration: BoxDecoration(
-              color: isUser ? FemFlowColors.primary : Colors.white,
+              color: isUser ? FemLyraColors.primary : Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(16),
                 topRight: const Radius.circular(16),
                 bottomLeft: Radius.circular(isUser ? 16 : 4),
                 bottomRight: Radius.circular(isUser ? 4 : 16),
               ),
-              border: isUser ? null : Border.all(color: FemFlowColors.border),
+              border: isUser ? null : Border.all(color: FemLyraColors.border),
               boxShadow: [
                 if (!isUser)
                   BoxShadow(
@@ -231,7 +231,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
               message,
               style: TextStyle(
                 fontSize: 14, 
-                color: isUser ? Colors.white : FemFlowColors.textPrimary,
+                color: isUser ? Colors.white : FemLyraColors.textPrimary,
                 height: 1.4,
               ),
             ),
@@ -243,7 +243,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
 
   Widget _buildTimeline() {
     if (_ticket!.history == null || _ticket!.history!.isEmpty) {
-      return const Text('No updates yet.', style: TextStyle(color: FemFlowColors.textMuted));
+      return const Text('No updates yet.', style: TextStyle(color: FemLyraColors.textMuted));
     }
 
     return AppCard(
@@ -274,14 +274,14 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
               Container(
                 width: 10,
                 height: 10,
-                decoration: const BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
+                decoration: const BoxDecoration(color: FemLyraColors.primary, shape: BoxShape.circle),
               ),
               if (!isLast || _ticket!.closedAt != null)
                 Expanded(
                   child: Container(
                     width: 2,
                     margin: const EdgeInsets.symmetric(vertical: 4),
-                    color: FemFlowColors.primary.withValues(alpha: 0.2),
+                    color: FemLyraColors.primary.withValues(alpha: 0.2),
                   ),
                 ),
             ],
@@ -295,7 +295,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
                 children: [
                   Text(history.statusDisplay, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                   const SizedBox(height: 2),
-                  Text(date, style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted)),
+                  Text(date, style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted)),
                 ],
               ),
             ),
@@ -318,7 +318,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
             children: [
               const Text('Ticket Resolved', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.green)),
               const SizedBox(height: 2),
-              Text(date, style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted)),
+              Text(date, style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted)),
             ],
           ),
         ),

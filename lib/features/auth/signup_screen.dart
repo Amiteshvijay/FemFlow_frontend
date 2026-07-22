@@ -152,7 +152,7 @@ class _SignupScreenState extends State<SignupScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(e.toString().replaceAll('ApiException: ', '')),
-            backgroundColor: FemFlowColors.period,
+            backgroundColor: FemLyraColors.period,
           ),
         );
       }
@@ -166,12 +166,12 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -187,7 +187,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: FemFlowColors.textPrimary,
+                  color: FemLyraColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -196,7 +196,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
-                  color: FemFlowColors.textSecondary,
+                  color: FemLyraColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -248,7 +248,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: const Text(
                       'Login',
                       style: TextStyle(
-                        color: FemFlowColors.primary,
+                        color: FemLyraColors.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -275,7 +275,7 @@ class _SignupScreenState extends State<SignupScreen> {
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: FemFlowColors.border),
+          borderSide: const BorderSide(color: FemLyraColors.border),
         ),
       ),
     );
@@ -295,7 +295,7 @@ class _SignupScreenState extends State<SignupScreen> {
               IconButton(
                 icon: Icon(
                   Icons.help_outline_rounded,
-                  color: _showGuidelines ? FemFlowColors.primary : Colors.grey,
+                  color: _showGuidelines ? FemLyraColors.primary : Colors.grey,
                 ),
                 onPressed: () => setState(() => _showGuidelines = !_showGuidelines),
               ),
@@ -311,7 +311,7 @@ class _SignupScreenState extends State<SignupScreen> {
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: FemFlowColors.border),
+          borderSide: const BorderSide(color: FemLyraColors.border),
         ),
       ),
     );

@@ -28,12 +28,12 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Invoice Detail'),
         centerTitle: true,
         backgroundColor: Colors.white,
-        foregroundColor: FemFlowColors.textPrimary,
+        foregroundColor: FemLyraColors.textPrimary,
         elevation: 0,
         actions: [
           IconButton(
@@ -54,7 +54,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             if (_isDownloading)
               const Padding(
                 padding: EdgeInsets.only(bottom: 16),
-                child: LinearProgressIndicator(color: FemFlowColors.primary),
+                child: LinearProgressIndicator(color: FemLyraColors.primary),
               ),
             _buildStatusHeader(),
             const SizedBox(height: 24),
@@ -94,7 +94,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                 ),
                 Text(
                   'Invoice # ${widget.invoice.invoiceNumber}',
-                  style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 14),
+                  style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 14),
                 ),
               ],
             ),
@@ -138,7 +138,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
               const Text('Total Paid', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               Text(
                 currencyFormat.format(widget.invoice.totalAmount),
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemFlowColors.primary),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemLyraColors.primary),
               ),
             ],
           ),
@@ -153,8 +153,8 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: FemFlowColors.textSecondary)),
-          Text(value, style: TextStyle(fontWeight: FontWeight.w600, color: valueColor ?? FemFlowColors.textPrimary)),
+          Text(label, style: const TextStyle(color: FemLyraColors.textSecondary)),
+          Text(value, style: TextStyle(fontWeight: FontWeight.w600, color: valueColor ?? FemLyraColors.textPrimary)),
         ],
       ),
     );
@@ -166,7 +166,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: FemFlowColors.textSecondary)),
+          Text(label, style: const TextStyle(color: FemLyraColors.textSecondary)),
           Text(value, style: const TextStyle(fontWeight: FontWeight.w500)),
         ],
       ),
@@ -184,7 +184,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             icon: const Icon(Icons.picture_as_pdf_outlined),
             label: const Text('Download Invoice', style: TextStyle(fontWeight: FontWeight.bold)),
             style: ElevatedButton.styleFrom(
-              backgroundColor: FemFlowColors.primary,
+              backgroundColor: FemLyraColors.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
@@ -199,8 +199,8 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             icon: const Icon(Icons.share_outlined),
             label: const Text('Share Invoice', style: TextStyle(fontWeight: FontWeight.bold)),
             style: OutlinedButton.styleFrom(
-              foregroundColor: FemFlowColors.primary,
-              side: const BorderSide(color: FemFlowColors.primary),
+              foregroundColor: FemLyraColors.primary,
+              side: const BorderSide(color: FemLyraColors.primary),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
           ),
@@ -215,12 +215,12 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
         children: [
           Text(
             'This is a computer-generated invoice.',
-            style: TextStyle(color: FemFlowColors.textMuted, fontSize: 12),
+            style: TextStyle(color: FemLyraColors.textMuted, fontSize: 12),
           ),
           SizedBox(height: 4),
           Text(
             'Questions? Contact support@femlyra.com',
-            style: TextStyle(color: FemFlowColors.textMuted, fontSize: 12),
+            style: TextStyle(color: FemLyraColors.textMuted, fontSize: 12),
           ),
         ],
       ),

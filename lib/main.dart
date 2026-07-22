@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       title: 'FemLyra',
       navigatorKey: NavigatorService.navigatorKey,
       debugShowCheckedModeBanner: false,
-      theme: FemFlowTheme.lightTheme,
+      theme: FemLyraTheme.lightTheme,
       home: const AuthGate(),
       builder: (context, child) {
         return Consumer<AppLockService>(
@@ -151,9 +151,9 @@ class _AuthGateState extends State<AuthGate> {
 
         if (auth.status == AuthStatus.loading) {
           return const Scaffold(
-            backgroundColor: FemFlowColors.warmWhite,
+            backgroundColor: FemLyraColors.warmWhite,
             body: Center(
-              child: CircularProgressIndicator(color: FemFlowColors.primary),
+              child: CircularProgressIndicator(color: FemLyraColors.primary),
             ),
           );
         }

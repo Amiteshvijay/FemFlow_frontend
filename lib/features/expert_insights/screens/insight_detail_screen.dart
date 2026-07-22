@@ -137,8 +137,8 @@ class _InsightDetailScreenState extends State<InsightDetailScreen> {
       children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-          decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
-          child: Text(_insight!.categoryName, style: const TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 12)),
+          decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
+          child: Text(_insight!.categoryName, style: const TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold, fontSize: 12)),
         ),
         const SizedBox(height: 16),
         Text(_insight!.title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, height: 1.3)),
@@ -195,14 +195,14 @@ class _InsightDetailScreenState extends State<InsightDetailScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFFF8F7FF),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: FemFlowColors.aiWellness.withValues(alpha: 0.1)),
+        border: Border.all(color: FemLyraColors.aiWellness.withValues(alpha: 0.1)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Row(
             children: [
-              Text('Ask FemAI About This Topic', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness)),
+              Text('Ask FemAI About This Topic', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.aiWellness)),
             ],
           ),
           const SizedBox(height: 16),
@@ -215,7 +215,7 @@ class _InsightDetailScreenState extends State<InsightDetailScreen> {
               fillColor: Colors.white,
               suffixIcon: IconButton(
                 onPressed: _askAI,
-                icon: const Icon(Icons.send, color: FemFlowColors.aiWellness),
+                icon: const Icon(Icons.send, color: FemLyraColors.aiWellness),
               ),
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
             ),
@@ -263,7 +263,7 @@ class _InsightDetailScreenState extends State<InsightDetailScreen> {
         ),
         _engagementBtn(
           _insight!.isSaved ? Icons.bookmark : Icons.bookmark_border, 
-          _insight!.isSaved ? FemFlowColors.primary : Colors.grey, 
+          _insight!.isSaved ? FemLyraColors.primary : Colors.grey, 
           'Save', 
           () => _handleEngage('save')
         ),

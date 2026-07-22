@@ -32,19 +32,19 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: Consumer<SubscriptionProvider>(
         builder: (context, provider, child) {
           if (provider.plans.isEmpty) {
-            return const Center(child: CircularProgressIndicator(color: FemFlowColors.primary));
+            return const Center(child: CircularProgressIndicator(color: FemLyraColors.primary));
           }
 
           // Ensure index is within range if plans loaded
@@ -79,7 +79,7 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
                 const Center(
                   child: Text(
                     'Cancel anytime. Secure payment via UPI / QR verification.',
-                    style: TextStyle(color: FemFlowColors.textMuted, fontSize: 12),
+                    style: TextStyle(color: FemLyraColors.textMuted, fontSize: 12),
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -100,13 +100,13 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
-            color: FemFlowColors.primary,
+            color: FemLyraColors.primary,
           ),
         ),
         SizedBox(height: 8),
         Text(
           'Unlock personalized cycle insights, FemAI guidance, and deeper wellness tracking.',
-          style: TextStyle(fontSize: 16, color: FemFlowColors.textSecondary, height: 1.5),
+          style: TextStyle(fontSize: 16, color: FemLyraColors.textSecondary, height: 1.5),
         ),
       ],
     );
@@ -134,13 +134,13 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
 
     if (provider.status?.status == 'free' && provider.status?.hasUsedTrial == false) {
       return AppCard(
-        color: FemFlowColors.blushMist.withValues(alpha: 0.5),
-        border: const BorderSide(color: FemFlowColors.primary, width: 1),
+        color: FemLyraColors.blushMist.withValues(alpha: 0.5),
+        border: const BorderSide(color: FemLyraColors.primary, width: 1),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(12),
-              decoration: const BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: FemLyraColors.primary, shape: BoxShape.circle),
               child: const Icon(Icons.star_rounded, color: Colors.white, size: 24),
             ),
             const SizedBox(width: 16),
@@ -150,11 +150,11 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
                 children: [
                   Text(
                     '1-Month Free Trial',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary),
                   ),
                   Text(
                     'For new members. No charge today.',
-                    style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                    style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
                   ),
                 ],
               ),
@@ -182,12 +182,12 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: isSelected ? FemFlowColors.primary : Colors.grey[200]!,
+              color: isSelected ? FemLyraColors.primary : Colors.grey[200]!,
               width: isSelected ? 2 : 1,
             ),
             boxShadow: isSelected ? [
               BoxShadow(
-                color: FemFlowColors.primary.withValues(alpha: 0.1),
+                color: FemLyraColors.primary.withValues(alpha: 0.1),
                 blurRadius: 15,
                 offset: const Offset(0, 8),
               )
@@ -202,7 +202,7 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
                   decoration: BoxDecoration(
                     gradient: isStrongHighlight 
                         ? const LinearGradient(colors: [Color(0xFFFFD700), Color(0xFFFF8C00)])
-                        : LinearGradient(colors: [FemFlowColors.primary, FemFlowColors.primary.withValues(alpha: 0.7)]),
+                        : LinearGradient(colors: [FemLyraColors.primary, FemLyraColors.primary.withValues(alpha: 0.7)]),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(22),
                       bottomRight: Radius.circular(20),
@@ -229,12 +229,12 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
-                                  color: isSelected ? FemFlowColors.primary : FemFlowColors.textPrimary,
+                                  color: isSelected ? FemLyraColors.primary : FemLyraColors.textPrimary,
                                 ),
                               ),
                               Text(
                                 plan.durationLabel ?? plan.billingCycle,
-                                style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                                style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
                               ),
                             ],
                           ),
@@ -253,14 +253,14 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
                                   style: TextStyle(
                                     fontSize: 24, 
                                     fontWeight: FontWeight.bold,
-                                    color: isSelected ? FemFlowColors.primary : FemFlowColors.textPrimary,
+                                    color: isSelected ? FemLyraColors.primary : FemLyraColors.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(width: 4),
                                 Flexible(
                                   child: Text(
                                     plan.isLifetime ? 'one-time' : '/${plan.billingCycle}',
-                                    style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+                                    style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -271,7 +271,7 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
                                 '₹${plan.price.toInt()}',
                                 style: const TextStyle(
                                   fontSize: 14, 
-                                  color: FemFlowColors.textMuted,
+                                  color: FemLyraColors.textMuted,
                                   decoration: TextDecoration.lineThrough,
                                 ),
                               ),
@@ -293,9 +293,9 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
                         padding: const EdgeInsets.only(bottom: 8),
                         child: Row(
                           children: [
-                            const Icon(Icons.check_circle, color: FemFlowColors.primary, size: 16),
+                            const Icon(Icons.check_circle, color: FemLyraColors.primary, size: 16),
                             const SizedBox(width: 8),
-                            Expanded(child: Text(b, style: const TextStyle(fontSize: 13, color: FemFlowColors.textPrimary))),
+                            Expanded(child: Text(b, style: const TextStyle(fontSize: 13, color: FemLyraColors.textPrimary))),
                           ],
                         ),
                       )),
@@ -335,11 +335,11 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
-            child: const Icon(Icons.check, color: FemFlowColors.primary, size: 12),
+            decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
+            child: const Icon(Icons.check, color: FemLyraColors.primary, size: 12),
           ),
           const SizedBox(width: 12),
-          Expanded(child: Text(text, style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary))),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 14, color: FemLyraColors.textPrimary))),
         ],
       ),
     );
@@ -403,8 +403,8 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
             const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
-              child: const Icon(Icons.check_circle_outline_rounded, color: FemFlowColors.primary, size: 48),
+              decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
+              child: const Icon(Icons.check_circle_outline_rounded, color: FemLyraColors.primary, size: 48),
             ),
             const SizedBox(height: 24),
             const Text(
@@ -420,7 +420,7 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
                     ? 'Lifetime Premium is now active on your account.'
                     : 'Your ${plan?.name} is active.'),
               textAlign: TextAlign.center,
-              style: const TextStyle(color: FemFlowColors.textSecondary),
+              style: const TextStyle(color: FemLyraColors.textSecondary),
             ),
             const SizedBox(height: 32),
             PrimaryButton(
@@ -439,13 +439,13 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
     final bool hasAppliedReferral = provider.status?.status == 'active' && provider.status?.planKey == 'referral_bonus';
 
     return AppCard(
-      color: FemFlowColors.ovulation.withValues(alpha: 0.05),
-      border: BorderSide(color: FemFlowColors.ovulation, width: 0.5),
+      color: FemLyraColors.ovulation.withValues(alpha: 0.05),
+      border: BorderSide(color: FemLyraColors.ovulation, width: 0.5),
       child: Column(
         children: [
           Row(
             children: [
-              const Icon(Icons.card_giftcard, color: FemFlowColors.ovulation),
+              const Icon(Icons.card_giftcard, color: FemLyraColors.ovulation),
               const SizedBox(width: 12),
               const Expanded(
                 child: Text(
@@ -466,7 +466,7 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
           else ...[
             const Text(
               'Enter a friend\'s code to unlock 3 months Premium free.',
-              style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+              style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
             ),
             const SizedBox(height: 16),
             SizedBox(
@@ -482,8 +482,8 @@ class _PremiumPlanScreenState extends State<PremiumPlanScreen> {
                   }
                 },
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: FemFlowColors.ovulation,
-                  side: const BorderSide(color: FemFlowColors.ovulation),
+                  foregroundColor: FemLyraColors.ovulation,
+                  side: const BorderSide(color: FemLyraColors.ovulation),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 child: const Text('Enter Referral Code'),

@@ -19,29 +19,29 @@ class PremiumFeatureLockedWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: FemFlowColors.blushMist.withValues(alpha: 0.3),
+        color: FemLyraColors.blushMist.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: FemFlowColors.blushMist, width: 1),
+        border: Border.all(color: FemLyraColors.blushMist, width: 1),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
-            child: Icon(icon, color: FemFlowColors.primary, size: 32),
+            decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
+            child: Icon(icon, color: FemLyraColors.primary, size: 32),
           ),
           const SizedBox(height: 16),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
           ),
           const SizedBox(height: 8),
           Text(
             description,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.5),
+            style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary, height: 1.5),
           ),
           const SizedBox(height: 24),
           SizedBox(
@@ -55,7 +55,7 @@ class PremiumFeatureLockedWidget extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: FemFlowColors.primary,
+                backgroundColor: FemLyraColors.primary,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 elevation: 0,
               ),

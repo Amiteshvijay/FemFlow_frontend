@@ -53,7 +53,7 @@ class DailyTipCard extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.bold, 
                 fontSize: 18, 
-                color: FemFlowColors.textPrimary,
+                color: FemLyraColors.textPrimary,
                 letterSpacing: -0.5
               ),
             ),

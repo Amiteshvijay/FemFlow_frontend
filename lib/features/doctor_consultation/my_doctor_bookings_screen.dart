@@ -60,9 +60,9 @@ class _MyDoctorBookingsScreenState extends State<MyDoctorBookingsScreen> with Si
         foregroundColor: Colors.black,
         bottom: TabBar(
           controller: _tabController,
-          labelColor: FemFlowColors.primary,
+          labelColor: FemLyraColors.primary,
           unselectedLabelColor: Colors.grey,
-          indicatorColor: FemFlowColors.primary,
+          indicatorColor: FemLyraColors.primary,
           tabs: const [
             Tab(text: 'Upcoming'),
             Tab(text: 'Completed'),

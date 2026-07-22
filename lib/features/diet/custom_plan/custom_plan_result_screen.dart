@@ -80,7 +80,7 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: CustomScrollView(
         slivers: [
           _buildAppBar(),
@@ -118,7 +118,7 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
                   Center(
                     child: TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Edit Plan Settings', style: TextStyle(color: FemFlowColors.primary)),
+                      child: const Text('Edit Plan Settings', style: TextStyle(color: FemLyraColors.primary)),
                     ),
                   ),
                   const SizedBox(height: 40),
@@ -137,7 +137,7 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         title: const Text('Custom Plan Ready', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        background: Container(color: FemFlowColors.primary),
+        background: Container(color: FemLyraColors.primary),
       ),
       leading: IconButton(
         icon: const Icon(Icons.close, color: Colors.white),
@@ -154,7 +154,7 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
 
   Widget _buildHeader() {
     return AppCard(
-      color: FemFlowColors.primary.withValues(alpha: 0.05),
+      color: FemLyraColors.primary.withValues(alpha: 0.05),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -173,12 +173,12 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
           const SizedBox(height: 8),
           Text(
             'Target: ${widget.plan.targetCalories} kcal/day',
-            style: const TextStyle(color: FemFlowColors.textSecondary, fontWeight: FontWeight.w600),
+            style: const TextStyle(color: FemLyraColors.textSecondary, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 12),
           Text(
             'Based on your ${widget.plan.goal.replaceAll('_', ' ')} goal and ${widget.plan.cyclePhaseAtGeneration ?? "current"} cycle phase.',
-            style: const TextStyle(fontSize: 13, color: FemFlowColors.textMuted),
+            style: const TextStyle(fontSize: 13, color: FemLyraColors.textMuted),
           ),
         ],
       ),
@@ -202,7 +202,7 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
       child: Column(
         children: [
           Text(value, style: TextStyle(fontWeight: FontWeight.bold, color: color, fontSize: 16)),
-          Text(label, style: const TextStyle(fontSize: 10, color: FemFlowColors.textSecondary)),
+          Text(label, style: const TextStyle(fontSize: 10, color: FemLyraColors.textSecondary)),
         ],
       ),
     );
@@ -219,15 +219,15 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
               children: [
                 Container(
                   padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
-                  child: Icon(_getMealIcon(meal.mealType), color: FemFlowColors.primary, size: 16),
+                  decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
+                  child: Icon(_getMealIcon(meal.mealType), color: FemLyraColors.primary, size: 16),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(meal.mealType.toUpperCase(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+                      Text(meal.mealType.toUpperCase(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
                       Text(meal.mealName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                     ],
                   ),
@@ -236,7 +236,7 @@ class _CustomPlanResultScreenState extends State<CustomPlanResultScreen> {
               ],
             ),
             const SizedBox(height: 12),
-            Text(meal.reason, style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary)),
+            Text(meal.reason, style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary)),
             if (meal.doctorAdviceApplied) ...[
               const SizedBox(height: 8),
               Row(

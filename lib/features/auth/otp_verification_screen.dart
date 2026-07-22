@@ -283,12 +283,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           title,
-          style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+          style: const TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         content: SingleChildScrollView(
           child: Text(
             content,
-            style: const TextStyle(color: FemFlowColors.textSecondary, height: 1.4),
+            style: const TextStyle(color: FemLyraColors.textSecondary, height: 1.4),
           ),
         ),
         actions: [
@@ -296,7 +296,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             onPressed: () => Navigator.pop(context),
             child: const Text(
               'Close',
-              style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold),
+              style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -307,12 +307,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -322,17 +322,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(Icons.mark_email_read_outlined, size: 60, color: FemFlowColors.primary),
+              const Icon(Icons.mark_email_read_outlined, size: 60, color: FemLyraColors.primary),
               const SizedBox(height: 16),
               const Text(
                 'Verify Your Account',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
               ),
               const SizedBox(height: 8),
               const Text(
                 'We have sent separate verification codes to verify your details.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: FemFlowColors.textSecondary, height: 1.4),
+                style: TextStyle(color: FemLyraColors.textSecondary, height: 1.4),
               ),
               const SizedBox(height: 32),
 
@@ -345,11 +345,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     RichText(
                       text: TextSpan(
                         text: 'Email Code sent to: ',
-                        style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                        style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
                         children: [
                           TextSpan(
                             text: widget.email,
-                            style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+                            style: const TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -357,11 +357,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     if (_emailVerified)
                       const Row(
                         children: [
-                          Icon(Icons.check_circle, color: FemFlowColors.primary, size: 16),
+                          Icon(Icons.check_circle, color: FemLyraColors.primary, size: 16),
                           SizedBox(width: 4),
                           Text(
                             'Verified',
-                            style: TextStyle(color: FemFlowColors.primary, fontSize: 12, fontWeight: FontWeight.bold),
+                            style: TextStyle(color: FemLyraColors.primary, fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -388,11 +388,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     RichText(
                       text: TextSpan(
                         text: 'SMS Code sent to: ',
-                        style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                        style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
                         children: [
                           TextSpan(
                             text: widget.phone,
-                            style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+                            style: const TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -400,11 +400,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     if (_phoneVerified)
                       const Row(
                         children: [
-                          Icon(Icons.check_circle, color: FemFlowColors.primary, size: 16),
+                          Icon(Icons.check_circle, color: FemLyraColors.primary, size: 16),
                           SizedBox(width: 4),
                           Text(
                             'Verified',
-                            style: TextStyle(color: FemFlowColors.primary, fontSize: 12, fontWeight: FontWeight.bold),
+                            style: TextStyle(color: FemLyraColors.primary, fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -435,19 +435,19 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       });
                       _checkAutoVerify();
                     },
-                    activeColor: FemFlowColors.primary,
+                    activeColor: FemLyraColors.primary,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                   ),
                   Expanded(
                     child: RichText(
                       text: TextSpan(
                         text: 'I agree to the ',
-                        style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                        style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
                         children: [
                           TextSpan(
                             text: 'Terms of Service',
                             style: const TextStyle(
-                              color: FemFlowColors.primary,
+                              color: FemLyraColors.primary,
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.underline,
                             ),
@@ -464,7 +464,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           TextSpan(
                             text: 'Privacy Policy',
                             style: const TextStyle(
-                              color: FemFlowColors.primary,
+                              color: FemLyraColors.primary,
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.underline,
                             ),
@@ -489,7 +489,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   padding: const EdgeInsets.only(top: 16),
                   child: Text(
                     _error!,
-                    style: const TextStyle(color: FemFlowColors.period, fontSize: 13, fontWeight: FontWeight.w500),
+                    style: const TextStyle(color: FemLyraColors.period, fontSize: 13, fontWeight: FontWeight.w500),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -505,7 +505,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 const SizedBox(height: 24),
                 Text(
                   "Didn't receive codes?",
-                  style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                  style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
                 ),
                 const SizedBox(height: 8),
                 Row(
@@ -518,14 +518,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           _resendCountdown == 0 ? 'Resend Email Code' : 'Resend Email in ${_resendCountdown}s',
                           style: TextStyle(
                             fontSize: 12,
-                            color: _resendCountdown == 0 ? FemFlowColors.primary : FemFlowColors.textMuted,
+                            color: _resendCountdown == 0 ? FemLyraColors.primary : FemLyraColors.textMuted,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     if (!_emailVerified && !_phoneVerified) ...[
                       const SizedBox(width: 8),
-                      const Text('|', style: TextStyle(color: FemFlowColors.border)),
+                      const Text('|', style: TextStyle(color: FemLyraColors.border)),
                       const SizedBox(width: 8),
                     ],
                     if (!_phoneVerified)
@@ -535,7 +535,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           _resendCountdown == 0 ? 'Resend SMS Code' : 'Resend SMS in ${_resendCountdown}s',
                           style: TextStyle(
                             fontSize: 12,
-                            color: _resendCountdown == 0 ? FemFlowColors.primary : FemFlowColors.textMuted,
+                            color: _resendCountdown == 0 ? FemLyraColors.primary : FemLyraColors.textMuted,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -572,25 +572,25 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: isEnabled ? FemFlowColors.textPrimary : FemFlowColors.textMuted,
+              color: isEnabled ? FemLyraColors.textPrimary : FemLyraColors.textMuted,
             ),
             decoration: InputDecoration(
               counterText: "",
               contentPadding: const EdgeInsets.symmetric(vertical: 10),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: FemFlowColors.border),
+                borderSide: const BorderSide(color: FemLyraColors.border),
               ),
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: FemFlowColors.border, width: 1.0),
+                borderSide: const BorderSide(color: FemLyraColors.border, width: 1.0),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: FemFlowColors.primary, width: 1.5),
+                borderSide: const BorderSide(color: FemLyraColors.primary, width: 1.5),
               ),
               filled: true,
-              fillColor: isEnabled ? Colors.white : FemFlowColors.border.withOpacity(0.3),
+              fillColor: isEnabled ? Colors.white : FemLyraColors.border.withOpacity(0.3),
             ),
             onChanged: (value) {
               if (_error != null) {

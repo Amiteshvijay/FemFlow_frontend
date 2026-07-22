@@ -9,7 +9,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -35,7 +35,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: FemFlowColors.textPrimary,
+                          color: FemLyraColors.textPrimary,
                         ),
                       ),
                     ],
@@ -43,7 +43,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   const Text(
                     'FemLyra and FemAI are designed to provide educational information and cycle tracking assistance only. Important: FemLyra is NOT a medical device and does not diagnose, treat, cure, or prevent any medical condition. The content and insights provided are not intended to be a substitute for professional medical advice, diagnosis, or treatment.',
-                    style: TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, height: 1.5, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 14, color: FemLyraColors.textPrimary, height: 1.5, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 16),
                   _buildDisclaimerPoint(
@@ -80,7 +80,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 13,
-                    color: FemFlowColors.primary,
+                    color: FemLyraColors.primary,
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
                   ),
@@ -91,7 +91,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
             const Text(
               'By using FemLyra, you acknowledge and agree to these terms.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+              style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
             ),
           ],
         ),
@@ -110,7 +110,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.textPrimary,
+              color: FemLyraColors.textPrimary,
             ),
           ),
           const SizedBox(height: 4),
@@ -118,7 +118,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
             content,
             style: const TextStyle(
               fontSize: 14,
-              color: FemFlowColors.textSecondary,
+              color: FemLyraColors.textSecondary,
               height: 1.4,
             ),
           ),

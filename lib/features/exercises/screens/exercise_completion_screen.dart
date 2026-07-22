@@ -77,7 +77,7 @@ class _ExerciseCompletionScreenState extends State<ExerciseCompletionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -106,19 +106,19 @@ class _ExerciseCompletionScreenState extends State<ExerciseCompletionScreen> {
       children: [
         Container(
           padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(color: FemFlowColors.blushMist, shape: BoxShape.circle),
-          child: const Icon(Icons.auto_awesome, color: FemFlowColors.primary, size: 40),
+          decoration: const BoxDecoration(color: FemLyraColors.blushMist, shape: BoxShape.circle),
+          child: const Icon(Icons.auto_awesome, color: FemLyraColors.primary, size: 40),
         ),
         const SizedBox(height: 24),
         const Text(
           'Great job! 🌸',
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
         ),
         const SizedBox(height: 8),
         Text(
           'You completed ${widget.exercise.name}',
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary),
+          style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary),
         ),
       ],
     );
@@ -141,7 +141,7 @@ class _ExerciseCompletionScreenState extends State<ExerciseCompletionScreen> {
     return Column(
       children: [
         Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-        Text(label, style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 12)),
+        Text(label, style: const TextStyle(color: FemLyraColors.textMuted, fontSize: 12)),
       ],
     );
   }
@@ -169,9 +169,9 @@ class _ExerciseCompletionScreenState extends State<ExerciseCompletionScreen> {
                   }
                 });
               },
-              selectedColor: FemFlowColors.primary,
+              selectedColor: FemLyraColors.primary,
               checkmarkColor: Colors.white,
-              labelStyle: TextStyle(color: isSelected ? Colors.white : FemFlowColors.textPrimary, fontSize: 13),
+              labelStyle: TextStyle(color: isSelected ? Colors.white : FemLyraColors.textPrimary, fontSize: 13),
               backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Colors.grey[300]!)),
             );
@@ -185,7 +185,7 @@ class _ExerciseCompletionScreenState extends State<ExerciseCompletionScreen> {
           max: 10,
           divisions: 10,
           label: _painLevel.toInt().toString(),
-          activeColor: FemFlowColors.primary,
+          activeColor: FemLyraColors.primary,
           onChanged: (val) => setState(() => _painLevel = val),
         ),
         const SizedBox(height: 24),
@@ -201,8 +201,8 @@ class _ExerciseCompletionScreenState extends State<ExerciseCompletionScreen> {
                   label: Center(child: Text(e.toUpperCase())),
                   selected: isSelected,
                   onSelected: (_) => setState(() => _energyAfter = e),
-                  selectedColor: FemFlowColors.primary,
-                  labelStyle: TextStyle(color: isSelected ? Colors.white : FemFlowColors.textPrimary, fontSize: 12),
+                  selectedColor: FemLyraColors.primary,
+                  labelStyle: TextStyle(color: isSelected ? Colors.white : FemLyraColors.textPrimary, fontSize: 12),
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),

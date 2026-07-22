@@ -107,7 +107,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                           ],
                         ],
                       ),
-                      Text(_doctor.speciality, style: TextStyle(color: FemFlowColors.primary, fontSize: 14)),
+                      Text(_doctor.speciality, style: TextStyle(color: FemLyraColors.primary, fontSize: 14)),
                       Text(_doctor.qualification, style: const TextStyle(fontSize: 13, color: Colors.grey)),
                       Text('${_doctor.experienceYears} years experience', style: const TextStyle(fontSize: 13, color: Colors.grey)),
                     ],
@@ -232,7 +232,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                   padding: const EdgeInsets.only(right: 16),
                   child: Row(
                     children: [
-                      Icon(_getModeIcon(mode), size: 18, color: FemFlowColors.primary),
+                      Icon(_getModeIcon(mode), size: 18, color: FemLyraColors.primary),
                       const SizedBox(width: 4),
                       Text(mode.toUpperCase(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
                     ],
@@ -284,7 +284,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
             MaterialPageRoute(builder: (_) => DoctorBookingScreen(doctor: _doctor)),
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: FemFlowColors.primary,
+            backgroundColor: FemLyraColors.primary,
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 16),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -350,10 +350,10 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                   children: review.quickTags.map((tag) => Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: FemFlowColors.primary.withValues(alpha: 0.05),
+                      color: FemLyraColors.primary.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: Text(tag, style: const TextStyle(fontSize: 10, color: FemFlowColors.primary)),
+                    child: Text(tag, style: const TextStyle(fontSize: 10, color: FemLyraColors.primary)),
                   )).toList(),
                 ),
               ],
@@ -418,7 +418,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
               color: Colors.grey.shade50,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: FemFlowColors.primary, size: 24),
+            child: Icon(icon, color: FemLyraColors.primary, size: 24),
           ),
           const SizedBox(width: 12),
           Expanded(

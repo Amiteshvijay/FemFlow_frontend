@@ -112,7 +112,7 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(e.statusCode == 401 ? 'Please login again' : e.message),
-            backgroundColor: FemFlowColors.period,
+            backgroundColor: FemLyraColors.period,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -122,7 +122,7 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: ${e.toString()}'),
-            backgroundColor: FemFlowColors.period,
+            backgroundColor: FemLyraColors.period,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -143,7 +143,7 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -159,7 +159,7 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
               DateFormat('EEEE, d MMMM').format(_selectedDate),
               style: const TextStyle(
                 fontSize: 12,
-                color: FemFlowColors.textSecondary,
+                color: FemLyraColors.textSecondary,
                 fontWeight: FontWeight.normal,
               ),
             ),
@@ -168,7 +168,7 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
         centerTitle: true,
       ),
       body: _isLoading && _moodCatalog == null
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -262,7 +262,7 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
                       Text(
                         '${_painLevel.toInt()}/10',
                         style: const TextStyle(
-                          color: FemFlowColors.primary,
+                          color: FemLyraColors.primary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -270,10 +270,10 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
                   ),
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
-                      activeTrackColor: FemFlowColors.primary,
-                      inactiveTrackColor: FemFlowColors.border,
-                      thumbColor: FemFlowColors.primary,
-                      overlayColor: FemFlowColors.primary.withValues(alpha: 0.1),
+                      activeTrackColor: FemLyraColors.primary,
+                      inactiveTrackColor: FemLyraColors.border,
+                      thumbColor: FemLyraColors.primary,
+                      overlayColor: FemLyraColors.primary.withValues(alpha: 0.1),
                     ),
                     child: Slider(
                       value: _painLevel,
@@ -302,10 +302,10 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               decoration: BoxDecoration(
-                                color: isSelected ? FemFlowColors.blushMist : FemFlowColors.white,
+                                color: isSelected ? FemLyraColors.blushMist : FemLyraColors.white,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: isSelected ? FemFlowColors.primary : FemFlowColors.border,
+                                  color: isSelected ? FemLyraColors.primary : FemLyraColors.border,
                                   width: isSelected ? 1.5 : 1,
                                 ),
                               ),
@@ -314,7 +314,7 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
                                   level,
                                   style: TextStyle(
                                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                    color: isSelected ? FemFlowColors.primary : FemFlowColors.textSecondary,
+                                    color: isSelected ? FemLyraColors.primary : FemLyraColors.textSecondary,
                                   ),
                                 ),
                               ),
@@ -335,20 +335,20 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
                     maxLines: 4,
                     decoration: InputDecoration(
                       hintText: 'Add any notes about how you feel today...',
-                      hintStyle: const TextStyle(color: FemFlowColors.textMuted),
+                      hintStyle: const TextStyle(color: FemLyraColors.textMuted),
                       filled: true,
-                      fillColor: FemFlowColors.white,
+                      fillColor: FemLyraColors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: FemFlowColors.border),
+                        borderSide: const BorderSide(color: FemLyraColors.border),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: FemFlowColors.border),
+                        borderSide: const BorderSide(color: FemLyraColors.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: FemFlowColors.primary),
+                        borderSide: const BorderSide(color: FemLyraColors.primary),
                       ),
                     ),
                   ),
@@ -372,7 +372,7 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
       style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
-        color: FemFlowColors.textPrimary,
+        color: FemLyraColors.textPrimary,
       ),
     );
   }

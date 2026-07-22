@@ -82,13 +82,13 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Add Activity', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -140,7 +140,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
   Widget _buildLabel(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8, left: 4),
-      child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+      child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
     );
   }
 
@@ -149,7 +149,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: FemFlowColors.border),
+        border: Border.all(color: FemLyraColors.border),
         borderRadius: BorderRadius.circular(12),
       ),
       child: DropdownButtonHideUnderline(
@@ -160,7 +160,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
           borderRadius: BorderRadius.circular(12),
           items: _catalog.map((m) => DropdownMenuItem(
             value: m,
-            child: Text(m.label, style: const TextStyle(color: FemFlowColors.textPrimary)),
+            child: Text(m.label, style: const TextStyle(color: FemLyraColors.textPrimary)),
           )).toList(),
           onChanged: (val) {
             setState(() {
@@ -179,7 +179,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text('5 min', style: TextStyle(fontSize: 12)),
-            Text('$_durationMinutes min', style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary, fontSize: 18)),
+            Text('$_durationMinutes min', style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 18)),
             const Text('120 min', style: TextStyle(fontSize: 12)),
           ],
         ),
@@ -188,8 +188,8 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
           min: 5,
           max: 120,
           divisions: 23,
-          activeColor: FemFlowColors.primary,
-          inactiveColor: FemFlowColors.primary.withValues(alpha: 0.1),
+          activeColor: FemLyraColors.primary,
+          inactiveColor: FemLyraColors.primary.withValues(alpha: 0.1),
           onChanged: (val) => setState(() => _durationMinutes = val.toInt()),
         ),
       ],

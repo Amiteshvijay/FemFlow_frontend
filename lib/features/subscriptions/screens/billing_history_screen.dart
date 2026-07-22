@@ -28,20 +28,20 @@ class _BillingHistoryScreenState extends State<BillingHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Billing History', style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold)),
+        title: const Text('Billing History', style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold)),
       ),
       body: Consumer<SubscriptionProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-            return const Center(child: CircularProgressIndicator(color: FemFlowColors.primary));
+            return const Center(child: CircularProgressIndicator(color: FemLyraColors.primary));
           }
 
           if (provider.invoices.isEmpty) {
@@ -93,11 +93,11 @@ class _BillingHistoryScreenState extends State<BillingHistoryScreen> {
                   const SizedBox(height: 2),
                   Text(
                     'Invoice # ${invoice.invoiceNumber}',
-                    style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 12),
+                    style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 12),
                   ),
                   Text(
                     dateStr,
-                    style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 12),
+                    style: const TextStyle(color: FemLyraColors.textMuted, fontSize: 12),
                   ),
                 ],
               ),
@@ -107,7 +107,7 @@ class _BillingHistoryScreenState extends State<BillingHistoryScreen> {
               children: [
                 Text(
                   '₹${invoice.totalAmount.toInt()}',
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary),
                 ),
                 Text(
                   invoice.status.toUpperCase(),
@@ -138,7 +138,7 @@ class _BillingHistoryScreenState extends State<BillingHistoryScreen> {
           const SizedBox(height: 24),
           const Text(
             'No billing history yet',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
           ),
           const SizedBox(height: 8),
           const Padding(
@@ -146,7 +146,7 @@ class _BillingHistoryScreenState extends State<BillingHistoryScreen> {
             child: Text(
               'Your invoices will appear here after your first payment or trial activation.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: FemFlowColors.textSecondary, height: 1.5),
+              style: TextStyle(color: FemLyraColors.textSecondary, height: 1.5),
             ),
           ),
         ],

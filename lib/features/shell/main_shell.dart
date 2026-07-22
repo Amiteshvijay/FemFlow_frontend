@@ -183,14 +183,14 @@ class MainShellState extends State<MainShell> {
         children: [
           Icon(
             isSelected ? activeIcon : icon,
-            color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
+            color: isSelected ? FemLyraColors.primary : FemLyraColors.textMuted,
             size: 24,
           ),
           Text(
             label,
             style: TextStyle(
               fontSize: 10,
-              color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
+              color: isSelected ? FemLyraColors.primary : FemLyraColors.textMuted,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
           ),

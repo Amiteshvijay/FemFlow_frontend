@@ -165,7 +165,7 @@ class _DoctorConsultationHomeScreenState extends State<DoctorConsultationHomeScr
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(_getIconData(cat.iconName), color: FemFlowColors.primary, size: 28),
+            Icon(_getIconData(cat.iconName), color: FemLyraColors.primary, size: 28),
             const SizedBox(height: 6),
             Text(
               cat.name,

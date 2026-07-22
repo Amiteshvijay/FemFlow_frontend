@@ -125,13 +125,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   Widget build(BuildContext context) {
     if (!_isAuthorized && context.read<AppLockService>().isEnabled) {
       return const Scaffold(
-        backgroundColor: FemFlowColors.warmWhite,
-        body: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)),
+        backgroundColor: FemLyraColors.warmWhite,
+        body: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)),
       );
     }
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Tax Invoice', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
@@ -149,7 +149,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _booking == null || _booking!.invoice == null
               ? _buildMissingInvoice()
               : SingleChildScrollView(
@@ -215,7 +215,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: const BoxDecoration(
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
               borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
             ),
             child: Row(
@@ -286,7 +286,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                     const Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                     Text(
                       '₹${total.toStringAsFixed(2)}', 
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemFlowColors.primary)
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemLyraColors.primary)
                     ),
                   ],
                 ),

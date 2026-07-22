@@ -162,20 +162,20 @@ class _WellnessOnboardingFlowState extends State<WellnessOnboardingFlow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: widget.onComplete != null 
           ? null 
           : IconButton(
-              icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
+              icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
               onPressed: () => Navigator.pop(context),
             ),
         title: Column(
           children: [
-            const Text('Wellness Profile', style: TextStyle(color: FemFlowColors.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
-            Text('Step ${_currentPage + 1} of $_totalSteps', style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 12)),
+            const Text('Wellness Profile', style: TextStyle(color: FemLyraColors.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
+            Text('Step ${_currentPage + 1} of $_totalSteps', style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 12)),
           ],
         ),
         centerTitle: true,
@@ -212,9 +212,9 @@ class _WellnessOnboardingFlowState extends State<WellnessOnboardingFlow> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+          Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
           const SizedBox(height: 8),
-          Text(subtitle, style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary)),
+          Text(subtitle, style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary)),
           const SizedBox(height: 32),
           child,
         ],
@@ -230,13 +230,13 @@ class _WellnessOnboardingFlowState extends State<WellnessOnboardingFlow> {
           Container(
             height: 6,
             width: double.infinity,
-            decoration: BoxDecoration(color: FemFlowColors.border.withValues(alpha: 0.3), borderRadius: BorderRadius.circular(3)),
+            decoration: BoxDecoration(color: FemLyraColors.border.withValues(alpha: 0.3), borderRadius: BorderRadius.circular(3)),
           ),
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             height: 6,
             width: MediaQuery.of(context).size.width * ((_currentPage + 1) / _totalSteps),
-            decoration: BoxDecoration(color: FemFlowColors.primary, borderRadius: BorderRadius.circular(3)),
+            decoration: BoxDecoration(color: FemLyraColors.primary, borderRadius: BorderRadius.circular(3)),
           ),
         ],
       ),
@@ -258,10 +258,10 @@ class _WellnessOnboardingFlowState extends State<WellnessOnboardingFlow> {
                 onPressed: _prevPage,
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  side: const BorderSide(color: FemFlowColors.primary),
+                  side: const BorderSide(color: FemLyraColors.primary),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
-                child: const Text('Back', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                child: const Text('Back', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
               ),
             ),
           if (_currentPage > 0) const SizedBox(width: 16),

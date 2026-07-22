@@ -11,17 +11,17 @@ class WeeklyTrendScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Weekly Trend',
-          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -61,7 +61,7 @@ class WeeklyTrendScreen extends StatelessWidget {
           const Center(
             child: Text(
               'Your score improved on days with better sleep and lower pain.',
-              style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, fontStyle: FontStyle.italic),
+              style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, fontStyle: FontStyle.italic),
             ),
           ),
         ],
@@ -76,18 +76,18 @@ class WeeklyTrendScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text('${t.score}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
+        Text('${t.score}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
         const SizedBox(height: 4),
         Container(
           width: 30,
           height: height.clamp(10, 160),
           decoration: BoxDecoration(
-            color: FemFlowColors.primary.withValues(alpha: 0.6),
+            color: FemLyraColors.primary.withValues(alpha: 0.6),
             borderRadius: BorderRadius.circular(6),
           ),
         ),
         const SizedBox(height: 8),
-        Text(day, style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted)),
+        Text(day, style: const TextStyle(fontSize: 10, color: FemLyraColors.textMuted)),
       ],
     );
   }
@@ -115,7 +115,7 @@ class WeeklyTrendScreen extends StatelessWidget {
         children: [
           Icon(icon, color: color, size: 24),
           const SizedBox(height: 8),
-          Text(label, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+          Text(label, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
           const SizedBox(height: 4),
           Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color)),
         ],
@@ -147,16 +147,16 @@ class WeeklyTrendScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(formattedDate, style: const TextStyle(color: FemFlowColors.textPrimary)),
+            Text(formattedDate, style: const TextStyle(color: FemLyraColors.textPrimary)),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(
-                color: FemFlowColors.primary.withValues(alpha: 0.1),
+                color: FemLyraColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 '${t.score}',
-                style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+                style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary),
               ),
             ),
           ],

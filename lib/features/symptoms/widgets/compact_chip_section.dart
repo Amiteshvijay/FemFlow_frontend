@@ -46,7 +46,7 @@ class CompactChipSection extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: FemFlowColors.textPrimary,
+                color: FemLyraColors.textPrimary,
               ),
             ),
             TextButton(
@@ -55,10 +55,10 @@ class CompactChipSection extends StatelessWidget {
                 children: [
                   const Text(
                     'View all',
-                    style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 4),
-                  const Icon(Icons.chevron_right, size: 16, color: FemFlowColors.primary),
+                  const Icon(Icons.chevron_right, size: 16, color: FemLyraColors.primary),
                 ],
               ),
             ),
@@ -84,17 +84,17 @@ class CompactChipSection extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? FemFlowColors.blushMist : FemFlowColors.white,
+          color: isSelected ? FemLyraColors.blushMist : FemLyraColors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? FemFlowColors.primary : FemFlowColors.border,
+            color: isSelected ? FemLyraColors.primary : FemLyraColors.border,
             width: isSelected ? 1.5 : 1,
           ),
         ),
         child: Text(
           displayLabel,
           style: TextStyle(
-            color: isSelected ? FemFlowColors.primary : FemFlowColors.textSecondary,
+            color: isSelected ? FemLyraColors.primary : FemLyraColors.textSecondary,
             fontSize: 13,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),

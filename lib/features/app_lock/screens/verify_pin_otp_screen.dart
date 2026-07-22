@@ -58,7 +58,7 @@ class _VerifyPinOtpScreenState extends State<VerifyPinOtpScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Verification failed: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Verification failed: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     } finally {
@@ -69,7 +69,7 @@ class _VerifyPinOtpScreenState extends State<VerifyPinOtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Verify Identity'),
         centerTitle: true,
@@ -86,7 +86,7 @@ class _VerifyPinOtpScreenState extends State<VerifyPinOtpScreen> {
             Text(
               'Enter the 6-digit code sent to ${widget.email}',
               textAlign: TextAlign.center,
-              style: const TextStyle(color: FemFlowColors.textSecondary),
+              style: const TextStyle(color: FemLyraColors.textSecondary),
             ),
             const SizedBox(height: 40),
             
@@ -101,7 +101,7 @@ class _VerifyPinOtpScreenState extends State<VerifyPinOtpScreen> {
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _verifyOtp,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemFlowColors.primary,
+                  backgroundColor: FemLyraColors.primary,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

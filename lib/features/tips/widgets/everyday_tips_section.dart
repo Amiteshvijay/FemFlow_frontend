@@ -57,7 +57,7 @@ class _EverydayTipsSectionState extends State<EverydayTipsSection> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: FemFlowColors.textPrimary,
+                      color: FemLyraColors.textPrimary,
                       letterSpacing: -0.5
                     ),
                   ),
@@ -100,17 +100,17 @@ class _EverydayTipsSectionState extends State<EverydayTipsSection> {
           height: 140,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: FemFlowColors.blushMist.withValues(alpha: 0.3),
+            color: FemLyraColors.blushMist.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(24),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 8),
-              const Text('Synthesizing your wellness insights...', style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary)),
+              const Text('Synthesizing your wellness insights...', style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary)),
               TextButton(
                 onPressed: () => context.read<TipsProvider>().loadDailyTips(),
-                child: const Text('Refresh', style: TextStyle(color: FemFlowColors.primary)),
+                child: const Text('Refresh', style: TextStyle(color: FemLyraColors.primary)),
               ),
             ],
           ),
@@ -159,7 +159,7 @@ class _EverydayTipsSectionState extends State<EverydayTipsSection> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.1)),
+          border: Border.all(color: FemLyraColors.primary.withValues(alpha: 0.1)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.03),
@@ -177,10 +177,10 @@ class _EverydayTipsSectionState extends State<EverydayTipsSection> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: FemFlowColors.primary.withValues(alpha: 0.05),
+                    color: FemLyraColors.primary.withValues(alpha: 0.05),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.lock_outline, color: FemFlowColors.primary, size: 24),
+                  child: const Icon(Icons.lock_outline, color: FemLyraColors.primary, size: 24),
                 ),
                 const SizedBox(height: 12),
                 const Text(
@@ -189,7 +189,7 @@ class _EverydayTipsSectionState extends State<EverydayTipsSection> {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: FemFlowColors.primary,
+                    color: FemLyraColors.primary,
                   ),
                 ),
               ],

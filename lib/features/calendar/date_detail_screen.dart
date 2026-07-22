@@ -89,11 +89,11 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        foregroundColor: FemFlowColors.textPrimary,
+        foregroundColor: FemLyraColors.textPrimary,
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.pop(context, true),
@@ -144,7 +144,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
               },
               itemBuilder: (context, index) {
                 if (_isLoading) {
-                  return const Center(child: CircularProgressIndicator(color: FemFlowColors.primary));
+                  return const Center(child: CircularProgressIndicator(color: FemLyraColors.primary));
                 }
                 if (_errorMessage != null) {
                   return _buildErrorState();
@@ -197,7 +197,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                       DateFormat('E').format(day).substring(0, 1),
                       style: TextStyle(
                         fontSize: 12,
-                        color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
+                        color: isSelected ? FemLyraColors.primary : FemLyraColors.textMuted,
                         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                       ),
                     ),
@@ -207,16 +207,16 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                       height: 32,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: isSelected ? FemFlowColors.primary : Colors.transparent,
+                        color: isSelected ? FemLyraColors.primary : Colors.transparent,
                         shape: BoxShape.circle,
                         border: isToday && !isSelected
-                            ? Border.all(color: FemFlowColors.primary.withValues(alpha: 0.3))
+                            ? Border.all(color: FemLyraColors.primary.withValues(alpha: 0.3))
                             : null,
                       ),
                       child: Text(
                         '${day.day}',
                         style: TextStyle(
-                          color: isSelected ? Colors.white : FemFlowColors.textPrimary,
+                          color: isSelected ? Colors.white : FemLyraColors.textPrimary,
                           fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                         ),
                       ),
@@ -276,10 +276,10 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: OutlinedButton.icon(
-          icon: const Icon(Icons.delete_outline, color: FemFlowColors.period),
-          label: const Text('Clear Logs', style: TextStyle(color: FemFlowColors.period, fontWeight: FontWeight.bold)),
+          icon: const Icon(Icons.delete_outline, color: FemLyraColors.period),
+          label: const Text('Clear Logs', style: TextStyle(color: FemLyraColors.period, fontWeight: FontWeight.bold)),
           style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: FemFlowColors.period, width: 1),
+            side: const BorderSide(color: FemLyraColors.period, width: 1),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           ),
@@ -307,7 +307,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
           TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
           TextButton(
             onPressed: () { Navigator.pop(ctx); _executeClearLogs(); },
-            child: const Text('Clear Logs', style: TextStyle(color: FemFlowColors.period)),
+            child: const Text('Clear Logs', style: TextStyle(color: FemLyraColors.period)),
           ),
         ],
       ),
@@ -339,7 +339,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Error: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     } finally {
@@ -436,7 +436,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
           const SizedBox(height: 16),
           _buildCycleRow(
             icon: Icons.water_drop,
-            iconColor: FemFlowColors.period,
+            iconColor: FemLyraColors.period,
             title: 'Period',
             status: period != null && period['period_day'] != null 
                 ? '${_formatOrdinal(period['period_day'])} day of period' 
@@ -481,7 +481,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
               } catch (e) {
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
+                    SnackBar(content: Text('Error: $e'), backgroundColor: FemLyraColors.period),
                   );
                 }
               } finally {
@@ -492,7 +492,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
           const Divider(height: 32),
           _buildCycleRow(
             icon: Icons.wb_sunny,
-            iconColor: FemFlowColors.ovulation,
+            iconColor: FemLyraColors.ovulation,
             title: 'Ovulation',
             status: ovulationStatus,
             showLog: true,
@@ -501,7 +501,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
           const Divider(height: 32),
           _buildCycleRow(
             icon: Icons.favorite,
-            iconColor: FemFlowColors.fertileWindow,
+            iconColor: FemLyraColors.fertileWindow,
             title: 'Fertility',
             status: fertility?['label'] ?? 'Estimated fertile window',
           ),
@@ -522,11 +522,11 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Cycle Day ${cycleDay ?? '--'}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                  Text('Phase: $phase', style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13)),
+                  Text('Phase: $phase', style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13)),
                 ],
               ),
               if (daysUntilNext != null && daysUntilNext > 0)
-                Text('$daysUntilNext days to next period', style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13)),
+                Text('$daysUntilNext days to next period', style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13)),
             ],
           ),
         ],
@@ -551,43 +551,43 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
             children: [
               const Text(
                 'Log Ovulation OPK Test',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
               ),
               const SizedBox(height: 8),
               const Text(
                 'Record the Luteinizing Hormone (LH) surge test result for today.',
-                style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
               ),
               const SizedBox(height: 24),
               ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: FemFlowColors.ovulation.withValues(alpha: 0.1),
-                  child: const Icon(Icons.add, color: FemFlowColors.ovulation),
+                  backgroundColor: FemLyraColors.ovulation.withValues(alpha: 0.1),
+                  child: const Icon(Icons.add, color: FemLyraColors.ovulation),
                 ),
                 title: const Text('Positive OPK ➕', style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: const Text('LH surge detected (Highly fertile day)'),
-                trailing: currentResult == 'positive' ? const Icon(Icons.check_circle, color: FemFlowColors.primary) : null,
+                trailing: currentResult == 'positive' ? const Icon(Icons.check_circle, color: FemLyraColors.primary) : null,
                 onTap: () => _saveOvulationTestResult('positive'),
               ),
               const Divider(height: 1),
               ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: FemFlowColors.textMuted.withValues(alpha: 0.1),
-                  child: const Icon(Icons.remove, color: FemFlowColors.textSecondary),
+                  backgroundColor: FemLyraColors.textMuted.withValues(alpha: 0.1),
+                  child: const Icon(Icons.remove, color: FemLyraColors.textSecondary),
                 ),
                 title: const Text('Negative OPK ➖', style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: const Text('No LH surge detected'),
-                trailing: currentResult == 'negative' ? const Icon(Icons.check_circle, color: FemFlowColors.primary) : null,
+                trailing: currentResult == 'negative' ? const Icon(Icons.check_circle, color: FemLyraColors.primary) : null,
                 onTap: () => _saveOvulationTestResult('negative'),
               ),
               if (currentResult != null) ...[
                 const Divider(height: 1),
                 ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: FemFlowColors.period.withValues(alpha: 0.1),
-                    child: const Icon(Icons.delete_outline, color: FemFlowColors.period),
+                    backgroundColor: FemLyraColors.period.withValues(alpha: 0.1),
+                    child: const Icon(Icons.delete_outline, color: FemLyraColors.period),
                   ),
-                  title: const Text('Clear OPK Test Result', style: TextStyle(color: FemFlowColors.period)),
+                  title: const Text('Clear OPK Test Result', style: TextStyle(color: FemLyraColors.period)),
                   onTap: () => _saveOvulationTestResult(null),
                 ),
               ],
@@ -644,7 +644,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Error: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     } finally {
@@ -665,9 +665,9 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
     VoidCallback? onEdit,
   }) {
     final actions = [
-      if (showLog) _buildActionButton('Log', onLog, FemFlowColors.primary),
-      if (showEdit) _buildActionButton('Edit', onEdit, FemFlowColors.primary),
-      if (showEnd) _buildActionButton('End Flow', onEnd, FemFlowColors.period),
+      if (showLog) _buildActionButton('Log', onLog, FemLyraColors.primary),
+      if (showEdit) _buildActionButton('Edit', onEdit, FemLyraColors.primary),
+      if (showEnd) _buildActionButton('End Flow', onEnd, FemLyraColors.period),
     ];
 
     return Padding(
@@ -687,7 +687,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 12)),
+                    Text(title, style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 12)),
                     Text(status, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
                   ],
                 ),
@@ -789,12 +789,12 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: isActive ? FemFlowColors.primary : FemFlowColors.blushMist,
+              color: isActive ? FemLyraColors.primary : FemLyraColors.blushMist,
               shape: BoxShape.circle,
             ),
             child: Icon(
               icon, 
-              color: isActive ? Colors.white : FemFlowColors.primary, 
+              color: isActive ? Colors.white : FemLyraColors.primary, 
               size: 24
             ),
           ),
@@ -803,7 +803,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
             label, 
             style: TextStyle(
               fontSize: 10, 
-              color: isActive ? FemFlowColors.textPrimary : FemFlowColors.textSecondary,
+              color: isActive ? FemLyraColors.textPrimary : FemLyraColors.textSecondary,
               fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
             )
           ),
@@ -830,12 +830,12 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Symptoms & Mood', style: TextStyle(fontWeight: FontWeight.bold)),
-              Icon(Icons.edit_note, color: FemFlowColors.primary.withValues(alpha: 0.5), size: 20),
+              Icon(Icons.edit_note, color: FemLyraColors.primary.withValues(alpha: 0.5), size: 20),
             ],
           ),
           const SizedBox(height: 12),
           if (symptoms.isEmpty && mood == null)
-            const Text('Not logged', style: TextStyle(color: FemFlowColors.textMuted, fontSize: 14))
+            const Text('Not logged', style: TextStyle(color: FemLyraColors.textMuted, fontSize: 14))
           else ...[
             if (mood != null) 
               Padding(
@@ -848,8 +848,8 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                 runSpacing: 8,
                 children: symptoms.map((s) => Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(color: FemFlowColors.blushMist, borderRadius: BorderRadius.circular(20)),
-                  child: Text(s.toString(), style: const TextStyle(fontSize: 12, color: FemFlowColors.deepRose)),
+                  decoration: BoxDecoration(color: FemLyraColors.blushMist, borderRadius: BorderRadius.circular(20)),
+                  child: Text(s.toString(), style: const TextStyle(fontSize: 12, color: FemLyraColors.deepRose)),
                 )).toList(),
               ),
           ],
@@ -875,14 +875,14 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Cycle Pattern Analysis', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.indigo)),
-                Text('Compare current cycle with averages', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                Text('Compare current cycle with averages', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
               ],
             ),
           ),
           if (!isPremium)
-            const Icon(Icons.lock, size: 16, color: FemFlowColors.textMuted)
+            const Icon(Icons.lock, size: 16, color: FemLyraColors.textMuted)
           else
-            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
+            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
         ],
       ),
     );
@@ -911,9 +911,9 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
   Widget _buildSimpleMetric(String label, String value, IconData icon) {
     return Column(
       children: [
-        Icon(icon, size: 20, color: FemFlowColors.textMuted),
+        Icon(icon, size: 20, color: FemLyraColors.textMuted),
         const SizedBox(height: 4),
-        Text(label, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+        Text(label, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
         Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
       ],
     );
@@ -960,7 +960,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
               padding: EdgeInsets.only(top: 8),
               child: Text(
                 'Unlock a private health journal to record your physical and emotional journey.',
-                style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13, height: 1.4),
+                style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13, height: 1.4),
               ),
             )
           else if (notes.isNotEmpty)
@@ -969,7 +969,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
               child: Text(n['content'], maxLines: 2, overflow: TextOverflow.ellipsis),
             ))
           else
-            const Text('No notes for this date', style: TextStyle(color: FemFlowColors.textMuted, fontSize: 14)),
+            const Text('No notes for this date', style: TextStyle(color: FemLyraColors.textMuted, fontSize: 14)),
         ],
       ),
     );
@@ -1003,7 +1003,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
               dense: true,
             ))
           else
-            const Text('No documents linked', style: TextStyle(color: FemFlowColors.textMuted, fontSize: 14)),
+            const Text('No documents linked', style: TextStyle(color: FemLyraColors.textMuted, fontSize: 14)),
         ],
       ),
     );
@@ -1078,10 +1078,10 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
           if (!isPremium)
             const Text(
               'Unlock smart medication reminders so you never miss a dose.',
-              style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary, height: 1.4),
+              style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary, height: 1.4),
             )
           else if (!isConfigured)
-            const Text('No contraception reminder configured', style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary))
+            const Text('No contraception reminder configured', style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary))
           else ...[
             Row(
               children: [
@@ -1126,7 +1126,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
         icon = Icons.access_time;
         break;
       default:
-        statusColor = FemFlowColors.textMuted;
+        statusColor = FemLyraColors.textMuted;
     }
 
     return Expanded(
@@ -1140,7 +1140,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: const TextStyle(fontSize: 11, color: FemFlowColors.textSecondary)),
+            Text(label, style: const TextStyle(fontSize: 11, color: FemLyraColors.textSecondary)),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -1159,7 +1159,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                   },
                   child: const Text(
                     'Mark Taken',
-                    style: TextStyle(fontSize: 12, color: FemFlowColors.primary, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                    style: TextStyle(fontSize: 12, color: FemLyraColors.primary, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
                   ),
                 ),
               ),
@@ -1180,18 +1180,18 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
            children: [
              const Row(
                children: [
-                 Text('FemAI Daily Tips', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 16)),
+                 Text('FemAI Daily Tips', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold, fontSize: 16)),
                ],
              ),
              const SizedBox(height: 12),
              const Text(
                'Get personalized daily guidance based on your cycle phase and symptoms.',
-               style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+               style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
              ),
              const SizedBox(height: 16),
              Container(
                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-               decoration: BoxDecoration(color: FemFlowColors.primary, borderRadius: BorderRadius.circular(20)),
+               decoration: BoxDecoration(color: FemLyraColors.primary, borderRadius: BorderRadius.circular(20)),
                child: const Text('Unlock with Premium', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
              ),
            ],
@@ -1216,11 +1216,11 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                 children: [
                   Text(
                     'FemAI Priority Tips',
-                    style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 16),
+                    style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   Text(
                     'Personalized for this day',
-                    style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 12),
+                    style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 12),
                   ),
                 ],
               ),
@@ -1230,7 +1230,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
           if (tips.isEmpty)
              Text(
                summary,
-               style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary),
+               style: const TextStyle(fontSize: 14, color: FemLyraColors.textPrimary),
              )
           else
             ...tips.map((tip) => _buildTipRow(tip)),
@@ -1249,13 +1249,13 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                     ),
                   ),
                   style: TextButton.styleFrom(
-                    backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+                    backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
                   child: const Text(
                     'Ask FemAI about this day',
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
                   ),
                 ),
               ),
@@ -1313,7 +1313,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                 const SizedBox(height: 2),
                 Text(
                   tip['message'],
-                  style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary, height: 1.3),
+                  style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary, height: 1.3),
                 ),
                 if (tip['action_type'] != null)
                    GestureDetector(
@@ -1342,12 +1342,12 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
   Color _getTipColor(String? colorType) {
     switch (colorType) {
       case 'red': return Colors.redAccent;
-      case 'pink': return FemFlowColors.period;
+      case 'pink': return FemLyraColors.period;
       case 'orange': return Colors.orange;
       case 'teal': return Colors.teal;
-      case 'mint': return FemFlowColors.fertileWindow;
-      case 'lavender': return FemFlowColors.primary;
-      default: return FemFlowColors.textMuted;
+      case 'mint': return FemLyraColors.fertileWindow;
+      case 'lavender': return FemLyraColors.primary;
+      default: return FemLyraColors.textMuted;
     }
   }
 
@@ -1418,7 +1418,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                     '${_activitySummary?.totalCaloriesBurned ?? 0} kcal',
                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.orange),
                   ),
-                  const Text('Estimated Burn', style: TextStyle(fontSize: 11, color: FemFlowColors.textSecondary)),
+                  const Text('Estimated Burn', style: TextStyle(fontSize: 11, color: FemLyraColors.textSecondary)),
                 ],
               ),
               Column(
@@ -1426,9 +1426,9 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
                 children: [
                   Text(
                     '${_activitySummary?.activeMinutes ?? 0} min',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                   ),
-                  const Text('Active Time', style: TextStyle(fontSize: 11, color: FemFlowColors.textSecondary)),
+                  const Text('Active Time', style: TextStyle(fontSize: 11, color: FemLyraColors.textSecondary)),
                 ],
               ),
             ],
@@ -1449,7 +1449,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
       child: Text(
         'Cycle predictions are estimates and not medical advice.',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 11, color: FemFlowColors.textMuted, fontStyle: FontStyle.italic),
+        style: TextStyle(fontSize: 11, color: FemLyraColors.textMuted, fontStyle: FontStyle.italic),
       ),
     );
   }
@@ -1494,7 +1494,7 @@ class _DateDetailScreenState extends State<DateDetailScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_errorMessage!, style: const TextStyle(color: FemFlowColors.period)),
+          Text(_errorMessage!, style: const TextStyle(color: FemLyraColors.period)),
           const SizedBox(height: 16),
           TextButton(onPressed: _fetchDetails, child: const Text('Retry')),
         ],

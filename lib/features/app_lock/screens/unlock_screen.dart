@@ -77,7 +77,7 @@ class _UnlockPINViewState extends State<UnlockPINView> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: SafeArea(
         child: Column(
           children: [
@@ -86,7 +86,7 @@ class _UnlockPINViewState extends State<UnlockPINView> {
               'assets/icons/FemLyra_app_icon_1024.png',
               height: 80,
               errorBuilder: (context, error, stackTrace) => 
-                  const Icon(Icons.water_drop, size: 80, color: FemFlowColors.primary),
+                  const Icon(Icons.water_drop, size: 80, color: FemLyraColors.primary),
             ),
             const SizedBox(height: 16),
             const Text(
@@ -94,7 +94,7 @@ class _UnlockPINViewState extends State<UnlockPINView> {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: FemFlowColors.primary,
+                color: FemLyraColors.primary,
               ),
             ),
             
@@ -105,7 +105,7 @@ class _UnlockPINViewState extends State<UnlockPINView> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: FemFlowColors.textPrimary,
+                color: FemLyraColors.textPrimary,
               ),
             ),
             const SizedBox(height: 24),
@@ -119,9 +119,9 @@ class _UnlockPINViewState extends State<UnlockPINView> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: index < _inputPin.length 
-                      ? FemFlowColors.primary 
-                      : FemFlowColors.border,
-                  border: Border.all(color: FemFlowColors.border),
+                      ? FemLyraColors.primary 
+                      : FemLyraColors.border,
+                  border: Border.all(color: FemLyraColors.border),
                 ),
               )),
             ),
@@ -130,7 +130,7 @@ class _UnlockPINViewState extends State<UnlockPINView> {
             if (_error != null)
               Text(
                 _error!,
-                style: const TextStyle(color: FemFlowColors.period, fontSize: 13),
+                style: const TextStyle(color: FemLyraColors.period, fontSize: 13),
               ),
             const Spacer(),
             
@@ -152,7 +152,7 @@ class _UnlockPINViewState extends State<UnlockPINView> {
               child: const Text(
                 'Forgot PIN?',
                 style: TextStyle(
-                  color: FemFlowColors.textSecondary,
+                  color: FemLyraColors.textSecondary,
                   decoration: TextDecoration.underline,
                 ),
               ),

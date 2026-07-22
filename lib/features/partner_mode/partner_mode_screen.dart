@@ -49,7 +49,7 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load partner status: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Failed to load partner status: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     }
@@ -69,7 +69,7 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to revoke access: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Failed to revoke access: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     }
@@ -90,7 +90,7 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update permissions: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Failed to update permissions: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     }
@@ -99,7 +99,7 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -107,13 +107,13 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
         ),
         title: const Text(
           'Partner Mode',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
         ),
         centerTitle: true,
       ),
       body: SafeArea(
         child: _isLoading 
-            ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+            ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
             : SingleChildScrollView(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -140,13 +140,13 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
                       const SizedBox(height: 40),
                       TextButton(
                         onPressed: _revokeAccess,
-                        child: const Text('Revoke Access', style: TextStyle(color: FemFlowColors.period, fontSize: 16)),
+                        child: const Text('Revoke Access', style: TextStyle(color: FemLyraColors.period, fontSize: 16)),
                       ),
                     ] else ...[
                       const Text(
                         'You control what your partner can see. You can revoke access anytime.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: FemFlowColors.textSecondary),
+                        style: TextStyle(color: FemLyraColors.textSecondary),
                       ),
                       const SizedBox(height: 32),
                       PrimaryButton(
@@ -176,18 +176,18 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
           width: 150,
           height: 150,
           decoration: const BoxDecoration(
-            color: FemFlowColors.blushMist,
+            color: FemLyraColors.blushMist,
             shape: BoxShape.circle,
           ),
           child: const Center(
-            child: Icon(Icons.favorite_rounded, size: 60, color: FemFlowColors.primary),
+            child: Icon(Icons.favorite_rounded, size: 60, color: FemLyraColors.primary),
           ),
         ),
         const SizedBox(height: 24),
         const Text(
           'Share your journey with your partner',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
         ),
       ],
     );
@@ -199,20 +199,20 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Active Partner', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+          const Text('Active Partner', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
           const SizedBox(height: 8),
           Row(
             children: [
-              const Icon(Icons.person, color: FemFlowColors.primary, size: 40),
+              const Icon(Icons.person, color: FemLyraColors.primary, size: 40),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(_activeInvite!['partner_name'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text(_activeInvite!['partner_email'], style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary)),
+                    Text(_activeInvite!['partner_email'], style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary)),
                     const SizedBox(height: 4),
-                    Text('Status: ${_activeInvite!['status']}', style: TextStyle(fontSize: 12, color: _activeInvite!['status'] == 'accepted' ? Colors.green : FemFlowColors.primary)),
+                    Text('Status: ${_activeInvite!['status']}', style: TextStyle(fontSize: 12, color: _activeInvite!['status'] == 'accepted' ? Colors.green : FemLyraColors.primary)),
                   ],
                 ),
               ),
@@ -233,44 +233,44 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
         children: [
           const Row(
             children: [
-              Icon(Icons.hourglass_empty, color: FemFlowColors.primary),
+              Icon(Icons.hourglass_empty, color: FemLyraColors.primary),
               SizedBox(width: 8),
               Text(
                 'Invitation Pending',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
               ),
             ],
           ),
           const SizedBox(height: 16),
           Text(
             'Sent to: ${_activeInvite!['partner_name']} (${_activeInvite!['partner_email']})',
-            style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
+            style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
           ),
           const SizedBox(height: 16),
           const Divider(),
           const SizedBox(height: 12),
           const Text(
             'Share pairing details with your partner:',
-            style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+            style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
           ),
           const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: FemFlowColors.warmWhite,
-              border: Border.all(color: FemFlowColors.primary.withOpacity(0.3)),
+              color: FemLyraColors.warmWhite,
+              border: Border.all(color: FemLyraColors.primary.withOpacity(0.3)),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Column(
               children: [
-                const Text('Pairing Code', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+                const Text('Pairing Code', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
                 const SizedBox(height: 4),
                 SelectableText(
                   code,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: FemFlowColors.primary,
+                    color: FemLyraColors.primary,
                     letterSpacing: 2,
                   ),
                 ),
@@ -278,7 +278,7 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          const Text('Acceptance Link', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+          const Text('Acceptance Link', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
           const SizedBox(height: 4),
           SelectableText(
             acceptUrl,
@@ -297,9 +297,9 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
         children: [
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            child: Text('Shared Data', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+            child: Text('Shared Data', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
           ),
-          const Divider(color: FemFlowColors.border),
+          const Divider(color: FemLyraColors.border),
           _buildToggle('Period Dates', 'period_dates'),
           _buildToggle('Fertile Window', 'fertile_window'),
           _buildToggle('Ovulation Day', 'ovulation_day'),
@@ -319,9 +319,9 @@ class _PartnerModeScreenState extends State<PartnerModeScreen> {
   Widget _buildToggle(String label, String key) {
     final value = _localPermissions?[key] == true;
     return SwitchListTile(
-      title: Text(label, style: const TextStyle(fontSize: 15, color: FemFlowColors.textPrimary)),
+      title: Text(label, style: const TextStyle(fontSize: 15, color: FemLyraColors.textPrimary)),
       value: value,
-      activeThumbColor: FemFlowColors.primary,
+      activeThumbColor: FemLyraColors.primary,
       onChanged: (val) {
         setState(() {
           _localPermissions?[key] = val;

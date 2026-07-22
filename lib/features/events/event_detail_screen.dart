@@ -53,9 +53,9 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _error != null
               ? _buildErrorState()
               : _buildContent(),
@@ -73,13 +73,13 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
         SliverAppBar(
           expandedHeight: 250,
           pinned: true,
-          backgroundColor: FemFlowColors.primary,
+          backgroundColor: FemLyraColors.primary,
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
               backgroundColor: Colors.white.withValues(alpha: 0.8),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new, size: 18, color: FemFlowColors.textPrimary),
+                icon: const Icon(Icons.arrow_back_ios_new, size: 18, color: FemLyraColors.textPrimary),
                 onPressed: () => Navigator.pop(context),
               ),
             ),
@@ -107,7 +107,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                 const SizedBox(height: 16),
                 Text(
                   event.title,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                 ),
                 const SizedBox(height: 20),
                 _buildInfoRow(Icons.calendar_today, dateStr),
@@ -120,12 +120,12 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                 const SizedBox(height: 24),
                 const Text(
                   'About this Event',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                 ),
                 const SizedBox(height: 12),
                 Text(
                   event.fullDescription,
-                  style: const TextStyle(fontSize: 15, color: FemFlowColors.textSecondary, height: 1.6),
+                  style: const TextStyle(fontSize: 15, color: FemLyraColors.textSecondary, height: 1.6),
                 ),
                 const SizedBox(height: 32),
                 if (event.guestSpeakerName != null) _buildSpeakerSection(),
@@ -144,12 +144,12 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: FemFlowColors.primary.withValues(alpha: 0.1),
+        color: FemLyraColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         category.replaceAll('_', ' ').toUpperCase(),
-        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
       ),
     );
   }
@@ -157,11 +157,11 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   Widget _buildModeBadge(String mode) {
     return Row(
       children: [
-        Icon(mode == 'online' ? Icons.videocam : Icons.location_on, size: 16, color: FemFlowColors.textSecondary),
+        Icon(mode == 'online' ? Icons.videocam : Icons.location_on, size: 16, color: FemLyraColors.textSecondary),
         const SizedBox(width: 6),
         Text(
           mode.toUpperCase(),
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary),
+          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary),
         ),
       ],
     );
@@ -170,12 +170,12 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   Widget _buildInfoRow(IconData icon, String text) {
     return Row(
       children: [
-        Icon(icon, size: 20, color: FemFlowColors.primary),
+        Icon(icon, size: 20, color: FemLyraColors.primary),
         const SizedBox(width: 12),
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(fontSize: 15, color: FemFlowColors.textPrimary),
+            style: const TextStyle(fontSize: 15, color: FemLyraColors.textPrimary),
           ),
         ),
       ],
@@ -189,19 +189,19 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
         children: [
           const Text(
             'Guest Speaker',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
           ),
           const SizedBox(height: 16),
           Row(
             children: [
               CircleAvatar(
                 radius: 30,
-                backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+                backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
                 backgroundImage: _event!.guestSpeakerPhoto != null 
                     ? NetworkImage(_event!.guestSpeakerPhoto!) 
                     : null,
                 child: _event!.guestSpeakerPhoto == null 
-                    ? const Icon(Icons.person, size: 30, color: FemFlowColors.primary) 
+                    ? const Icon(Icons.person, size: 30, color: FemLyraColors.primary) 
                     : null,
               ),
               const SizedBox(width: 16),
@@ -215,7 +215,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                     ),
                     Text(
                       _event!.guestSpeakerDesignation ?? '',
-                      style: const TextStyle(fontSize: 13, color: FemFlowColors.textMuted),
+                      style: const TextStyle(fontSize: 13, color: FemLyraColors.textMuted),
                     ),
                   ],
                 ),
@@ -226,7 +226,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
             const SizedBox(height: 12),
             Text(
               _event!.guestSpeakerBio!,
-              style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.4),
+              style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary, height: 1.4),
             ),
           ],
         ],
@@ -252,7 +252,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
               children: [
                 const Text(
                   'Registration Deadline',
-                  style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+                  style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
                 ),
                 Text(
                   deadline,
@@ -266,11 +266,11 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
             children: [
               const Text(
                 'Available Seats',
-                style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+                style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
               ),
               Text(
                 '${_event!.maxSeats - _event!.registeredCount}',
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
               ),
             ],
           ),
@@ -295,7 +295,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
         child: ElevatedButton(
           onPressed: canRegister ? _navigateToRegister : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: canRegister ? FemFlowColors.primary : Colors.grey[300],
+            backgroundColor: canRegister ? FemLyraColors.primary : Colors.grey[300],
             foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
@@ -324,7 +324,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_error!, style: const TextStyle(color: FemFlowColors.textSecondary)),
+          Text(_error!, style: const TextStyle(color: FemLyraColors.textSecondary)),
           const SizedBox(height: 16),
           ElevatedButton(onPressed: _fetchDetail, child: const Text('Retry')),
         ],

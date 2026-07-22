@@ -28,13 +28,13 @@ class MoodIconTile extends StatelessWidget {
             height: size,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: isSelected ? FemFlowColors.primary : FemFlowColors.blushMist,
+              color: isSelected ? FemLyraColors.primary : FemLyraColors.blushMist,
               shape: BoxShape.circle,
               border: isSelected
-                  ? Border.all(color: FemFlowColors.primary, width: 2)
+                  ? Border.all(color: FemLyraColors.primary, width: 2)
                   : null,
               boxShadow: isSelected
-                  ? [BoxShadow(color: FemFlowColors.primary.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))]
+                  ? [BoxShadow(color: FemLyraColors.primary.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))]
                   : null,
             ),
             child: Text(
@@ -51,7 +51,7 @@ class MoodIconTile extends StatelessWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              color: isSelected ? FemFlowColors.primary : FemFlowColors.textSecondary,
+              color: isSelected ? FemLyraColors.primary : FemLyraColors.textSecondary,
               height: 1.1,
             ),
           ),

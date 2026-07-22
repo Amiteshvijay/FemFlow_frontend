@@ -70,7 +70,7 @@ class _HealthReportPreviewScreenState extends State<HealthReportPreviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Health Report Preview', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -98,7 +98,7 @@ class _HealthReportPreviewScreenState extends State<HealthReportPreviewScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   widget.report.doctorSummary,
-                  style: const TextStyle(fontStyle: FontStyle.italic, color: FemFlowColors.textSecondary),
+                  style: const TextStyle(fontStyle: FontStyle.italic, color: FemLyraColors.textSecondary),
                 ),
               ),
             ]),
@@ -113,10 +113,10 @@ class _HealthReportPreviewScreenState extends State<HealthReportPreviewScreen> {
               onPressed: _isDownloading ? null : _handleShare,
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 56),
-                side: const BorderSide(color: FemFlowColors.primary),
+                side: const BorderSide(color: FemLyraColors.primary),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),
-              child: const Text('Share PDF', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+              child: const Text('Share PDF', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
@@ -137,7 +137,7 @@ class _HealthReportPreviewScreenState extends State<HealthReportPreviewScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Report Generated', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                Text('A professional A4 PDF is ready for you.', style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13)),
+                Text('A professional A4 PDF is ready for you.', style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13)),
               ],
             ),
           ),
@@ -151,7 +151,7 @@ class _HealthReportPreviewScreenState extends State<HealthReportPreviewScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: FemFlowColors.primary)),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: FemLyraColors.primary)),
           const Divider(height: 24),
           ...rows,
         ],
@@ -165,7 +165,7 @@ class _HealthReportPreviewScreenState extends State<HealthReportPreviewScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13)),
+          Text(label, style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13)),
           Text(value, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
         ],
       ),

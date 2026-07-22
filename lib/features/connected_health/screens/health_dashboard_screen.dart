@@ -50,7 +50,7 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sync failed: $e'), backgroundColor: FemFlowColors.period));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sync failed: $e'), backgroundColor: FemLyraColors.period));
       }
     } finally {
       setState(() => _isSyncing = false);
@@ -60,7 +60,7 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Health Data', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -68,13 +68,13 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
           IconButton(
             onPressed: _isSyncing ? null : _handleSyncNow,
             icon: _isSyncing 
-              ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: FemFlowColors.primary))
+              ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: FemLyraColors.primary))
               : const Icon(Icons.refresh),
           ),
         ],
       ),
       body: _isLoading 
-        ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+        ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
         : SingleChildScrollView(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -116,12 +116,12 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
     final lastSync = _summary?['last_synced_at'];
 
     return AppCard(
-      color: FemFlowColors.blushMist,
+      color: FemLyraColors.blushMist,
       child: Column(
         children: [
           Row(
             children: [
-              const Icon(Icons.watch, color: FemFlowColors.primary),
+              const Icon(Icons.watch, color: FemLyraColors.primary),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
@@ -135,7 +135,7 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
             const SizedBox(height: 8),
             Text(
               'Last synced: ${DateFormat('MMM d, HH:mm').format(DateTime.parse(lastSync))}',
-              style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted),
+              style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted),
             ),
           ],
         ],
@@ -148,7 +148,7 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
       padding: const EdgeInsets.only(left: 4, bottom: 12),
       child: Text(
         title.toUpperCase(),
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textMuted, letterSpacing: 1.1),
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textMuted, letterSpacing: 1.1),
       ),
     );
   }
@@ -160,12 +160,12 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(icon, color: FemFlowColors.primary, size: 20),
+          Icon(icon, color: FemLyraColors.primary, size: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
-              Text('$unit $label', style: const TextStyle(fontSize: 10, color: FemFlowColors.textSecondary)),
+              Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
+              Text('$unit $label', style: const TextStyle(fontSize: 10, color: FemLyraColors.textSecondary)),
             ],
           ),
         ],
@@ -178,13 +178,13 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
-          Icon(icon, color: FemFlowColors.primary, size: 24),
+          Icon(icon, color: FemLyraColors.primary, size: 24),
           const SizedBox(width: 16),
           Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           const Spacer(),
-          Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+          Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
           const SizedBox(width: 4),
-          Text(unit, style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
+          Text(unit, style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
         ],
       ),
     );
@@ -196,13 +196,13 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen> {
         children: [
           Text(
             'Your health data is encrypted and private.',
-            style: TextStyle(fontSize: 11, color: FemFlowColors.textMuted, fontStyle: FontStyle.italic),
+            style: TextStyle(fontSize: 11, color: FemLyraColors.textMuted, fontStyle: FontStyle.italic),
           ),
           SizedBox(height: 8),
           Text(
             'FemLyra uses Health Connect to provide personalized wellness insights. You can revoke access anytime in settings.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10, color: FemFlowColors.textMuted),
+            style: TextStyle(fontSize: 10, color: FemLyraColors.textMuted),
           ),
         ],
       ),

@@ -25,7 +25,7 @@ class FemLyraBrandHeader extends StatelessWidget {
       width: iconSize,
       height: iconSize,
       decoration: BoxDecoration(
-        color: size == BrandHeaderSize.large ? FemFlowColors.blushMist : FemFlowColors.primary,
+        color: size == BrandHeaderSize.large ? FemLyraColors.blushMist : FemLyraColors.primary,
         shape: BoxShape.circle,
       ),
       child: ClipOval(
@@ -34,7 +34,7 @@ class FemLyraBrandHeader extends StatelessWidget {
           errorBuilder: (context, error, stackTrace) {
             return Icon(
               Icons.water_drop,
-              color: size == BrandHeaderSize.large ? FemFlowColors.primary : Colors.white,
+              color: size == BrandHeaderSize.large ? FemLyraColors.primary : Colors.white,
               size: iconSize * 0.6,
             );
           },
@@ -53,7 +53,7 @@ class FemLyraBrandHeader extends StatelessWidget {
             style: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
             ),
           ),
           if (showTagline) ...[
@@ -62,7 +62,7 @@ class FemLyraBrandHeader extends StatelessWidget {
               'Cycle, Health & Care',
               style: TextStyle(
                 fontSize: 16,
-                color: FemFlowColors.textSecondary,
+                color: FemLyraColors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -80,7 +80,7 @@ class FemLyraBrandHeader extends StatelessWidget {
             style: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
             ),
           ),
         ],

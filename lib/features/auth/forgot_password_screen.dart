@@ -50,12 +50,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -67,12 +67,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             children: [
               const Text(
                 'Forgot Password',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
               ),
               const SizedBox(height: 12),
               const Text(
                 'Enter your email or username associated with your account to receive a reset code.',
-                style: TextStyle(fontSize: 16, color: FemFlowColors.textSecondary, height: 1.4),
+                style: TextStyle(fontSize: 16, color: FemLyraColors.textSecondary, height: 1.4),
               ),
               const SizedBox(height: 40),
               TextField(

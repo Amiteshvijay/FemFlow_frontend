@@ -60,22 +60,22 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: FemFlowColors.textPrimary, size: 20),
+          icon: const Icon(Icons.arrow_back_ios_new, color: FemLyraColors.textPrimary, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'My Posts',
-          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _error != null
               ? _buildErrorState()
               : _buildContent(),
@@ -89,7 +89,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(_error!, style: const TextStyle(color: FemFlowColors.textSecondary), textAlign: TextAlign.center),
+            Text(_error!, style: const TextStyle(color: FemLyraColors.textSecondary), textAlign: TextAlign.center),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _loadMyPosts,
@@ -108,7 +108,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
         Expanded(
           child: RefreshIndicator(
             onRefresh: _loadMyPosts,
-            color: FemFlowColors.primary,
+            color: FemLyraColors.primary,
             child: _filteredPosts.isEmpty
                 ? _buildEmptyState()
                 : ListView.builder(
@@ -153,16 +153,16 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? FemFlowColors.primary : Colors.white,
+          color: isSelected ? FemLyraColors.primary : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? FemFlowColors.primary : FemFlowColors.border,
+            color: isSelected ? FemLyraColors.primary : FemLyraColors.border,
             width: 1,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: FemFlowColors.primary.withValues(alpha: 0.2),
+                    color: FemLyraColors.primary.withValues(alpha: 0.2),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   )
@@ -172,7 +172,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
         child: Text(
           label,
           style: TextStyle(
-            color: isSelected ? Colors.white : FemFlowColors.textSecondary,
+            color: isSelected ? Colors.white : FemLyraColors.textSecondary,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             fontSize: 13,
           ),
@@ -202,13 +202,13 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: FemFlowColors.primary.withValues(alpha: 0.05),
+                  color: FemLyraColors.primary.withValues(alpha: 0.05),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.chat_bubble_outline_rounded,
                   size: 48,
-                  color: FemFlowColors.primary.withValues(alpha: 0.6),
+                  color: FemLyraColors.primary.withValues(alpha: 0.6),
                 ),
               ),
               const SizedBox(height: 24),
@@ -217,7 +217,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: FemFlowColors.textPrimary,
+                  color: FemLyraColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -226,7 +226,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
                 child: Text(
                   message,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: FemFlowColors.textSecondary),
+                  style: const TextStyle(color: FemLyraColors.textSecondary),
                 ),
               ),
             ],
@@ -251,7 +251,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: FemFlowColors.primary.withValues(alpha: 0.05),
+                    color: FemLyraColors.primary.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
@@ -260,7 +260,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
                       const Icon(
                         Icons.forum_outlined,
                         size: 12,
-                        color: FemFlowColors.primary,
+                        color: FemLyraColors.primary,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -268,7 +268,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
                         style: const TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
-                          color: FemFlowColors.primary,
+                          color: FemLyraColors.primary,
                         ),
                       ),
                     ],
@@ -283,7 +283,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
               content: post.content,
               style: const TextStyle(
                 fontSize: 14,
-                color: FemFlowColors.textPrimary,
+                color: FemLyraColors.textPrimary,
                 height: 1.5,
               ),
             ),
@@ -301,18 +301,18 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
               ),
             ],
             const SizedBox(height: 16),
-            const Divider(color: FemFlowColors.border, height: 1),
+            const Divider(color: FemLyraColors.border, height: 1),
             const SizedBox(height: 12),
             Row(
               children: [
                 // Created date/time
                 Row(
                   children: [
-                    const Icon(Icons.access_time, size: 14, color: FemFlowColors.textMuted),
+                    const Icon(Icons.access_time, size: 14, color: FemLyraColors.textMuted),
                     const SizedBox(width: 4),
                     Text(
                       timeStr,
-                      style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted),
+                      style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted),
                     ),
                   ],
                 ),
@@ -328,7 +328,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
                       'Anonymous',
                       style: TextStyle(
                         fontSize: 10,
-                        color: FemFlowColors.textSecondary,
+                        color: FemLyraColors.textSecondary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -338,18 +338,18 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
                 if (post.status == 'approved') ...[
                   Row(
                     children: [
-                      const Icon(Icons.thumb_up_outlined, size: 14, color: FemFlowColors.textMuted),
+                      const Icon(Icons.thumb_up_outlined, size: 14, color: FemLyraColors.textMuted),
                       const SizedBox(width: 4),
                       Text(
                         post.likesCount.toString(),
-                        style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted),
+                        style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted),
                       ),
                       const SizedBox(width: 12),
-                      const Icon(Icons.chat_bubble_outline, size: 14, color: FemFlowColors.textMuted),
+                      const Icon(Icons.chat_bubble_outline, size: 14, color: FemLyraColors.textMuted),
                       const SizedBox(width: 4),
                       Text(
                         post.replyCount.toString(),
-                        style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted),
+                        style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted),
                       ),
                     ],
                   ),
@@ -361,7 +361,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
                     style: const TextStyle(
                       fontSize: 11, 
                       fontStyle: FontStyle.italic, 
-                      color: FemFlowColors.textMuted,
+                      color: FemLyraColors.textMuted,
                     ),
                   ),
                 ],
@@ -381,21 +381,21 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
 
     switch (status) {
       case 'approved':
-        color = FemFlowColors.fertileWindow;
-        bgColor = FemFlowColors.fertileWindow.withValues(alpha: 0.1);
+        color = FemLyraColors.fertileWindow;
+        bgColor = FemLyraColors.fertileWindow.withValues(alpha: 0.1);
         icon = Icons.check_circle_outline;
         label = 'Approved';
         break;
       case 'rejected':
-        color = FemFlowColors.period;
-        bgColor = FemFlowColors.period.withValues(alpha: 0.1);
+        color = FemLyraColors.period;
+        bgColor = FemLyraColors.period.withValues(alpha: 0.1);
         icon = Icons.error_outline;
         label = 'Rejected';
         break;
       case 'pending':
       default:
-        color = FemFlowColors.pmsCaution;
-        bgColor = FemFlowColors.pmsCaution.withValues(alpha: 0.1);
+        color = FemLyraColors.pmsCaution;
+        bgColor = FemLyraColors.pmsCaution.withValues(alpha: 0.1);
         icon = Icons.pending_actions_outlined;
         label = 'Under Review';
         break;

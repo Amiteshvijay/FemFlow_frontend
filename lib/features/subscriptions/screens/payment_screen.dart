@@ -193,7 +193,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.help_outline_rounded, color: FemFlowColors.primary, size: 48),
+              const Icon(Icons.help_outline_rounded, color: FemLyraColors.primary, size: 48),
               const SizedBox(height: 16),
               const Text(
                 'Confirm Payment Status',
@@ -230,7 +230,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: FemFlowColors.primary,
+                        backgroundColor: FemLyraColors.primary,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         padding: const EdgeInsets.symmetric(vertical: 14),
@@ -399,7 +399,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
               height: 48,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemFlowColors.primary,
+                  backgroundColor: FemLyraColors.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -570,7 +570,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
               height: 48,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemFlowColors.primary,
+                  backgroundColor: FemLyraColors.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -615,21 +615,21 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const CircularProgressIndicator(color: FemFlowColors.primary),
+                const CircularProgressIndicator(color: FemLyraColors.primary),
                 const SizedBox(height: 32),
                 Text(
                   _statusMessage,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 16,
-                    color: FemFlowColors.textPrimary,
+                    color: FemLyraColors.textPrimary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 16),
                 const Text(
                   'Please do not close the app or press back.',
-                  style: TextStyle(fontSize: 13, color: FemFlowColors.textMuted),
+                  style: TextStyle(fontSize: 13, color: FemLyraColors.textMuted),
                 ),
                 if (_showRetryButton) ...[
                   const SizedBox(height: 48),
@@ -641,8 +641,8 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
                       label: const Text('Retry'),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        side: const BorderSide(color: FemFlowColors.primary),
-                        foregroundColor: FemFlowColors.primary,
+                        side: const BorderSide(color: FemLyraColors.primary),
+                        foregroundColor: FemLyraColors.primary,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                     ),
@@ -711,26 +711,26 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: FemFlowColors.blushMist.withValues(alpha: 0.3),
+                    color: FemLyraColors.blushMist.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.2)),
+                    border: Border.all(color: FemLyraColors.primary.withValues(alpha: 0.2)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         widget.plan.name,
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         'Total Amount: ₹${amount.toString()}',
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Order Ref: $orderId',
-                        style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+                        style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
                       ),
                     ],
                   ),
@@ -742,7 +742,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
                   height: 56,
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: FemFlowColors.primary,
+                      backgroundColor: FemLyraColors.primary,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),

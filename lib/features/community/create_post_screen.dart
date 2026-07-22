@@ -123,17 +123,17 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           'Post to ${widget.roomName}',
-          style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+          style: const TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
         ),
         centerTitle: true,
       ),
@@ -146,15 +146,15 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               children: [
                 CircleAvatar(
                   radius: 20,
-                  backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
-                  child: const Icon(Icons.person, color: FemFlowColors.primary),
+                  backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
+                  child: const Icon(Icons.person, color: FemLyraColors.primary),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Posting as', style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
+                      Text('Posting as', style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
                       Text(
                         'Community Member', 
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -168,12 +168,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Anonymous', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                    const Text('Anonymous', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                     const SizedBox(width: 4),
                     Switch(
                       value: _isAnonymous,
                       onChanged: (val) => setState(() => _isAnonymous = val),
-                      activeTrackColor: FemFlowColors.primary,
+                      activeTrackColor: FemLyraColors.primary,
                     ),
                   ],
                 ),
@@ -355,7 +355,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     return Tooltip(
       message: tooltip,
       child: Material(
-        color: isActive ? FemFlowColors.primary.withValues(alpha: 0.1) : Colors.transparent,
+        color: isActive ? FemLyraColors.primary.withValues(alpha: 0.1) : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
@@ -365,7 +365,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             child: Icon(
               icon,
               size: 20,
-              color: isActive ? FemFlowColors.primary : FemFlowColors.textSecondary,
+              color: isActive ? FemLyraColors.primary : FemLyraColors.textSecondary,
             ),
           ),
         ),
@@ -412,18 +412,18 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 16),
               decoration: BoxDecoration(
-                color: FemFlowColors.primary.withValues(alpha: 0.05),
+                color: FemLyraColors.primary.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.1)),
+                border: Border.all(color: FemLyraColors.primary.withValues(alpha: 0.1)),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.image_outlined, color: FemFlowColors.primary),
+                  Icon(Icons.image_outlined, color: FemLyraColors.primary),
                   SizedBox(width: 12),
                   Text(
                     'Add Image',
-                    style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -466,12 +466,12 @@ class _PostSubmittedSheet extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: FemFlowColors.fertileWindow.withValues(alpha: 0.1),
+              color: FemLyraColors.fertileWindow.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: const Icon(
               Icons.check_circle_outline,
-              color: FemFlowColors.fertileWindow,
+              color: FemLyraColors.fertileWindow,
               size: 56,
             ),
           ),
@@ -481,7 +481,7 @@ class _PostSubmittedSheet extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.textPrimary,
+              color: FemLyraColors.textPrimary,
             ),
           ),
           const SizedBox(height: 12),
@@ -490,7 +490,7 @@ class _PostSubmittedSheet extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: FemFlowColors.textSecondary,
+              color: FemLyraColors.textSecondary,
               height: 1.5,
             ),
           ),
@@ -508,7 +508,7 @@ class _PostSubmittedSheet extends StatelessWidget {
             child: const Text(
               'Back to Community',
               style: TextStyle(
-                color: FemFlowColors.primary,
+                color: FemLyraColors.primary,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),

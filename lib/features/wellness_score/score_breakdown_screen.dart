@@ -10,17 +10,17 @@ class ScoreBreakdownScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Score Breakdown',
-          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -41,21 +41,21 @@ class ScoreBreakdownScreen extends StatelessWidget {
 
   Widget _buildOverallCard() {
     return AppCard(
-      color: FemFlowColors.primary.withValues(alpha: 0.05),
+      color: FemLyraColors.primary.withValues(alpha: 0.05),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Overall Score', style: TextStyle(color: FemFlowColors.textSecondary)),
+              const Text('Overall Score', style: TextStyle(color: FemLyraColors.textSecondary)),
               const SizedBox(height: 4),
-              Text(data.status, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
+              Text(data.status, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
             ],
           ),
           Text(
             '${data.score}',
-            style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+            style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
           ),
         ],
       ),
@@ -98,7 +98,7 @@ class ScoreBreakdownScreen extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               explanation,
-              style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, height: 1.4),
+              style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, height: 1.4),
             ),
           ],
         ),
@@ -136,7 +136,7 @@ class ScoreBreakdownScreen extends StatelessWidget {
           SizedBox(height: 12),
           Text(
             'Try consistent sleep timing and gentle rest before your period phase to improve your overall balance.',
-            style: TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, height: 1.5),
+            style: TextStyle(fontSize: 14, color: FemLyraColors.textPrimary, height: 1.5),
           ),
         ],
       ),
