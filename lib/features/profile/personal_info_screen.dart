@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../core/security/app_lock_service.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/profile_service.dart';
@@ -87,7 +87,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
         // Parent screen will be notified via the return value of Navigator.pop
       },
       child: Scaffold(
-        backgroundColor: FemFlowColors.warmWhite,
+        backgroundColor: FemLyraColors.warmWhite,
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -97,7 +97,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
           centerTitle: true,
         ),
         body: _isLoading
-            ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+            ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
             : SingleChildScrollView(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -209,7 +209,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             Container(
               width: 120,
               height: 120,
-              decoration: const BoxDecoration(color: FemFlowColors.blushMist, shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: FemLyraColors.blushMist, shape: BoxShape.circle),
               child: _currentProfile?.avatarUrl != null
                   ? ClipOval(
                       child: Image.network(
@@ -217,14 +217,14 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                         fit: BoxFit.cover,
                       ),
                     )
-                  : const Icon(Icons.person, size: 60, color: FemFlowColors.primary),
+                  : const Icon(Icons.person, size: 60, color: FemLyraColors.primary),
             ),
             if (_isUploadingAvatar)
-              const Positioned.fill(child: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)))
+              const Positioned.fill(child: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)))
             else
               Container(
                 padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
+                decoration: const BoxDecoration(color: FemLyraColors.primary, shape: BoxShape.circle),
                 child: const Icon(Icons.camera_alt, size: 20, color: Colors.white),
               ),
           ],
@@ -237,7 +237,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
     return Column(
       children: [
         Text(_currentProfile?.safeDisplayName ?? 'User', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-        Text(_currentProfile?.email ?? '', style: const TextStyle(color: FemFlowColors.textSecondary)),
+        Text(_currentProfile?.email ?? '', style: const TextStyle(color: FemLyraColors.textSecondary)),
         if (_currentProfile?.bmi != null)
           Container(
             margin: const EdgeInsets.only(top: 12),
@@ -258,8 +258,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(12)),
-              child: Icon(icon, color: FemFlowColors.primary, size: 24),
+              decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(12)),
+              child: Icon(icon, color: FemLyraColors.primary, size: 24),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -267,7 +267,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                  Text(subtitle, style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 12)),
+                  Text(subtitle, style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 12)),
                 ],
               ),
             ),
@@ -277,8 +277,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               child: CircularProgressIndicator(
                 value: completion,
                 strokeWidth: 4,
-                backgroundColor: FemFlowColors.border.withValues(alpha: 0.3),
-                valueColor: const AlwaysStoppedAnimation<Color>(FemFlowColors.primary),
+                backgroundColor: FemLyraColors.border.withValues(alpha: 0.3),
+                valueColor: const AlwaysStoppedAnimation<Color>(FemLyraColors.primary),
               ),
             ),
           ],

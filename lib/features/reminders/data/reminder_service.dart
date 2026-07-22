@@ -105,7 +105,7 @@ class ReminderService {
     if (reminder.repeatType == 'daily') {
       await _notificationService.scheduleNotification(
         id: reminder.id!,
-        title: 'FemFlow Reminder',
+        title: 'FemLyra Reminder',
         body: body,
         scheduledDate: scheduledTime,
         repeatDaily: true,
@@ -116,7 +116,7 @@ class ReminderService {
       final List<int> days = reminder.weekdays.split(',').map((e) => int.parse(e)).toList();
       await _notificationService.scheduleNotification(
         id: reminder.id!,
-        title: 'FemFlow Reminder',
+        title: 'FemLyra Reminder',
         body: body,
         scheduledDate: scheduledTime,
         weekdays: days,
@@ -134,7 +134,7 @@ class ReminderService {
       if (combinedDate.isAfter(DateTime.now())) {
         await _notificationService.scheduleNotification(
           id: reminder.id!,
-          title: 'FemFlow Reminder',
+          title: 'FemLyra Reminder',
           body: body,
           scheduledDate: combinedDate,
           payload: 'reminder:${reminder.id}:${reminder.reminderType}',
@@ -160,7 +160,7 @@ class ReminderService {
         if (combinedDate.isAfter(DateTime.now())) {
           await _notificationService.scheduleNotification(
             id: reminder.id!,
-            title: 'FemFlow Reminder',
+            title: 'FemLyra Reminder',
             body: body,
             scheduledDate: combinedDate,
             payload: 'reminder:${reminder.id}:${reminder.reminderType}',

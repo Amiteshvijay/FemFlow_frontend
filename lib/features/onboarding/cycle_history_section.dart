@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../cycles/data/cycle_service.dart';
 
@@ -67,7 +67,7 @@ class _CycleHistorySectionState extends State<CycleHistorySection> {
       children: [
         const Text(
           'Add your recent periods to improve accuracy.',
-          style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
+          style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
         ),
         const SizedBox(height: 24),
         AppCard(
@@ -85,11 +85,11 @@ class _CycleHistorySectionState extends State<CycleHistorySection> {
               titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             calendarStyle: const CalendarStyle(
-              rangeHighlightColor: FemFlowColors.blushMist,
-              rangeStartDecoration: BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
-              rangeEndDecoration: BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
+              rangeHighlightColor: FemLyraColors.blushMist,
+              rangeStartDecoration: BoxDecoration(color: FemLyraColors.primary, shape: BoxShape.circle),
+              rangeEndDecoration: BoxDecoration(color: FemLyraColors.primary, shape: BoxShape.circle),
               todayDecoration: BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
-              todayTextStyle: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold),
+              todayTextStyle: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold),
             ),
             onDaySelected: _onDaySelected,
           ),
@@ -99,8 +99,8 @@ class _CycleHistorySectionState extends State<CycleHistorySection> {
           Center(
             child: TextButton.icon(
               onPressed: _addCycle,
-              icon: const Icon(Icons.add_circle_outline, color: FemFlowColors.primary),
-              label: const Text('Confirm Period Dates', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
+              icon: const Icon(Icons.add_circle_outline, color: FemLyraColors.primary),
+              label: const Text('Confirm Period Dates', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
             ),
           ),
         const SizedBox(height: 32),
@@ -116,7 +116,7 @@ class _CycleHistorySectionState extends State<CycleHistorySection> {
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: Row(
                   children: [
-                    const Icon(Icons.calendar_today, size: 16, color: FemFlowColors.primary),
+                    const Icon(Icons.calendar_today, size: 16, color: FemLyraColors.primary),
                     const SizedBox(width: 12),
                     Text(range, style: const TextStyle(fontWeight: FontWeight.w600)),
                     const Spacer(),

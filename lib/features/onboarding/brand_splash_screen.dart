@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
-import '../../shared/widgets/femflow_brand_header.dart';
+import '../../core/theme/FemLyra_colors.dart';
+import '../../shared/widgets/FemLyra_brand_header.dart';
 
 class BrandSplashScreen extends StatefulWidget {
   final VoidCallback onFinished;
@@ -50,13 +50,13 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with SingleTicker
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnimation,
           child: ScaleTransition(
             scale: _scaleAnimation,
-            child: const FemFlowBrandHeader(
+            child: const FemLyraBrandHeader(
               size: BrandHeaderSize.large,
               showTagline: true,
               alignment: MainAxisAlignment.center,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/settings_service.dart';
 
@@ -91,7 +91,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -104,7 +104,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _error != null
               ? Center(
                   child: Padding(
@@ -112,11 +112,11 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(_error!, textAlign: TextAlign.center, style: const TextStyle(color: FemFlowColors.textSecondary)),
+                        Text(_error!, textAlign: TextAlign.center, style: const TextStyle(color: FemLyraColors.textSecondary)),
                         const SizedBox(height: 16),
                         TextButton(
                           onPressed: _loadSettings,
-                          child: const Text('Retry', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                          child: const Text('Retry', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
                         ),
                       ],
                     ),
@@ -131,9 +131,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         child: Column(
                           children: [
                             _buildOptionRow('english', 'English'),
-                            const Divider(height: 1, indent: 16, endIndent: 16, color: FemFlowColors.border),
+                            const Divider(height: 1, indent: 16, endIndent: 16, color: FemLyraColors.border),
                             _buildOptionRow('hindi', 'Hindi (हिंदी)'),
-                            const Divider(height: 1, indent: 16, endIndent: 16, color: FemFlowColors.border),
+                            const Divider(height: 1, indent: 16, endIndent: 16, color: FemLyraColors.border),
                             _buildOptionRow('hinglish', 'Hinglish'),
                           ],
                         ),
@@ -155,11 +155,11 @@ class _LanguageScreenState extends State<LanguageScreen> {
           children: [
             Text(
               label,
-              style: const TextStyle(fontSize: 16, color: FemFlowColors.textPrimary),
+              style: const TextStyle(fontSize: 16, color: FemLyraColors.textPrimary),
             ),
             Icon(
               isSelected ? Icons.check_circle : Icons.radio_button_unchecked,
-              color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
+              color: isSelected ? FemLyraColors.primary : FemLyraColors.textMuted,
               size: 22,
             ),
           ],

@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../../core/security/app_lock_service.dart';
@@ -52,9 +52,9 @@ class _DataExportScreenState extends State<DataExportScreen> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: FemFlowColors.primary,
+              primary: FemLyraColors.primary,
               onPrimary: Colors.white,
-              onSurface: FemFlowColors.textPrimary,
+              onSurface: FemLyraColors.textPrimary,
             ),
           ),
           child: child!,
@@ -105,7 +105,7 @@ class _DataExportScreenState extends State<DataExportScreen> {
     try {
       final directory = await getTemporaryDirectory();
       final timestamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
-      final fileName = 'FemFlow_Health_Report_$timestamp.$_format';
+      final fileName = 'FemLyra_Health_Report_$timestamp.$_format';
       final filePath = '${directory.path}/$fileName';
       final file = File(filePath);
 
@@ -120,7 +120,7 @@ class _DataExportScreenState extends State<DataExportScreen> {
               return [
                 pw.Header(
                   level: 0,
-                  child: pw.Text('FEMFLOW HEALTH REPORT', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+                  child: pw.Text('FemLyra HEALTH REPORT', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
                 ),
                 pw.SizedBox(height: 10),
                 pw.Text('Generated on: ${DateFormat('MMMM dd, yyyy HH:mm').format(DateTime.now())}'),
@@ -175,7 +175,7 @@ class _DataExportScreenState extends State<DataExportScreen> {
         final StringBuffer csvBuffer = StringBuffer();
         
         // Metadata
-        csvBuffer.writeln('FEMFLOW HEALTH REPORT');
+        csvBuffer.writeln('FemLyra HEALTH REPORT');
         csvBuffer.writeln('Generated on,${DateTime.now()}');
         csvBuffer.writeln('Range,$_dateRange');
         csvBuffer.writeln('');
@@ -214,7 +214,7 @@ class _DataExportScreenState extends State<DataExportScreen> {
       if (mounted) {
         await Share.shareXFiles(
           [XFile(filePath)], 
-          text: 'My FemFlow Health Report',
+          text: 'My FemLyra Health Report',
           subject: 'Health Report'
         );
       }
@@ -245,7 +245,7 @@ class _DataExportScreenState extends State<DataExportScreen> {
               Navigator.pop(context); // Close dialog
               _downloadReport();
             },
-            child: const Text('Download Now', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
+            child: const Text('Download Now', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
           ),
         ],
       ),
@@ -255,7 +255,7 @@ class _DataExportScreenState extends State<DataExportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -290,7 +290,7 @@ class _DataExportScreenState extends State<DataExportScreen> {
             const Center(
               child: Text(
                 'Reports may take a few moments to generate.',
-                style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+                style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
               ),
             ),
           ],
@@ -304,7 +304,7 @@ class _DataExportScreenState extends State<DataExportScreen> {
       padding: const EdgeInsets.only(bottom: 12, left: 4),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
       ),
     );
   }
@@ -333,7 +333,7 @@ class _DataExportScreenState extends State<DataExportScreen> {
                   ? Text('${DateFormat('MMM d, yyyy').format(_startDate!)} - ${DateFormat('MMM d, yyyy').format(_endDate!)}')
                   : const Text('Select start and end dates'),
               trailing: Icon(Icons.calendar_today_outlined, 
-                color: _dateRange == 'custom' ? FemFlowColors.primary : FemFlowColors.textMuted, size: 20),
+                color: _dateRange == 'custom' ? FemLyraColors.primary : FemLyraColors.textMuted, size: 20),
               onTap: () => _selectDateRange(context),
             ),
           ],
@@ -350,7 +350,7 @@ class _DataExportScreenState extends State<DataExportScreen> {
           return CheckboxListTile(
             title: Text(cat),
             value: _categories[cat],
-            activeColor: FemFlowColors.primary,
+            activeColor: FemLyraColors.primary,
             onChanged: (val) => setState(() => _categories[cat] = val!),
           );
         }).toList(),
@@ -376,19 +376,19 @@ class _DataExportScreenState extends State<DataExportScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: isSelected ? FemFlowColors.primary.withValues(alpha: 0.1) : Colors.white,
+            color: isSelected ? FemLyraColors.primary.withValues(alpha: 0.1) : Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: isSelected ? FemFlowColors.primary : FemFlowColors.border),
+            border: Border.all(color: isSelected ? FemLyraColors.primary : FemLyraColors.border),
           ),
           child: Column(
             children: [
-              Icon(icon, color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted),
+              Icon(icon, color: isSelected ? FemLyraColors.primary : FemLyraColors.textMuted),
               const SizedBox(height: 8),
               Text(
                 label,
                 style: TextStyle(
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  color: isSelected ? FemFlowColors.primary : FemFlowColors.textSecondary,
+                  color: isSelected ? FemLyraColors.primary : FemLyraColors.textSecondary,
                 ),
               ),
             ],

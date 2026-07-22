@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:femflow/core/theme/femflow_colors.dart';
-import 'package:femflow/core/network/api_client.dart';
-import 'package:femflow/core/security/app_lock_service.dart';
-import 'package:femflow/shared/widgets/app_card.dart';
-import 'package:femflow/features/profile/screens/order_history_screen.dart';
+import 'package:FemLyra/core/theme/FemLyra_colors.dart';
+import 'package:FemLyra/core/network/api_client.dart';
+import 'package:FemLyra/core/security/app_lock_service.dart';
+import 'package:FemLyra/shared/widgets/app_card.dart';
+import 'package:FemLyra/features/profile/screens/order_history_screen.dart';
 import 'providers/cart_provider.dart';
 
 class LabPaymentScreen extends StatefulWidget {
@@ -131,7 +131,7 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
             const Text(
               'Your UTR details have been uploaded. The admin verification team is validating the transaction. Updates will reflect shortly.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+              style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -139,7 +139,7 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
               height: 44,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemFlowColors.primary,
+                  backgroundColor: FemLyraColors.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -163,12 +163,12 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () {
             // Warn that navigating away won't cancel the order draft
             Navigator.pop(context);
@@ -176,7 +176,7 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
         ),
         title: const Text(
           'Booking Payment',
-          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -189,12 +189,12 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
             children: [
               Text(
                 'Complete your booking for ${widget.packageName}',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
               ),
               const SizedBox(height: 4),
               Text(
                 'Order ID: ${widget.orderNumber}',
-                style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, fontFamily: 'monospace'),
+                style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, fontFamily: 'monospace'),
               ),
               const SizedBox(height: 24),
 
@@ -205,7 +205,7 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
                   children: [
                     Text(
                       'Pay ₹${widget.amount.toInt()}',
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemFlowColors.primary),
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemLyraColors.primary),
                     ),
                     const SizedBox(height: 16),
                     if (widget.qrCodeUrl != null)
@@ -228,7 +228,7 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
                         height: 48,
                         child: ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: FemFlowColors.primary,
+                            backgroundColor: FemLyraColors.primary,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           ),
@@ -244,8 +244,8 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
                       ),
                     const SizedBox(height: 12),
                     const Text(
-                      'UPI ID: femflow@ybl',
-                      style: TextStyle(color: FemFlowColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold),
+                      'UPI ID: FemLyra@ybl',
+                      style: TextStyle(color: FemLyraColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -255,7 +255,7 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
               // UTR verification
               const Text(
                 '12-DIGIT TRANSACTION UTR NUMBER',
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary, letterSpacing: 1.1),
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
               ),
               const SizedBox(height: 8),
               TextFormField(
@@ -284,7 +284,7 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
               // Screenshot upload
               const Text(
                 'TRANSACTION SCREENSHOT (OPTIONAL)',
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary, letterSpacing: 1.1),
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
               ),
               const SizedBox(height: 8),
               GestureDetector(
@@ -311,22 +311,22 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
                             const SizedBox(height: 12),
                             const Text(
                               'Tap to change image',
-                              style: TextStyle(color: FemFlowColors.primary, fontSize: 13, fontWeight: FontWeight.bold),
+                              style: TextStyle(color: FemLyraColors.primary, fontSize: 13, fontWeight: FontWeight.bold),
                             ),
                           ],
                         )
                       : const Column(
                           children: [
-                            Icon(Icons.add_photo_alternate_outlined, size: 36, color: FemFlowColors.textMuted),
+                            Icon(Icons.add_photo_alternate_outlined, size: 36, color: FemLyraColors.textMuted),
                             SizedBox(height: 12),
                             Text(
                               'Select Screenshot from Gallery',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemFlowColors.textPrimary),
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemLyraColors.textPrimary),
                             ),
                             SizedBox(height: 4),
                             Text(
                               'Accepts PNG, JPG, JPEG (Max 5MB)',
-                              style: TextStyle(color: FemFlowColors.textMuted, fontSize: 11),
+                              style: TextStyle(color: FemLyraColors.textMuted, fontSize: 11),
                             ),
                           ],
                         ),
@@ -340,7 +340,7 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
                 height: 52,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: FemFlowColors.primary,
+                    backgroundColor: FemLyraColors.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),

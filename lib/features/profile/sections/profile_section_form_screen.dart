@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/primary_button.dart';
 import '../data/profile_service.dart';
 import 'basic_information_section.dart';
@@ -60,7 +60,7 @@ class _ProfileSectionFormScreenState extends State<ProfileSectionFormScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Save failed: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Save failed: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     } finally {
@@ -71,7 +71,7 @@ class _ProfileSectionFormScreenState extends State<ProfileSectionFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(icon: const Icon(Icons.arrow_back_ios_new, size: 20), onPressed: () => Navigator.pop(context)),
         title: Text(widget.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),

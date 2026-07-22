@@ -22,7 +22,7 @@ class PremiumFeatureConfig {
   static const Map<String, PremiumFeature> features = {
     'community': PremiumFeature(
       key: 'community',
-      title: 'FemFlow Community',
+      title: 'FemLyra Community',
       subtitle: 'A safe, anonymous space to share, learn, and feel supported.',
       icon: Icons.groups_outlined,
       benefits: [
@@ -100,7 +100,7 @@ class PremiumFeatureConfig {
     ),
     'partner_mode': PremiumFeature(
       key: 'partner_mode',
-      title: 'FemFlow Partner Mode',
+      title: 'FemLyra Partner Mode',
       subtitle: 'Share your cycle phase and mood with your partner automatically.',
       icon: Icons.favorite_outline,
       benefits: [
@@ -139,7 +139,7 @@ class PremiumFeatureConfig {
     ),
     'journal': PremiumFeature(
       key: 'journal',
-      title: 'FemFlow Journal',
+      title: 'FemLyra Journal',
       subtitle: 'A private space to reflect on your physical and emotional journey.',
       icon: Icons.auto_stories_outlined,
       benefits: [
@@ -171,7 +171,7 @@ class PremiumFeatureConfig {
       title: 'Premium Feature',
       subtitle: 'Upgrade to unlock advanced capabilities.',
       icon: Icons.star_outline,
-      benefits: ['Unlock advanced insights', 'Get personalized tips', 'Support FemFlow development'],
+      benefits: ['Unlock advanced insights', 'Get personalized tips', 'Support FemLyra development'],
     );
   }
 }

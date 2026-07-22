@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../models/referral_models.dart';
 
@@ -23,7 +23,7 @@ class ReferralHistoryCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.textPrimary,
+              color: FemLyraColors.textPrimary,
             ),
           ),
         ),
@@ -45,7 +45,7 @@ class ReferralHistoryCard extends StatelessWidget {
                       ),
                       Text(
                         'Joined ${DateFormat('MMM d, yyyy').format(item.createdAt)}',
-                        style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+                        style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
                       ),
                     ],
                   ),

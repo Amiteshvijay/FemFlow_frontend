@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../core/services/version_service.dart';
 
 class UpdateDialog extends StatelessWidget {
@@ -24,12 +24,12 @@ class UpdateDialog extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: isMandatory ? Colors.red.withValues(alpha: 0.1) : FemFlowColors.primary.withValues(alpha: 0.1),
+                  color: isMandatory ? Colors.red.withValues(alpha: 0.1) : FemLyraColors.primary.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   isMandatory ? Icons.system_update_alt_rounded : Icons.rocket_launch_rounded,
-                  color: isMandatory ? Colors.red : FemFlowColors.primary,
+                  color: isMandatory ? Colors.red : FemLyraColors.primary,
                   size: 32,
                 ),
               ),
@@ -40,7 +40,7 @@ class UpdateDialog extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: FemFlowColors.textPrimary,
+                  color: FemLyraColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 12),
@@ -49,7 +49,7 @@ class UpdateDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 14,
-                  color: FemFlowColors.textSecondary,
+                  color: FemLyraColors.textSecondary,
                   height: 1.5,
                 ),
               ),
@@ -59,7 +59,7 @@ class UpdateDialog extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () => _launchURL(updateInfo.storeUrl),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: FemFlowColors.primary,
+                    backgroundColor: FemLyraColors.primary,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -76,7 +76,7 @@ class UpdateDialog extends StatelessWidget {
                   onPressed: () => Navigator.pop(context),
                   child: const Text(
                     'Later',
-                    style: TextStyle(color: FemFlowColors.textMuted, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: FemLyraColors.textMuted, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],

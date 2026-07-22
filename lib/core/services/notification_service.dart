@@ -4,11 +4,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:femflow/core/navigation/navigator_service.dart';
-import 'package:femflow/features/diet/screens/diet_home_screen.dart';
-import 'package:femflow/features/pill_reminder/pill_reminder_list_screen.dart';
-import 'package:femflow/features/reminders/reminders_screen.dart';
-import 'package:femflow/features/journal/journal_screen.dart';
+import 'package:FemLyra/core/navigation/navigator_service.dart';
+import 'package:FemLyra/features/diet/screens/diet_home_screen.dart';
+import 'package:FemLyra/features/pill_reminder/pill_reminder_list_screen.dart';
+import 'package:FemLyra/features/reminders/reminders_screen.dart';
+import 'package:FemLyra/features/journal/journal_screen.dart';
 
 // Action constants for medication reminders
 const String actionTake = 'MED_TAKE';
@@ -197,12 +197,12 @@ class NotificationService {
     final AndroidScheduleMode scheduleMode = await _getScheduleMode();
 
     final String channelId = (sound != null && sound != 'default') 
-        ? 'femflow_reminders_$sound' 
-        : 'femflow_reminders_default';
+        ? 'FemLyra_reminders_$sound' 
+        : 'FemLyra_reminders_default';
         
     final String channelName = (sound != null && sound != 'default')
-        ? 'FemFlow Reminders (${sound.replaceAll("chime_", "").toUpperCase()})'
-        : 'FemFlow Reminders';
+        ? 'FemLyra Reminders (${sound.replaceAll("chime_", "").toUpperCase()})'
+        : 'FemLyra Reminders';
 
     final AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       channelId,

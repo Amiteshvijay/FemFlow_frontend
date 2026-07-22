@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/primary_button.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../providers/subscription_provider.dart';
@@ -12,7 +12,7 @@ class SubscriptionRetentionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: SafeArea(
         child: Column(
           children: [
@@ -21,18 +21,18 @@ class SubscriptionRetentionScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                 child: Column(
                   children: [
-                    const Icon(Icons.favorite_rounded, color: FemFlowColors.primary, size: 64),
+                    const Icon(Icons.favorite_rounded, color: FemLyraColors.primary, size: 64),
                     const SizedBox(height: 24),
                     const Text(
-                      'Are you sure you want to leave FemFlow Premium?',
+                      'Are you sure you want to leave FemLyra Premium?',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                     ),
                     const SizedBox(height: 16),
                     const Text(
                       'You’ll lose access to personalized wellness insights and premium health features designed for your cycle and wellbeing.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.5),
+                      style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary, height: 1.5),
                     ),
                     const SizedBox(height: 40),
                     _buildBenefitItem(
@@ -75,8 +75,8 @@ class SubscriptionRetentionScreen extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
-              child: Icon(icon, color: FemFlowColors.primary, size: 24),
+              decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
+              child: Icon(icon, color: FemLyraColors.primary, size: 24),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -85,7 +85,7 @@ class SubscriptionRetentionScreen extends StatelessWidget {
                 children: [
                   Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                   const SizedBox(height: 2),
-                  Text(subtitle, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                  Text(subtitle, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                 ],
               ),
             ),
@@ -116,7 +116,7 @@ class SubscriptionRetentionScreen extends StatelessWidget {
             onPressed: () => _initiateCancellation(context),
             child: const Text(
               'Cancel Anyway',
-              style: TextStyle(color: FemFlowColors.textMuted, fontWeight: FontWeight.w600),
+              style: TextStyle(color: FemLyraColors.textMuted, fontWeight: FontWeight.w600),
             ),
           ),
         ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../models/referral_models.dart';
 
@@ -22,7 +22,7 @@ class ReferralStatsCard extends StatelessWidget {
                 Icons.people_outline,
                 Colors.blue,
               ),
-              Container(height: 40, width: 1, color: FemFlowColors.border),
+              Container(height: 40, width: 1, color: FemLyraColors.border),
               _buildStatItem(
                 'Months Earned',
                 profile.rewardMonthsEarned.toString(),
@@ -65,14 +65,14 @@ class ReferralStatsCard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.textPrimary,
+              color: FemLyraColors.textPrimary,
             ),
           ),
           Text(
             label,
             style: const TextStyle(
               fontSize: 12,
-              color: FemFlowColors.textSecondary,
+              color: FemLyraColors.textSecondary,
             ),
           ),
         ],

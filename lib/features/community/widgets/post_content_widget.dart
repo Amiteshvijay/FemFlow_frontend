@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 
 class PostContentWidget extends StatelessWidget {
   final String content;
@@ -19,7 +19,7 @@ class PostContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final baseStyle = style ?? const TextStyle(
       fontSize: 14,
-      color: FemFlowColors.textPrimary,
+      color: FemLyraColors.textPrimary,
       height: 1.5,
     );
 

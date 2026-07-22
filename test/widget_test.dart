@@ -7,10 +7,10 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:femflow/main.dart';
+import 'package:FemLyra/main.dart';
 
 void main() {
-  testWidgets('FemFlow shell navigation smoke test', (
+  testWidgets('FemLyra shell navigation smoke test', (
     WidgetTester tester,
   ) async {
     // Build our app and trigger a frame.

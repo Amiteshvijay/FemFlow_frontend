@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../../../shared/widgets/primary_button.dart';
 import '../data/activity_service.dart';
@@ -40,7 +40,7 @@ class _CalorieBurnScreenState extends State<CalorieBurnScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Activity & Calories', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -78,18 +78,18 @@ class _CalorieBurnScreenState extends State<CalorieBurnScreen> {
 
   Widget _buildTodaySummary() {
     return AppCard(
-      color: FemFlowColors.primary.withValues(alpha: 0.05),
-      border: BorderSide(color: FemFlowColors.primary.withValues(alpha: 0.1)),
+      color: FemLyraColors.primary.withValues(alpha: 0.05),
+      border: BorderSide(color: FemLyraColors.primary.withValues(alpha: 0.1)),
       child: Column(
         children: [
-          const Text('Total Calories Burned', style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 14)),
+          const Text('Total Calories Burned', style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 14)),
           const SizedBox(height: 8),
           Text(
             '${_summary?.totalCaloriesBurned ?? 0} kcal',
-            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
           ),
           const SizedBox(height: 8),
-          Text(_summary?.message ?? '', textAlign: TextAlign.center, style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
+          Text(_summary?.message ?? '', textAlign: TextAlign.center, style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
           const Divider(height: 32),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -106,10 +106,10 @@ class _CalorieBurnScreenState extends State<CalorieBurnScreen> {
   Widget _statItem(IconData icon, String value, String label) {
     return Column(
       children: [
-        Icon(icon, color: FemFlowColors.textSecondary, size: 24),
+        Icon(icon, color: FemLyraColors.textSecondary, size: 24),
         const SizedBox(height: 4),
         Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        Text(label, style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 11)),
+        Text(label, style: const TextStyle(color: FemLyraColors.textMuted, fontSize: 11)),
       ],
     );
   }
@@ -132,7 +132,7 @@ class _CalorieBurnScreenState extends State<CalorieBurnScreen> {
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Icon(icon, color: FemFlowColors.textMuted, size: 20),
+          Icon(icon, color: FemLyraColors.textMuted, size: 20),
           const SizedBox(width: 12),
           Expanded(child: Text(label, style: const TextStyle(fontSize: 14))),
           Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
@@ -157,7 +157,7 @@ class _CalorieBurnScreenState extends State<CalorieBurnScreen> {
           Expanded(
             child: Text(
               'Calories are estimates. Your body’s needs can vary by cycle phase, energy, and overall health status. Focus on how you feel.',
-              style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, height: 1.5),
+              style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, height: 1.5),
             ),
           ),
         ],

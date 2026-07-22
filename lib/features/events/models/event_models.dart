@@ -1,4 +1,4 @@
-class FemFlowEvent {
+class FemLyraEvent {
   final int id;
   final String title;
   final String slug;
@@ -22,7 +22,7 @@ class FemFlowEvent {
   final int registeredCount;
   final bool isRegistered;
 
-  FemFlowEvent({
+  FemLyraEvent({
     required this.id,
     required this.title,
     required this.slug,
@@ -47,8 +47,8 @@ class FemFlowEvent {
     required this.isRegistered,
   });
 
-  factory FemFlowEvent.fromJson(Map<String, dynamic> json) {
-    return FemFlowEvent(
+  factory FemLyraEvent.fromJson(Map<String, dynamic> json) {
+    return FemLyraEvent(
       id: json['id'],
       title: json['title'],
       slug: json['slug'],

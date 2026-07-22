@@ -33,7 +33,7 @@
     <uses-permission android:name="android.permission.health.READ_WEIGHT"/>
 
     <application
-        android:label="FemFlow"
+        android:label="FemLyra"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
@@ -69,10 +69,8 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="femflow.app" android:pathPrefix="/ref" />
-                <data android:scheme="https" android:host="femflow.app" android:pathPrefix="/ref" />
-                <data android:scheme="http" android:host="femflow.in" android:pathPrefix="/ref" />
-                <data android:scheme="https" android:host="femflow.in" android:pathPrefix="/ref" />
+                <data android:scheme="http" android:host="femlyra.com" android:pathPrefix="/ref" />
+                <data android:scheme="https" android:host="femlyra.com" android:pathPrefix="/ref" />
             </intent-filter>
 
             <!-- Custom Scheme Deep Link for Partner Invites -->
@@ -80,7 +78,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="femflow" android:host="partner" android:pathPrefix="/accept" />
+                <data android:scheme="femlyra" android:host="partner" android:pathPrefix="/accept" />
             </intent-filter>
 
             <!-- Custom Scheme Deep Link for UPI Payment Callback -->
@@ -88,7 +86,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="femflow" android:host="upi-callback" />
+                <data android:scheme="femlyra" android:host="upi-callback" />
             </intent-filter>
 
             <!-- Web Links (App Links) for Partner Invites -->
@@ -96,10 +94,8 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="femflow.in" android:pathPrefix="/partner" />
-                <data android:scheme="https" android:host="femflow.in" android:pathPrefix="/partner" />
-                <data android:scheme="http" android:host="femflow.app" android:pathPrefix="/partner" />
-                <data android:scheme="https" android:host="femflow.app" android:pathPrefix="/partner" />
+                <data android:scheme="http" android:host="femlyra.com" android:pathPrefix="/partner" />
+                <data android:scheme="https" android:host="femlyra.com" android:pathPrefix="/partner" />
             </intent-filter>
         </activity>
 

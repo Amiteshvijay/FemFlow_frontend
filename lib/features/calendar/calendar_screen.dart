@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../cycles/data/cycle_service.dart';
@@ -102,16 +102,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: SafeArea(
         child: _isLoading 
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _errorMessage != null
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(_errorMessage!, style: const TextStyle(color: FemFlowColors.period)),
+                    Text(_errorMessage!, style: const TextStyle(color: FemLyraColors.period)),
                     const SizedBox(height: 16),
                     TextButton(onPressed: _fetchCalendarData, child: const Text('Retry')),
                   ],
@@ -140,7 +140,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         onPressed: () {
                           _showLogOptions(context);
                         },
-                        backgroundColor: FemFlowColors.primary,
+                        backgroundColor: FemLyraColors.primary,
                       ),
                     ],
                     const SizedBox(height: 20),
@@ -170,7 +170,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: FemFlowColors.textPrimary,
+                color: FemLyraColors.textPrimary,
               ),
             ),
           ),
@@ -185,7 +185,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           },
         ),
         IconButton(
-          icon: const Icon(Icons.calendar_view_month, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.calendar_view_month, color: FemLyraColors.textPrimary),
           onPressed: () {
             _showViewOptions(context);
           },
@@ -209,17 +209,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
     String subtitle = '';
     String cta = '';
     Color cardColor = Colors.white;
-    Color textColor = FemFlowColors.textPrimary;
-    Color btnColor = FemFlowColors.primary;
+    Color textColor = FemLyraColors.textPrimary;
+    Color btnColor = FemLyraColors.primary;
 
     // Only show "Log period end" if the period is active AND has no end date yet
     if (activePeriod && periodDay != null && lastPeriodEndDate == null) {
       title = _dashboardData?['display_title'] ?? '$periodDay${_getDaySuffix(periodDay)} day of period';
       subtitle = _dashboardData?['display_subtitle'] ?? 'Cycle Day $cycleDay';
       cta = 'Log period end';
-      cardColor = FemFlowColors.period.withValues(alpha: 0.1);
-      textColor = FemFlowColors.period;
-      btnColor = FemFlowColors.period;
+      cardColor = FemLyraColors.period.withValues(alpha: 0.1);
+      textColor = FemLyraColors.period;
+      btnColor = FemLyraColors.period;
     } else if (daysUntilFertile != null && daysUntilFertile >= 0 && daysUntilFertile <= 7) {
       title = daysUntilFertile == 0 ? 'Fertile window starts today' : 'Fertile window starts in $daysUntilFertile days';
       subtitle = 'Cycle Day $cycleDay';
@@ -241,12 +241,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
         final date = DateTime.parse(nextPeriod);
         subtitle = _dashboardData?['display_subtitle'] ?? 'Next period expected on ${DateFormat('d MMM').format(date)}';
       }
-      cardColor = FemFlowColors.blushMist;
+      cardColor = FemLyraColors.blushMist;
     } else {
       title = 'Start tracking your cycle';
       subtitle = 'Log your first period to get started';
       cta = 'Log first period';
-      cardColor = FemFlowColors.blushMist;
+      cardColor = FemLyraColors.blushMist;
     }
 
     return AppCard(
@@ -268,7 +268,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
-                      style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+                      style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
                     ),
                   ],
                 ],
@@ -339,8 +339,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
       },
       calendarStyle: const CalendarStyle(
         outsideDaysVisible: true,
-        defaultTextStyle: TextStyle(color: FemFlowColors.textPrimary),
-        outsideTextStyle: TextStyle(color: FemFlowColors.textMuted),
+        defaultTextStyle: TextStyle(color: FemLyraColors.textPrimary),
+        outsideTextStyle: TextStyle(color: FemLyraColors.textMuted),
       ),
       calendarBuilders: CalendarBuilders(
         defaultBuilder: (context, day, focusedDay) => _buildDayWidget(day),
@@ -362,7 +362,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final nextStatus = List<String>.from(nextDayData?['status'] ?? []);
 
     Color? bgColor;
-    Color textColor = isOutside ? FemFlowColors.textMuted : FemFlowColors.textPrimary;
+    Color textColor = isOutside ? FemLyraColors.textMuted : FemLyraColors.textPrimary;
     Border? border;
     EdgeInsets margin = const EdgeInsets.all(4);
     BorderRadius? borderRadius = BorderRadius.circular(20);
@@ -398,8 +398,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
       bool isStart = !prevStatus.contains('period');
       bool isEnd = !nextStatus.contains('period');
       
-      bgColor = isSelected ? FemFlowColors.period : FemFlowColors.period.withValues(alpha: 0.3);
-      textColor = isSelected ? Colors.white : FemFlowColors.textPrimary;
+      bgColor = isSelected ? FemLyraColors.period : FemLyraColors.period.withValues(alpha: 0.3);
+      textColor = isSelected ? Colors.white : FemLyraColors.textPrimary;
       
       margin = EdgeInsets.only(
         top: 4,
@@ -419,7 +419,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       bool isEnd = !nextStatus.contains('predicted_period');
       
       bgColor = Colors.transparent;
-      border = Border.all(color: FemFlowColors.period.withValues(alpha: 0.5), width: 1.5);
+      border = Border.all(color: FemLyraColors.period.withValues(alpha: 0.5), width: 1.5);
       
       margin = EdgeInsets.only(
         top: 4,
@@ -438,7 +438,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       bool isStart = !prevStatus.contains('fertile');
       bool isEnd = !nextStatus.contains('fertile');
       
-      bgColor = FemFlowColors.ovulation.withValues(alpha: 0.3); // Lavender/Mint
+      bgColor = FemLyraColors.ovulation.withValues(alpha: 0.3); // Lavender/Mint
       
       margin = EdgeInsets.only(
         top: 4,
@@ -479,11 +479,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
 
     if (isSelected && !isPeriod) {
-      border = Border.all(color: FemFlowColors.primary, width: 2);
+      border = Border.all(color: FemLyraColors.primary, width: 2);
     }
 
     if (isToday && bgColor == null) {
-      bgColor = FemFlowColors.blushMist;
+      bgColor = FemLyraColors.blushMist;
     }
 
     return Container(
@@ -507,7 +507,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                child: Container(
                  width: 4,
                  height: 4,
-                 decoration: const BoxDecoration(color: FemFlowColors.primary, shape: BoxShape.circle),
+                 decoration: const BoxDecoration(color: FemLyraColors.primary, shape: BoxShape.circle),
                ),
              ),
         ],
@@ -521,12 +521,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
       runSpacing: 8,
       alignment: WrapAlignment.center,
       children: [
-        _buildLegendItem('Period', FemFlowColors.period),
-        _buildLegendItem('Predicted', FemFlowColors.period.withValues(alpha: 0.5), isOutline: true),
+        _buildLegendItem('Period', FemLyraColors.period),
+        _buildLegendItem('Predicted', FemLyraColors.period.withValues(alpha: 0.5), isOutline: true),
         _buildLegendItem('PMS', const Color(0xFFE8A838)),
-        _buildLegendItem('Fertile', FemFlowColors.ovulation.withValues(alpha: 0.3)),
+        _buildLegendItem('Fertile', FemLyraColors.ovulation.withValues(alpha: 0.3)),
         _buildLegendItem('Ovulation', Colors.teal),
-        _buildLegendItem('Symptoms', FemFlowColors.primary, isDot: true),
+        _buildLegendItem('Symptoms', FemLyraColors.primary, isDot: true),
       ],
     );
   }
@@ -552,7 +552,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
           ),
         const SizedBox(width: 4),
-        Text(label, style: const TextStyle(fontSize: 10, color: FemFlowColors.textSecondary)),
+        Text(label, style: const TextStyle(fontSize: 10, color: FemLyraColors.textSecondary)),
       ],
     );
   }
@@ -564,20 +564,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final status = List<String>.from(_selectedDayData!['status'] ?? []);
     
     String? statusText;
-    Color statusColor = FemFlowColors.textSecondary;
+    Color statusColor = FemLyraColors.textSecondary;
 
     if (status.contains('ovulation')) {
       statusText = 'Ovulation Day';
       statusColor = Colors.teal;
     } else if (status.contains('period')) {
       statusText = 'Period';
-      statusColor = FemFlowColors.period;
+      statusColor = FemLyraColors.period;
     } else if (status.contains('predicted_period')) {
       statusText = 'Predicted Period';
-      statusColor = FemFlowColors.period.withValues(alpha: 0.7);
+      statusColor = FemLyraColors.period.withValues(alpha: 0.7);
     } else if (status.contains('fertile')) {
       statusText = 'Fertile Window';
-      statusColor = FemFlowColors.fertileWindow;
+      statusColor = FemLyraColors.fertileWindow;
     } else if (status.contains('pms')) {
       statusText = 'PMS Phase';
       statusColor = const Color(0xFFE8A838);
@@ -608,10 +608,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       if (cycleDay != null)
                         Text(
                           'Day $cycleDay',
-                          style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                          style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
                         ),
                       if (cycleDay != null && statusText != null)
-                        const Text(' • ', style: TextStyle(color: FemFlowColors.textMuted)),
+                        const Text(' • ', style: TextStyle(color: FemLyraColors.textMuted)),
                       if (statusText != null)
                         Text(
                           statusText,
@@ -626,7 +626,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
+            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
           ],
         ),
       ),
@@ -661,7 +661,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           children: [
             const Text('Log Data', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
-            _buildOption(Icons.opacity, 'Period', FemFlowColors.period, () async {
+            _buildOption(Icons.opacity, 'Period', FemLyraColors.period, () async {
                Navigator.pop(context);
                // Simple check: if today is in an active period, show daily flow. 
                // Otherwise show calendar editor.
@@ -673,7 +673,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                }
                _fetchCalendarData();
             }),
-            _buildOption(Icons.sentiment_satisfied_alt, 'Symptoms & Mood', FemFlowColors.primary, () async {
+            _buildOption(Icons.sentiment_satisfied_alt, 'Symptoms & Mood', FemLyraColors.primary, () async {
                Navigator.pop(context);
                final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SymptomsScreen(initialDate: _selectedDay)));
                if (result == true) _fetchCalendarData();
@@ -704,13 +704,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
             const Text('View Options', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             ListTile(
-              leading: const Icon(Icons.calendar_view_month, color: FemFlowColors.primary),
+              leading: const Icon(Icons.calendar_view_month, color: FemLyraColors.primary),
               title: const Text('Month View'),
-              trailing: const Icon(Icons.check, color: FemFlowColors.primary),
+              trailing: const Icon(Icons.check, color: FemLyraColors.primary),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
-              leading: const Icon(Icons.calendar_today, color: FemFlowColors.textSecondary),
+              leading: const Icon(Icons.calendar_today, color: FemLyraColors.textSecondary),
               title: const Text('Year View'),
               onTap: () async {
                 Navigator.pop(context);

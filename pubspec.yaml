@@ -1,8 +1,8 @@
-name: femflow
-description: "A new Flutter project."
+name: femlyra
+description: "FemLyra - Women's Health Partner"
 publish_to: 'none'
 
-version: 1.0.21+21
+version: 1.0.21+23
 
 environment:
   sdk: ^3.11.5

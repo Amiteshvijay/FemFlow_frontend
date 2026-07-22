@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../models/exercise_models.dart';
 import '../data/exercise_api_service.dart';
 import 'exercise_completion_screen.dart';
@@ -137,13 +137,13 @@ class _StartExerciseScreenState extends State<StartExerciseScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
+            icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
             onPressed: () => _confirmExit(),
           ),
         title: Column(
           children: [
-            Text(widget.exercise.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
-            Text(widget.exercise.categoryLabel, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+            Text(widget.exercise.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
+            Text(widget.exercise.categoryLabel, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
           ],
         ),
         centerTitle: true,
@@ -161,8 +161,8 @@ class _StartExerciseScreenState extends State<StartExerciseScreen> {
                   child: CircularProgressIndicator(
                     value: _timeLeft / (widget.exercise.durationMinutes * 60),
                     strokeWidth: 10,
-                    color: FemFlowColors.primary,
-                    backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+                    color: FemLyraColors.primary,
+                    backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
                     strokeCap: StrokeCap.round,
                   ),
                 ),
@@ -172,7 +172,7 @@ class _StartExerciseScreenState extends State<StartExerciseScreen> {
                       _formatTime(_timeLeft),
                       style: const TextStyle(fontSize: 64, fontWeight: FontWeight.bold, letterSpacing: -1),
                     ),
-                    const Text('REMAINING', style: TextStyle(color: FemFlowColors.textMuted, fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.5)),
+                    const Text('REMAINING', style: TextStyle(color: FemLyraColors.textMuted, fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.5)),
                   ],
                 ),
               ],
@@ -196,7 +196,7 @@ class _StartExerciseScreenState extends State<StartExerciseScreen> {
               child: Text(
                 'Breathe deeply and move at your own pace. Stop if you feel any discomfort.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: FemFlowColors.textMuted, fontStyle: FontStyle.italic, fontSize: 13),
+                style: TextStyle(color: FemLyraColors.textMuted, fontStyle: FontStyle.italic, fontSize: 13),
               ),
             ),
           ],
@@ -213,17 +213,17 @@ class _StartExerciseScreenState extends State<StartExerciseScreen> {
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: isPrimary ? FemFlowColors.primary : FemFlowColors.warmWhite,
+          color: isPrimary ? FemLyraColors.primary : FemLyraColors.warmWhite,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: (isPrimary ? FemFlowColors.primary : Colors.black).withValues(alpha: 0.15),
+              color: (isPrimary ? FemLyraColors.primary : Colors.black).withValues(alpha: 0.15),
               blurRadius: 15,
               offset: const Offset(0, 8),
             ),
           ],
         ),
-        child: Icon(icon, color: isPrimary ? Colors.white : FemFlowColors.primary, size: 36),
+        child: Icon(icon, color: isPrimary ? Colors.white : FemLyraColors.primary, size: 36),
       ),
     );
   }

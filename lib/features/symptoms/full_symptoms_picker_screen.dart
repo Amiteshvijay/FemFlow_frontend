@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'models/symptom_models.dart';
 import 'widgets/category_chip_group.dart';
@@ -26,7 +26,7 @@ class _FullSymptomsPickerScreenState extends State<FullSymptomsPickerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.close),
@@ -38,7 +38,7 @@ class _FullSymptomsPickerScreenState extends State<FullSymptomsPickerScreen> {
           if (_selectedSymptoms.isNotEmpty)
             TextButton(
               onPressed: () => setState(() => _selectedSymptoms.clear()),
-              child: const Text('Clear all', style: TextStyle(color: FemFlowColors.primary)),
+              child: const Text('Clear all', style: TextStyle(color: FemLyraColors.primary)),
             ),
         ],
       ),
@@ -51,14 +51,14 @@ class _FullSymptomsPickerScreenState extends State<FullSymptomsPickerScreen> {
               children: [
                 const Text(
                   'Choose everything you feel today.',
-                  style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 14),
+                  style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 14),
                 ),
                 const SizedBox(height: 16),
                 TextField(
                   onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
                   decoration: InputDecoration(
                     hintText: 'Search symptoms',
-                    prefixIcon: const Icon(Icons.search, color: FemFlowColors.textMuted),
+                    prefixIcon: const Icon(Icons.search, color: FemLyraColors.textMuted),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(

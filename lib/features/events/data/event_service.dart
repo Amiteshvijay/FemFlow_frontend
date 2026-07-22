@@ -4,27 +4,27 @@ import '../models/event_models.dart';
 class EventService {
   final ApiClient _apiClient = ApiClient();
 
-  Future<List<FemFlowEvent>> getEvents() async {
+  Future<List<FemLyraEvent>> getEvents() async {
     final response = await _apiClient.get('/events/public/');
     if (response is List) {
-      return response.map((json) => FemFlowEvent.fromJson(json)).toList();
+      return response.map((json) => FemLyraEvent.fromJson(json)).toList();
     }
     return [];
   }
 
-  Future<FemFlowEvent> getEventDetail(String slug) async {
+  Future<FemLyraEvent> getEventDetail(String slug) async {
     final response = await _apiClient.get('/events/public/$slug/');
-    return FemFlowEvent.fromJson(response);
+    return FemLyraEvent.fromJson(response);
   }
 
   Future<Map<String, dynamic>> registerForEvent(String slug, EventRegistrationRequest request) async {
     return await _apiClient.post('/events/public/$slug/register/', body: request.toJson());
   }
 
-  Future<List<FemFlowEvent>> getMyEvents() async {
+  Future<List<FemLyraEvent>> getMyEvents() async {
     final response = await _apiClient.get('/events/my-events/');
     if (response is List) {
-      return response.map((json) => FemFlowEvent.fromJson(json)).toList();
+      return response.map((json) => FemLyraEvent.fromJson(json)).toList();
     }
     return [];
   }

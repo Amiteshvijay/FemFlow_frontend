@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../../core/storage/token_storage.dart';
 import '../auth/providers/auth_provider.dart';
@@ -114,7 +114,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Accept Invitation'),
         centerTitle: true,
@@ -124,18 +124,18 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Icon(Icons.favorite, size: 64, color: FemFlowColors.primary),
+            const Icon(Icons.favorite, size: 64, color: FemLyraColors.primary),
             const SizedBox(height: 24),
             const Text(
               'Join Your Partner',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
             ),
             const SizedBox(height: 12),
             Text(
-              'You have been invited to support your partner on FemFlow. Enter your pairing code and create a password to set up your account.',
+              'You have been invited to support your partner on FemLyra. Enter your pairing code and create a password to set up your account.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
+              style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
             ),
             const SizedBox(height: 32),
             Text(

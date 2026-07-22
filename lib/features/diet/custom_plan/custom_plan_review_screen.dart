@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/primary_button.dart';
 import 'custom_plan_models.dart';
 import 'custom_plan_service.dart';
@@ -52,7 +52,7 @@ class _CustomPlanReviewScreenState extends State<CustomPlanReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Review & Generate'),
       ),
@@ -70,7 +70,7 @@ class _CustomPlanReviewScreenState extends State<CustomPlanReviewScreen> {
                 const SizedBox(height: 8),
                 const Text(
                   'Please confirm these details before we build your meal plan.',
-                  style: TextStyle(color: FemFlowColors.textSecondary),
+                  style: TextStyle(color: FemLyraColors.textSecondary),
                 ),
                 _buildSafetyNote(),
                 const SizedBox(height: 16),
@@ -107,7 +107,7 @@ class _CustomPlanReviewScreenState extends State<CustomPlanReviewScreen> {
             child: Text(
               'FemAI is matching your goals, preferences, and doctor advice with optimal nutrients.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: FemFlowColors.textSecondary),
+              style: TextStyle(color: FemLyraColors.textSecondary),
             ),
           ),
         ],

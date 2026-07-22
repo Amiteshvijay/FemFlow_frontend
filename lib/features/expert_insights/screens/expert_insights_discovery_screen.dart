@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../models/insight_models.dart';
 import '../data/expert_insights_service.dart';
 import '../widgets/expert_insight_card.dart';
@@ -45,7 +45,7 @@ class _ExpertInsightsDiscoveryScreenState extends State<ExpertInsightsDiscoveryS
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -116,7 +116,7 @@ class _ExpertInsightsDiscoveryScreenState extends State<ExpertInsightsDiscoveryS
                     _fetchData();
                   },
                   backgroundColor: Colors.white,
-                  selectedColor: FemFlowColors.primary,
+                  selectedColor: FemLyraColors.primary,
                   labelStyle: TextStyle(
                     color: isSelected ? Colors.white : Colors.black87,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,

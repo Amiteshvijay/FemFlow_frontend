@@ -34,7 +34,7 @@ class ReportService {
 
     if (response.statusCode == 200) {
       final directory = await getTemporaryDirectory();
-      final filePath = '${directory.path}/FemFlow_Health_Report_${DateTime.now().millisecondsSinceEpoch}.pdf';
+      final filePath = '${directory.path}/FemLyra_Health_Report_${DateTime.now().millisecondsSinceEpoch}.pdf';
       final file = File(filePath);
       await file.writeAsBytes(response.bodyBytes);
       return file;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'models/tips_models.dart';
 import 'providers/tips_provider.dart';
@@ -56,19 +56,19 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
   }
 
   Future<void> _handleShare(DailyTipDetailModel tip) async {
-    final String shareContent = "${tip.title}\n\n${tip.subtitle}\n\n${tip.detail}\n\nShared via FemFlow 🌸";
+    final String shareContent = "${tip.title}\n\n${tip.subtitle}\n\n${tip.detail}\n\nShared via FemLyra 🌸";
     await Share.share(shareContent, subject: tip.title);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: FutureBuilder<DailyTipDetailModel?>(
         future: _detailFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: FemFlowColors.primary));
+            return const Center(child: CircularProgressIndicator(color: FemLyraColors.primary));
           }
           if (snapshot.hasError) {
             final error = snapshot.error.toString();
@@ -103,7 +103,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
                 if (tip.whyItMatters.isNotEmpty) ...[
                   _buildSectionHeader('Why it matters', Icons.lightbulb_outline, Colors.orange),
                   const SizedBox(height: 12),
-                  Text(tip.whyItMatters, style: const TextStyle(fontSize: 16, height: 1.6, color: FemFlowColors.textPrimary)),
+                  Text(tip.whyItMatters, style: const TextStyle(fontSize: 16, height: 1.6, color: FemLyraColors.textPrimary)),
                   const SizedBox(height: 32),
                 ],
                 if (tip.whatToDo.isNotEmpty) ...[
@@ -187,21 +187,21 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
 
   Widget _buildAISummary(DailyTipDetailModel tip) {
     return AppCard(
-      color: FemFlowColors.aiWellness.withValues(alpha: 0.05),
-      border: BorderSide(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
+      color: FemLyraColors.aiWellness.withValues(alpha: 0.05),
+      border: BorderSide(color: FemLyraColors.aiWellness.withValues(alpha: 0.2)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('AI PERSONALIZED INSIGHT', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: FemFlowColors.aiWellness, letterSpacing: 1.2)),
+          const Text('AI PERSONALIZED INSIGHT', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: FemLyraColors.aiWellness, letterSpacing: 1.2)),
           const SizedBox(height: 16),
           Text(
             tip.aiInsight ?? "Your body is moving through its natural rhythm. Supporting it with kindness is the best focus for today.",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 1.5, color: FemFlowColors.textPrimary, fontStyle: FontStyle.italic),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 1.5, color: FemLyraColors.textPrimary, fontStyle: FontStyle.italic),
           ),
           const SizedBox(height: 16),
           Text(
             tip.detail,
-            style: const TextStyle(fontSize: 15, height: 1.6, color: FemFlowColors.textSecondary),
+            style: const TextStyle(fontSize: 15, height: 1.6, color: FemLyraColors.textSecondary),
           ),
         ],
       ),
@@ -213,7 +213,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
       children: [
         Icon(icon, color: color, size: 22),
         const SizedBox(width: 10),
-        Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+        Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
       ],
     );
   }
@@ -231,7 +231,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
             child: Icon(Icons.add, size: 14, color: phaseColor),
           ),
           const SizedBox(width: 16),
-          Expanded(child: Text(text, style: const TextStyle(fontSize: 16, color: FemFlowColors.textPrimary))),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 16, color: FemLyraColors.textPrimary))),
         ],
       ),
     );
@@ -247,7 +247,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
             const Text('Recommended for you', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             TextButton(
               onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ExerciseHomeScreen())),
-              child: const Text('View all', style: TextStyle(color: FemFlowColors.primary)),
+              child: const Text('View all', style: TextStyle(color: FemLyraColors.primary)),
             ),
           ],
         ),
@@ -256,18 +256,18 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ExerciseHomeScreen())),
           child: const Row(
             children: [
-              Icon(Icons.play_circle_fill, color: FemFlowColors.primary, size: 48),
+              Icon(Icons.play_circle_fill, color: FemLyraColors.primary, size: 48),
               SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Start Today\'s Routine', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                    Text('Cycle-synced movement for your current energy', style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary)),
+                    Text('Cycle-synced movement for your current energy', style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary)),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
+              Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
             ],
           ),
         ),
@@ -287,9 +287,9 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
             label: Text(currentSavedStatus ? 'Saved' : 'Save Tip'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: currentSavedStatus ? FemFlowColors.primary : FemFlowColors.textPrimary,
+              foregroundColor: currentSavedStatus ? FemLyraColors.primary : FemLyraColors.textPrimary,
               elevation: 0,
-              side: BorderSide(color: currentSavedStatus ? FemFlowColors.primary : Colors.grey[300]!),
+              side: BorderSide(color: currentSavedStatus ? FemLyraColors.primary : Colors.grey[300]!),
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
@@ -303,7 +303,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
             label: const Text('Share'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: FemFlowColors.textPrimary,
+              foregroundColor: FemLyraColors.textPrimary,
               elevation: 0,
               side: BorderSide(color: Colors.grey[300]!),
               padding: const EdgeInsets.symmetric(vertical: 12),
@@ -316,7 +316,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
   }
 
   Widget _buildSafetyDisclaimer(String categoryKey) {
-    String disclaimer = 'FemFlow provides educational wellness guidance and is not a medical diagnosis.';
+    String disclaimer = 'FemLyra provides educational wellness guidance and is not a medical diagnosis.';
     if (categoryKey == 'pregnancy_chance') {
       disclaimer += ' This prediction should not be used for contraception or fertility treatment decisions.';
     }
@@ -327,9 +327,9 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.info_outline, size: 18, color: FemFlowColors.textMuted),
+          const Icon(Icons.info_outline, size: 18, color: FemLyraColors.textMuted),
           const SizedBox(width: 12),
-          Expanded(child: Text(disclaimer, style: const TextStyle(fontSize: 13, color: FemFlowColors.textMuted, height: 1.5))),
+          Expanded(child: Text(disclaimer, style: const TextStyle(fontSize: 13, color: FemLyraColors.textMuted, height: 1.5))),
         ],
       ),
     );
@@ -343,7 +343,7 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
         child: Center(
           child: PremiumFeatureLockedWidget(
             title: 'Unlock Personalized Tips',
-            description: 'Upgrade to FemFlow Premium to unlock all 11 AI-personalized daily wellness cards.',
+            description: 'Upgrade to FemLyra Premium to unlock all 11 AI-personalized daily wellness cards.',
           ),
         ),
       ),
@@ -369,11 +369,11 @@ class _TipsDetailScreenState extends State<TipsDetailScreen> {
 
   Color _getPhaseColor(String? phase) {
     switch (phase?.toLowerCase()) {
-      case 'menstrual': return FemFlowColors.period;
-      case 'follicular': return FemFlowColors.primary;
-      case 'ovulatory': return FemFlowColors.ovulation;
+      case 'menstrual': return FemLyraColors.period;
+      case 'follicular': return FemLyraColors.primary;
+      case 'ovulatory': return FemLyraColors.ovulation;
       case 'luteal': return Colors.orange;
-      default: return FemFlowColors.primary;
+      default: return FemLyraColors.primary;
     }
   }
 }

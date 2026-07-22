@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'data/journal_service.dart';
@@ -110,18 +110,18 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     final category = NoteCategory.fromValue(_selectedType);
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Column(
           children: const [
-            Text('New Journal Entry', style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
-            Text('Capture how your body feels today', style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 12)),
+            Text('New Journal Entry', style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
+            Text('Capture how your body feels today', style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 12)),
           ],
         ),
         centerTitle: true,
@@ -173,7 +173,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       padding: const EdgeInsets.only(bottom: 12, left: 4),
       child: Text(
         title,
-        style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary, fontSize: 16),
+        style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary, fontSize: 16),
       ),
     );
   }
@@ -237,7 +237,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         ),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: const TextStyle(color: FemFlowColors.textMuted),
+          hintStyle: const TextStyle(color: FemLyraColors.textMuted),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),
         ),
@@ -255,10 +255,10 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
           label: Text(mood),
           selected: isSelected,
           onSelected: (selected) => setState(() => _selectedMood = selected ? mood : null),
-          backgroundColor: FemFlowColors.blushMist,
-          selectedColor: FemFlowColors.primary,
+          backgroundColor: FemLyraColors.blushMist,
+          selectedColor: FemLyraColors.primary,
           labelStyle: TextStyle(
-            color: isSelected ? Colors.white : FemFlowColors.textPrimary,
+            color: isSelected ? Colors.white : FemLyraColors.textPrimary,
             fontSize: 12,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
@@ -274,11 +274,11 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
-          activeTrackColor: FemFlowColors.primary,
-          inactiveTrackColor: FemFlowColors.blushMist,
-          thumbColor: FemFlowColors.primary,
-          overlayColor: FemFlowColors.primary.withValues(alpha: 0.2),
-          valueIndicatorColor: FemFlowColors.primary,
+          activeTrackColor: FemLyraColors.primary,
+          inactiveTrackColor: FemLyraColors.blushMist,
+          thumbColor: FemLyraColors.primary,
+          overlayColor: FemLyraColors.primary.withValues(alpha: 0.2),
+          valueIndicatorColor: FemLyraColors.primary,
           valueIndicatorTextStyle: const TextStyle(color: Colors.white),
         ),
         child: Slider(
@@ -361,15 +361,15 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? FemFlowColors.primary : Colors.white,
+          color: isSelected ? FemLyraColors.primary : Colors.white,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: isSelected ? FemFlowColors.primary : FemFlowColors.border),
+          border: Border.all(color: isSelected ? FemLyraColors.primary : FemLyraColors.border),
         ),
         child: Text(
           '#$tag',
           style: TextStyle(
             fontSize: 12,
-            color: isSelected ? Colors.white : FemFlowColors.textSecondary,
+            color: isSelected ? Colors.white : FemLyraColors.textSecondary,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
         ),
@@ -390,7 +390,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 Text('Private by default', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
-                Text('Only you can see this journal note.', style: TextStyle(fontSize: 11, color: FemFlowColors.textSecondary)),
+                Text('Only you can see this journal note.', style: TextStyle(fontSize: 11, color: FemLyraColors.textSecondary)),
               ],
             ),
           ),
@@ -407,9 +407,9 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   Widget _buildPinToggle() {
     return Row(
       children: [
-        const Icon(Icons.push_pin_outlined, size: 18, color: FemFlowColors.textMuted),
+        const Icon(Icons.push_pin_outlined, size: 18, color: FemLyraColors.textMuted),
         const SizedBox(width: 8),
-        const Text('Pin this note', style: TextStyle(fontSize: 14, color: FemFlowColors.textPrimary)),
+        const Text('Pin this note', style: TextStyle(fontSize: 14, color: FemLyraColors.textPrimary)),
         const Spacer(),
         Switch(
           value: _isPinned,
@@ -425,14 +425,14 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       children: [
         Row(
           children: [
-            const Icon(Icons.notifications_none_outlined, size: 18, color: FemFlowColors.textMuted),
+            const Icon(Icons.notifications_none_outlined, size: 18, color: FemLyraColors.textMuted),
             const SizedBox(width: 8),
-            const Text('Set daily reminder', style: TextStyle(fontSize: 14, color: FemFlowColors.textPrimary)),
+            const Text('Set daily reminder', style: TextStyle(fontSize: 14, color: FemLyraColors.textPrimary)),
             const Spacer(),
             Switch(
               value: _reminderEnabled,
               onChanged: (val) => setState(() => _reminderEnabled = val),
-              activeThumbColor: FemFlowColors.primary,
+              activeThumbColor: FemLyraColors.primary,
             ),
           ],
         ),
@@ -450,7 +450,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
             },
             child: AppCard(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              color: FemFlowColors.blushMist.withValues(alpha: 0.3),
+              color: FemLyraColors.blushMist.withValues(alpha: 0.3),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -459,10 +459,10 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                     children: [
                       Text(
                         _reminderTime.format(context),
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary, fontSize: 14),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 14),
                       ),
                       const SizedBox(width: 8),
-                      const Icon(Icons.access_time, size: 16, color: FemFlowColors.primary),
+                      const Icon(Icons.access_time, size: 16, color: FemLyraColors.primary),
                     ],
                   ),
                 ],

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 
 enum BrandHeaderSize { compact, large }
 
-class FemFlowBrandHeader extends StatelessWidget {
+class FemLyraBrandHeader extends StatelessWidget {
   final BrandHeaderSize size;
   final bool showTagline;
   final MainAxisAlignment alignment;
 
-  const FemFlowBrandHeader({
+  const FemLyraBrandHeader({
     super.key,
     this.size = BrandHeaderSize.compact,
     this.showTagline = false,
@@ -25,16 +25,16 @@ class FemFlowBrandHeader extends StatelessWidget {
       width: iconSize,
       height: iconSize,
       decoration: BoxDecoration(
-        color: size == BrandHeaderSize.large ? FemFlowColors.blushMist : FemFlowColors.primary,
+        color: size == BrandHeaderSize.large ? FemLyraColors.blushMist : FemLyraColors.primary,
         shape: BoxShape.circle,
       ),
       child: ClipOval(
         child: Image.asset(
-          'assets/icons/femflow_app_icon_1024.png',
+          'assets/icons/FemLyra_app_icon_1024.png',
           errorBuilder: (context, error, stackTrace) {
             return Icon(
               Icons.water_drop,
-              color: size == BrandHeaderSize.large ? FemFlowColors.primary : Colors.white,
+              color: size == BrandHeaderSize.large ? FemLyraColors.primary : Colors.white,
               size: iconSize * 0.6,
             );
           },
@@ -49,11 +49,11 @@ class FemFlowBrandHeader extends StatelessWidget {
           logo,
           SizedBox(height: spacing),
           Text(
-            'FemFlow',
+            'FemLyra',
             style: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
             ),
           ),
           if (showTagline) ...[
@@ -62,7 +62,7 @@ class FemFlowBrandHeader extends StatelessWidget {
               'Cycle, Health & Care',
               style: TextStyle(
                 fontSize: 16,
-                color: FemFlowColors.textSecondary,
+                color: FemLyraColors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -76,11 +76,11 @@ class FemFlowBrandHeader extends StatelessWidget {
           logo,
           SizedBox(width: spacing),
           Text(
-            'FemFlow',
+            'FemLyra',
             style: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
             ),
           ),
         ],

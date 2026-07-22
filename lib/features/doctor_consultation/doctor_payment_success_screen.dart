@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:femflow/core/theme/femflow_colors.dart';
-import 'package:femflow/shared/widgets/app_card.dart';
+import 'package:FemLyra/core/theme/FemLyra_colors.dart';
+import 'package:FemLyra/shared/widgets/app_card.dart';
 import 'models/doctor_models.dart';
 import 'my_doctor_bookings_screen.dart';
 
@@ -72,7 +72,7 @@ class DoctorPaymentSuccessScreen extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: FemFlowColors.primary,
+                      backgroundColor: FemLyraColors.primary,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,7 +9,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -35,20 +35,20 @@ class SafetyDisclaimerScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: FemFlowColors.textPrimary,
+                          color: FemLyraColors.textPrimary,
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'FemFlow and FemAI are designed to provide educational information and cycle tracking assistance only. Important: FemFlow is NOT a medical device and does not diagnose, treat, cure, or prevent any medical condition. The content and insights provided are not intended to be a substitute for professional medical advice, diagnosis, or treatment.',
-                    style: TextStyle(fontSize: 14, color: FemFlowColors.textPrimary, height: 1.5, fontWeight: FontWeight.w500),
+                    'FemLyra and FemAI are designed to provide educational information and cycle tracking assistance only. Important: FemLyra is NOT a medical device and does not diagnose, treat, cure, or prevent any medical condition. The content and insights provided are not intended to be a substitute for professional medical advice, diagnosis, or treatment.',
+                    style: TextStyle(fontSize: 14, color: FemLyraColors.textPrimary, height: 1.5, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 16),
                   _buildDisclaimerPoint(
                     'Seek Professional Advice',
-                    'Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on FemFlow.',
+                    'Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on FemLyra.',
                   ),
                   _buildDisclaimerPoint(
                     'No Contraceptive Guarantee',
@@ -70,7 +70,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: InkWell(
                 onTap: () async {
-                  final uri = Uri.parse('https://www.femflow.in/safety-disclaimer');
+                  final uri = Uri.parse('https://www.femlyra.com/safety-disclaimer');
                   if (await canLaunchUrl(uri)) {
                     await launchUrl(uri, mode: LaunchMode.externalApplication);
                   }
@@ -80,7 +80,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 13,
-                    color: FemFlowColors.primary,
+                    color: FemLyraColors.primary,
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
                   ),
@@ -89,9 +89,9 @@ class SafetyDisclaimerScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             const Text(
-              'By using FemFlow, you acknowledge and agree to these terms.',
+              'By using FemLyra, you acknowledge and agree to these terms.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+              style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
             ),
           ],
         ),
@@ -110,7 +110,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.textPrimary,
+              color: FemLyraColors.textPrimary,
             ),
           ),
           const SizedBox(height: 4),
@@ -118,7 +118,7 @@ class SafetyDisclaimerScreen extends StatelessWidget {
             content,
             style: const TextStyle(
               fontSize: 14,
-              color: FemFlowColors.textSecondary,
+              color: FemLyraColors.textSecondary,
               height: 1.4,
             ),
           ),

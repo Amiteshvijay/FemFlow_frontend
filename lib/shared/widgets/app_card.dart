@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
@@ -30,10 +30,10 @@ class AppCard extends StatelessWidget {
         width: width,
         padding: padding ?? const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color ?? FemFlowColors.white,
+          color: color ?? FemLyraColors.white,
           borderRadius: BorderRadius.circular(borderRadius ?? 16),
           border: Border.all(
-            color: border?.color ?? FemFlowColors.border,
+            color: border?.color ?? FemLyraColors.border,
             width: border?.width ?? 1,
           ),
         ),

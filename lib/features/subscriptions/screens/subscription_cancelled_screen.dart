@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/primary_button.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../providers/subscription_provider.dart';
@@ -17,7 +17,7 @@ class SubscriptionCancelledScreen extends StatelessWidget {
         final formattedDate = DateFormat('d MMMM yyyy').format(endDate);
         
         return Scaffold(
-          backgroundColor: FemFlowColors.warmWhite,
+          backgroundColor: FemLyraColors.warmWhite,
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(24),
@@ -32,17 +32,17 @@ class SubscriptionCancelledScreen extends StatelessWidget {
                   const SizedBox(height: 32),
                   const Text(
                     'Subscription Cancelled',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Your auto-renewal has been turned off. Your FemFlow Premium benefits will remain active until your billing period ends on $formattedDate.',
+                    'Your auto-renewal has been turned off. Your FemLyra Premium benefits will remain active until your billing period ends on $formattedDate.',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 15, color: FemFlowColors.textSecondary, height: 1.5),
+                    style: const TextStyle(fontSize: 15, color: FemLyraColors.textSecondary, height: 1.5),
                   ),
                   const SizedBox(height: 48),
                   AppCard(
-                    color: FemFlowColors.primary.withValues(alpha: 0.05),
+                    color: FemLyraColors.primary.withValues(alpha: 0.05),
                     child: Column(
                       children: [
                         const Text(
@@ -53,7 +53,7 @@ class SubscriptionCancelledScreen extends StatelessWidget {
                         const Text(
                           'You can keep your Premium benefits active and continue your wellness journey without interruption.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                          style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
                         ),
                         const SizedBox(height: 20),
                         PrimaryButton(
@@ -70,7 +70,7 @@ class SubscriptionCancelledScreen extends StatelessWidget {
                   const Spacer(),
                   TextButton(
                     onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
-                    child: const Text('Back to Profile', style: TextStyle(color: FemFlowColors.textMuted, fontWeight: FontWeight.w600)),
+                    child: const Text('Back to Profile', style: TextStyle(color: FemLyraColors.textMuted, fontWeight: FontWeight.w600)),
                   ),
                 ],
               ),

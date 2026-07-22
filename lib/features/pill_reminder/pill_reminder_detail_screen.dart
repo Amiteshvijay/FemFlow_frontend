@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'data/pill_reminder_service.dart';
@@ -80,7 +80,7 @@ class _PillReminderDetailScreenState extends State<PillReminderDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: Text(_reminder.name),
         actions: [
@@ -123,7 +123,7 @@ class _PillReminderDetailScreenState extends State<PillReminderDetailScreen> {
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(left: 4, bottom: 8),
-      child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary, fontSize: 13)),
+      child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, fontSize: 13)),
     );
   }
 
@@ -133,8 +133,8 @@ class _PillReminderDetailScreenState extends State<PillReminderDetailScreen> {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
-            child: Icon(_getMedicineIcon(_reminder.medicineType), color: FemFlowColors.primary, size: 30),
+            backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
+            child: Icon(_getMedicineIcon(_reminder.medicineType), color: FemLyraColors.primary, size: 30),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -142,7 +142,7 @@ class _PillReminderDetailScreenState extends State<PillReminderDetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(_reminder.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                Text(_reminder.dosageValue ?? 'No dosage info', style: const TextStyle(color: FemFlowColors.textSecondary)),
+                Text(_reminder.dosageValue ?? 'No dosage info', style: const TextStyle(color: FemLyraColors.textSecondary)),
               ],
             ),
           ),
@@ -184,7 +184,7 @@ class _PillReminderDetailScreenState extends State<PillReminderDetailScreen> {
           _row('Food', _reminder.instructions.toUpperCase()),
           if (_reminder.notes != null && _reminder.notes!.isNotEmpty) ...[
             const Divider(),
-            const Text('Notes', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+            const Text('Notes', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
             const SizedBox(height: 4),
             Text(_reminder.notes!, style: const TextStyle(fontSize: 14)),
           ],
@@ -199,7 +199,7 @@ class _PillReminderDetailScreenState extends State<PillReminderDetailScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: FemFlowColors.textSecondary)),
+          Text(label, style: const TextStyle(color: FemLyraColors.textSecondary)),
           Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),

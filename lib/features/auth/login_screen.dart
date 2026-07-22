@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import './providers/auth_provider.dart';
 import 'data/auth_service.dart';
@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            backgroundColor: FemFlowColors.period,
+            backgroundColor: FemLyraColors.period,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             margin: const EdgeInsets.all(20),
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -132,24 +132,24 @@ class _LoginScreenState extends State<LoginScreen> {
               Column(
                 children: [
                   Image.asset(
-                    'assets/icons/femflow_app_icon_1024.png',
+                    'assets/icons/FemLyra_app_icon_1024.png',
                     height: 80,
-                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 80, color: FemFlowColors.primary),
+                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 80, color: FemLyraColors.primary),
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'FemFlow',
+                    'FemLyra',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      color: FemFlowColors.primary,
+                      color: FemLyraColors.primary,
                     ),
                   ),
                   const Text(
                     'Cycle, Health & Care',
                     style: TextStyle(
                       fontSize: 16,
-                      color: FemFlowColors.textSecondary,
+                      color: FemLyraColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: FemFlowColors.border),
+                    borderSide: const BorderSide(color: FemLyraColors.border),
                   ),
                 ),
               ),
@@ -198,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: FemFlowColors.border),
+                    borderSide: const BorderSide(color: FemLyraColors.border),
                   ),
                 ),
               ),
@@ -235,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text(
                       'Sign Up',
                       style: TextStyle(
-                        color: FemFlowColors.primary,
+                        color: FemLyraColors.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

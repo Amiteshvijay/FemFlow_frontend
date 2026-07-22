@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/primary_button.dart';
 import '../providers/subscription_provider.dart';
 import 'subscription_cancelled_screen.dart';
@@ -86,7 +86,7 @@ class _SubscriptionCancelOtpScreenState extends State<SubscriptionCancelOtpScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Verify Cancellation', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -96,7 +96,7 @@ class _SubscriptionCancelOtpScreenState extends State<SubscriptionCancelOtpScree
         child: Column(
           children: [
             const SizedBox(height: 32),
-            const Icon(Icons.security_rounded, color: FemFlowColors.primary, size: 48),
+            const Icon(Icons.security_rounded, color: FemLyraColors.primary, size: 48),
             const SizedBox(height: 24),
             const Text(
               'Security Verification',
@@ -106,7 +106,7 @@ class _SubscriptionCancelOtpScreenState extends State<SubscriptionCancelOtpScree
             const Text(
               'For your account security, please verify the 6-digit OTP sent to your registered email address.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: FemFlowColors.textSecondary, height: 1.5),
+              style: TextStyle(color: FemLyraColors.textSecondary, height: 1.5),
             ),
             const SizedBox(height: 48),
             Row(
@@ -123,12 +123,12 @@ class _SubscriptionCancelOtpScreenState extends State<SubscriptionCancelOtpScree
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Didn’t receive code?', style: TextStyle(color: FemFlowColors.textSecondary)),
+                const Text('Didn’t receive code?', style: TextStyle(color: FemLyraColors.textSecondary)),
                 TextButton(
                   onPressed: _resendTimer == 0 ? _resendOtp : null,
                   child: Text(
                     _resendTimer > 0 ? 'Resend in ${_resendTimer}s' : 'Resend Now',
-                    style: TextStyle(color: _resendTimer == 0 ? FemFlowColors.primary : FemFlowColors.textMuted, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: _resendTimer == 0 ? FemLyraColors.primary : FemLyraColors.textMuted, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -151,8 +151,8 @@ class _SubscriptionCancelOtpScreenState extends State<SubscriptionCancelOtpScree
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         decoration: InputDecoration(
           counterText: '',
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.primary, width: 2)),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.primary, width: 2)),
         ),
         onChanged: (value) {
           if (value.isNotEmpty && index < 5) {

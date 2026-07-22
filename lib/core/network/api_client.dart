@@ -11,11 +11,11 @@ class ApiClient {
   /// USB DEBUGGING MODE (Recommended):
   /// 1. Start backend: python manage.py runserver
   /// 2. Connect USB and run: adb reverse tcp:8000 tcp:8000
-  static const String _prodBaseUrl = 'https://femflow.in/api';
+  static const String _prodBaseUrl = 'https://femlyra.com/api';
   static const String _localBaseUrl = 'http://127.0.0.1:8000/api';
 
   // SET THIS TO true IF YOU ARE DEVELOPING LOCALLY AND WANT TO USE YOUR LOCAL DOCKER/DJANGO BACKEND.
-  // SET THIS TO false (default) TO CONNECT TO THE LIVE PRODUCTION BACKEND (https://femflow.in/api).
+  // SET THIS TO false (default) TO CONNECT TO THE LIVE PRODUCTION BACKEND (https://femlyra.com/api).
   static const bool _useLocalBackend = false;
 
   final TokenStorage _tokenStorage = TokenStorage();

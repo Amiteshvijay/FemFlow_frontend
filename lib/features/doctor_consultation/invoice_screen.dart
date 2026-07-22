@@ -4,11 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:open_filex/open_filex.dart';
-import 'package:femflow/core/theme/femflow_colors.dart';
-import 'package:femflow/features/doctor_consultation/data/doctor_consultation_service.dart';
-import 'package:femflow/features/doctor_consultation/models/doctor_models.dart';
+import 'package:FemLyra/core/theme/FemLyra_colors.dart';
+import 'package:FemLyra/features/doctor_consultation/data/doctor_consultation_service.dart';
+import 'package:FemLyra/features/doctor_consultation/models/doctor_models.dart';
 import 'package:provider/provider.dart';
-import 'package:femflow/core/security/app_lock_service.dart';
+import 'package:FemLyra/core/security/app_lock_service.dart';
 
 class InvoiceScreen extends StatefulWidget {
   final int bookingId;
@@ -110,7 +110,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       await file.writeAsBytes(bytes);
       
       final xFile = XFile(file.path);
-      await Share.shareXFiles([xFile], text: 'Invoice for my consultation at FemFlow');
+      await Share.shareXFiles([xFile], text: 'Invoice for my consultation at FemLyra');
       
     } catch (e) {
       if (mounted) {
@@ -125,13 +125,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   Widget build(BuildContext context) {
     if (!_isAuthorized && context.read<AppLockService>().isEnabled) {
       return const Scaffold(
-        backgroundColor: FemFlowColors.warmWhite,
-        body: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)),
+        backgroundColor: FemLyraColors.warmWhite,
+        body: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)),
       );
     }
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Tax Invoice', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
@@ -149,7 +149,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _booking == null || _booking!.invoice == null
               ? _buildMissingInvoice()
               : SingleChildScrollView(
@@ -215,7 +215,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: const BoxDecoration(
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
               borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
             ),
             child: Row(
@@ -224,7 +224,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('FemFlow', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 1.2)),
+                    Text('FemLyra', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 1.2)),
                     Text('Wellness & Health', style: TextStyle(color: Colors.white70, fontSize: 10)),
                   ],
                 ),
@@ -269,7 +269,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 // Details
                 const Text('BILL TO', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
                 const SizedBox(height: 4),
-                const Text('Valued FemFlow User', style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text('Valued FemLyra User', style: TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 24),
                 
                 const Text('SERVICE DETAILS', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
@@ -286,7 +286,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                     const Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                     Text(
                       '₹${total.toStringAsFixed(2)}', 
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemFlowColors.primary)
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemLyraColors.primary)
                     ),
                   ],
                 ),

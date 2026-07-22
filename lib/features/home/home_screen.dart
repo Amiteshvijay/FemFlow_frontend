@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/femai_icon.dart';
 import 'greeting_detail_screen.dart';
@@ -136,11 +136,11 @@ class _HomeScreenState extends State<HomeScreen> {
     final isPremium = subscriptionProvider.isPremium;
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
-          color: FemFlowColors.primary,
+          color: FemLyraColors.primary,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.all(20),
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: FemFlowColors.textPrimary,
+                    color: FemLyraColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(width: 12),
           Expanded(
             child: Text(
-              'FemFlow is NOT a medical device. Always consult a doctor for medical advice or treatment.',
+              'FemLyra is NOT a medical device. Always consult a doctor for medical advice or treatment.',
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
@@ -226,8 +226,8 @@ class _HomeScreenState extends State<HomeScreen> {
            );
         }
       },
-      color: FemFlowColors.ovulation.withValues(alpha: 0.05),
-      border: BorderSide(color: FemFlowColors.ovulation, width: 0.5),
+      color: FemLyraColors.ovulation.withValues(alpha: 0.05),
+      border: BorderSide(color: FemLyraColors.ovulation, width: 0.5),
       child: Row(
         children: [
           Stack(
@@ -239,13 +239,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: CircularProgressIndicator(
                   value: (_wellnessData?.score ?? 0) / 100,
                   strokeWidth: 4,
-                  color: FemFlowColors.ovulation,
-                  backgroundColor: FemFlowColors.ovulation.withValues(alpha: 0.1),
+                  color: FemLyraColors.ovulation,
+                  backgroundColor: FemLyraColors.ovulation.withValues(alpha: 0.1),
                 ),
               ),
               Text(
                 '${_wellnessData?.score ?? "--"}',
-                style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.ovulation),
+                style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.ovulation),
               ),
             ],
           ),
@@ -254,15 +254,15 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('FemFlow Wellness Score', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                const Text('FemLyra Wellness Score', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                 Text(
                   _wellnessData?.status ?? 'Start your first wellness check-in',
-                  style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 12),
+                  style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 12),
                 ),
               ],
             ),
           ),
-          const Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
+          const Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
         ],
       ),
     );
@@ -276,8 +276,8 @@ class _HomeScreenState extends State<HomeScreen> {
           MaterialPageRoute(builder: (_) => const LabTestsHomeScreen()),
         );
       },
-      color: FemFlowColors.blushMist,
-      border: BorderSide(color: FemFlowColors.primary.withValues(alpha: 0.2), width: 1),
+      color: FemLyraColors.blushMist,
+      border: BorderSide(color: FemLyraColors.primary.withValues(alpha: 0.2), width: 1),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -286,10 +286,10 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: FemFlowColors.primary.withValues(alpha: 0.1),
+                  color: FemLyraColors.primary.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.science_outlined, color: FemFlowColors.primary, size: 24),
+                child: const Icon(Icons.science_outlined, color: FemLyraColors.primary, size: 24),
               ),
               const SizedBox(width: 12),
               const Expanded(
@@ -301,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: FemFlowColors.textPrimary,
+                        color: FemLyraColors.textPrimary,
                       ),
                     ),
                     SizedBox(height: 2),
@@ -309,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Find trusted diagnostic centres near you and book home sample collection.',
                       style: TextStyle(
                         fontSize: 12,
-                        color: FemFlowColors.textSecondary,
+                        color: FemLyraColors.textSecondary,
                       ),
                     ),
                   ],
@@ -331,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: const Icon(Icons.search, size: 16, color: Colors.white),
                   label: const Text('Search Tests', style: TextStyle(fontSize: 12, color: Colors.white)),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: FemFlowColors.primary,
+                    backgroundColor: FemLyraColors.primary,
                     elevation: 0,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -347,11 +347,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       MaterialPageRoute(builder: (_) => const LabTestsHomeScreen(useCurrentLocation: true)),
                     );
                   },
-                  icon: const Icon(Icons.my_location, size: 16, color: FemFlowColors.primary),
-                  label: const Text('Use Location', style: TextStyle(fontSize: 12, color: FemFlowColors.primary)),
+                  icon: const Icon(Icons.my_location, size: 16, color: FemLyraColors.primary),
+                  label: const Text('Use Location', style: TextStyle(fontSize: 12, color: FemLyraColors.primary)),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: FemFlowColors.primary,
-                    side: const BorderSide(color: FemFlowColors.primary),
+                    foregroundColor: FemLyraColors.primary,
+                    side: const BorderSide(color: FemLyraColors.primary),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
@@ -359,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          const Divider(height: 24, thickness: 0.5, color: FemFlowColors.border),
+          const Divider(height: 24, thickness: 0.5, color: FemLyraColors.border),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -372,11 +372,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: const Row(
                   children: [
-                    Icon(Icons.spa_outlined, size: 14, color: FemFlowColors.textSecondary),
+                    Icon(Icons.spa_outlined, size: 14, color: FemLyraColors.textSecondary),
                     SizedBox(width: 4),
                     Text(
                       'Browse Packages',
-                      style: TextStyle(fontSize: 11, color: FemFlowColors.textSecondary, fontWeight: FontWeight.w600),
+                      style: TextStyle(fontSize: 11, color: FemLyraColors.textSecondary, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -390,11 +390,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: const Row(
                   children: [
-                    Icon(Icons.upload_file_outlined, size: 14, color: FemFlowColors.textSecondary),
+                    Icon(Icons.upload_file_outlined, size: 14, color: FemLyraColors.textSecondary),
                     SizedBox(width: 4),
                     Text(
                       'Upload Report',
-                      style: TextStyle(fontSize: 11, color: FemFlowColors.textSecondary, fontWeight: FontWeight.w600),
+                      style: TextStyle(fontSize: 11, color: FemLyraColors.textSecondary, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -430,12 +430,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Text('Medication Reminders', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                 const Text(
                   'Check your schedule for today',
-                  style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 12),
+                  style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 12),
                 ),
               ],
             ),
           ),
-          const Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
+          const Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
         ],
       ),
     );
@@ -470,12 +470,12 @@ class _HomeScreenState extends State<HomeScreen> {
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: FemFlowColors.textPrimary,
+                color: FemLyraColors.textPrimary,
               ),
             ),
             Text(
               greeting,
-              style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary),
+              style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary),
             ),
           ],
         ),
@@ -493,7 +493,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 8,
                   height: 8,
                   decoration: const BoxDecoration(
-                    color: FemFlowColors.primary,
+                    color: FemLyraColors.primary,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -530,7 +530,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(
                     child: Text(
                       'No cycle notifications this week.',
-                      style: TextStyle(color: FemFlowColors.textSecondary),
+                      style: TextStyle(color: FemLyraColors.textSecondary),
                     ),
                   ),
                 )
@@ -556,7 +556,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildThisWeekSection() {
     if (_isLoadingDashboard) {
-      return const AppCard(child: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)));
+      return const AppCard(child: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)));
     }
 
     final upcomingEvents = _dashboardData?['upcoming_events'] as List? ?? [];
@@ -574,7 +574,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: FemFlowColors.textPrimary,
+            color: FemLyraColors.textPrimary,
           ),
         ),
         const SizedBox(height: 12),
@@ -646,7 +646,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ).then((_) => _handleRefresh());
         }
       },
-      color: FemFlowColors.blushMist,
+      color: FemLyraColors.blushMist,
       border: BorderSide.none,
       child: Row(
         children: [
@@ -654,10 +654,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(event['title'] ?? '', style: const TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                Text(event['title'] ?? '', style: const TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 12),
-                Text(event['date_text'] ?? '', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
-                Text(subtitle, style: const TextStyle(color: FemFlowColors.textSecondary)),
+                Text(event['date_text'] ?? '', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
+                Text(subtitle, style: const TextStyle(color: FemLyraColors.textSecondary)),
                 if (isActivePeriod && lastPeriodEndDate == null) ...[
                   const SizedBox(height: 12),
                   GestureDetector(
@@ -670,7 +670,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(color: FemFlowColors.primary, borderRadius: BorderRadius.circular(20)),
+                      decoration: BoxDecoration(color: FemLyraColors.primary, borderRadius: BorderRadius.circular(20)),
                       child: const Text('Log period end', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
                     ),
                   ),
@@ -687,13 +687,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: CircularProgressIndicator(
                   value: progressValue,
                   strokeWidth: 6,
-                  color: FemFlowColors.primary,
-                  backgroundColor: FemFlowColors.white.withValues(alpha: 0.5),
+                  color: FemLyraColors.primary,
+                  backgroundColor: FemLyraColors.white.withValues(alpha: 0.5),
                 ),
               ),
               isActivePeriod 
                   ? _buildPeriodFlowIcon(event['flow'] ?? _dashboardData?['period']?['flow']?.toString())
-                  : Icon(_getEventIcon(event['type']), color: FemFlowColors.primary),
+                  : Icon(_getEventIcon(event['type']), color: FemLyraColors.primary),
             ],
           ),
         ],
@@ -717,7 +717,7 @@ class _HomeScreenState extends State<HomeScreen> {
         iconData = Icons.opacity;
         break;
       case 'medium':
-        mainColor = FemFlowColors.primary;
+        mainColor = FemLyraColors.primary;
         iconData = Icons.water_drop;
         break;
       case 'heavy':
@@ -725,7 +725,7 @@ class _HomeScreenState extends State<HomeScreen> {
         iconData = Icons.water_drop;
         break;
       default:
-        mainColor = FemFlowColors.primary;
+        mainColor = FemLyraColors.primary;
         iconData = Icons.water_drop;
     }
 
@@ -785,13 +785,13 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(event['title'] ?? '', style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 14)),
                 const SizedBox(height: 4),
-                Text(event['date_text'] ?? '', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+                Text(event['date_text'] ?? '', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
               ],
             ),
           ),
           isGreeting
-              ? const Icon(Icons.chevron_right, color: FemFlowColors.textSecondary)
-              : const Text('Estimated', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+              ? const Icon(Icons.chevron_right, color: FemLyraColors.textSecondary)
+              : const Text('Estimated', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
         ],
       ),
     );
@@ -801,17 +801,17 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (type) {
       case 'active_period':
       case 'next_period':
-        return FemFlowColors.primary;
+        return FemLyraColors.primary;
       case 'fertile_window':
-        return FemFlowColors.fertileWindow;
+        return FemLyraColors.fertileWindow;
       case 'ovulation':
-        return FemFlowColors.ovulation;
+        return FemLyraColors.ovulation;
       case 'birthday':
         return Colors.pinkAccent;
       case 'anniversary':
         return Colors.purpleAccent;
       default:
-        return FemFlowColors.textSecondary;
+        return FemLyraColors.textSecondary;
     }
   }
 
@@ -850,19 +850,19 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Insight for You', style: TextStyle(color: FemFlowColors.aiWellness, fontWeight: FontWeight.bold)),
+                const Text('Insight for You', style: TextStyle(color: FemLyraColors.aiWellness, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
                 Text(
                   isPremium 
                     ? (_dailyInsight?['content'] ?? 'Your cycle looks calm this week.')
                     : 'Unlock daily personalized cycle insights and FemAI guidance with Premium.',
-                  style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
+                  style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
                 ),
                 if (!isPremium) ...[
                    const SizedBox(height: 12),
                    const Text(
                      'Unlock with Premium >',
-                     style: TextStyle(color: FemFlowColors.aiWellness, fontWeight: FontWeight.bold, fontSize: 12),
+                     style: TextStyle(color: FemLyraColors.aiWellness, fontWeight: FontWeight.bold, fontSize: 12),
                    ),
                 ],
               ],
@@ -871,14 +871,14 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(width: 12),
           // Cleaned up: removed redundant sparkle icon and centered the AI Butterfly icon when needed
           if (isPremium)
-            const FemAIIcon(color: FemFlowColors.aiWellness, size: 32)
+            const FemAIIcon(color: FemLyraColors.aiWellness, size: 32)
           else
             Stack(
               alignment: Alignment.topRight,
               children: [
                 Container(
                   padding: const EdgeInsets.all(12),
-                  decoration: const BoxDecoration(color: FemFlowColors.aiWellness, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(color: FemLyraColors.aiWellness, shape: BoxShape.circle),
                   child: const FemAIIcon(color: Colors.white, size: 24),
                 ),
                 Container(
@@ -909,7 +909,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context,
           icon: Icons.water_drop_outlined,
           label: 'Period',
-          color: FemFlowColors.period,
+          color: FemLyraColors.period,
           onTap: () async {
             final result = await Navigator.push(
               context, 
@@ -922,7 +922,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context,
           icon: Icons.science_outlined,
           label: 'Lab Test',
-          color: FemFlowColors.primary,
+          color: FemLyraColors.primary,
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const LabTestsHomeScreen()),
@@ -932,7 +932,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context,
           icon: Icons.sentiment_satisfied_alt,
           label: 'Symptoms',
-          color: FemFlowColors.pmsCaution,
+          color: FemLyraColors.pmsCaution,
           onTap: () async {
             final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const SymptomsScreen()));
             if (result == true) _handleRefresh();
@@ -978,7 +978,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context,
           icon: Icons.insights_outlined,
           label: 'Insights',
-          color: FemFlowColors.aiWellness,
+          color: FemLyraColors.aiWellness,
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const InsightsScreen()),
@@ -1084,7 +1084,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: FemFlowColors.textPrimary),
+                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary),
                 ),
               ],
             ),
@@ -1124,14 +1124,14 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const Text(
               'Expert Insights',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
             ),
             TextButton(
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const ExpertInsightsDiscoveryScreen()),
               ),
-              child: const Text('View All →', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+              child: const Text('View All →', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
             ),
           ],
         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/support_service.dart';
 import 'support_ticket_detail_screen.dart';
@@ -38,7 +38,7 @@ class _SupportTicketListScreenState extends State<SupportTicketListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -48,7 +48,7 @@ class _SupportTicketListScreenState extends State<SupportTicketListScreen> {
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _tickets.isEmpty
               ? const Center(child: Text('No support tickets raised yet.'))
               : ListView.builder(
@@ -82,7 +82,7 @@ class _SupportTicketListScreenState extends State<SupportTicketListScreen> {
             children: [
               Text(
                 ticket.ticketId,
-                style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary, fontSize: 13),
+                style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 13),
               ),
               _buildStatusBadge(ticket.status, ticket.statusDisplay),
             ],
@@ -90,24 +90,24 @@ class _SupportTicketListScreenState extends State<SupportTicketListScreen> {
           const SizedBox(height: 12),
           Text(
             ticket.subject,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary),
           ),
           const SizedBox(height: 8),
           Text(
             ticket.message,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 14),
+            style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 14),
           ),
           const Divider(height: 24),
           Row(
             children: [
-              const Icon(Icons.calendar_today_outlined, size: 14, color: FemFlowColors.textMuted),
+              const Icon(Icons.calendar_today_outlined, size: 14, color: FemLyraColors.textMuted),
               const SizedBox(width: 6),
-              Text(formattedDate, style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
+              Text(formattedDate, style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
               const Spacer(),
-              const Text('Details', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
-              const Icon(Icons.chevron_right, size: 16, color: FemFlowColors.primary),
+              const Text('Details', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
+              const Icon(Icons.chevron_right, size: 16, color: FemLyraColors.primary),
             ],
           ),
         ],

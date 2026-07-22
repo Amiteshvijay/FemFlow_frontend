@@ -1,4 +1,4 @@
-package `in`.femflow.app
+package com.femlyra.app
 
 import android.os.Bundle
 import android.os.Build

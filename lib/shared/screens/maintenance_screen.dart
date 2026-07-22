@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 
 class MaintenanceScreen extends StatelessWidget {
@@ -10,7 +10,7 @@ class MaintenanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -21,13 +21,13 @@ class MaintenanceScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(32),
                 decoration: BoxDecoration(
-                  color: FemFlowColors.primary.withValues(alpha: 0.05),
+                  color: FemLyraColors.primary.withValues(alpha: 0.05),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.auto_awesome_outlined,
                   size: 80,
-                  color: FemFlowColors.primary,
+                  color: FemLyraColors.primary,
                 ),
               ),
               const SizedBox(height: 48),
@@ -37,16 +37,16 @@ class MaintenanceScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: FemFlowColors.textPrimary,
+                  color: FemLyraColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 16),
               const Text(
-                'Hi! FemFlow is temporarily offline for scheduled system updates. We’re working hard to get back online and expect to be live very soon. We apologize for any inconvenience caused.',
+                'Hi! FemLyra is temporarily offline for scheduled system updates. We’re working hard to get back online and expect to be live very soon. We apologize for any inconvenience caused.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
-                  color: FemFlowColors.textSecondary,
+                  color: FemLyraColors.textSecondary,
                   height: 1.6,
                 ),
               ),
@@ -60,7 +60,7 @@ class MaintenanceScreen extends StatelessWidget {
                 'Thank you for your patience.',
                 style: TextStyle(
                   fontSize: 12,
-                  color: FemFlowColors.textMuted,
+                  color: FemLyraColors.textMuted,
                   fontStyle: FontStyle.italic,
                 ),
               ),

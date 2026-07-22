@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/femflow_colors.dart';
+import '../../../../core/theme/FemLyra_colors.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../custom_plan_models.dart';
 
@@ -38,13 +38,13 @@ class CustomPlanSummaryCard extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: FemFlowColors.primary.withValues(alpha: 0.05),
+            color: FemLyraColors.primary.withValues(alpha: 0.05),
             shape: BoxShape.circle,
           ),
-          child: Icon(icon, size: 18, color: FemFlowColors.primary),
+          child: Icon(icon, size: 18, color: FemLyraColors.primary),
         ),
         const SizedBox(width: 16),
-        Text(label, style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13)),
+        Text(label, style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13)),
         const Spacer(),
         Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
       ],

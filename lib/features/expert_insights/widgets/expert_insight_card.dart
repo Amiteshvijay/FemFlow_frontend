@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../models/insight_models.dart';
 import '../screens/insight_detail_screen.dart';
 
@@ -66,7 +66,7 @@ class ExpertInsightCard extends StatelessWidget {
                         ),
                         child: Text(
                           insight.categoryName,
-                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
                         ),
                       ),
                     ),

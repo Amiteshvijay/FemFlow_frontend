@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'data/partner_service.dart';
@@ -38,7 +38,7 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
 
     if (name.isEmpty || email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Name and email are required'), backgroundColor: FemFlowColors.period),
+        const SnackBar(content: Text('Name and email are required'), backgroundColor: FemLyraColors.period),
       );
       return;
     }
@@ -46,7 +46,7 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
     final emailRegex = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
     if (!emailRegex.hasMatch(email)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid email'), backgroundColor: FemFlowColors.period),
+        const SnackBar(content: Text('Please enter a valid email'), backgroundColor: FemLyraColors.period),
       );
       return;
     }
@@ -81,20 +81,20 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: FemFlowColors.warmWhite,
-                      border: Border.all(color: FemFlowColors.primary.withOpacity(0.3)),
+                      color: FemLyraColors.warmWhite,
+                      border: Border.all(color: FemLyraColors.primary.withOpacity(0.3)),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
                       children: [
-                        const Text('Pairing Code', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+                        const Text('Pairing Code', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
                         const SizedBox(height: 4),
                         Text(
                           code,
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: FemFlowColors.primary,
+                            color: FemLyraColors.primary,
                             letterSpacing: 2,
                           ),
                         ),
@@ -102,7 +102,7 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const Text('Acceptance Link', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+                  const Text('Acceptance Link', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
                   const SizedBox(height: 4),
                   Text(
                     acceptUrl,
@@ -123,11 +123,11 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
                 ElevatedButton.icon(
                   onPressed: () {
                     Share.share(
-                      'Join my FemFlow Partner Mode using pairing code: $code and accept link: $acceptUrl',
+                      'Join my FemLyra Partner Mode using pairing code: $code and accept link: $acceptUrl',
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: FemFlowColors.primary,
+                    backgroundColor: FemLyraColors.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   ),
@@ -143,7 +143,7 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to send invite: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Failed to send invite: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     }
@@ -152,7 +152,7 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -193,7 +193,7 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
                 children: [
                   const Text('Data Permissions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
-                  const Text('Select what your partner can see.', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                  const Text('Select what your partner can see.', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                   const Divider(),
                   _buildPermissionToggle('Period Dates', 'period_dates'),
                   _buildPermissionToggle('Fertile Window', 'fertile_window'),
@@ -226,7 +226,7 @@ class _InvitePartnerScreenState extends State<InvitePartnerScreen> {
     return SwitchListTile(
       title: Text(label, style: const TextStyle(fontSize: 15)),
       value: _permissions[key]!,
-      activeThumbColor: FemFlowColors.primary,
+      activeThumbColor: FemLyraColors.primary,
       onChanged: (val) {
         setState(() {
           _permissions[key] = val;

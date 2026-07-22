@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../providers/exercise_provider.dart';
 import '../widgets/exercise_card.dart';
 import 'add_exercise_screen.dart';
@@ -29,13 +29,13 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Exercise Library', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: FemFlowColors.primary),
+            icon: const Icon(Icons.add_circle_outline, color: FemLyraColors.primary),
             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AddExerciseScreen())),
           ),
         ],
@@ -98,16 +98,16 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
           category: _selectedCategoryKey,
         );
       },
-      selectedColor: FemFlowColors.primary,
+      selectedColor: FemLyraColors.primary,
       checkmarkColor: Colors.white,
       labelStyle: TextStyle(
-        color: isSelected ? Colors.white : FemFlowColors.textPrimary,
+        color: isSelected ? Colors.white : FemLyraColors.textPrimary,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
       ),
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: isSelected ? FemFlowColors.primary : Colors.grey[300]!),
+        side: BorderSide(color: isSelected ? FemLyraColors.primary : Colors.grey[300]!),
       ),
     );
   }
@@ -124,15 +124,15 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
         });
         context.read<ExerciseProvider>().loadExercises(category: key);
       },
-      selectedColor: FemFlowColors.primary,
+      selectedColor: FemLyraColors.primary,
       labelStyle: TextStyle(
-        color: isSelected ? Colors.white : FemFlowColors.textPrimary,
+        color: isSelected ? Colors.white : FemLyraColors.textPrimary,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
       ),
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: isSelected ? FemFlowColors.primary : Colors.grey[300]!),
+        side: BorderSide(color: isSelected ? FemLyraColors.primary : Colors.grey[300]!),
       ),
     );
   }

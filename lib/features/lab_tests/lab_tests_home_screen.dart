@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:femflow/core/theme/femflow_colors.dart';
-import 'package:femflow/shared/widgets/app_card.dart';
-import 'package:femflow/features/lab_tests/providers/cart_provider.dart';
-import 'package:femflow/features/lab_tests/lab_cart_screen.dart';
+import 'package:FemLyra/core/theme/FemLyra_colors.dart';
+import 'package:FemLyra/shared/widgets/app_card.dart';
+import 'package:FemLyra/features/lab_tests/providers/cart_provider.dart';
+import 'package:FemLyra/features/lab_tests/lab_cart_screen.dart';
 
 class LabTestsHomeScreen extends StatefulWidget {
   final bool useCurrentLocation;
@@ -217,7 +217,7 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                 children: [
                   const Text(
                     'Select Location',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                   ),
                   IconButton(
                     icon: const Icon(Icons.close),
@@ -231,20 +231,20 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                   Navigator.pop(context);
                   _detectCurrentLocation();
                 },
-                icon: const Icon(Icons.my_location, color: FemFlowColors.primary),
-                label: const Text('Use Current Location', style: TextStyle(color: FemFlowColors.primary)),
+                icon: const Icon(Icons.my_location, color: FemLyraColors.primary),
+                label: const Text('Use Current Location', style: TextStyle(color: FemLyraColors.primary)),
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 48),
-                  side: const BorderSide(color: FemFlowColors.primary),
+                  side: const BorderSide(color: FemLyraColors.primary),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
               const SizedBox(height: 16),
-              const Text('Saved Addresses', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+              const Text('Saved Addresses', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
               const SizedBox(height: 12),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.home_outlined, color: FemFlowColors.primary),
+                leading: const Icon(Icons.home_outlined, color: FemLyraColors.primary),
                 title: const Text('Home'),
                 subtitle: const Text('H-12, Green Park, New Delhi - 110016'),
                 onTap: () {
@@ -256,7 +256,7 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.work_outline, color: FemFlowColors.primary),
+                leading: const Icon(Icons.work_outline, color: FemLyraColors.primary),
                 title: const Text('Office'),
                 subtitle: const Text('Building 4B, Cyber City, Gurugram - 122002'),
                 onTap: () {
@@ -267,11 +267,11 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                 },
               ),
               const SizedBox(height: 8),
-              const Divider(color: FemFlowColors.border),
+              const Divider(color: FemLyraColors.border),
               const SizedBox(height: 8),
               const Text(
                 'Note: Your location is only used to list serviceable labs and show accurate prices.',
-                style: TextStyle(fontSize: 11, color: FemFlowColors.textMuted),
+                style: TextStyle(fontSize: 11, color: FemLyraColors.textMuted),
               ),
               const SizedBox(height: 16),
             ],
@@ -301,7 +301,7 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                   Expanded(
                     child: Text(
                       package['name'],
-                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                     ),
                   ),
                   IconButton(
@@ -323,8 +323,8 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                   if (package['femaleCollector'])
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
-                      child: const Text('Female Collector Available', style: TextStyle(color: FemFlowColors.primary, fontSize: 10, fontWeight: FontWeight.bold)),
+                      decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
+                      child: const Text('Female Collector Available', style: TextStyle(color: FemLyraColors.primary, fontSize: 10, fontWeight: FontWeight.bold)),
                     ),
                 ],
               ),
@@ -334,34 +334,34 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('About this Package', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary)),
+                      const Text('About this Package', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary)),
                       const SizedBox(height: 8),
-                      Text(package['description'], style: const TextStyle(color: FemFlowColors.textSecondary, height: 1.4)),
+                      Text(package['description'], style: const TextStyle(color: FemLyraColors.textSecondary, height: 1.4)),
                       const SizedBox(height: 20),
-                      Text('Tests Included (${(package['tests'] as List).length})', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary)),
+                      Text('Tests Included (${(package['tests'] as List).length})', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary)),
                       const SizedBox(height: 12),
                       ...(package['tests'] as List).map((test) => Container(
                             margin: const EdgeInsets.only(bottom: 8),
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: FemFlowColors.warmWhite,
+                              color: FemLyraColors.warmWhite,
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: FemFlowColors.border, width: 0.5),
+                              border: Border.all(color: FemLyraColors.border, width: 0.5),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(test, style: const TextStyle(fontWeight: FontWeight.w600, color: FemFlowColors.textPrimary)),
-                                const Icon(Icons.check_circle_outline, color: FemFlowColors.primary, size: 16),
+                                Text(test, style: const TextStyle(fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary)),
+                                const Icon(Icons.check_circle_outline, color: FemLyraColors.primary, size: 16),
                               ],
                             ),
                           )),
                       const SizedBox(height: 20),
-                      const Text('Preparation Instructions', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary)),
+                      const Text('Preparation Instructions', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary)),
                       const SizedBox(height: 8),
                       const Text(
                         '• Fasting required for 10-12 hours prior to collection.\n• Water is allowed.\n• Do not stop current thyroid medications without consulting your doctor.',
-                        style: TextStyle(color: FemFlowColors.textSecondary, height: 1.4),
+                        style: TextStyle(color: FemLyraColors.textSecondary, height: 1.4),
                       ),
                       const SizedBox(height: 20),
                       Container(
@@ -378,7 +378,7 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                             SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'General disclaimers and recommendations: Doctor and laboratory instructions must take priority over general FemFlow advice.',
+                                'General disclaimers and recommendations: Doctor and laboratory instructions must take priority over general FemLyra advice.',
                                 style: TextStyle(fontSize: 11, color: Colors.orange, height: 1.3, fontWeight: FontWeight.w600),
                               ),
                             )
@@ -390,7 +390,7 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                   ),
                 ),
               ),
-              const Divider(color: FemFlowColors.border),
+              const Divider(color: FemLyraColors.border),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Row(
@@ -399,8 +399,8 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('₹${package['mrp']}', style: const TextStyle(decoration: TextDecoration.lineThrough, color: FemFlowColors.textMuted, fontSize: 14)),
-                        Text('₹${package['sellingPrice']}', style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary, fontSize: 24)),
+                        Text('₹${package['mrp']}', style: const TextStyle(decoration: TextDecoration.lineThrough, color: FemLyraColors.textMuted, fontSize: 14)),
+                        Text('₹${package['sellingPrice']}', style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 24)),
                       ],
                     ),
                     ElevatedButton(
@@ -410,12 +410,12 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('${package['name']} added to booking cart!'),
-                            backgroundColor: FemFlowColors.primary,
+                            backgroundColor: FemLyraColors.primary,
                           ),
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: FemFlowColors.primary,
+                        backgroundColor: FemLyraColors.primary,
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
@@ -442,11 +442,11 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        foregroundColor: FemFlowColors.textPrimary,
+        foregroundColor: FemLyraColors.textPrimary,
         title: const Text('Lab Test Booking', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         actions: [
           Consumer<LabCartProvider>(
@@ -506,21 +506,21 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                 color: Colors.white,
                 child: Row(
                   children: [
-                    const Icon(Icons.location_on, color: FemFlowColors.primary, size: 20),
+                    const Icon(Icons.location_on, color: FemLyraColors.primary, size: 20),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         _selectedLocation,
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary, fontSize: 13),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary, fontSize: 13),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Icon(Icons.arrow_drop_down, color: FemFlowColors.textSecondary),
+                    const Icon(Icons.arrow_drop_down, color: FemLyraColors.textSecondary),
                   ],
                 ),
               ),
             ),
-            const Divider(height: 1, thickness: 0.5, color: FemFlowColors.border),
+            const Divider(height: 1, thickness: 0.5, color: FemLyraColors.border),
 
             Padding(
               padding: const EdgeInsets.all(16),
@@ -537,7 +537,7 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                     },
                     decoration: InputDecoration(
                       hintText: 'Search CBC, Thyroid, PCOS Profile...',
-                      prefixIcon: const Icon(Icons.search, color: FemFlowColors.textMuted),
+                      prefixIcon: const Icon(Icons.search, color: FemLyraColors.textMuted),
                       suffixIcon: _searchQuery.isNotEmpty
                           ? IconButton(
                               icon: const Icon(Icons.clear),
@@ -551,15 +551,15 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                           : null,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: FemFlowColors.border),
+                        borderSide: const BorderSide(color: FemLyraColors.border),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: FemFlowColors.border),
+                        borderSide: const BorderSide(color: FemLyraColors.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: FemFlowColors.primary),
+                        borderSide: const BorderSide(color: FemLyraColors.primary),
                       ),
                       filled: true,
                       fillColor: Colors.white,
@@ -569,8 +569,8 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
 
                   // Promos & Trusted partner notice
                   AppCard(
-                    color: FemFlowColors.blushMist,
-                    border: BorderSide(color: FemFlowColors.primary.withValues(alpha: 0.2), width: 1),
+                    color: FemLyraColors.blushMist,
+                    border: BorderSide(color: FemLyraColors.primary.withValues(alpha: 0.2), width: 1),
                     child: Row(
                       children: [
                         Expanded(
@@ -579,30 +579,30 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                             children: [
                               const Text(
                                 'NABL Accredited Partners',
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemFlowColors.textPrimary),
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemLyraColors.textPrimary),
                               ),
                               const SizedBox(height: 4),
                               const Text(
                                 'Accurate results from certified lab partners with safe home collection options.',
-                                style: TextStyle(fontSize: 11, color: FemFlowColors.textSecondary),
+                                style: TextStyle(fontSize: 11, color: FemLyraColors.textSecondary),
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 'Learn More >',
-                                style: TextStyle(color: FemFlowColors.primary, fontSize: 11, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: FemLyraColors.primary, fontSize: 11, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
                         ),
                         const SizedBox(width: 12),
-                        const Icon(Icons.verified_user, size: 48, color: FemFlowColors.primary),
+                        const Icon(Icons.verified_user, size: 48, color: FemLyraColors.primary),
                       ],
                     ),
                   ),
                   const SizedBox(height: 24),
 
                   // Horizontal categories
-                  const Text('Shop by Categories', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+                  const Text('Shop by Categories', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
                   const SizedBox(height: 12),
                   SizedBox(
                     height: 80,
@@ -622,24 +622,24 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                             margin: const EdgeInsets.only(right: 12),
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                             decoration: BoxDecoration(
-                              color: isSelected ? FemFlowColors.primary : Colors.white,
+                              color: isSelected ? FemLyraColors.primary : Colors.white,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: isSelected ? FemFlowColors.primary : FemFlowColors.border,
+                                color: isSelected ? FemLyraColors.primary : FemLyraColors.border,
                                 width: 0.5,
                               ),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(cat['icon'], color: isSelected ? Colors.white : FemFlowColors.primary, size: 20),
+                                Icon(cat['icon'], color: isSelected ? Colors.white : FemLyraColors.primary, size: 20),
                                 const SizedBox(height: 6),
                                 Text(
                                   cat['name'],
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
-                                    color: isSelected ? Colors.white : FemFlowColors.textPrimary,
+                                    color: isSelected ? Colors.white : FemLyraColors.textPrimary,
                                   ),
                                 ),
                               ],
@@ -657,11 +657,11 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                     children: [
                       Text(
                         _selectedCategory == "All" ? 'Women\'s Health Packages' : '$_selectedCategory Packages',
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                       ),
                       Text(
                         '${filteredPackages.length} Available',
-                        style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+                        style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
                       ),
                     ],
                   ),
@@ -673,9 +673,9 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 40),
                         child: Column(
                           children: [
-                            const Icon(Icons.search_off_outlined, size: 48, color: FemFlowColors.textMuted),
+                            const Icon(Icons.search_off_outlined, size: 48, color: FemLyraColors.textMuted),
                             const SizedBox(height: 12),
-                            const Text('No packages found matching search criteria.', style: TextStyle(color: FemFlowColors.textSecondary)),
+                            const Text('No packages found matching search criteria.', style: TextStyle(color: FemLyraColors.textSecondary)),
                             const SizedBox(height: 8),
                             TextButton(
                               onPressed: () {
@@ -685,7 +685,7 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                                   _searchController.clear();
                                 });
                               },
-                              child: const Text('Reset Filters', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                              child: const Text('Reset Filters', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
                             ),
                           ],
                         ),
@@ -716,12 +716,12 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                                         children: [
                                           Text(
                                             pkg['name'],
-                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
                                             pkg['description'],
-                                            style: const TextStyle(fontSize: 11, color: FemFlowColors.textSecondary, height: 1.3),
+                                            style: const TextStyle(fontSize: 11, color: FemLyraColors.textSecondary, height: 1.3),
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -731,7 +731,7 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                                     const SizedBox(width: 8),
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                      decoration: BoxDecoration(color: FemFlowColors.primary, borderRadius: BorderRadius.circular(4)),
+                                      decoration: BoxDecoration(color: FemLyraColors.primary, borderRadius: BorderRadius.circular(4)),
                                       child: Text(
                                         '$discount% OFF',
                                         style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
@@ -745,19 +745,19 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                                   children: [
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(color: FemFlowColors.warmWhite, borderRadius: BorderRadius.circular(6), border: Border.all(color: FemFlowColors.border, width: 0.5)),
-                                      child: Text('${(pkg['tests'] as List).length} Tests', style: const TextStyle(fontSize: 10, color: FemFlowColors.textSecondary)),
+                                      decoration: BoxDecoration(color: FemLyraColors.warmWhite, borderRadius: BorderRadius.circular(6), border: Border.all(color: FemLyraColors.border, width: 0.5)),
+                                      child: Text('${(pkg['tests'] as List).length} Tests', style: const TextStyle(fontSize: 10, color: FemLyraColors.textSecondary)),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(color: FemFlowColors.warmWhite, borderRadius: BorderRadius.circular(6), border: Border.all(color: FemFlowColors.border, width: 0.5)),
-                                      child: Text('Reports in ${pkg['turnaround']}', style: const TextStyle(fontSize: 10, color: FemFlowColors.textSecondary)),
+                                      decoration: BoxDecoration(color: FemLyraColors.warmWhite, borderRadius: BorderRadius.circular(6), border: Border.all(color: FemLyraColors.border, width: 0.5)),
+                                      child: Text('Reports in ${pkg['turnaround']}', style: const TextStyle(fontSize: 10, color: FemLyraColors.textSecondary)),
                                     ),
                                     if (pkg['femaleCollector'])
                                       Container(
                                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                        decoration: BoxDecoration(color: FemFlowColors.blushMist, borderRadius: BorderRadius.circular(6)),
-                                        child: const Text('Female Phlebotomist Available', style: TextStyle(fontSize: 10, color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                                        decoration: BoxDecoration(color: FemLyraColors.blushMist, borderRadius: BorderRadius.circular(6)),
+                                        child: const Text('Female Phlebotomist Available', style: TextStyle(fontSize: 10, color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
                                       ),
                                   ],
                                 ),
@@ -767,18 +767,18 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text('₹${pkg['sellingPrice']}', style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary, fontSize: 18)),
+                                        Text('₹${pkg['sellingPrice']}', style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 18)),
                                         const SizedBox(width: 6),
-                                        Text('₹${pkg['mrp']}', style: const TextStyle(decoration: TextDecoration.lineThrough, color: FemFlowColors.textMuted, fontSize: 12)),
+                                        Text('₹${pkg['mrp']}', style: const TextStyle(decoration: TextDecoration.lineThrough, color: FemLyraColors.textMuted, fontSize: 12)),
                                       ],
                                     ),
                                     OutlinedButton(
                                       onPressed: () => _showPackageDetailBottomSheet(pkg),
                                       style: OutlinedButton.styleFrom(
-                                        side: const BorderSide(color: FemFlowColors.primary),
+                                        side: const BorderSide(color: FemLyraColors.primary),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                       ),
-                                      child: const Text('View Details', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 12)),
+                                      child: const Text('View Details', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold, fontSize: 12)),
                                     ),
                                   ],
                                 ),

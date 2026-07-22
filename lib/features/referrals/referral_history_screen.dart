@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/referral_service.dart';
 import 'models/referral_models.dart';
@@ -51,27 +51,27 @@ class _ReferralHistoryScreenState extends State<ReferralHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Referral History',
-          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _errorMessage != null
               ? _buildErrorState()
               : RefreshIndicator(
                   onRefresh: _fetchHistory,
-                  color: FemFlowColors.primary,
+                  color: FemLyraColors.primary,
                   child: _history.isEmpty ? _buildEmptyState() : _buildHistoryList(),
                 ),
     );
@@ -101,7 +101,7 @@ class _ReferralHistoryScreenState extends State<ReferralHistoryScreen> {
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: FemFlowColors.textPrimary,
+                          color: FemLyraColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -109,7 +109,7 @@ class _ReferralHistoryScreenState extends State<ReferralHistoryScreen> {
                         'Invited on ${DateFormat('MMM d, yyyy').format(item.createdAt)}',
                         style: const TextStyle(
                           fontSize: 12,
-                          color: FemFlowColors.textMuted,
+                          color: FemLyraColors.textMuted,
                         ),
                       ),
                       if (item.status == 'rewarded' && item.rewardedAt != null) ...[
@@ -118,7 +118,7 @@ class _ReferralHistoryScreenState extends State<ReferralHistoryScreen> {
                           'Rewarded on ${DateFormat('MMM d, yyyy').format(item.rewardedAt!)}',
                           style: const TextStyle(
                             fontSize: 11,
-                            color: FemFlowColors.textSecondary,
+                            color: FemLyraColors.textSecondary,
                           ),
                         ),
                       ],
@@ -223,13 +223,13 @@ class _ReferralHistoryScreenState extends State<ReferralHistoryScreen> {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: const BoxDecoration(
-                color: FemFlowColors.blushMist,
+                color: FemLyraColors.blushMist,
                 shape: BoxShape.circle,
               ),
               child: const Icon(
                 Icons.people_outline_rounded,
                 size: 48,
-                color: FemFlowColors.primary,
+                color: FemLyraColors.primary,
               ),
             ),
             const SizedBox(height: 24),
@@ -238,7 +238,7 @@ class _ReferralHistoryScreenState extends State<ReferralHistoryScreen> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: FemFlowColors.textPrimary,
+                color: FemLyraColors.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
@@ -247,7 +247,7 @@ class _ReferralHistoryScreenState extends State<ReferralHistoryScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: FemFlowColors.textSecondary,
+                color: FemLyraColors.textSecondary,
                 height: 1.4,
               ),
             ),
@@ -262,13 +262,13 @@ class _ReferralHistoryScreenState extends State<ReferralHistoryScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_errorMessage!, style: const TextStyle(color: FemFlowColors.period)),
+          Text(_errorMessage!, style: const TextStyle(color: FemLyraColors.period)),
           const SizedBox(height: 12),
           TextButton(
             onPressed: _fetchHistory,
             child: const Text(
               'Retry',
-              style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold),
+              style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold),
             ),
           ),
         ],

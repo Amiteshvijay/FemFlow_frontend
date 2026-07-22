@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import '../../core/security/app_lock_service.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'data/health_vault_service.dart';
 import 'models/health_document.dart';
@@ -104,7 +104,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: FemFlowColors.primary,
+              primary: FemLyraColors.primary,
             ),
           ),
           child: child!,
@@ -156,17 +156,17 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Upload Document',
-          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -199,7 +199,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
             const Center(
               child: Text(
                 'Your documents are private and protected.',
-                style: TextStyle(color: FemFlowColors.textMuted, fontSize: 12),
+                style: TextStyle(color: FemLyraColors.textMuted, fontSize: 12),
               ),
             ),
           ],
@@ -213,7 +213,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       padding: const EdgeInsets.only(bottom: 8, left: 4),
       child: Text(
         label,
-        style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary, fontSize: 14),
+        style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary, fontSize: 14),
       ),
     );
   }
@@ -226,8 +226,8 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
         hintText: hint,
         filled: true,
         fillColor: Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
     );
@@ -239,7 +239,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: FemFlowColors.border),
+        border: Border.all(color: FemLyraColors.border),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
@@ -266,7 +266,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: FemFlowColors.border),
+          border: Border.all(color: FemLyraColors.border),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -275,9 +275,9 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               _selectedDate == null 
                   ? 'Select date' 
                   : DateFormat('MMM dd, yyyy').format(_selectedDate!),
-              style: TextStyle(color: _selectedDate == null ? Colors.grey : FemFlowColors.textPrimary),
+              style: TextStyle(color: _selectedDate == null ? Colors.grey : FemLyraColors.textPrimary),
             ),
-            const Icon(Icons.calendar_today, size: 18, color: FemFlowColors.textMuted),
+            const Icon(Icons.calendar_today, size: 18, color: FemLyraColors.textMuted),
           ],
         ),
       ),
@@ -293,16 +293,16 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: FemFlowColors.border, style: BorderStyle.solid),
+          border: Border.all(color: FemLyraColors.border, style: BorderStyle.solid),
         ),
         child: _selectedFileName == null
             ? Column(
                 children: [
-                  const Icon(Icons.upload_file, size: 40, color: FemFlowColors.textMuted),
+                  const Icon(Icons.upload_file, size: 40, color: FemLyraColors.textMuted),
                   const SizedBox(height: 10),
-                  const Text('Select document file', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+                  const Text('Select document file', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
                   const SizedBox(height: 4),
-                  const Text('PDF, JPG, PNG, WEBP, DOC (Max 10MB)', style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
+                  const Text('PDF, JPG, PNG, WEBP, DOC (Max 10MB)', style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
                 ],
               )
             : Row(
@@ -315,14 +315,14 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       children: [
                         Text(
                           _selectedFileName!,
-                          style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                          style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         if (_selectedFileSize != null)
                           Text(
                             '${(_selectedFileSize! / (1024 * 1024)).toStringAsFixed(2)} MB',
-                            style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+                            style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
                           ),
                       ],
                     ),
@@ -334,7 +334,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       _selectedFileName = null;
                       _selectedFileSize = null;
                     }),
-                    child: const Text('Change', style: TextStyle(color: FemFlowColors.primary)),
+                    child: const Text('Change', style: TextStyle(color: FemLyraColors.primary)),
                   ),
                 ],
               ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/settings_service.dart';
 
@@ -103,7 +103,7 @@ class _UnitsScreenState extends State<UnitsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -113,7 +113,7 @@ class _UnitsScreenState extends State<UnitsScreen> {
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _error != null
               ? Center(
                   child: Padding(
@@ -121,11 +121,11 @@ class _UnitsScreenState extends State<UnitsScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(_error!, textAlign: TextAlign.center, style: const TextStyle(color: FemFlowColors.textSecondary)),
+                        Text(_error!, textAlign: TextAlign.center, style: const TextStyle(color: FemLyraColors.textSecondary)),
                         const SizedBox(height: 16),
                         TextButton(
                           onPressed: _loadSettings,
-                          child: const Text('Retry', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                          child: const Text('Retry', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
                         ),
                       ],
                     ),
@@ -136,40 +136,40 @@ class _UnitsScreenState extends State<UnitsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Weight', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+                      const Text('Weight', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
                       const SizedBox(height: 12),
                       AppCard(
                         padding: EdgeInsets.zero,
                         child: Column(
                           children: [
                             _buildOptionRow('weight_unit', 'kg', 'Kilograms (kg)', _weightUnit == 'kg'),
-                            const Divider(height: 1, indent: 16, endIndent: 16, color: FemFlowColors.border),
+                            const Divider(height: 1, indent: 16, endIndent: 16, color: FemLyraColors.border),
                             _buildOptionRow('weight_unit', 'lb', 'Pounds (lb)', _weightUnit == 'lb'),
                           ],
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const Text('Height', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+                      const Text('Height', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
                       const SizedBox(height: 12),
                       AppCard(
                         padding: EdgeInsets.zero,
                         child: Column(
                           children: [
                             _buildOptionRow('height_unit', 'cm', 'Centimeters (cm)', _heightUnit == 'cm'),
-                            const Divider(height: 1, indent: 16, endIndent: 16, color: FemFlowColors.border),
+                            const Divider(height: 1, indent: 16, endIndent: 16, color: FemLyraColors.border),
                             _buildOptionRow('height_unit', 'ft', 'Feet (ft)', _heightUnit == 'ft'),
                           ],
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const Text('Temperature', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+                      const Text('Temperature', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
                       const SizedBox(height: 12),
                       AppCard(
                         padding: EdgeInsets.zero,
                         child: Column(
                           children: [
                             _buildOptionRow('temperature_unit', 'celsius', 'Celsius (°C)', _temperatureUnit == 'celsius'),
-                            const Divider(height: 1, indent: 16, endIndent: 16, color: FemFlowColors.border),
+                            const Divider(height: 1, indent: 16, endIndent: 16, color: FemLyraColors.border),
                             _buildOptionRow('temperature_unit', 'fahrenheit', 'Fahrenheit (°F)', _temperatureUnit == 'fahrenheit'),
                           ],
                         ),
@@ -188,10 +188,10 @@ class _UnitsScreenState extends State<UnitsScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label, style: const TextStyle(fontSize: 16, color: FemFlowColors.textPrimary)),
+            Text(label, style: const TextStyle(fontSize: 16, color: FemLyraColors.textPrimary)),
             Icon(
               isSelected ? Icons.check_circle : Icons.radio_button_unchecked,
-              color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
+              color: isSelected ? FemLyraColors.primary : FemLyraColors.textMuted,
               size: 22,
             ),
           ],

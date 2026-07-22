@@ -1,59 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'femflow_colors.dart';
+import 'FemLyra_colors.dart';
 
-class FemFlowTheme {
+class FemLyraTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.light(
-        primary: FemFlowColors.primary,
-        secondary: FemFlowColors.deepRose,
-        surface: FemFlowColors.white,
-        error: FemFlowColors.period,
-        onPrimary: FemFlowColors.white,
-        onSecondary: FemFlowColors.white,
-        onSurface: FemFlowColors.textPrimary,
+        primary: FemLyraColors.primary,
+        secondary: FemLyraColors.deepRose,
+        surface: FemLyraColors.white,
+        error: FemLyraColors.period,
+        onPrimary: FemLyraColors.white,
+        onSecondary: FemLyraColors.white,
+        onSurface: FemLyraColors.textPrimary,
       ),
-      scaffoldBackgroundColor: FemFlowColors.background,
+      scaffoldBackgroundColor: FemLyraColors.background,
       textTheme: GoogleFonts.interTextTheme().copyWith(
         displayLarge: GoogleFonts.inter(
-          color: FemFlowColors.textPrimary,
+          color: FemLyraColors.textPrimary,
           fontWeight: FontWeight.bold,
         ),
         displayMedium: GoogleFonts.inter(
-          color: FemFlowColors.textPrimary,
+          color: FemLyraColors.textPrimary,
           fontWeight: FontWeight.bold,
         ),
         titleLarge: GoogleFonts.inter(
-          color: FemFlowColors.textPrimary,
+          color: FemLyraColors.textPrimary,
           fontWeight: FontWeight.w600,
         ),
         bodyLarge: GoogleFonts.inter(
-          color: FemFlowColors.textPrimary,
+          color: FemLyraColors.textPrimary,
         ),
         bodyMedium: GoogleFonts.inter(
-          color: FemFlowColors.textSecondary,
+          color: FemLyraColors.textSecondary,
         ),
         labelLarge: GoogleFonts.inter(
-          color: FemFlowColors.textMuted,
+          color: FemLyraColors.textMuted,
         ),
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: FemFlowColors.background,
+        backgroundColor: FemLyraColors.background,
         elevation: 0,
         centerTitle: false,
-        iconTheme: IconThemeData(color: FemFlowColors.textPrimary),
+        iconTheme: IconThemeData(color: FemLyraColors.textPrimary),
         titleTextStyle: TextStyle(
-          color: FemFlowColors.textPrimary,
+          color: FemLyraColors.textPrimary,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: FemFlowColors.primary,
-          foregroundColor: FemFlowColors.white,
+          backgroundColor: FemLyraColors.primary,
+          foregroundColor: FemLyraColors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -66,17 +66,17 @@ class FemFlowTheme {
         ),
       ),
       cardTheme: CardThemeData(
-        color: FemFlowColors.white,
+        color: FemLyraColors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: FemFlowColors.border),
+          side: const BorderSide(color: FemLyraColors.border),
         ),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: FemFlowColors.white,
-        selectedItemColor: FemFlowColors.primary,
-        unselectedItemColor: FemFlowColors.textMuted,
+        backgroundColor: FemLyraColors.white,
+        selectedItemColor: FemLyraColors.primary,
+        unselectedItemColor: FemLyraColors.textMuted,
         type: BottomNavigationBarType.fixed,
         elevation: 10,
       ),

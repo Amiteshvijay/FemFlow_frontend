@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FemFlowColors {
+class FemLyraColors {
   // Brand Colors
   static const Color primary = Color(0xFFE85D8B);
   static const Color deepRose = Color(0xFFB83F68);

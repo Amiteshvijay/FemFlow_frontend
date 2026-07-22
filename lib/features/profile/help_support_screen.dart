@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'faq_screen.dart';
 import 'safety_disclaimer_screen.dart';
@@ -43,7 +43,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -60,7 +60,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
             _buildNavigationCard(
               context,
               title: 'FAQs',
-              subtitle: 'Find answers to common FemFlow questions.',
+              subtitle: 'Find answers to common FemLyra questions.',
               icon: Icons.question_answer_outlined,
               onTap: () => Navigator.push(
                 context,
@@ -93,7 +93,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
             if (_isLoadingTickets)
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 32),
-                child: Center(child: CircularProgressIndicator(color: FemFlowColors.primary)),
+                child: Center(child: CircularProgressIndicator(color: FemLyraColors.primary)),
               )
             else if (_tickets.isNotEmpty) ...[
               const SizedBox(height: 32),
@@ -106,7 +106,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       context,
                       MaterialPageRoute(builder: (_) => const SupportTicketListScreen()),
                     ).then((_) => _fetchTickets()),
-                    child: const Text('View All', style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                    child: const Text('View All', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
@@ -175,10 +175,10 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: FemFlowColors.primary.withValues(alpha: 0.1),
+                color: FemLyraColors.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: FemFlowColors.primary, size: 24),
+              child: Icon(icon, color: FemLyraColors.primary, size: 24),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -190,7 +190,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: FemFlowColors.textPrimary,
+                      color: FemLyraColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -198,13 +198,13 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     subtitle,
                     style: const TextStyle(
                       fontSize: 13,
-                      color: FemFlowColors.textSecondary,
+                      color: FemLyraColors.textSecondary,
                     ),
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
+            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
           ],
         ),
       ),

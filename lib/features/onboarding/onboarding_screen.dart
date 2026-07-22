@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
-import '../../shared/widgets/femflow_brand_header.dart';
+import '../../shared/widgets/FemLyra_brand_header.dart';
 import '../auth/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +34,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
     OnboardingData(
       title: 'Medical Disclaimer',
-      subtitle: 'FemFlow is not a medical device and does not diagnose or treat conditions. Always consult a healthcare professional for medical advice or treatment.',
+      subtitle: 'FemLyra is not a medical device and does not diagnose or treat conditions. Always consult a healthcare professional for medical advice or treatment.',
       icon: Icons.info_outline_rounded,
     ),
   ];
@@ -56,7 +56,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: SafeArea(
         child: Column(
           children: [
@@ -65,7 +65,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const FemFlowBrandHeader(
+                  const FemLyraBrandHeader(
                     size: BrandHeaderSize.compact,
                   ),
                   if (_currentPage < 2)
@@ -74,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: const Text(
                         'Skip',
                         style: TextStyle(
-                          color: FemFlowColors.textSecondary,
+                          color: FemLyraColors.textSecondary,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -122,14 +122,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       children: [
                         const Text(
                           'Already have an account? ',
-                          style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                          style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
                         ),
                         GestureDetector(
                           onTap: _navigateToLogin,
                           child: const Text(
                             'Login',
                             style: TextStyle(
-                              color: FemFlowColors.primary,
+                              color: FemLyraColors.primary,
                               fontWeight: FontWeight.bold,
                               fontSize: 13,
                             ),
@@ -157,7 +157,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               'Cycle, Health & Care',
               style: TextStyle(
                 fontSize: 16,
-                color: FemFlowColors.textSecondary,
+                color: FemLyraColors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -169,7 +169,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.textPrimary,
+              color: FemLyraColors.textPrimary,
               height: 1.2,
             ),
           ),
@@ -179,7 +179,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 14,
-              color: FemFlowColors.textSecondary,
+              color: FemLyraColors.textSecondary,
               height: 1.5,
             ),
           ),
@@ -188,14 +188,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             width: 240,
             height: 240,
             decoration: const BoxDecoration(
-              color: FemFlowColors.blushMist,
+              color: FemLyraColors.blushMist,
               shape: BoxShape.circle,
             ),
             child: Center(
               child: Icon(
                 data.icon,
                 size: 80,
-                color: FemFlowColors.primary,
+                color: FemLyraColors.primary,
               ),
             ),
           ),
@@ -214,7 +214,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           width: _currentPage == index ? 12 : 8,
           height: 8,
           decoration: BoxDecoration(
-            color: _currentPage == index ? FemFlowColors.primary : FemFlowColors.border,
+            color: _currentPage == index ? FemLyraColors.primary : FemLyraColors.border,
             borderRadius: BorderRadius.circular(4),
           ),
         ),

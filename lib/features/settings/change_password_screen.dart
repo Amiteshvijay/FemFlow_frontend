@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../../shared/widgets/password_guidelines.dart';
 import '../auth/login_screen.dart';
@@ -148,7 +148,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -183,7 +183,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     IconButton(
                       icon: Icon(
                         Icons.help_outline_rounded,
-                        color: _showGuidelines ? FemFlowColors.primary : Colors.grey,
+                        color: _showGuidelines ? FemLyraColors.primary : Colors.grey,
                       ),
                       onPressed: () => setState(() => _showGuidelines = !_showGuidelines),
                     ),

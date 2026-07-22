@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/insights_service.dart';
 import 'symptoms_insights_detail_screen.dart';
@@ -81,13 +81,13 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       body: SafeArea(
         child: _isLoading
-            ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+            ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
             : RefreshIndicator(
                 onRefresh: _fetchData,
-                color: FemFlowColors.primary,
+                color: FemLyraColors.primary,
                 child: CustomScrollView(
                   slivers: [
                     const SliverPadding(
@@ -95,7 +95,7 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
                       sliver: SliverToBoxAdapter(
                         child: Text(
                           'Insights',
-                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                         ),
                       ),
                     ),
@@ -104,9 +104,9 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
                       sliver: SliverToBoxAdapter(
                         child: TabBar(
                           controller: _tabController,
-                          labelColor: FemFlowColors.primary,
-                          unselectedLabelColor: FemFlowColors.textMuted,
-                          indicatorColor: FemFlowColors.primary,
+                          labelColor: FemLyraColors.primary,
+                          unselectedLabelColor: FemLyraColors.textMuted,
+                          indicatorColor: FemLyraColors.primary,
                           tabs: const [
                             Tab(text: 'Cycles'),
                             Tab(text: 'Logs'),
@@ -156,14 +156,14 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
         title: 'Cycle Length',
         value: '${cycle['average_cycle_length'] ?? '--'} days',
         subtitle: (cycle['cycle_regularity'] ?? 'Unknown').toString().toUpperCase(),
-        color: FemFlowColors.primary,
+        color: FemLyraColors.primary,
       ),
       const SizedBox(height: 16),
       _buildPremiumMetricCard(
         title: 'Period Length',
         value: '${cycle['average_period_length'] ?? '--'} days',
         subtitle: 'Prediction Confidence: ${(cycle['prediction_confidence'] ?? 'Low').toString().toUpperCase()}',
-        color: FemFlowColors.period,
+        color: FemLyraColors.period,
       ),
       const SizedBox(height: 20),
       _buildSectionHeader(
@@ -188,7 +188,7 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
       const Text('Recent History', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
       const SizedBox(height: 12),
       if (_historyData.isEmpty)
-        const Text('No history yet.', style: TextStyle(color: FemFlowColors.textMuted))
+        const Text('No history yet.', style: TextStyle(color: FemLyraColors.textMuted))
       else
         ..._historyData.take(isPremium ? 3 : 2).map((item) => _buildHistoryStrip(item)),
       const SizedBox(height: 20),
@@ -218,7 +218,7 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
       ),
       const SizedBox(height: 12),
       if (topSymptoms.isEmpty)
-        const Text('No symptoms logged yet.', style: TextStyle(color: FemFlowColors.textMuted))
+        const Text('No symptoms logged yet.', style: TextStyle(color: FemLyraColors.textMuted))
       else
         ...topSymptoms.map((s) => _buildSymptomRow(s['name'], s['count'])),
       
@@ -229,7 +229,7 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
         const SizedBox(height: 20),
         _buildSectionHeader('Mood Pattern', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MoodInsightsDetailScreen()))),
         const SizedBox(height: 12),
-        const Text('Mood changes seem more frequent near your period phase.', style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary)),
+        const Text('Mood changes seem more frequent near your period phase.', style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary)),
         const SizedBox(height: 20),
         _buildSectionHeader('Pain Trend', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PainEnergyDetailScreen()))),
         const SizedBox(height: 12),
@@ -250,7 +250,7 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
         const Center(
           child: Padding(
             padding: EdgeInsets.all(20),
-            child: Text('No cycle history yet.', style: TextStyle(color: FemFlowColors.textMuted)),
+            child: Text('No cycle history yet.', style: TextStyle(color: FemLyraColors.textMuted)),
           ),
         )
       ];
@@ -280,15 +280,15 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
         featureKey: 'cycle_insights', 
         premiumScreen: const InsightsScreen()
       ),
-      color: FemFlowColors.aiWellness.withValues(alpha: 0.05),
-      border: BorderSide(color: FemFlowColors.aiWellness.withValues(alpha: 0.2)),
+      color: FemLyraColors.aiWellness.withValues(alpha: 0.05),
+      border: BorderSide(color: FemLyraColors.aiWellness.withValues(alpha: 0.2)),
       child: Column(
         children: [
           Row(
             children: [
               const Text(
                 'Advanced Health Logs',
-                style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.aiWellness, fontSize: 16),
+                style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.aiWellness, fontSize: 16),
               ),
               const Spacer(),
               Container(
@@ -304,14 +304,14 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
           const SizedBox(height: 12),
           const Text(
             'Analyze mood patterns, pain levels, and energy trends across your entire cycle.',
-            style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13, height: 1.4),
+            style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13, height: 1.4),
           ),
           const SizedBox(height: 16),
           Row(
             children: [
               Text(
                 'Unlock Mood & Pain Analytics >',
-                style: TextStyle(color: FemFlowColors.aiWellness, fontWeight: FontWeight.bold, fontSize: 13),
+                style: TextStyle(color: FemLyraColors.aiWellness, fontWeight: FontWeight.bold, fontSize: 13),
               ),
             ],
           ),
@@ -324,21 +324,21 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
     return AppCard(
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PremiumPlanScreen())),
       color: Colors.white,
-      border: BorderSide(color: FemFlowColors.primary.withValues(alpha: 0.2)),
+      border: BorderSide(color: FemLyraColors.primary.withValues(alpha: 0.2)),
       child: Row(
         children: [
-          const Icon(Icons.lock_outline, color: FemFlowColors.primary, size: 20),
+          const Icon(Icons.lock_outline, color: FemLyraColors.primary, size: 20),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               message,
-              style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+              style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
             ),
           ),
           const SizedBox(width: 8),
           const Text(
             'UPGRADE',
-            style: TextStyle(color: FemFlowColors.primary, fontWeight: FontWeight.bold, fontSize: 11),
+            style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold, fontSize: 11),
           ),
         ],
       ),
@@ -354,7 +354,7 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
           onPressed: onViewAll,
           child: Text(
             isPremium ? 'View All' : 'Unlock All >', 
-            style: const TextStyle(color: FemFlowColors.primary, fontSize: 13, fontWeight: FontWeight.bold)
+            style: const TextStyle(color: FemLyraColors.primary, fontSize: 13, fontWeight: FontWeight.bold)
           ),
         ),
       ],
@@ -367,11 +367,11 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary)),
+          Text(title, style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary)),
           const SizedBox(height: 8),
           Text(value, style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: color)),
           const SizedBox(height: 4),
-          Text(subtitle, style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
+          Text(subtitle, style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
         ],
       ),
     );
@@ -385,14 +385,14 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: FemFlowColors.blushMist,
+        color: FemLyraColors.blushMist,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(DateFormat('MMMM yyyy').format(start), style: const TextStyle(fontWeight: FontWeight.bold)),
-          Text(length != null ? '$length days' : '-- days', style: const TextStyle(color: FemFlowColors.textSecondary)),
+          Text(length != null ? '$length days' : '-- days', style: const TextStyle(color: FemLyraColors.textSecondary)),
         ],
       ),
     );
@@ -434,7 +434,7 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
+        Text(label, style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
         Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
       ],
     );
@@ -447,7 +447,7 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(name, style: const TextStyle(fontSize: 14)),
-          Text('$count times', style: const TextStyle(color: FemFlowColors.textMuted, fontSize: 12)),
+          Text('$count times', style: const TextStyle(color: FemLyraColors.textMuted, fontSize: 12)),
         ],
       ),
     );
@@ -475,7 +475,7 @@ class _InsightsScreenState extends State<InsightsScreen> with SingleTickerProvid
           rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         ),
         borderData: FlBorderData(show: false),
-        barGroups: trend.asMap().entries.map((e) => BarChartGroupData(x: e.key, barRods: [BarChartRodData(toY: (e.value['value'] as num).toDouble(), color: FemFlowColors.ovulation, width: 14)])).toList(),
+        barGroups: trend.asMap().entries.map((e) => BarChartGroupData(x: e.key, barRods: [BarChartRodData(toY: (e.value['value'] as num).toDouble(), color: FemLyraColors.ovulation, width: 14)])).toList(),
       ),
     );
   }

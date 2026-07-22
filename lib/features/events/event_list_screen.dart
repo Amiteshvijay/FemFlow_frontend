@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/event_service.dart';
 import 'models/event_models.dart';
@@ -16,7 +16,7 @@ class EventListScreen extends StatefulWidget {
 class _EventListScreenState extends State<EventListScreen> {
   final EventService _eventService = EventService();
   bool _isLoading = true;
-  List<FemFlowEvent> _events = [];
+  List<FemLyraEvent> _events = [];
   String? _error;
 
   @override
@@ -51,29 +51,29 @@ class _EventListScreenState extends State<EventListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text(
           'Wellness Events',
-          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: FemFlowColors.textPrimary, size: 20),
+          icon: const Icon(Icons.arrow_back_ios_new, color: FemLyraColors.textPrimary, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _error != null
               ? _buildErrorState()
               : _events.isEmpty
                   ? _buildEmptyState()
                   : RefreshIndicator(
                       onRefresh: _fetchEvents,
-                      color: FemFlowColors.primary,
+                      color: FemLyraColors.primary,
                       child: ListView.builder(
                         padding: const EdgeInsets.all(20),
                         itemCount: _events.length,
@@ -83,7 +83,7 @@ class _EventListScreenState extends State<EventListScreen> {
     );
   }
 
-  Widget _buildEventCard(FemFlowEvent event) {
+  Widget _buildEventCard(FemLyraEvent event) {
     final dateStr = DateFormat('EEE, MMM d, yyyy').format(event.eventDate);
     
     return Padding(
@@ -108,8 +108,8 @@ class _EventListScreenState extends State<EventListScreen> {
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Container(
                   height: 160,
-                  color: FemFlowColors.blushMist,
-                  child: const Icon(Icons.event, size: 48, color: FemFlowColors.primary),
+                  color: FemLyraColors.blushMist,
+                  child: const Icon(Icons.event, size: 48, color: FemLyraColors.primary),
                 ),
               ),
             ),
@@ -128,16 +128,16 @@ class _EventListScreenState extends State<EventListScreen> {
                   const SizedBox(height: 12),
                   Text(
                     event.title,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                   ),
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Icon(Icons.calendar_today_outlined, size: 14, color: FemFlowColors.textMuted),
+                      const Icon(Icons.calendar_today_outlined, size: 14, color: FemLyraColors.textMuted),
                       const SizedBox(width: 6),
                       Text(
                         '$dateStr | ${event.startTime}',
-                        style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                        style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
                       ),
                     ],
                   ),
@@ -151,19 +151,19 @@ class _EventListScreenState extends State<EventListScreen> {
                             children: [
                               CircleAvatar(
                                 radius: 12,
-                                backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
+                                backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
                                 backgroundImage: event.guestSpeakerPhoto != null 
                                     ? NetworkImage(event.guestSpeakerPhoto!) 
                                     : null,
                                 child: event.guestSpeakerPhoto == null 
-                                    ? const Icon(Icons.person, size: 14, color: FemFlowColors.primary) 
+                                    ? const Icon(Icons.person, size: 14, color: FemLyraColors.primary) 
                                     : null,
                               ),
                               const SizedBox(width: 8),
                               Flexible(
                                 child: Text(
                                   event.guestSpeakerName!,
-                                  style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+                                  style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -186,12 +186,12 @@ class _EventListScreenState extends State<EventListScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: FemFlowColors.primary.withValues(alpha: 0.1),
+        color: FemLyraColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         category.replaceAll('_', ' ').toUpperCase(),
-        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
       ),
     );
   }
@@ -213,15 +213,15 @@ class _EventListScreenState extends State<EventListScreen> {
     );
   }
 
-  Widget _buildCTA(FemFlowEvent event) {
+  Widget _buildCTA(FemLyraEvent event) {
     bool isClosed = event.status == 'closed' || event.status == 'completed' || event.status == 'cancelled';
     
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: event.isRegistered 
-            ? FemFlowColors.fertileWindow.withValues(alpha: 0.1)
-            : isClosed ? Colors.grey[200] : FemFlowColors.primary,
+            ? FemLyraColors.fertileWindow.withValues(alpha: 0.1)
+            : isClosed ? Colors.grey[200] : FemLyraColors.primary,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
@@ -232,7 +232,7 @@ class _EventListScreenState extends State<EventListScreen> {
           fontSize: 12, 
           fontWeight: FontWeight.bold, 
           color: event.isRegistered 
-              ? FemFlowColors.fertileWindow 
+              ? FemLyraColors.fertileWindow 
               : isClosed ? Colors.grey : Colors.white
         ),
       ),
@@ -248,12 +248,12 @@ class _EventListScreenState extends State<EventListScreen> {
           const SizedBox(height: 24),
           const Text(
             'No upcoming events',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
           ),
           const SizedBox(height: 8),
           const Text(
             'Check back soon for more wellness sessions.',
-            style: TextStyle(color: FemFlowColors.textSecondary),
+            style: TextStyle(color: FemLyraColors.textSecondary),
           ),
         ],
       ),
@@ -265,11 +265,11 @@ class _EventListScreenState extends State<EventListScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_error!, style: const TextStyle(color: FemFlowColors.textSecondary)),
+          Text(_error!, style: const TextStyle(color: FemLyraColors.textSecondary)),
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: _fetchEvents,
-            style: ElevatedButton.styleFrom(backgroundColor: FemFlowColors.primary),
+            style: ElevatedButton.styleFrom(backgroundColor: FemLyraColors.primary),
             child: const Text('Retry'),
           ),
         ],

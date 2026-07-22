@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../auth/data/auth_service.dart';
 import 'verify_pin_otp_screen.dart';
 
@@ -38,7 +38,7 @@ class _ForgotPinEmailScreenState extends State<ForgotPinEmailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Error: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     } finally {
@@ -49,7 +49,7 @@ class _ForgotPinEmailScreenState extends State<ForgotPinEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Reset App Lock'),
         centerTitle: true,
@@ -70,7 +70,7 @@ class _ForgotPinEmailScreenState extends State<ForgotPinEmailScreen> {
             const SizedBox(height: 12),
             const Text(
               'Enter your registered email address. We will send an OTP to verify your identity and disable the app lock.',
-              style: TextStyle(color: FemFlowColors.textSecondary, height: 1.5),
+              style: TextStyle(color: FemLyraColors.textSecondary, height: 1.5),
             ),
             const SizedBox(height: 32),
             
@@ -85,7 +85,7 @@ class _ForgotPinEmailScreenState extends State<ForgotPinEmailScreen> {
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: FemFlowColors.border),
+                  borderSide: const BorderSide(color: FemLyraColors.border),
                 ),
               ),
             ),
@@ -96,7 +96,7 @@ class _ForgotPinEmailScreenState extends State<ForgotPinEmailScreen> {
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _sendOtp,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemFlowColors.primary,
+                  backgroundColor: FemLyraColors.primary,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

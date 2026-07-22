@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'data/mood_service.dart';
@@ -84,7 +84,7 @@ class _MoodListScreenState extends State<MoodListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: _isSearching 
           ? TextField(
@@ -105,7 +105,7 @@ class _MoodListScreenState extends State<MoodListScreen> {
         ],
       ),
       body: _isLoading && _catalog == null
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : Column(
               children: [
                 Expanded(

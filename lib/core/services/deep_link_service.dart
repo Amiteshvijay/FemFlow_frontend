@@ -69,7 +69,7 @@ class DeepLinkService {
             sanitizedReferrer = Uri.decodeFull(sanitizedReferrer);
           } catch (_) {}
 
-          final uri = Uri.parse('femflow://partner/accept?$sanitizedReferrer');
+          final uri = Uri.parse('FemLyra://partner/accept?$sanitizedReferrer');
           debugPrint('Redirecting parsed install referrer URI: $uri');
           _handleUri(uri);
         }
@@ -83,7 +83,7 @@ class DeepLinkService {
     debugPrint('Received Deep Link: $uri');
     _uriController.add(uri);
     
-    // Referral Pattern: https://femflow.app/ref/CODE
+    // Referral Pattern: https://FemLyra.app/ref/CODE
     if (uri.path.startsWith('/ref/')) {
       final code = uri.pathSegments.last;
       if (code.isNotEmpty) {
@@ -100,9 +100,9 @@ class DeepLinkService {
     final isPartnerPath = path == '/partner/accept' || path == '/partner/accept/';
     final isCustomPartnerPath = path == '/accept' || path == '/accept/';
 
-    final isCustomSchemePartner = uri.scheme == 'femflow' && uri.host == 'partner' && isCustomPartnerPath;
+    final isCustomSchemePartner = uri.scheme == 'FemLyra' && uri.host == 'partner' && isCustomPartnerPath;
     final isWebSchemePartner = (uri.scheme == 'https' || uri.scheme == 'http') &&
-        (uri.host == 'femflow.in' || uri.host == 'femflow.app') &&
+        (uri.host == 'femlyra.com' || uri.host == 'FemLyra.app') &&
         isPartnerPath;
 
     if (isCustomSchemePartner || isWebSchemePartner) {

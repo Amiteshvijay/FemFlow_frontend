@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'models/wellness_check_models.dart';
@@ -57,15 +57,15 @@ class WellnessCheckResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final showDoctorButton = result.normalizedScore < 50;
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.close, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Check Result', style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
+        title: const Text('Check Result', style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -100,8 +100,8 @@ class WellnessCheckResultScreen extends StatelessWidget {
                   icon: const Icon(Icons.medical_services_outlined, size: 20),
                   label: const Text('Talk to a Doctor', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: FemFlowColors.primary,
-                    side: const BorderSide(color: FemFlowColors.primary),
+                    foregroundColor: FemLyraColors.primary,
+                    side: const BorderSide(color: FemLyraColors.primary),
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -119,7 +119,7 @@ class WellnessCheckResultScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Ask FemAI about this result', style: TextStyle(color: FemFlowColors.aiWellness, fontWeight: FontWeight.bold, fontSize: 16)),
+              child: const Text('Ask FemAI about this result', style: TextStyle(color: FemLyraColors.aiWellness, fontWeight: FontWeight.bold, fontSize: 16)),
             ),
             const SizedBox(height: 40),
           ],
@@ -133,7 +133,7 @@ class WellnessCheckResultScreen extends StatelessWidget {
       padding: const EdgeInsets.all(40),
       child: Column(
         children: [
-          Text(result.templateTitle, style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary, fontWeight: FontWeight.w500)),
+          Text(result.templateTitle, style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary, fontWeight: FontWeight.w500)),
           const SizedBox(height: 24),
           Stack(
             alignment: Alignment.center,
@@ -144,17 +144,17 @@ class WellnessCheckResultScreen extends StatelessWidget {
                 child: CircularProgressIndicator(
                   value: result.normalizedScore / 100,
                   strokeWidth: 14,
-                  backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
-                  valueColor: const AlwaysStoppedAnimation<Color>(FemFlowColors.primary),
+                  backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
+                  valueColor: const AlwaysStoppedAnimation<Color>(FemLyraColors.primary),
                 ),
               ),
               Column(
                 children: [
                   Text(
                     '${result.normalizedScore}',
-                    style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+                    style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
                   ),
-                  const Text('SCORE', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textMuted, letterSpacing: 2)),
+                  const Text('SCORE', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textMuted, letterSpacing: 2)),
                 ],
               ),
             ],
@@ -163,12 +163,12 @@ class WellnessCheckResultScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: FemFlowColors.primary.withValues(alpha: 0.1),
+              color: FemLyraColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               result.resultLabel,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
             ),
           ),
         ],
@@ -183,7 +183,7 @@ class WellnessCheckResultScreen extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           title,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
         ),
       ),
     );
@@ -194,7 +194,7 @@ class WellnessCheckResultScreen extends StatelessWidget {
       color: Colors.white,
       child: Text(
         result.recommendation ?? 'Your answers suggest a stable wellness pattern recently. Continue regular logging to improve cycle-linked insights.',
-        style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary, height: 1.6),
+        style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary, height: 1.6),
       ),
     );
   }
@@ -211,16 +211,16 @@ class WellnessCheckResultScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: FemFlowColors.aiWellness.withValues(alpha: 0.1),
+        color: FemLyraColors.aiWellness.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: FemFlowColors.aiWellness.withValues(alpha: 0.3)),
+        border: Border.all(color: FemLyraColors.aiWellness.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.analytics_outlined, size: 16, color: FemFlowColors.aiWellness),
+          const Icon(Icons.analytics_outlined, size: 16, color: FemLyraColors.aiWellness),
           const SizedBox(width: 8),
-          Text(factor, style: const TextStyle(color: FemFlowColors.aiWellness, fontSize: 13, fontWeight: FontWeight.bold)),
+          Text(factor, style: const TextStyle(color: FemLyraColors.aiWellness, fontSize: 13, fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -235,17 +235,17 @@ class WellnessCheckResultScreen extends StatelessWidget {
     ];
 
     return AppCard(
-      color: FemFlowColors.fertileWindow.withValues(alpha: 0.05),
-      border: const BorderSide(color: FemFlowColors.fertileWindow, width: 0.5),
+      color: FemLyraColors.fertileWindow.withValues(alpha: 0.05),
+      border: const BorderSide(color: FemLyraColors.fertileWindow, width: 0.5),
       child: Column(
         children: steps.map((s) => Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.check_circle_outline, size: 20, color: FemFlowColors.fertileWindow),
+              const Icon(Icons.check_circle_outline, size: 20, color: FemLyraColors.fertileWindow),
               const SizedBox(width: 12),
-              Expanded(child: Text(s, style: const TextStyle(fontSize: 15, color: FemFlowColors.textPrimary))),
+              Expanded(child: Text(s, style: const TextStyle(fontSize: 15, color: FemLyraColors.textPrimary))),
             ],
           ),
         )).toList(),
@@ -259,18 +259,18 @@ class WellnessCheckResultScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: FemFlowColors.border.withValues(alpha: 0.5)),
+        border: Border.all(color: FemLyraColors.border.withValues(alpha: 0.5)),
       ),
       child: Column(
         children: const [
           Row(
             children: [
-              Icon(Icons.info_outline, size: 20, color: FemFlowColors.textMuted),
+              Icon(Icons.info_outline, size: 20, color: FemLyraColors.textMuted),
               SizedBox(width: 12),
               Expanded(
                 child: Text(
                   'This is an educational wellness indicator, not a medical diagnosis.',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: FemFlowColors.textMuted),
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: FemLyraColors.textMuted),
                 ),
               ),
             ],
@@ -278,7 +278,7 @@ class WellnessCheckResultScreen extends StatelessWidget {
           SizedBox(height: 8),
           Text(
             'Your answers suggest this may need extra support. If this feels severe, urgent, or affects daily life, please consider contacting a qualified doctor.',
-            style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted, height: 1.4),
+            style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted, height: 1.4),
           ),
         ],
       ),

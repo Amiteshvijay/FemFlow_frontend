@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'data/support_service.dart';
@@ -99,7 +99,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -119,24 +119,24 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 children: [
                   const Text(
                     'Get in touch',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                   ),
                   const SizedBox(height: 8),
                   const Text(
                     'Have a question or feedback? We\'d love to hear from you.',
-                    style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary),
+                    style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary),
                   ),
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      const Icon(Icons.email_outlined, color: FemFlowColors.primary, size: 20),
+                      const Icon(Icons.email_outlined, color: FemLyraColors.primary, size: 20),
                       const SizedBox(width: 8),
                       Text(
-                        'support@femflow.in',
+                        'support@femlyra.com',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: FemFlowColors.primary.withValues(alpha: 0.8),
+                          color: FemLyraColors.primary.withValues(alpha: 0.8),
                         ),
                       ),
                     ],
@@ -213,7 +213,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
         ),
         const SizedBox(height: 8),
         TextFormField(
@@ -222,20 +222,20 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(color: FemFlowColors.textMuted, fontSize: 14),
+            hintStyle: const TextStyle(color: FemLyraColors.textMuted, fontSize: 14),
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: FemFlowColors.border),
+              borderSide: const BorderSide(color: FemLyraColors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: FemFlowColors.border),
+              borderSide: const BorderSide(color: FemLyraColors.border),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: FemFlowColors.primary),
+              borderSide: const BorderSide(color: FemLyraColors.primary),
             ),
             contentPadding: const EdgeInsets.all(16),
           ),

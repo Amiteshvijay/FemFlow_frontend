@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:femflow/core/theme/femflow_colors.dart';
-import 'package:femflow/shared/widgets/primary_button.dart';
+import 'package:FemLyra/core/theme/FemLyra_colors.dart';
+import 'package:FemLyra/shared/widgets/primary_button.dart';
 import '../data/doctor_consultation_service.dart';
 import '../models/doctor_models.dart';
 
@@ -122,7 +122,7 @@ class _DoctorReviewBottomSheetState extends State<DoctorReviewBottomSheet> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: FemFlowColors.primary),
+                  borderSide: const BorderSide(color: FemLyraColors.primary),
                 ),
               ),
             ),
@@ -143,8 +143,8 @@ class _DoctorReviewBottomSheetState extends State<DoctorReviewBottomSheet> {
       children: [
         CircleAvatar(
           radius: 25,
-          backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
-          child: const Icon(Icons.person, color: FemFlowColors.primary),
+          backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
+          child: const Icon(Icons.person, color: FemLyraColors.primary),
         ),
         const SizedBox(width: 16),
         Column(
@@ -185,8 +185,8 @@ class _DoctorReviewBottomSheetState extends State<DoctorReviewBottomSheet> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: isSelected ? FemFlowColors.primary : Colors.white,
-              border: Border.all(color: isSelected ? FemFlowColors.primary : Colors.grey.shade300),
+              color: isSelected ? FemLyraColors.primary : Colors.white,
+              border: Border.all(color: isSelected ? FemLyraColors.primary : Colors.grey.shade300),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(

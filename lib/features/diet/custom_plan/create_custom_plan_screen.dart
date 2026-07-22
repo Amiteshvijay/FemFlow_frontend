@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/primary_button.dart';
 import 'custom_plan_models.dart';
 import 'custom_plan_service.dart';
@@ -139,7 +139,7 @@ class _CreateCustomPlanScreenState extends State<CreateCustomPlanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Create Custom Diet Plan', style: TextStyle(fontWeight: FontWeight.bold)),
         leading: IconButton(
@@ -179,8 +179,8 @@ class _CreateCustomPlanScreenState extends State<CreateCustomPlanScreen> {
         children: [
           LinearProgressIndicator(
             value: (_currentStep + 1) / _totalSteps,
-            backgroundColor: FemFlowColors.primary.withValues(alpha: 0.1),
-            color: FemFlowColors.primary,
+            backgroundColor: FemLyraColors.primary.withValues(alpha: 0.1),
+            color: FemLyraColors.primary,
             minHeight: 6,
             borderRadius: BorderRadius.circular(3),
           ),
@@ -189,9 +189,9 @@ class _CreateCustomPlanScreenState extends State<CreateCustomPlanScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Step ${_currentStep + 1} of $_totalSteps', 
-                style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, fontWeight: FontWeight.bold)),
+                style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, fontWeight: FontWeight.bold)),
               Text(_getStepTitle(), 
-                style: const TextStyle(fontSize: 12, color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                style: const TextStyle(fontSize: 12, color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
             ],
           ),
         ],
@@ -287,19 +287,19 @@ class _CreateCustomPlanScreenState extends State<CreateCustomPlanScreen> {
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: isSelected ? FemFlowColors.primary.withValues(alpha: 0.05) : Colors.white,
-                  border: Border.all(color: isSelected ? FemFlowColors.primary : Colors.grey.shade200),
+                  color: isSelected ? FemLyraColors.primary.withValues(alpha: 0.05) : Colors.white,
+                  border: Border.all(color: isSelected ? FemLyraColors.primary : Colors.grey.shade200),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Row(
                   children: [
-                    Icon(g['icon'] as IconData, color: isSelected ? FemFlowColors.primary : Colors.grey),
+                    Icon(g['icon'] as IconData, color: isSelected ? FemLyraColors.primary : Colors.grey),
                     const SizedBox(width: 16),
                     Text(g['title'] as String, style: TextStyle(fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
                     const Spacer(),
                     if (isPremiumOnly && !isPremium)
-                      const Icon(Icons.lock_outline, color: FemFlowColors.textMuted, size: 18),
-                    if (isSelected) const Icon(Icons.check_circle, color: FemFlowColors.primary, size: 20),
+                      const Icon(Icons.lock_outline, color: FemLyraColors.textMuted, size: 18),
+                    if (isSelected) const Icon(Icons.check_circle, color: FemLyraColors.primary, size: 20),
                   ],
                 ),
               ),
@@ -491,8 +491,8 @@ class _CreateCustomPlanScreenState extends State<CreateCustomPlanScreen> {
           ),
           const SizedBox(height: 24),
           const Text(
-            'Important: FemFlow uses your entered advice to personalize your plan, but it does not replace medical care.',
-            style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, fontStyle: FontStyle.italic),
+            'Important: FemLyra uses your entered advice to personalize your plan, but it does not replace medical care.',
+            style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, fontStyle: FontStyle.italic),
           ),
         ],
       ),
@@ -649,7 +649,7 @@ class _CreateCustomPlanScreenState extends State<CreateCustomPlanScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: FemFlowColors.textSecondary)),
+          Text(label, style: const TextStyle(color: FemLyraColors.textSecondary)),
           Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),
@@ -666,7 +666,7 @@ class _CreateCustomPlanScreenState extends State<CreateCustomPlanScreen> {
         children: [
           Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          Text(subtitle, style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary)),
+          Text(subtitle, style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary)),
           const SizedBox(height: 32),
           child,
         ],
@@ -680,8 +680,8 @@ class _CreateCustomPlanScreenState extends State<CreateCustomPlanScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? FemFlowColors.primary.withValues(alpha: 0.05) : Colors.white,
-          border: Border.all(color: isSelected ? FemFlowColors.primary : Colors.grey.shade200),
+          color: isSelected ? FemLyraColors.primary.withValues(alpha: 0.05) : Colors.white,
+          border: Border.all(color: isSelected ? FemLyraColors.primary : Colors.grey.shade200),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -692,11 +692,11 @@ class _CreateCustomPlanScreenState extends State<CreateCustomPlanScreen> {
                 children: [
                   Text(title, style: TextStyle(fontWeight: isSelected ? FontWeight.bold : FontWeight.w600)),
                   if (subtitle != null)
-                    Text(subtitle, style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                    Text(subtitle, style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                 ],
               ),
             ),
-            if (isSelected) const Icon(Icons.check_circle, color: FemFlowColors.primary, size: 20),
+            if (isSelected) const Icon(Icons.check_circle, color: FemLyraColors.primary, size: 20),
           ],
         ),
       ),

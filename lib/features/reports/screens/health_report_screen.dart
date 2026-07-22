@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../../../shared/widgets/primary_button.dart';
 import '../data/report_service.dart';
@@ -27,7 +27,7 @@ class _HealthReportScreenState extends State<HealthReportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Export Health Report', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
@@ -52,7 +52,7 @@ class _HealthReportScreenState extends State<HealthReportScreen> {
             const Center(
               child: Text(
                 'Professional A4 PDF summary for your doctor.',
-                style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+                style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
               ),
             ),
           ],
@@ -66,7 +66,7 @@ class _HealthReportScreenState extends State<HealthReportScreen> {
       padding: const EdgeInsets.only(bottom: 12, left: 4),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
       ),
     );
   }
@@ -85,19 +85,19 @@ class _HealthReportScreenState extends State<HealthReportScreen> {
             RadioListTile<String>(
               title: const Text('Last 1 Month'),
               value: '1_month',
-              activeColor: FemFlowColors.primary,
+              activeColor: FemLyraColors.primary,
             ),
             const Divider(height: 1),
             RadioListTile<String>(
               title: const Text('Last 3 Months'),
               value: '3_months',
-              activeColor: FemFlowColors.primary,
+              activeColor: FemLyraColors.primary,
             ),
             const Divider(height: 1),
             RadioListTile<String>(
               title: const Text('Last 6 Months'),
               value: '6_months',
-              activeColor: FemFlowColors.primary,
+              activeColor: FemLyraColors.primary,
             ),
             const Divider(height: 1),
             ListTile(
@@ -123,7 +123,7 @@ class _HealthReportScreenState extends State<HealthReportScreen> {
             title: const Text('Append Raw Activity Logs'),
             subtitle: const Text('Detailed table of daily logs in appendix'),
             value: _includeRawLogs,
-            activeColor: FemFlowColors.primary,
+            activeColor: FemLyraColors.primary,
             onChanged: (val) => setState(() => _includeRawLogs = val!),
           ),
           const Divider(height: 1),
@@ -131,7 +131,7 @@ class _HealthReportScreenState extends State<HealthReportScreen> {
             title: const Text('Health Vault Summary'),
             subtitle: const Text('Metadata of uploaded documents'),
             value: _includeVault,
-            activeColor: FemFlowColors.primary,
+            activeColor: FemLyraColors.primary,
             onChanged: (val) => setState(() => _includeVault = val!),
           ),
           const Divider(height: 1),
@@ -139,7 +139,7 @@ class _HealthReportScreenState extends State<HealthReportScreen> {
             title: const Text('FemAI Priority Insights'),
             subtitle: const Text('Personalized wellness summary'),
             value: _includeAI,
-            activeColor: FemFlowColors.primary,
+            activeColor: FemLyraColors.primary,
             onChanged: (val) => setState(() => _includeAI = val!),
           ),
         ],

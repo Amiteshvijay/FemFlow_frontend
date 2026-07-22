@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/femflow_colors.dart';
+import '../../../../core/theme/FemLyra_colors.dart';
 import '../../../../shared/widgets/app_card.dart';
 
 class DoctorAdviceCard extends StatelessWidget {
@@ -44,15 +44,15 @@ class DoctorAdviceCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Doctor Advice', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text('Clinical personalization', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                      Text('Clinical personalization', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                     ],
                   ),
                 ),
                 Switch(
                   value: isEnabled,
                   onChanged: onToggle,
-                  activeThumbColor: FemFlowColors.primary,
-                  activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
+                  activeThumbColor: FemLyraColors.primary,
+                  activeTrackColor: FemLyraColors.primary.withValues(alpha: 0.5),
                 ),
               ],
             ),
@@ -75,7 +75,7 @@ class DoctorAdviceCard extends StatelessWidget {
                         adviceNotes!,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary, fontStyle: FontStyle.italic),
+                        style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary, fontStyle: FontStyle.italic),
                       ),
                       const SizedBox(height: 12),
                     ],
@@ -85,13 +85,13 @@ class DoctorAdviceCard extends StatelessWidget {
                         children: medicalConditions.map((condition) => Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: FemFlowColors.primary.withValues(alpha: 0.05),
+                            color: FemLyraColors.primary.withValues(alpha: 0.05),
                             borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.1)),
+                            border: Border.all(color: FemLyraColors.primary.withValues(alpha: 0.1)),
                           ),
                           child: Text(
                             condition.toUpperCase(),
-                            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+                            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
                           ),
                         )).toList(),
                       ),
@@ -99,9 +99,9 @@ class DoctorAdviceCard extends StatelessWidget {
                     ],
                     const Row(
                       children: [
-                        Text('Edit Advice Details', style: TextStyle(fontSize: 13, color: FemFlowColors.primary, fontWeight: FontWeight.bold)),
+                        Text('Edit Advice Details', style: TextStyle(fontSize: 13, color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
                         SizedBox(width: 4),
-                        Icon(Icons.arrow_forward_ios, size: 12, color: FemFlowColors.primary),
+                        Icon(Icons.arrow_forward_ios, size: 12, color: FemLyraColors.primary),
                       ],
                     ),
                   ],

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'data/auth_service.dart';
 import 'providers/auth_provider.dart';
@@ -111,12 +111,12 @@ class _TwoFactorOtpScreenState extends State<TwoFactorOtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -126,7 +126,7 @@ class _TwoFactorOtpScreenState extends State<TwoFactorOtpScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(Icons.shield_outlined, size: 64, color: FemFlowColors.primary),
+              const Icon(Icons.shield_outlined, size: 64, color: FemLyraColors.primary),
               const SizedBox(height: 24),
               const Text(
                 'Verify Login',
@@ -136,7 +136,7 @@ class _TwoFactorOtpScreenState extends State<TwoFactorOtpScreen> {
               Text(
                 'We sent a 6-digit code to\n${widget.maskedEmail}',
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: FemFlowColors.textSecondary, height: 1.4),
+                style: const TextStyle(color: FemLyraColors.textSecondary, height: 1.4),
               ),
               const SizedBox(height: 40),
               
@@ -148,7 +148,7 @@ class _TwoFactorOtpScreenState extends State<TwoFactorOtpScreen> {
               if (_error != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 24),
-                  child: Text(_error!, style: const TextStyle(color: FemFlowColors.period, fontSize: 13)),
+                  child: Text(_error!, style: const TextStyle(color: FemLyraColors.period, fontSize: 13)),
                 ),
               
               const SizedBox(height: 40),
@@ -168,7 +168,7 @@ class _TwoFactorOtpScreenState extends State<TwoFactorOtpScreen> {
                     child: Text(
                       _resendCountdown == 0 ? 'Resend' : 'Resend in ${_resendCountdown}s',
                       style: TextStyle(
-                        color: _resendCountdown == 0 ? FemFlowColors.primary : FemFlowColors.textMuted,
+                        color: _resendCountdown == 0 ? FemLyraColors.primary : FemLyraColors.textMuted,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

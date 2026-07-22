@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:femflow/core/theme/femflow_colors.dart';
-import 'package:femflow/core/network/api_client.dart';
-import 'package:femflow/shared/widgets/app_card.dart';
+import 'package:FemLyra/core/theme/FemLyra_colors.dart';
+import 'package:FemLyra/core/network/api_client.dart';
+import 'package:FemLyra/shared/widgets/app_card.dart';
 import 'providers/cart_provider.dart';
 import 'lab_payment_screen.dart';
 
@@ -68,17 +68,17 @@ class _LabCartScreenState extends State<LabCartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Lab Booking Cart',
-          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold),
+          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -116,30 +116,30 @@ class _LabCartScreenState extends State<LabCartScreen> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: FemFlowColors.blushMist.withValues(alpha: 0.2),
+              color: FemLyraColors.blushMist.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
             child: const Icon(
               Icons.shopping_bag_outlined,
               size: 60,
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
             ),
           ),
           const SizedBox(height: 24),
           const Text(
             'Your cart is empty',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
           ),
           const SizedBox(height: 8),
           const Text(
             'Add some packages to get started.',
-            style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+            style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
           ),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () => Navigator.pop(context),
             style: ElevatedButton.styleFrom(
-              backgroundColor: FemFlowColors.primary,
+              backgroundColor: FemLyraColors.primary,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
@@ -163,24 +163,24 @@ class _LabCartScreenState extends State<LabCartScreen> {
                 children: [
                   Text(
                     item['name'],
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: FemFlowColors.textPrimary),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: FemLyraColors.textPrimary),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'Reports in ${item['turnaround']}',
-                    style: const TextStyle(fontSize: 11, color: FemFlowColors.textSecondary),
+                    style: const TextStyle(fontSize: 11, color: FemLyraColors.textSecondary),
                   ),
                   const SizedBox(height: 12),
                   Row(
                     children: [
                       Text(
                         '₹${item['sellingPrice']}',
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary, fontSize: 16),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 16),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         '₹${item['mrp']}',
-                        style: const TextStyle(decoration: TextDecoration.lineThrough, color: FemFlowColors.textMuted, fontSize: 12),
+                        style: const TextStyle(decoration: TextDecoration.lineThrough, color: FemLyraColors.textMuted, fontSize: 12),
                       ),
                     ],
                   ),
@@ -218,32 +218,32 @@ class _LabCartScreenState extends State<LabCartScreen> {
           children: [
             const Text(
               'Pricing Summary',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: FemFlowColors.textPrimary),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: FemLyraColors.textPrimary),
             ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Subtotal', style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13)),
-                Text('₹${cart.subtotal.toInt()}', style: const TextStyle(fontWeight: FontWeight.w600, color: FemFlowColors.textPrimary, fontSize: 13)),
+                const Text('Subtotal', style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13)),
+                Text('₹${cart.subtotal.toInt()}', style: const TextStyle(fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary, fontSize: 13)),
               ],
             ),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Home Collection Charges', style: TextStyle(color: FemFlowColors.textSecondary, fontSize: 13)),
-                Text('₹${cart.collectionFee.toInt()}', style: const TextStyle(fontWeight: FontWeight.w600, color: FemFlowColors.textPrimary, fontSize: 13)),
+                const Text('Home Collection Charges', style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13)),
+                Text('₹${cart.collectionFee.toInt()}', style: const TextStyle(fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary, fontSize: 13)),
               ],
             ),
             const SizedBox(height: 12),
-            const Divider(color: FemFlowColors.border),
+            const Divider(color: FemLyraColors.border),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary, fontSize: 15)),
-                Text('₹${cart.totalAmount.toInt()}', style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary, fontSize: 18)),
+                const Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary, fontSize: 15)),
+                Text('₹${cart.totalAmount.toInt()}', style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 18)),
               ],
             ),
             const SizedBox(height: 24),
@@ -253,7 +253,7 @@ class _LabCartScreenState extends State<LabCartScreen> {
               child: ElevatedButton(
                 onPressed: _isCheckingOut ? null : () => _handleCheckout(cart),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemFlowColors.primary,
+                  backgroundColor: FemLyraColors.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 ),

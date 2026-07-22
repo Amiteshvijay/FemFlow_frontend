@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'models/community_models.dart';
 
@@ -11,17 +11,17 @@ class CommunityPremiumLockedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: FemFlowColors.textPrimary, size: 20),
+          icon: const Icon(Icons.arrow_back_ios_new, color: FemLyraColors.textPrimary, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           preview.title,
-          style: const TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+          style: const TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -29,12 +29,12 @@ class CommunityPremiumLockedScreen extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            const Icon(Icons.lock_person_rounded, size: 80, color: FemFlowColors.primary),
+            const Icon(Icons.lock_person_rounded, size: 80, color: FemLyraColors.primary),
             const SizedBox(height: 24),
             Text(
               preview.subtitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary, height: 1.5),
+              style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary, height: 1.5),
             ),
             const SizedBox(height: 32),
             _buildLockedCard(),
@@ -55,12 +55,12 @@ class CommunityPremiumLockedScreen extends StatelessWidget {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Maybe Later', style: TextStyle(color: FemFlowColors.textMuted)),
+              child: const Text('Maybe Later', style: TextStyle(color: FemLyraColors.textMuted)),
             ),
             const SizedBox(height: 24),
             const Text(
               'Community support is not medical advice.',
-              style: TextStyle(fontSize: 11, color: FemFlowColors.textMuted, fontStyle: FontStyle.italic),
+              style: TextStyle(fontSize: 11, color: FemLyraColors.textMuted, fontStyle: FontStyle.italic),
             ),
           ],
         ),
@@ -73,9 +73,9 @@ class CommunityPremiumLockedScreen extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: FemFlowColors.primary.withValues(alpha: 0.05),
+        color: FemLyraColors.primary.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: FemFlowColors.primary.withValues(alpha: 0.1)),
+        border: Border.all(color: FemLyraColors.primary.withValues(alpha: 0.1)),
       ),
       child: const Row(
         children: [
@@ -83,8 +83,8 @@ class CommunityPremiumLockedScreen extends StatelessWidget {
           SizedBox(width: 16),
           Expanded(
             child: Text(
-              'Community is included with FemFlow Premium.',
-              style: TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+              'Community is included with FemLyra Premium.',
+              style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
             ),
           ),
         ],
@@ -104,7 +104,7 @@ class CommunityPremiumLockedScreen extends StatelessWidget {
             children: [
               const Icon(Icons.check_circle_outline, color: Colors.green, size: 20),
               const SizedBox(width: 12),
-              Expanded(child: Text(b, style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary))),
+              Expanded(child: Text(b, style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary))),
             ],
           ),
         )),
@@ -127,7 +127,7 @@ class CommunityPremiumLockedScreen extends StatelessWidget {
               color: Colors.grey.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text(r, style: const TextStyle(fontSize: 13, color: FemFlowColors.textMuted)),
+            child: Text(r, style: const TextStyle(fontSize: 13, color: FemLyraColors.textMuted)),
           )).toList(),
         ),
       ],

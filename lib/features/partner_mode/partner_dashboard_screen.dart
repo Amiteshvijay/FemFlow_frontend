@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../core/network/api_client.dart';
 import '../auth/providers/auth_provider.dart';
@@ -43,7 +43,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Your partner connection is no longer active. Logging out...'),
-              backgroundColor: FemFlowColors.period,
+              backgroundColor: FemLyraColors.period,
             ),
           );
           Future.delayed(const Duration(seconds: 2), () {
@@ -83,9 +83,9 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
     final canPop = Navigator.canPop(context);
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
-        title: const Text('Partner Dashboard', style: TextStyle(color: FemFlowColors.textPrimary)),
+        title: const Text('Partner Dashboard', style: TextStyle(color: FemLyraColors.textPrimary)),
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: canPop
@@ -97,19 +97,19 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
       ),
       body: SafeArea(
         child: _isLoading
-            ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+            ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
             : _errorMessage != null
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.error_outline, size: 48, color: FemFlowColors.period),
+                        const Icon(Icons.error_outline, size: 48, color: FemLyraColors.period),
                         const SizedBox(height: 16),
                         Text('Failed to load dashboard', style: const TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 32),
-                          child: Text(_errorMessage!, textAlign: TextAlign.center, style: const TextStyle(color: FemFlowColors.textSecondary)),
+                          child: Text(_errorMessage!, textAlign: TextAlign.center, style: const TextStyle(color: FemLyraColors.textSecondary)),
                         ),
                         const SizedBox(height: 16),
                         TextButton(onPressed: _fetchDashboard, child: const Text('Retry')),
@@ -134,12 +134,12 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
                                       style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
-                                        color: FemFlowColors.textPrimary,
+                                        color: FemLyraColors.textPrimary,
                                       ),
                                     ),
                                     Text(
                                       greeting,
-                                      style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary),
+                                      style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary),
                                     ),
                                   ],
                                 ),
@@ -148,7 +148,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
                             const SizedBox(height: 24),
                             Text(
                               'Viewing data for ${_dashboardData!['user_name']}',
-                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                             ),
                             const SizedBox(height: 16),
                             _buildQuickActionsSection(),
@@ -168,7 +168,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
       quickActions.add({
         'label': 'Period',
         'icon': Icons.opacity,
-        'color': FemFlowColors.period,
+        'color': FemLyraColors.period,
         'screen': PartnerPeriodDetailScreen(dashboardData: _dashboardData!),
       });
     }
@@ -177,7 +177,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
       quickActions.add({
         'label': 'Symptoms',
         'icon': Icons.sentiment_satisfied_alt,
-        'color': FemFlowColors.pmsCaution,
+        'color': FemLyraColors.pmsCaution,
         'screen': PartnerSymptomsDetailScreen(dashboardData: _dashboardData!),
       });
     }
@@ -228,7 +228,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: FemFlowColors.textPrimary,
+            color: FemLyraColors.textPrimary,
           ),
         ),
         const SizedBox(height: 12),
@@ -285,7 +285,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: FemFlowColors.textPrimary),
+              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary),
             ),
           ],
         ),
@@ -401,14 +401,14 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          const Icon(Icons.medication, color: FemFlowColors.primary),
+          const Icon(Icons.medication, color: FemLyraColors.primary),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(pill['medication_name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text(pill['time'], style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                Text(pill['time'], style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
               ],
             ),
           ),
@@ -429,7 +429,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
           ),
           if (onTap != null) ...[
             const SizedBox(width: 8),
-            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted, size: 20),
+            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted, size: 20),
           ]
         ],
       ),
@@ -450,17 +450,17 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(note['title'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text(note['date'], style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted)),
+                    Text(note['date'], style: const TextStyle(fontSize: 10, color: FemLyraColors.textMuted)),
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text(note['content'], style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary)),
+                Text(note['content'], style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary)),
               ],
             ),
           ),
           if (onTap != null) ...[
             const SizedBox(width: 8),
-            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted, size: 20),
+            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted, size: 20),
           ]
         ],
       ),
@@ -482,14 +482,14 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(activity['type'].toString().toUpperCase(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                    Text(activity['date'], style: const TextStyle(fontSize: 10, color: FemFlowColors.textMuted)),
+                    Text(activity['date'], style: const TextStyle(fontSize: 10, color: FemLyraColors.textMuted)),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text('${activity['duration']} mins', style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text('${activity['calories']} kcal', style: const TextStyle(fontSize: 11, color: FemFlowColors.period)),
+                    Text('${activity['calories']} kcal', style: const TextStyle(fontSize: 11, color: FemLyraColors.period)),
                   ],
                 ),
               ],
@@ -497,7 +497,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
           ),
           if (onTap != null) ...[
             const SizedBox(width: 8),
-            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted, size: 20),
+            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted, size: 20),
           ]
         ],
       ),
@@ -518,7 +518,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(log['custom_name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text('${log['meal_type'].toString().toUpperCase()} • ${log['quantity']}', style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                Text('${log['meal_type'].toString().toUpperCase()} • ${log['quantity']}', style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
               ],
             ),
           ),
@@ -532,7 +532,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
           ),
           if (onTap != null) ...[
             const SizedBox(width: 8),
-            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted, size: 20),
+            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted, size: 20),
           ]
         ],
       ),
@@ -552,14 +552,14 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 14)),
+                  Text(title, style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 14)),
                   const SizedBox(height: 4),
                   Text(value.split('T').first, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 ],
               ),
             ),
             if (onTap != null)
-              const Icon(Icons.chevron_right, color: FemFlowColors.textMuted, size: 20),
+              const Icon(Icons.chevron_right, color: FemLyraColors.textMuted, size: 20),
           ],
         ),
       ),
@@ -579,12 +579,12 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
                 Text(log['date'], style: const TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
                 if (showSymptoms && log['symptoms'] != null) ...[
-                  const Text('Symptoms: ', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                  const Text('Symptoms: ', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                   Text(log['symptoms'].toString()),
                 ],
                 if (showMood && log['mood'] != null) ...[
                   const SizedBox(height: 4),
-                  const Text('Mood: ', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                  const Text('Mood: ', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                   Text(log['mood'].toString()),
                 ],
               ],
@@ -592,7 +592,7 @@ class _PartnerDashboardScreenState extends State<PartnerDashboardScreen> {
           ),
           if (onTap != null) ...[
             const SizedBox(width: 8),
-            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted, size: 20),
+            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted, size: 20),
           ]
         ],
       ),
@@ -611,9 +611,9 @@ class PartnerPeriodDetailScreen extends StatelessWidget {
     final hasPrediction = permissions['cycle_predictions'] == true;
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
-        title: const Text('Period Details', style: TextStyle(color: FemFlowColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
+        title: const Text('Period Details', style: TextStyle(color: FemLyraColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -626,18 +626,18 @@ class PartnerPeriodDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (hasPeriod) ...[
-              const Text('Period Status', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+              const Text('Period Status', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
               const SizedBox(height: 12),
               AppCard(
                 padding: const EdgeInsets.all(20),
                 child: Row(
                   children: [
-                    const Icon(Icons.calendar_today, color: FemFlowColors.period, size: 36),
+                    const Icon(Icons.calendar_today, color: FemLyraColors.period, size: 36),
                     const SizedBox(width: 16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Latest Period Start', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                        const Text('Latest Period Start', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                         const SizedBox(height: 4),
                         Text(
                           dashboardData['latest_period_start'] != null
@@ -653,18 +653,18 @@ class PartnerPeriodDetailScreen extends StatelessWidget {
               const SizedBox(height: 24),
             ],
             if (hasPrediction) ...[
-              const Text('Predictions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+              const Text('Predictions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
               const SizedBox(height: 12),
               AppCard(
                 padding: const EdgeInsets.all(20),
                 child: Row(
                   children: [
-                    const Icon(Icons.wb_sunny_outlined, color: FemFlowColors.ovulation, size: 36),
+                    const Icon(Icons.wb_sunny_outlined, color: FemLyraColors.ovulation, size: 36),
                     const SizedBox(width: 16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Expected Next Period', style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary)),
+                        const Text('Expected Next Period', style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary)),
                         const SizedBox(height: 4),
                         Text(
                           dashboardData['expected_next_period'] != null
@@ -681,15 +681,15 @@ class PartnerPeriodDetailScreen extends StatelessWidget {
             ],
             AppCard(
               padding: const EdgeInsets.all(16),
-              color: FemFlowColors.primary.withOpacity(0.05),
+              color: FemLyraColors.primary.withOpacity(0.05),
               child: const Row(
                 children: [
-                  Icon(Icons.info_outline, color: FemFlowColors.primary),
+                  Icon(Icons.info_outline, color: FemLyraColors.primary),
                   SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       'This information is shared by your partner to help you align with their cycle phases.',
-                      style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                      style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
                     ),
                   ),
                 ],
@@ -714,9 +714,9 @@ class PartnerSymptomsDetailScreen extends StatelessWidget {
     final logs = dashboardData['recent_logs'] as List<dynamic>? ?? [];
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
-        title: const Text('Shared Health Logs', style: TextStyle(color: FemFlowColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
+        title: const Text('Shared Health Logs', style: TextStyle(color: FemLyraColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -731,7 +731,7 @@ class PartnerSymptomsDetailScreen extends StatelessWidget {
             return const Center(
               child: Padding(
                 padding: EdgeInsets.only(top: 40),
-                child: Text('No health logs shared by partner.', style: TextStyle(color: FemFlowColors.textSecondary)),
+                child: Text('No health logs shared by partner.', style: TextStyle(color: FemLyraColors.textSecondary)),
               ),
             );
           }
@@ -748,22 +748,22 @@ class PartnerSymptomsDetailScreen extends StatelessWidget {
                     children: [
                       Text(
                         log['date'].toString().split('T').first,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemFlowColors.textPrimary),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: FemLyraColors.textPrimary),
                       ),
-                      const Icon(Icons.favorite, color: FemFlowColors.period, size: 18),
+                      const Icon(Icons.favorite, color: FemLyraColors.period, size: 18),
                     ],
                   ),
                   const Divider(height: 20),
                   if (showSymptoms && log['symptoms'] != null) ...[
-                    const Text('Symptoms', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+                    const Text('Symptoms', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
                     const SizedBox(height: 4),
-                    Text(log['symptoms'].toString(), style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary)),
+                    Text(log['symptoms'].toString(), style: const TextStyle(fontSize: 14, color: FemLyraColors.textPrimary)),
                     const SizedBox(height: 12),
                   ],
                   if (showMood && log['mood'] != null) ...[
-                    const Text('Mood', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemFlowColors.textSecondary)),
+                    const Text('Mood', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary)),
                     const SizedBox(height: 4),
-                    Text(log['mood'].toString(), style: const TextStyle(fontSize: 14, color: FemFlowColors.textPrimary)),
+                    Text(log['mood'].toString(), style: const TextStyle(fontSize: 14, color: FemLyraColors.textPrimary)),
                   ],
                 ],
               ),
@@ -784,9 +784,9 @@ class PartnerPillDetailScreen extends StatelessWidget {
     final pills = dashboardData['pill_schedule'] as List<dynamic>? ?? [];
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
-        title: const Text('Pill Reminders', style: TextStyle(color: FemFlowColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
+        title: const Text('Pill Reminders', style: TextStyle(color: FemLyraColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -801,7 +801,7 @@ class PartnerPillDetailScreen extends StatelessWidget {
             return const Center(
               child: Padding(
                 padding: EdgeInsets.only(top: 40),
-                child: Text('No pill reminders scheduled for today.', style: TextStyle(color: FemFlowColors.textSecondary)),
+                child: Text('No pill reminders scheduled for today.', style: TextStyle(color: FemLyraColors.textSecondary)),
               ),
             );
           }
@@ -820,7 +820,7 @@ class PartnerPillDetailScreen extends StatelessWidget {
                       children: [
                         Text(pill['medication_name'], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                         const SizedBox(height: 4),
-                        Text('Scheduled for ${pill['time']}', style: const TextStyle(fontSize: 13, color: FemFlowColors.textSecondary)),
+                        Text('Scheduled for ${pill['time']}', style: const TextStyle(fontSize: 13, color: FemLyraColors.textSecondary)),
                       ],
                     ),
                   ),
@@ -858,9 +858,9 @@ class PartnerJournalDetailScreen extends StatelessWidget {
     final notes = dashboardData['recent_notes'] as List<dynamic>? ?? [];
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
-        title: const Text('Shared Journal', style: TextStyle(color: FemFlowColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
+        title: const Text('Shared Journal', style: TextStyle(color: FemLyraColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -875,7 +875,7 @@ class PartnerJournalDetailScreen extends StatelessWidget {
             return const Center(
               child: Padding(
                 padding: EdgeInsets.only(top: 40),
-                child: Text('No journal entries shared.', style: TextStyle(color: FemFlowColors.textSecondary)),
+                child: Text('No journal entries shared.', style: TextStyle(color: FemLyraColors.textSecondary)),
               ),
             );
           }
@@ -891,13 +891,13 @@ class PartnerJournalDetailScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(note['title'], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text(note['date'], style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted)),
+                      Text(note['date'], style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted)),
                     ],
                   ),
                   const Divider(height: 20),
                   Text(
                     note['content'],
-                    style: const TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.4),
+                    style: const TextStyle(fontSize: 14, color: FemLyraColors.textSecondary, height: 1.4),
                   ),
                 ],
               ),
@@ -918,9 +918,9 @@ class PartnerWellnessDetailScreen extends StatelessWidget {
     final activities = dashboardData['recent_activity'] as List<dynamic>? ?? [];
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
-        title: const Text('Wellness Activity', style: TextStyle(color: FemFlowColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
+        title: const Text('Wellness Activity', style: TextStyle(color: FemLyraColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -935,7 +935,7 @@ class PartnerWellnessDetailScreen extends StatelessWidget {
             return const Center(
               child: Padding(
                 padding: EdgeInsets.only(top: 40),
-                child: Text('No recent wellness activities shared.', style: TextStyle(color: FemFlowColors.textSecondary)),
+                child: Text('No recent wellness activities shared.', style: TextStyle(color: FemLyraColors.textSecondary)),
               ),
             );
           }
@@ -964,7 +964,7 @@ class PartnerWellnessDetailScreen extends StatelessWidget {
                           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                         const SizedBox(height: 4),
-                        Text(activity['date'], style: const TextStyle(fontSize: 12, color: FemFlowColors.textMuted)),
+                        Text(activity['date'], style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted)),
                       ],
                     ),
                   ),
@@ -973,7 +973,7 @@ class PartnerWellnessDetailScreen extends StatelessWidget {
                     children: [
                       Text('${activity['duration']} mins', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                       const SizedBox(height: 4),
-                      Text('${activity['calories']} kcal', style: const TextStyle(fontSize: 12, color: FemFlowColors.period, fontWeight: FontWeight.w500)),
+                      Text('${activity['calories']} kcal', style: const TextStyle(fontSize: 12, color: FemLyraColors.period, fontWeight: FontWeight.w500)),
                     ],
                   ),
                 ],
@@ -995,9 +995,9 @@ class PartnerNutritionDetailScreen extends StatelessWidget {
     final foodLogs = dashboardData['recent_food_logs'] as List<dynamic>? ?? [];
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
-        title: const Text('Nutrition Logs', style: TextStyle(color: FemFlowColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
+        title: const Text('Nutrition Logs', style: TextStyle(color: FemLyraColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -1012,7 +1012,7 @@ class PartnerNutritionDetailScreen extends StatelessWidget {
             return const Center(
               child: Padding(
                 padding: EdgeInsets.only(top: 40),
-                child: Text('No nutrition logs shared by partner.', style: TextStyle(color: FemFlowColors.textSecondary)),
+                child: Text('No nutrition logs shared by partner.', style: TextStyle(color: FemLyraColors.textSecondary)),
               ),
             );
           }
@@ -1042,10 +1042,10 @@ class PartnerNutritionDetailScreen extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           '${log['meal_type'].toString().toUpperCase()} • ${log['quantity']}',
-                          style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+                          style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
                         ),
                         const SizedBox(height: 4),
-                        Text(log['date'], style: const TextStyle(fontSize: 11, color: FemFlowColors.textMuted)),
+                        Text(log['date'], style: const TextStyle(fontSize: 11, color: FemLyraColors.textMuted)),
                       ],
                     ),
                   ),

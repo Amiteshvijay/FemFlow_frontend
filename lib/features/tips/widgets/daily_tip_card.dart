@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../models/tips_models.dart';
 import '../tips_detail_screen.dart';
 
@@ -53,7 +53,7 @@ class DailyTipCard extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.bold, 
                 fontSize: 18, 
-                color: FemFlowColors.textPrimary,
+                color: FemLyraColors.textPrimary,
                 letterSpacing: -0.5
               ),
             ),

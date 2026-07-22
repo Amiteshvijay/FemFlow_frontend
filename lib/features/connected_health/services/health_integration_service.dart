@@ -96,7 +96,7 @@ class HealthIntegrationService {
       'is_active': true,
     });
 
-    debugPrint('Successfully synced $targetPlatform data to FemFlow backend');
+    debugPrint('Successfully synced $targetPlatform data to FemLyra backend');
   }
 
   Future<bool> isHealthConnectAvailable() async {

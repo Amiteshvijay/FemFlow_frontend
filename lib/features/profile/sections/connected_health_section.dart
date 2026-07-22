@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 
 class ConnectedHealthSection extends StatefulWidget {
   final Map<String, dynamic> initialData;
@@ -50,7 +50,7 @@ class _ConnectedHealthSectionState extends State<ConnectedHealthSection> {
               padding: EdgeInsets.symmetric(vertical: 20),
               child: Text(
                 'Health device syncing is available on our mobile app.',
-                style: TextStyle(color: FemFlowColors.textSecondary, fontStyle: FontStyle.italic),
+                style: TextStyle(color: FemLyraColors.textSecondary, fontStyle: FontStyle.italic),
               ),
             ),
           ),
@@ -59,7 +59,7 @@ class _ConnectedHealthSectionState extends State<ConnectedHealthSection> {
           child: Text(
             'Sync with your favorite devices for personalized wellness insights.\nYour data is secure and private.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: FemFlowColors.textMuted, fontSize: 12, height: 1.5),
+            style: TextStyle(color: FemLyraColors.textMuted, fontSize: 12, height: 1.5),
           ),
         ),
       ],
@@ -70,14 +70,14 @@ class _ConnectedHealthSectionState extends State<ConnectedHealthSection> {
     return SwitchListTile(
       secondary: Container(
         padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
-        child: Icon(icon, color: FemFlowColors.primary, size: 20),
+        decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
+        child: Icon(icon, color: FemLyraColors.primary, size: 20),
       ),
       title: Text(label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
       value: _data[key] == true,
       onChanged: (val) => _updateField(key, val),
-      activeThumbColor: FemFlowColors.primary,
-      activeTrackColor: FemFlowColors.primary.withValues(alpha: 0.5),
+      activeThumbColor: FemLyraColors.primary,
+      activeTrackColor: FemLyraColors.primary.withValues(alpha: 0.5),
       contentPadding: EdgeInsets.zero,
     );
   }

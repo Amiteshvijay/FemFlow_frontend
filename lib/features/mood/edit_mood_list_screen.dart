@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/primary_button.dart';
 import 'data/mood_service.dart';
@@ -68,13 +68,13 @@ class _EditMoodListScreenState extends State<EditMoodListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text("Edit List", style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: _isLoading && _catalog == null
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : Column(
               children: [
                 Expanded(
@@ -127,7 +127,7 @@ class _EditMoodListScreenState extends State<EditMoodListScreen> {
                 trailing: Switch(
                   value: isEnabled,
                   onChanged: (_) => _toggleMood(mood.key),
-                  activeTrackColor: FemFlowColors.primary,
+                  activeTrackColor: FemLyraColors.primary,
                 ),
               );
             },

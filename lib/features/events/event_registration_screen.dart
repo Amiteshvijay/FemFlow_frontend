@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../profile/data/profile_service.dart';
 import 'data/event_service.dart';
 import 'models/event_models.dart';
@@ -7,7 +7,7 @@ import '../wellness_score/wellness_score_dashboard_screen.dart';
 import '../diet/screens/diet_home_screen.dart';
 
 class EventRegistrationScreen extends StatefulWidget {
-  final FemFlowEvent event;
+  final FemLyraEvent event;
 
   const EventRegistrationScreen({super.key, required this.event});
 
@@ -131,7 +131,7 @@ class _EventRegistrationScreenState extends State<EventRegistrationScreen> {
             const SizedBox(height: 20),
             const CircleAvatar(
               radius: 40,
-              backgroundColor: FemFlowColors.fertileWindow,
+              backgroundColor: FemLyraColors.fertileWindow,
               child: Icon(Icons.check, color: Colors.white, size: 50),
             ),
             const SizedBox(height: 24),
@@ -143,7 +143,7 @@ class _EventRegistrationScreenState extends State<EventRegistrationScreen> {
             const SizedBox(height: 12),
             const Text(
               'You have successfully registered for the event. A confirmation email has been sent to you.',
-              style: TextStyle(color: FemFlowColors.textSecondary),
+              style: TextStyle(color: FemLyraColors.textSecondary),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
@@ -168,7 +168,7 @@ class _EventRegistrationScreenState extends State<EventRegistrationScreen> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemFlowColors.primary,
+                  backgroundColor: FemLyraColors.primary,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
@@ -185,7 +185,7 @@ class _EventRegistrationScreenState extends State<EventRegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Event Registration', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -199,7 +199,7 @@ class _EventRegistrationScreenState extends State<EventRegistrationScreen> {
             children: [
               Text(
                 widget.event.title,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.primary),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
               ),
               const SizedBox(height: 24),
               _buildTextField('Full Name*', _nameController, Icons.person_outline),
@@ -234,14 +234,14 @@ class _EventRegistrationScreenState extends State<EventRegistrationScreen> {
                     child: Checkbox(
                       value: _consent,
                       onChanged: (val) => setState(() => _consent = val ?? false),
-                      activeColor: FemFlowColors.primary,
+                      activeColor: FemLyraColors.primary,
                     ),
                   ),
                   const SizedBox(width: 12),
                   const Expanded(
                     child: Text(
-                      'I consent to share my details with FemFlow for event coordination and health updates.',
-                      style: TextStyle(fontSize: 13, color: FemFlowColors.textSecondary),
+                      'I consent to share my details with FemLyra for event coordination and health updates.',
+                      style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
                     ),
                   ),
                 ],
@@ -253,7 +253,7 @@ class _EventRegistrationScreenState extends State<EventRegistrationScreen> {
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _handleRegistration,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: FemFlowColors.primary,
+                    backgroundColor: FemLyraColors.primary,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: _isLoading
@@ -282,12 +282,12 @@ class _EventRegistrationScreenState extends State<EventRegistrationScreen> {
       maxLines: maxLines,
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: Icon(icon, color: FemFlowColors.primary, size: 20),
+        prefixIcon: Icon(icon, color: FemLyraColors.primary, size: 20),
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.primary)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.primary)),
       ),
       validator: (value) {
         if (label.contains('*') && (value == null || value.isEmpty)) {

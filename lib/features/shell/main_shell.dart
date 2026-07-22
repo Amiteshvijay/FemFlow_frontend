@@ -8,7 +8,7 @@ import '../profile/profile_screen.dart';
 import '../partner_mode/partner_dashboard_screen.dart';
 import '../auth/providers/auth_provider.dart';
 import '../../shared/widgets/universal_plus_button.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import 'shell_events.dart';
 
 class MainShell extends StatefulWidget {
@@ -183,14 +183,14 @@ class MainShellState extends State<MainShell> {
         children: [
           Icon(
             isSelected ? activeIcon : icon,
-            color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
+            color: isSelected ? FemLyraColors.primary : FemLyraColors.textMuted,
             size: 24,
           ),
           Text(
             label,
             style: TextStyle(
               fontSize: 10,
-              color: isSelected ? FemFlowColors.primary : FemFlowColors.textMuted,
+              color: isSelected ? FemLyraColors.primary : FemLyraColors.textMuted,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
           ),

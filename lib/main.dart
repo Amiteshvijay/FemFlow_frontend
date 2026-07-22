@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:femflow/core/theme/femflow_theme.dart';
-import 'package:femflow/features/onboarding/onboarding_screen.dart';
-import 'package:femflow/features/shell/main_shell.dart';
-import 'package:femflow/features/auth/login_screen.dart';
-import 'package:femflow/core/theme/femflow_colors.dart';
-import 'package:femflow/core/security/app_lock_service.dart';
-import 'package:femflow/features/app_lock/screens/unlock_screen.dart';
-import 'package:femflow/features/app_lock/screens/secure_loading_screen.dart';
-import 'package:femflow/shared/screens/maintenance_screen.dart';
-import 'package:femflow/features/profile/wellness_onboarding_flow.dart';
-import 'package:femflow/core/services/notification_service.dart';
-import 'package:femflow/features/tips/providers/tips_provider.dart';
-import 'package:femflow/features/subscriptions/providers/subscription_provider.dart';
-import 'package:femflow/features/exercises/providers/exercise_provider.dart';
-import 'package:femflow/core/services/deep_link_service.dart';
-import 'package:femflow/core/services/background_sync_service.dart';
-import 'package:femflow/core/navigation/navigator_service.dart';
-import 'package:femflow/features/auth/providers/auth_provider.dart';
-import 'package:femflow/features/onboarding/brand_splash_screen.dart';
-import 'package:femflow/features/lab_tests/providers/cart_provider.dart';
+import 'package:FemLyra/core/theme/FemLyra_theme.dart';
+import 'package:FemLyra/features/onboarding/onboarding_screen.dart';
+import 'package:FemLyra/features/shell/main_shell.dart';
+import 'package:FemLyra/features/auth/login_screen.dart';
+import 'package:FemLyra/core/theme/FemLyra_colors.dart';
+import 'package:FemLyra/core/security/app_lock_service.dart';
+import 'package:FemLyra/features/app_lock/screens/unlock_screen.dart';
+import 'package:FemLyra/features/app_lock/screens/secure_loading_screen.dart';
+import 'package:FemLyra/shared/screens/maintenance_screen.dart';
+import 'package:FemLyra/features/profile/wellness_onboarding_flow.dart';
+import 'package:FemLyra/core/services/notification_service.dart';
+import 'package:FemLyra/features/tips/providers/tips_provider.dart';
+import 'package:FemLyra/features/subscriptions/providers/subscription_provider.dart';
+import 'package:FemLyra/features/exercises/providers/exercise_provider.dart';
+import 'package:FemLyra/core/services/deep_link_service.dart';
+import 'package:FemLyra/core/services/background_sync_service.dart';
+import 'package:FemLyra/core/navigation/navigator_service.dart';
+import 'package:FemLyra/features/auth/providers/auth_provider.dart';
+import 'package:FemLyra/features/onboarding/brand_splash_screen.dart';
+import 'package:FemLyra/features/lab_tests/providers/cart_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -81,10 +81,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FemFlow',
+      title: 'FemLyra',
       navigatorKey: NavigatorService.navigatorKey,
       debugShowCheckedModeBanner: false,
-      theme: FemFlowTheme.lightTheme,
+      theme: FemLyraTheme.lightTheme,
       home: const AuthGate(),
       builder: (context, child) {
         return Consumer<AppLockService>(
@@ -151,9 +151,9 @@ class _AuthGateState extends State<AuthGate> {
 
         if (auth.status == AuthStatus.loading) {
           return const Scaffold(
-            backgroundColor: FemFlowColors.warmWhite,
+            backgroundColor: FemLyraColors.warmWhite,
             body: Center(
-              child: CircularProgressIndicator(color: FemFlowColors.primary),
+              child: CircularProgressIndicator(color: FemLyraColors.primary),
             ),
           );
         }

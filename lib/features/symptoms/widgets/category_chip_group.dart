@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 
 class CategoryChipGroup extends StatelessWidget {
   final String title;
@@ -27,7 +27,7 @@ class CategoryChipGroup extends StatelessWidget {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: FemFlowColors.textPrimary,
+              color: FemLyraColors.textPrimary,
             ),
           ),
         ),
@@ -50,17 +50,17 @@ class CategoryChipGroup extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? FemFlowColors.blushMist : FemFlowColors.white,
+          color: isSelected ? FemLyraColors.blushMist : FemLyraColors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? FemFlowColors.primary : FemFlowColors.border,
+            color: isSelected ? FemLyraColors.primary : FemLyraColors.border,
             width: isSelected ? 1.5 : 1,
           ),
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: isSelected ? FemFlowColors.primary : FemFlowColors.textSecondary,
+            color: isSelected ? FemLyraColors.primary : FemLyraColors.textSecondary,
             fontSize: 13,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),

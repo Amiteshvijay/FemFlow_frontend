@@ -26,7 +26,7 @@ void callbackDispatcher() {
 }
 
 class BackgroundSyncService {
-  static const String healthSyncTask = "com.femflow.health_sync_task";
+  static const String healthSyncTask = "com.FemLyra.health_sync_task";
   static const String healthSyncUniqueName = "healthSyncJob";
   
 

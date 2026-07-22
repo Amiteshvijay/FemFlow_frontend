@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../auth/data/auth_service.dart';
 import '../auth/providers/auth_provider.dart';
@@ -76,7 +76,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Error: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     }
@@ -95,7 +95,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid OTP'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Invalid OTP'), backgroundColor: FemLyraColors.period),
         );
       }
     }
@@ -118,7 +118,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to submit: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Failed to submit: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     }
@@ -136,20 +136,20 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
             const SizedBox(height: 16),
             const CircleAvatar(
               radius: 36,
-              backgroundColor: FemFlowColors.fertileWindow,
+              backgroundColor: FemLyraColors.fertileWindow,
               child: Icon(Icons.check, color: Colors.white, size: 40),
             ),
             const SizedBox(height: 24),
             const Text(
               'Account Deactivation Scheduled',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
             ),
             const SizedBox(height: 16),
             const Text(
               'Your request has been received. Your account is now deactivated and will be permanently deleted within 7 days.\n\nYou have been logged out.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: FemFlowColors.textSecondary, height: 1.5),
+              style: TextStyle(fontSize: 14, color: FemLyraColors.textSecondary, height: 1.5),
             ),
             const SizedBox(height: 32),
             SizedBox(
@@ -184,7 +184,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Account Deletion', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -222,9 +222,9 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+        Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
         const SizedBox(height: 8),
-        Text(subtitle, style: const TextStyle(color: FemFlowColors.textSecondary, height: 1.4, fontSize: 14)),
+        Text(subtitle, style: const TextStyle(color: FemLyraColors.textSecondary, height: 1.4, fontSize: 14)),
       ],
     );
   }
@@ -245,7 +245,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
           ),
         ),
         const SizedBox(height: 32),
@@ -273,7 +273,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
           ),
         ),
         const SizedBox(height: 32),
@@ -294,7 +294,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Reason for Deletion', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemFlowColors.textSecondary)),
+        const Text('Reason for Deletion', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemLyraColors.textSecondary)),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
           initialValue: _selectedReason,
@@ -302,7 +302,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
           ),
           hint: const Text('Select a reason'),
           items: _deletionReasons.map((r) => DropdownMenuItem(value: r, child: Text(r))).toList(),
@@ -318,7 +318,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
+              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
             ),
             maxLines: 2,
           ),
@@ -326,10 +326,10 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
         const SizedBox(height: 24),
         RichText(
           text: TextSpan(
-            style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 14, height: 1.4),
+            style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 14, height: 1.4),
             children: [
               const TextSpan(text: 'To confirm, please type your Full Name exactly as: '),
-              TextSpan(text: _userProfileFullName ?? '...', style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary)),
+              TextSpan(text: _userProfileFullName ?? '...', style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
             ],
           ),
         ),
@@ -342,7 +342,7 @@ class _DeleteAccountVerifyScreenState extends State<DeleteAccountVerifyScreen> {
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemFlowColors.border)),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: FemLyraColors.border)),
           ),
         ),
         const SizedBox(height: 32),

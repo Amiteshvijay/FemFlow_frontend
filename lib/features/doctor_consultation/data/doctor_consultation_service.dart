@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:femflow/core/network/api_client.dart';
+import 'package:FemLyra/core/network/api_client.dart';
 import '../models/doctor_models.dart';
 
 class DoctorConsultationService {

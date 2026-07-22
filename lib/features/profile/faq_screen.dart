@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,7 +11,7 @@ class FAQScreen extends StatelessWidget {
     final faqs = [
       {
         'question': 'How accurate are the predictions?',
-        'answer': 'FemFlow uses advanced algorithms based on your historical data. The more consistently you log, the more accurate the predictions become. However, these are estimates and should not be used for medical diagnosis or contraception.'
+        'answer': 'FemLyra uses advanced algorithms based on your historical data. The more consistently you log, the more accurate the predictions become. However, these are estimates and should not be used for medical diagnosis or contraception.'
       },
       {
         'question': 'How does FemAI help me?',
@@ -23,16 +23,16 @@ class FAQScreen extends StatelessWidget {
       },
       {
         'question': 'Can I track my flow intensity?',
-        'answer': 'Absolutely. You can log flow intensity (Light, Medium, Heavy) in the "Log Period" section to help FemFlow understand your cycle better.'
+        'answer': 'Absolutely. You can log flow intensity (Light, Medium, Heavy) in the "Log Period" section to help FemLyra understand your cycle better.'
       },
       {
         'question': 'What if my cycle is irregular?',
-        'answer': 'FemFlow is designed to handle cycle variations. Over time, the AI learns your unique patterns even if they don\'t follow a standard 28-day cycle.'
+        'answer': 'FemLyra is designed to handle cycle variations. Over time, the AI learns your unique patterns even if they don\'t follow a standard 28-day cycle.'
       },
     ];
 
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -58,7 +58,7 @@ class FAQScreen extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: FemFlowColors.textPrimary,
+                          color: FemLyraColors.textPrimary,
                         ),
                       ),
                       shape: const RoundedRectangleBorder(side: BorderSide.none),
@@ -70,7 +70,7 @@ class FAQScreen extends StatelessWidget {
                           faq['answer']!,
                           style: const TextStyle(
                             fontSize: 14,
-                            color: FemFlowColors.textSecondary,
+                            color: FemLyraColors.textSecondary,
                             height: 1.5,
                           ),
                         ),
@@ -85,7 +85,7 @@ class FAQScreen extends StatelessWidget {
             padding: const EdgeInsets.all(24.0),
             child: InkWell(
               onTap: () async {
-                final uri = Uri.parse('https://www.femflow.in/FAQs');
+                final uri = Uri.parse('https://www.femlyra.com/FAQs');
                 if (await canLaunchUrl(uri)) {
                   await launchUrl(uri, mode: LaunchMode.externalApplication);
                 }
@@ -93,12 +93,12 @@ class FAQScreen extends StatelessWidget {
               child: Text.rich(
                 TextSpan(
                   text: 'For more FAQs, visit our website ',
-                  style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 13),
+                  style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 13),
                   children: const [
                     TextSpan(
-                      text: 'www.femflow.in/FAQs',
+                      text: 'www.femlyra.com/FAQs',
                       style: TextStyle(
-                        color: FemFlowColors.primary,
+                        color: FemLyraColors.primary,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                       ),

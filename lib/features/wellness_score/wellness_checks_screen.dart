@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/wellness_score_service.dart';
 import 'models/wellness_check_models.dart';
@@ -51,31 +51,31 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemFlowColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Wellness Checks',
-          style: TextStyle(color: FemFlowColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.history, color: FemFlowColors.textPrimary),
+            icon: const Icon(Icons.history, color: FemLyraColors.textPrimary),
             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const WellnessCheckHistoryScreen())),
           ),
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : RefreshIndicator(
               onRefresh: _fetchData,
-              color: FemFlowColors.primary,
+              color: FemLyraColors.primary,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -100,7 +100,7 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
                       Center(
                         child: TextButton(
                           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const WellnessCheckHistoryScreen())),
-                          child: const Text('View All History', style: TextStyle(color: FemFlowColors.primary)),
+                          child: const Text('View All History', style: TextStyle(color: FemLyraColors.primary)),
                         ),
                       ),
                     ],
@@ -131,8 +131,8 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'These checks are wellness indicators, not medical diagnosis. Your answers are private and used to improve your FemFlow insights.',
-                  style: TextStyle(fontSize: 12, color: FemFlowColors.textSecondary, height: 1.4),
+                  'These checks are wellness indicators, not medical diagnosis. Your answers are private and used to improve your femlyra.comsights.',
+                  style: TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, height: 1.4),
                 ),
               ],
             ),
@@ -147,7 +147,7 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
       padding: const EdgeInsets.only(bottom: 16, left: 4),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemFlowColors.textPrimary),
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
       ),
     );
   }
@@ -157,7 +157,7 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
     if (filtered.isEmpty) {
       return const Padding(
         padding: EdgeInsets.all(8.0),
-        child: Text('Wellness checks are being prepared.', style: TextStyle(color: FemFlowColors.textMuted, fontSize: 12)),
+        child: Text('Wellness checks are being prepared.', style: TextStyle(color: FemLyraColors.textMuted, fontSize: 12)),
       );
     }
 
@@ -189,13 +189,13 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
                   Text(check.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   Text(
                     '${check.questionCount} questions • ${check.estimatedMinutes} min',
-                    style: const TextStyle(color: FemFlowColors.textSecondary, fontSize: 12),
+                    style: const TextStyle(color: FemLyraColors.textSecondary, fontSize: 12),
                   ),
                   const SizedBox(height: 4),
                   if (check.inspiredBy != null)
                     Text(
                       check.inspiredBy!,
-                      style: const TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: FemFlowColors.textMuted),
+                      style: const TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: FemLyraColors.textMuted),
                     ),
                   if (check.lastCompleted != null) ...[
                     const SizedBox(height: 4),
@@ -207,7 +207,7 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: FemFlowColors.textMuted),
+            const Icon(Icons.chevron_right, color: FemLyraColors.textMuted),
           ],
         ),
       ),
@@ -221,15 +221,15 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
 
     return AppCard(
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const WellnessAccuracyScreen())),
-      color: FemFlowColors.fertileWindow.withValues(alpha: 0.1),
-      border: const BorderSide(color: FemFlowColors.fertileWindow),
+      color: FemLyraColors.fertileWindow.withValues(alpha: 0.1),
+      border: const BorderSide(color: FemLyraColors.fertileWindow),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('FemFlow Accuracy Level', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text('FemLyra Accuracy Level', style: TextStyle(fontWeight: FontWeight.bold)),
               Text(
                 level.toString().toUpperCase(),
                 style: TextStyle(color: _getAccuracyColor(level), fontWeight: FontWeight.bold, fontSize: 12),
@@ -246,7 +246,7 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
           const SizedBox(height: 12),
           Text(
             _accuracyData!['next_best_action'] ?? '',
-            style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+            style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
           ),
         ],
       ),
@@ -273,16 +273,16 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
                 Text(res.templateTitle, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                 Text(
                   '${res.resultLabel} • ${DateFormat('MMM dd').format(DateTime.parse(res.completedAt))}',
-                  style: const TextStyle(fontSize: 12, color: FemFlowColors.textSecondary),
+                  style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary),
                 ),
               ],
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(color: FemFlowColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(color: FemLyraColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
               child: Text(
                 '${res.normalizedScore}',
-                style: const TextStyle(fontWeight: FontWeight.bold, color: FemFlowColors.primary, fontSize: 12),
+                style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 12),
               ),
             ),
           ],
@@ -293,10 +293,10 @@ class _WellnessChecksScreenState extends State<WellnessChecksScreen> {
 
   Color _getCategoryColor(String cat) {
     switch (cat) {
-      case 'quick': return FemFlowColors.primary;
+      case 'quick': return FemLyraColors.primary;
       case 'clinical_inspired': return Colors.blue;
-      case 'cycle_linked': return FemFlowColors.period;
-      default: return FemFlowColors.textMuted;
+      case 'cycle_linked': return FemLyraColors.period;
+      default: return FemLyraColors.textMuted;
     }
   }
 

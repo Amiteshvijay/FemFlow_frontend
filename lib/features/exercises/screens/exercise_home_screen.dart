@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../providers/exercise_provider.dart';
 import '../widgets/recommended_exercise_section.dart';
 import 'exercise_library_screen.dart';
@@ -12,7 +12,7 @@ class ExerciseHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -62,14 +62,14 @@ class ExerciseHomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [FemFlowColors.primary, FemFlowColors.primary.withValues(alpha: 0.8)],
+            colors: [FemLyraColors.primary, FemLyraColors.primary.withValues(alpha: 0.8)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: FemFlowColors.primary.withValues(alpha: 0.2),
+              color: FemLyraColors.primary.withValues(alpha: 0.2),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),

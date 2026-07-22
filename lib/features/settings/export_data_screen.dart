@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:provider/provider.dart';
 import '../../core/security/app_lock_service.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../../shared/widgets/app_card.dart';
 import '../auth/login_screen.dart';
@@ -32,10 +32,10 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
       final XFile xFile = XFile.fromData(
         utf8.encode(jsonString),
         mimeType: 'application/json',
-        name: 'femflow_backup_${DateTime.now().millisecondsSinceEpoch}.json',
+        name: 'FemLyra_backup_${DateTime.now().millisecondsSinceEpoch}.json',
       );
       
-      await Share.shareXFiles([xFile], text: 'My FemFlow Data Backup');
+      await Share.shareXFiles([xFile], text: 'My FemLyra Data Backup');
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -70,7 +70,7 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
@@ -86,12 +86,12 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
             AppCard(
               child: Column(
                 children: [
-                  const Icon(Icons.file_download_outlined, size: 48, color: FemFlowColors.primary),
+                  const Icon(Icons.file_download_outlined, size: 48, color: FemLyraColors.primary),
                   const SizedBox(height: 16),
                   const Text(
                     'Export your cycle history, health logs, and chat data into a secure JSON file for backup or portability.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: FemFlowColors.textSecondary),
+                    style: TextStyle(color: FemLyraColors.textSecondary),
                   ),
                 ],
               ),
@@ -105,7 +105,7 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
             const SizedBox(height: 20),
             const Text(
               'Your data is processed locally on your device and shared securely.',
-              style: TextStyle(fontSize: 12, color: FemFlowColors.textMuted),
+              style: TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
               textAlign: TextAlign.center,
             ),
           ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../core/theme/femflow_colors.dart';
+import '../../../core/theme/FemLyra_colors.dart';
 import '../../../core/security/app_lock_service.dart';
 import '../../auth/data/auth_service.dart';
 import 'create_pin_screen.dart';
@@ -36,7 +36,7 @@ class _ForgotPinOtpScreenState extends State<ForgotPinOtpScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Error: $e'), backgroundColor: FemLyraColors.period),
         );
       }
     } finally {
@@ -67,7 +67,7 @@ class _ForgotPinOtpScreenState extends State<ForgotPinOtpScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid OTP'), backgroundColor: FemFlowColors.period),
+          SnackBar(content: Text('Invalid OTP'), backgroundColor: FemLyraColors.period),
         );
       }
     } finally {
@@ -78,7 +78,7 @@ class _ForgotPinOtpScreenState extends State<ForgotPinOtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         title: const Text('Reset App PIN'),
         centerTitle: true,
@@ -95,7 +95,7 @@ class _ForgotPinOtpScreenState extends State<ForgotPinOtpScreen> {
             const SizedBox(height: 12),
             const Text(
               'Enter your registered email to receive an OTP and reset your security PIN.',
-              style: TextStyle(color: FemFlowColors.textSecondary),
+              style: TextStyle(color: FemLyraColors.textSecondary),
             ),
             const SizedBox(height: 32),
             
@@ -130,7 +130,7 @@ class _ForgotPinOtpScreenState extends State<ForgotPinOtpScreen> {
               child: ElevatedButton(
                 onPressed: _isLoading ? null : (_otpSent ? _verifyOtp : _sendOtp),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: FemFlowColors.primary,
+                  backgroundColor: FemLyraColors.primary,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

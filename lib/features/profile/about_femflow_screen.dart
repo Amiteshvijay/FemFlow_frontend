@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../core/theme/femflow_colors.dart';
+import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
 import 'data/support_service.dart';
 import 'safety_disclaimer_screen.dart';
 
-class AboutFemFlowScreen extends StatefulWidget {
-  const AboutFemFlowScreen({super.key});
+class AboutFemLyraScreen extends StatefulWidget {
+  const AboutFemLyraScreen({super.key});
 
   @override
-  State<AboutFemFlowScreen> createState() => _AboutFemFlowScreenState();
+  State<AboutFemLyraScreen> createState() => _AboutFemLyraScreenState();
 }
 
-class _AboutFemFlowScreenState extends State<AboutFemFlowScreen> {
+class _AboutFemLyraScreenState extends State<AboutFemLyraScreen> {
   final SupportService _supportService = SupportService();
   bool _isLoading = true;
   SupportData? _data;
@@ -46,17 +46,17 @@ class _AboutFemFlowScreenState extends State<AboutFemFlowScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemFlowColors.warmWhite,
+      backgroundColor: FemLyraColors.warmWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('About FemFlow', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: const Text('About FemLyra', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: FemFlowColors.primary))
+          ? const Center(child: CircularProgressIndicator(color: FemLyraColors.primary))
           : _error != null
               ? Center(child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -71,13 +71,13 @@ class _AboutFemFlowScreenState extends State<AboutFemFlowScreen> {
                     children: [
                       const SizedBox(height: 20),
                       Image.asset(
-                        'assets/icons/femflow_app_icon_1024.png',
+                        'assets/icons/FemLyra_app_icon_1024.png',
                         height: 100,
-                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 100, color: FemFlowColors.primary),
+                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 100, color: FemLyraColors.primary),
                       ),
                       const SizedBox(height: 20),
-                      Text(_data?.appName ?? 'FemFlow', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemFlowColors.primary)),
-                      Text(_data?.tagline ?? '', style: const TextStyle(fontSize: 16, color: FemFlowColors.textSecondary)),
+                      Text(_data?.appName ?? 'FemLyra', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
+                      Text(_data?.tagline ?? '', style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary)),
                       const SizedBox(height: 40),
                       AppCard(
                         child: Column(
@@ -85,7 +85,7 @@ class _AboutFemFlowScreenState extends State<AboutFemFlowScreen> {
                           children: [
                             Text('Version: ${_data?.version ?? '1.0.21'}', style: const TextStyle(fontWeight: FontWeight.bold)),
                             const SizedBox(height: 12),
-                            Text(_data?.description ?? '', style: const TextStyle(color: FemFlowColors.textSecondary, height: 1.5)),
+                            Text(_data?.description ?? '', style: const TextStyle(color: FemLyraColors.textSecondary, height: 1.5)),
                           ],
                         ),
                       ),
@@ -97,13 +97,13 @@ class _AboutFemFlowScreenState extends State<AboutFemFlowScreen> {
                             _buildLinkItem(
                               icon: Icons.policy_outlined,
                               label: 'Privacy Policy',
-                              onTap: () => _launchURL('https://www.femflow.in/privacy-policy'),
+                              onTap: () => _launchURL('https://www.femlyra.com/privacy-policy'),
                             ),
                             const Divider(height: 1, indent: 56),
                             _buildLinkItem(
                               icon: Icons.description_outlined,
                               label: 'Terms of Service',
-                              onTap: () => _launchURL('https://www.femflow.in/terms'),
+                              onTap: () => _launchURL('https://www.femlyra.com/terms'),
                             ),
                             const Divider(height: 1, indent: 56),
                             _buildLinkItem(
@@ -127,9 +127,9 @@ class _AboutFemFlowScreenState extends State<AboutFemFlowScreen> {
 
   Widget _buildLinkItem({required IconData icon, required String label, required VoidCallback onTap}) {
     return ListTile(
-      leading: Icon(icon, color: FemFlowColors.primary, size: 22),
+      leading: Icon(icon, color: FemLyraColors.primary, size: 22),
       title: Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-      trailing: const Icon(Icons.open_in_new, size: 16, color: FemFlowColors.textMuted),
+      trailing: const Icon(Icons.open_in_new, size: 16, color: FemLyraColors.textMuted),
       onTap: onTap,
     );
   }
