@@ -154,7 +154,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           if (_currentPage == 0) ...[
             const Text(
-              'Women's Health Partner',
+              'BrandConfig.tagline',
               style: TextStyle(
                 fontSize: 16,
                 color: FemLyraColors.textSecondary,
