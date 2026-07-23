@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
+import '../config/brand_config.dart';
 
 class FemLyraColors {
-  // Brand Colors
-  static const Color primary = Color(0xFFE85D8B);
-  static const Color deepRose = Color(0xFFB83F68);
-  static const Color blushMist = Color(0xFFFCE8F0);
-  static const Color warmWhite = Color(0xFFFFF9FB);
+  // Dynamic Brand Colors from BrandConfig
+  static const Color primary = BrandConfig.primaryColor;
+  static const Color deepRose = BrandConfig.secondaryColor;
+  static const Color blushMist = BrandConfig.cardColor;
+  static const Color warmWhite = BrandConfig.backgroundColor;
 
   // Status Colors
-  static const Color period = Color(0xFFE5486D);
-  static const Color fertileWindow = Color(0xFF7BCFA6);
-  static const Color ovulation = Color(0xFF1F9A8A);
+  static const Color period = BrandConfig.periodColor;
+  static const Color fertileWindow = BrandConfig.fertileColor;
+  static const Color ovulation = BrandConfig.ovulationColor;
   static const Color pmsCaution = Color(0xFFF4A261);
-  static const Color aiWellness = Color(0xFFA78BFA);
+  static const Color aiWellness = BrandConfig.accentColor;
 
   // Text Colors
-  static const Color textPrimary = Color(0xFF22151B);
-  static const Color textSecondary = Color(0xFF6F5E66);
-  static const Color textMuted = Color(0xFF9B8B92);
+  static const Color textPrimary = BrandConfig.textPrimary;
+  static const Color textSecondary = BrandConfig.textSecondary;
+  static const Color textMuted = BrandConfig.textMuted;
 
   // UI Elements
-  static const Color border = Color(0xFFEADDE3);
-  static const Color background = Color(0xFFFFF9FB);
+  static const Color border = BrandConfig.borderColor;
+  static const Color background = BrandConfig.backgroundColor;
   static const Color white = Colors.white;
 
   // Premium Palette

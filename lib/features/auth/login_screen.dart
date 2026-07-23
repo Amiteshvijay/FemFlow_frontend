@@ -1,3 +1,4 @@
+import 'package:femlyra/core/config/brand_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme/FemLyra_colors.dart';
@@ -138,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'FemLyra',
+                    BrandConfig.name,
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -146,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const Text(
-                    'Cycle, Health & Care',
+                    'Women's Health Partner',
                     style: TextStyle(
                       fontSize: 16,
                       color: FemLyraColors.textSecondary,

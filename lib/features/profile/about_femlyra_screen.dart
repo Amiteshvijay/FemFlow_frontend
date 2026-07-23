@@ -1,3 +1,4 @@
+import 'package:femlyra/core/config/brand_config.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/FemLyra_colors.dart';
@@ -76,7 +77,7 @@ class _AboutFemLyraScreenState extends State<AboutFemLyraScreen> {
                         errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 100, color: FemLyraColors.primary),
                       ),
                       const SizedBox(height: 20),
-                      Text(_data?.appName ?? 'FemLyra', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
+                      Text(_data?.appName ?? BrandConfig.name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: FemLyraColors.primary)),
                       Text(_data?.tagline ?? '', style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary)),
                       const SizedBox(height: 40),
                       AppCard(

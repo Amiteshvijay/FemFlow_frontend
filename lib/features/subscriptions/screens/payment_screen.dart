@@ -1,3 +1,4 @@
+import 'package:femlyra/core/config/brand_config.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,7 +65,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
 
     // Listen to incoming deep links for payment callback
     _linkSubscription = DeepLinkService().uriStream.listen((uri) {
-      if (uri.scheme == 'FemLyra' && uri.host == 'upi-callback') {
+      if (uri.scheme == BrandConfig.name && uri.host == 'upi-callback') {
         _handleUpiIntentCallback(uri);
       }
     });

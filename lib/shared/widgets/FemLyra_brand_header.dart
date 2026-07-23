@@ -1,3 +1,4 @@
+import 'package:femlyra/core/config/brand_config.dart';
 import 'package:flutter/material.dart';
 import '../../core/theme/FemLyra_colors.dart';
 
@@ -49,7 +50,7 @@ class FemLyraBrandHeader extends StatelessWidget {
           logo,
           SizedBox(height: spacing),
           Text(
-            'FemLyra',
+            BrandConfig.name,
             style: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -59,7 +60,7 @@ class FemLyraBrandHeader extends StatelessWidget {
           if (showTagline) ...[
             const SizedBox(height: 4),
             const Text(
-              'Cycle, Health & Care',
+              BrandConfig.tagline,
               style: TextStyle(
                 fontSize: 16,
                 color: FemLyraColors.textSecondary,
@@ -76,7 +77,7 @@ class FemLyraBrandHeader extends StatelessWidget {
           logo,
           SizedBox(width: spacing),
           Text(
-            'FemLyra',
+            BrandConfig.name,
             style: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,

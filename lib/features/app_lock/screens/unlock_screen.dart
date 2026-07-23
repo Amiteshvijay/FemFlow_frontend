@@ -1,3 +1,4 @@
+import 'package:femlyra/core/config/brand_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/FemLyra_colors.dart';
@@ -90,7 +91,7 @@ class _UnlockPINViewState extends State<UnlockPINView> {
             ),
             const SizedBox(height: 16),
             const Text(
-              'FemLyra',
+              BrandConfig.name,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

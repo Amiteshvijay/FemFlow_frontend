@@ -1,3 +1,4 @@
+import 'package:femlyra/core/config/brand_config.dart';
 import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,7 @@ class DeepLinkService {
     final isPartnerPath = path == '/partner/accept' || path == '/partner/accept/';
     final isCustomPartnerPath = path == '/accept' || path == '/accept/';
 
-    final isCustomSchemePartner = uri.scheme == 'FemLyra' && uri.host == 'partner' && isCustomPartnerPath;
+    final isCustomSchemePartner = uri.scheme == BrandConfig.name && uri.host == 'partner' && isCustomPartnerPath;
     final isWebSchemePartner = (uri.scheme == 'https' || uri.scheme == 'http') &&
         (uri.host == 'femlyra.com' || uri.host == 'FemLyra.app') &&
         isPartnerPath;

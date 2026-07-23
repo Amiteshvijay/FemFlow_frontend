@@ -1,3 +1,4 @@
+import 'package:femlyra/core/config/brand_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:femlyra/core/theme/FemLyra_theme.dart';
@@ -81,7 +82,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FemLyra',
+      title: BrandConfig.name,
       navigatorKey: NavigatorService.navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: FemLyraTheme.lightTheme,
