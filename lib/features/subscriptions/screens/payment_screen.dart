@@ -1,20 +1,15 @@
 import 'package:femlyra/core/config/brand_config.dart';
 
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:universal_io/io.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import '../../../core/security/app_lock_service.dart';
 import '../../../core/theme/FemLyra_colors.dart';
 import '../models/subscription_models.dart';
 import '../providers/subscription_provider.dart';
 import '../data/subscription_service.dart';
 import '../../shell/main_shell.dart';
-import '../../../../core/services/deep_link_service.dart';
 import '../../auth/providers/auth_provider.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -43,18 +38,11 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
   Timer? _countdownTimer;
   int _secondsRemaining = 180; // 3 minutes
 
-  // UPI Response and Fallback tracking fields
-  bool _isWaitingForUpiResponse = false;
-  Timer? _upiTimeoutTimer;
-  int _upiSecondsRemaining = 60; // 1 minute
-  StreamSubscription<Uri>? _linkSubscription;
-
   late Razorpay _razorpay;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     
     // Initialize Razorpay client
     _razorpay = Razorpay();
@@ -64,22 +52,12 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
 
     // Auto-initiate order creation
     Future.microtask(() => _startPayment());
-
-    // Listen to incoming deep links for payment callback
-    _linkSubscription = DeepLinkService().uriStream.listen((uri) {
-      if (uri.scheme == BrandConfig.name && uri.host == 'upi-callback') {
-        _handleUpiIntentCallback(uri);
-      }
-    });
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     _razorpay.clear();
-    _linkSubscription?.cancel();
     _countdownTimer?.cancel();
-    _upiTimeoutTimer?.cancel();
     _utrController.dispose();
     super.dispose();
   }
@@ -658,10 +636,7 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
       );
     }
 
-    final amount = _orderData!['amount'];
     final orderId = _orderData!['order_id'];
-    final upiLink = _orderData!['upi_link'];
-    final qrCodeUrl = _orderData!['qr_code_url'];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -677,88 +652,85 @@ class _PaymentScreenState extends State<PaymentScreen> with WidgetsBindingObserv
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Countdown Timer Card
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 20),
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.red[50],
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.red[100]!),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.timer_outlined, color: Colors.red, size: 20),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Payment session expires in: ${_formatTime(_secondsRemaining)}',
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Countdown Timer Card
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.red[50],
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.red[100]!),
                 ),
-
-                // Plan Summary Card
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: FemLyraColors.blushMist.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: FemLyraColors.primary.withValues(alpha: 0.2)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.plan.name,
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.timer_outlined, color: Colors.red, size: 20),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Payment session expires in: ${_formatTime(_secondsRemaining)}',
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Total Amount: ₹${amount.toString()}',
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Order Ref: $orderId',
-                        style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 28),
-                // Razorpay Checkout launch button
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: FemLyraColors.primary,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
-                    onPressed: () {
-                      _launchRazorpayCheckout();
-                    },
-                    icon: const Icon(Icons.payment_rounded),
-                    label: const Text('Pay Securely (Cards, UPI, Netbanking)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  ),
+                  ],
                 ),
-                const SizedBox(height: 32),
-              ],
-            ),
+              ),
+
+              // Plan Summary Card
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: FemLyraColors.blushMist.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: FemLyraColors.primary.withValues(alpha: 0.2)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.plan.name,
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.primary),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Total Amount: ₹${amount.toString()}',
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Order Ref: $orderId',
+                      style: const TextStyle(fontSize: 12, color: FemLyraColors.textMuted),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 28),
+              // Razorpay Checkout launch button
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: FemLyraColors.primary,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  onPressed: () {
+                    _launchRazorpayCheckout();
+                  },
+                  icon: const Icon(Icons.payment_rounded),
+                  label: const Text('Pay Securely (Cards, UPI, Netbanking)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                ),
+              ),
+              const SizedBox(height: 32),
+            ],
           ),
         ),
       ),

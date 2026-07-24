@@ -1,20 +1,14 @@
 import 'package:femlyra/core/config/brand_config.dart';
 
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:universal_io/io.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:femlyra/core/security/app_lock_service.dart';
 import 'package:femlyra/core/theme/FemLyra_colors.dart';
 import 'package:femlyra/features/doctor_consultation/models/doctor_models.dart';
 import 'package:femlyra/features/doctor_consultation/data/doctor_consultation_service.dart';
 import 'package:femlyra/features/shell/main_shell.dart';
-import 'package:femlyra/core/services/deep_link_service.dart';
 import 'package:femlyra/features/auth/providers/auth_provider.dart';
 import 'doctor_payment_success_screen.dart';
 
@@ -54,19 +48,12 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
   Timer? _countdownTimer;
   int _secondsRemaining = 180; // 3 minutes
 
-  // UPI Response and Fallback tracking fields
-  bool _isWaitingForUpiResponse = false;
-  Timer? _upiTimeoutTimer;
-  int _upiSecondsRemaining = 60; // 1 minute
-  StreamSubscription<Uri>? _linkSubscription;
-
   late Razorpay _razorpay;
   Map<String, dynamic>? _rzpOrderData;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     
     // Initialize Razorpay client
     _razorpay = Razorpay();
@@ -81,22 +68,12 @@ class _DoctorPaymentScreenState extends State<DoctorPaymentScreen> with WidgetsB
 
     // Auto-initiate Razorpay order creation
     Future.microtask(() => _initiateRazorpayOrder());
-
-    // Listen to incoming deep links for payment callback
-    _linkSubscription = DeepLinkService().uriStream.listen((uri) {
-      if (uri.scheme == BrandConfig.name && uri.host == 'upi-callback') {
-        _handleUpiIntentCallback(uri);
-      }
-    });
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     _razorpay.clear();
-    _linkSubscription?.cancel();
     _countdownTimer?.cancel();
-    _upiTimeoutTimer?.cancel();
     _utrController.dispose();
     super.dispose();
   }
