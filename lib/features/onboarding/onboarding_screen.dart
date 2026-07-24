@@ -30,14 +30,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       icon: Icons.calendar_month_rounded,
     ),
     OnboardingData(
-      title: 'Medical Disclaimer',
-      subtitle: 'FemLyra is not a medical device and does not diagnose or treat conditions. Always consult a healthcare professional for medical advice or treatment.',
-      icon: Icons.info_outline_rounded,
-    ),
-    OnboardingData(
       title: 'Personalized support with FemAI',
       subtitle: 'Ask questions, get gentle insights, and feel supported through every phase.',
       icon: Icons.chat_bubble_outline_rounded,
+    ),
+    OnboardingData(
+      title: 'Medical Disclaimer',
+      subtitle: 'FemLyra is not a medical device and does not diagnose or treat conditions. Always consult a healthcare professional for medical advice or treatment.',
+      icon: Icons.info_outline_rounded,
     ),
   ];
 
