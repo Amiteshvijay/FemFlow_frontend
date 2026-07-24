@@ -1,13 +1,12 @@
-import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:femlyra/core/theme/FemLyra_colors.dart';
 import 'package:femlyra/core/network/api_client.dart';
-import 'package:femlyra/core/security/app_lock_service.dart';
-import 'package:femlyra/shared/widgets/app_card.dart';
-import 'package:femlyra/features/profile/screens/order_history_screen.dart';
+import 'package:femlyra/core/config/brand_config.dart';
+import 'package:femlyra/features/auth/providers/auth_provider.dart';
+import 'package:femlyra/features/shell/main_shell.dart';
 import 'providers/cart_provider.dart';
 
 class LabPaymentScreen extends StatefulWidget {
@@ -15,8 +14,7 @@ class LabPaymentScreen extends StatefulWidget {
   final String orderNumber;
   final String packageName;
   final double amount;
-  final String? upiLink;
-  final String? qrCodeUrl;
+  final Map<String, dynamic>? razorpayOrder;
 
   const LabPaymentScreen({
     super.key,
@@ -24,8 +22,7 @@ class LabPaymentScreen extends StatefulWidget {
     required this.orderNumber,
     required this.packageName,
     required this.amount,
-    this.upiLink,
-    this.qrCodeUrl,
+    this.razorpayOrder,
   });
 
   @override
@@ -34,83 +31,122 @@ class LabPaymentScreen extends StatefulWidget {
 
 class _LabPaymentScreenState extends State<LabPaymentScreen> {
   final ApiClient _apiClient = ApiClient();
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _utrController = TextEditingController();
-  final ImagePicker _picker = ImagePicker();
-
-  File? _screenshotFile;
-  bool _isSubmitting = false;
+  late Razorpay _razorpay;
+  bool _isProcessing = false;
+  Map<String, dynamic>? _rzpOrderData;
 
   @override
-  void dispose() {
-    _utrController.dispose();
-    super.dispose();
-  }
+  void initState() {
+    super.initState();
+    _rzpOrderData = widget.razorpayOrder;
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
 
-  Future<void> _pickImage() async {
-    final appLock = context.read<AppLockService>();
-    try {
-      appLock.setTrustedExternalFlowActive(true);
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery,
-        maxWidth: 1024,
-        maxHeight: 1024,
-        imageQuality: 85,
-      );
-
-      if (image != null) {
-        setState(() {
-          _screenshotFile = File(image.path);
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to pick image: $e'), behavior: SnackBarBehavior.floating),
-        );
-      }
-    } finally {
-      appLock.setTrustedExternalFlowActive(false);
+    // Auto-launch if order data exists, else fetch it
+    if (_rzpOrderData != null) {
+      Future.microtask(() => _launchRazorpayCheckout());
+    } else {
+      Future.microtask(() => _fetchRazorpayOrder());
     }
   }
 
-  Future<void> _submitVerification() async {
-    if (!_formKey.currentState!.validate()) return;
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
+  }
 
-    setState(() {
-      _isSubmitting = true;
-    });
+  Future<void> _fetchRazorpayOrder() async {
+    setState(() => _isProcessing = true);
+    try {
+      final response = await _apiClient.post('/labs/orders/${widget.orderId}/initiate-payment/');
+      if (mounted) {
+        setState(() {
+          _rzpOrderData = response;
+          _isProcessing = false;
+        });
+        _launchRazorpayCheckout();
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isProcessing = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to initialize payment: $e')),
+        );
+      }
+    }
+  }
+
+  void _launchRazorpayCheckout() {
+    if (_rzpOrderData == null) return;
+
+    final authProvider = context.read<AuthProvider>();
+    final userEmail = authProvider.profile?.email ?? '';
+    final userContact = authProvider.profile?.mobileNumber ?? '';
+
+    var options = {
+      'key': _rzpOrderData!['key_id'],
+      'amount': _rzpOrderData!['amount'], // in paise
+      'name': BrandConfig.name,
+      'description': 'Payment for ${widget.packageName}',
+      'order_id': _rzpOrderData!['razorpay_order_id'],
+      'image': 'https://femlyra.com/logo.png',
+      'prefill': {
+        'contact': userContact,
+        'email': userEmail,
+      },
+      'theme': {
+        'color': '#E85D8B'
+      },
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
 
     try {
-      final utr = _utrController.text.trim();
-      
-      await _apiClient.multipartPost(
-        '/labs/orders/${widget.orderId}/submit-utr/',
-        fields: {
-          'utr_number': utr,
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint('Razorpay Error: $e');
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    setState(() => _isProcessing = true);
+    try {
+      await _apiClient.post(
+        '/labs/orders/${widget.orderId}/verify-payment/',
+        body: {
+          'razorpay_payment_id': response.paymentId,
+          'razorpay_order_id': response.orderId ?? _rzpOrderData?['razorpay_order_id'],
+          'razorpay_signature': response.signature,
         },
-        fileFieldName: 'payment_screenshot',
-        file: _screenshotFile,
       );
 
       if (mounted) {
+        context.read<LabCartProvider>().clear();
         _showSuccessDialog();
       }
     } catch (e) {
       if (mounted) {
-        setState(() {
-          _isSubmitting = false;
-        });
+        setState(() => _isProcessing = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.toString()), 
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-          ),
+          SnackBar(content: Text('Verification failed: $e. Please contact support.')),
         );
       }
     }
   }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    if (mounted) {
+      setState(() => _isProcessing = false);
+      String msg = response.code == 2 ? 'Payment cancelled' : (response.message ?? 'Payment failed');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+    }
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {}
 
   void _showSuccessDialog() {
     showDialog(
@@ -121,22 +157,19 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.check_circle_outline_rounded, color: Colors.green, size: 60),
-            const SizedBox(height: 16),
-            const Text(
-              'Submitted successfully!',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Your UTR details have been uploaded. The admin verification team is validating the transaction. Updates will reflect shortly.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: FemLyraColors.textSecondary),
-            ),
+            const Icon(Icons.check_circle_outline_rounded, color: Colors.green, size: 64),
             const SizedBox(height: 24),
+            const Text('Booking Confirmed', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 12),
+            const Text(
+              'Your lab test booking has been confirmed successfully. Our partner laboratory will contact you for sample collection.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: Colors.black87),
+            ),
+            const SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
-              height: 44,
+              height: 48,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: FemLyraColors.primary,
@@ -144,14 +177,12 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 onPressed: () {
-                  context.read<LabCartProvider>().clear();
-                  Navigator.pop(context); // Pop dialog
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const OrderHistoryScreen()),
+                  Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const MainShell()),
+                    (route) => false,
                   );
                 },
-                child: const Text('Okay', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text('Back to Home', style: TextStyle(fontWeight: FontWeight.bold)),
               ),
             ),
           ],
@@ -163,202 +194,48 @@ class _LabPaymentScreenState extends State<LabPaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FemLyraColors.warmWhite,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        title: const Text('Lab Test Checkout', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: FemLyraColors.textPrimary),
-          onPressed: () {
-            // Warn that navigating away won't cancel the order draft
-            Navigator.pop(context);
-          },
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Booking Payment',
-          style: TextStyle(color: FemLyraColors.textPrimary, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Complete your booking for ${widget.packageName}',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Order ID: ${widget.orderNumber}',
-                style: const TextStyle(fontSize: 12, color: FemLyraColors.textSecondary, fontFamily: 'monospace'),
-              ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (_isProcessing)
+              const CircularProgressIndicator(color: FemLyraColors.primary)
+            else ...[
+              const Icon(Icons.payment_outlined, size: 64, color: FemLyraColors.primary),
               const SizedBox(height: 24),
-
-              // QR Code and UPI section
-              AppCard(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Text(
-                      'Pay ₹${widget.amount.toInt()}',
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemLyraColors.primary),
-                    ),
-                    const SizedBox(height: 16),
-                    if (widget.qrCodeUrl != null)
-                      Center(
-                        child: Container(
-                          height: 180,
-                          width: 180,
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey[200]!, width: 2),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Image.network(widget.qrCodeUrl!, fit: BoxFit.contain),
-                        ),
-                      ),
-                    const SizedBox(height: 16),
-                    if (widget.upiLink != null)
-                      SizedBox(
-                        width: double.infinity,
-                        height: 48,
-                        child: ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: FemLyraColors.primary,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          ),
-                          onPressed: () async {
-                            final uri = Uri.parse(widget.upiLink!);
-                            if (await canLaunchUrl(uri)) {
-                              await launchUrl(uri, mode: LaunchMode.externalApplication);
-                            }
-                          },
-                          icon: const Icon(Icons.account_balance_wallet_outlined),
-                          label: const Text('Pay via UPI App', style: TextStyle(fontWeight: FontWeight.bold)),
-                        ),
-                      ),
-                    const SizedBox(height: 12),
-                    const Text(
-                      'UPI ID: FemLyra@ybl',
-                      style: TextStyle(color: FemLyraColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 28),
-
-              // UTR verification
-              const Text(
-                '12-DIGIT TRANSACTION UTR NUMBER',
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
+              Text(
+                'Complete Payment for ${widget.packageName}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              TextFormField(
-                controller: _utrController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'UTR Number',
-                  hintText: 'Enter 12-digit transaction ID',
-                  prefixIcon: const Icon(Icons.receipt_long_outlined, size: 20),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-                  helperText: 'Usually found in GPay/PhonePe payment details.',
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter the transaction UTR number';
-                  }
-                  final trimmed = value.trim();
-                  if (trimmed.length != 12 || !RegExp(r'^\d+$').hasMatch(trimmed)) {
-                    return 'Please enter a valid 12-digit numeric UTR';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 28),
-
-              // Screenshot upload
-              const Text(
-                'TRANSACTION SCREENSHOT (OPTIONAL)',
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
-              ),
-              const SizedBox(height: 8),
-              GestureDetector(
-                onTap: _pickImage,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey[200]!),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: _screenshotFile != null
-                      ? Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.file(
-                                _screenshotFile!,
-                                height: 160,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            const Text(
-                              'Tap to change image',
-                              style: TextStyle(color: FemLyraColors.primary, fontSize: 13, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        )
-                      : const Column(
-                          children: [
-                            Icon(Icons.add_photo_alternate_outlined, size: 36, color: FemLyraColors.textMuted),
-                            SizedBox(height: 12),
-                            Text(
-                              'Select Screenshot from Gallery',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: FemLyraColors.textPrimary),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Accepts PNG, JPG, JPEG (Max 5MB)',
-                              style: TextStyle(color: FemLyraColors.textMuted, fontSize: 11),
-                            ),
-                          ],
-                        ),
-                ),
-              ),
-              const SizedBox(height: 36),
-
-              // Action buttons
-              SizedBox(
-                width: double.infinity,
-                height: 52,
+              Text('Amount: ₹${widget.amount.toInt()}', style: const TextStyle(fontSize: 18, color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 32),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: FemLyraColors.primary,
                     foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 54),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
-                  onPressed: _isSubmitting ? null : _submitVerification,
-                  child: _isSubmitting
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                        )
-                      : const Text(
-                          'Submit Verification',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
+                  onPressed: _launchRazorpayCheckout,
+                  child: const Text('Retry Payment', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                 ),
               ),
-            ],
-          ),
+            ]
+          ],
         ),
       ),
     );

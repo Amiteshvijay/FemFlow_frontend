@@ -53,9 +53,8 @@ class _LabCartScreenState extends State<LabCartScreen> {
               orderId: response['id'],
               orderNumber: response['order_number'],
               packageName: response['package_name'],
-              amount: response['amount'],
-              upiLink: response['upi_link'],
-              qrCodeUrl: response['qr_code_url'],
+              amount: response['amount'].toDouble(),
+              razorpayOrder: response['razorpay_order'],
             ),
           ),
         );
