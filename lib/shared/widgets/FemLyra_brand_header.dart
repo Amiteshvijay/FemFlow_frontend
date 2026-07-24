@@ -27,7 +27,7 @@ class FemLyraBrandHeader extends StatelessWidget {
       width: iconSize,
       height: iconSize,
       decoration: BoxDecoration(
-        color: size == BrandHeaderSize.large ? FemLyraColors.blushMist : FemLyraColors.primary,
+        color: size == BrandHeaderSize.large ? FemLyraColors.blushMist : Colors.white,
         shape: BoxShape.circle,
       ),
       child: ClipOval(
@@ -38,7 +38,7 @@ class FemLyraBrandHeader extends StatelessWidget {
             return Center(
               child: Icon(
                 Icons.water_drop_rounded,
-                color: size == BrandHeaderSize.large ? FemLyraColors.primary : Colors.white,
+                color: size == BrandHeaderSize.large ? FemLyraColors.primary : FemLyraColors.primary,
                 size: iconSize * 0.55,
               ),
             );
