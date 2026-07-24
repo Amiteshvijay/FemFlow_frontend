@@ -16,7 +16,7 @@ import 'package:femlyra/features/lab_tests/lab_payment_screen.dart';
 class OrderDetailScreen extends StatefulWidget {
   final OrderHistoryItem order;
 
-  const OrderDetailScreen({super.key});
+  const OrderDetailScreen({super.key, required this.order});
 
   @override
   State<OrderDetailScreen> createState() => _OrderDetailScreenState();
