@@ -5,7 +5,6 @@ import '../../../core/theme/FemLyra_colors.dart';
 import '../../../shared/widgets/app_card.dart';
 import 'package:femlyra/features/lab_tests/widgets/lab_partner_review_bottom_sheet.dart';
 import '../models/order_history_model.dart';
-import 'payment_verification_screen.dart';
 
 // Automatic Payment resumes
 import 'package:femlyra/features/doctor_consultation/doctor_payment_screen.dart';
@@ -17,7 +16,7 @@ import 'package:femlyra/features/lab_tests/lab_payment_screen.dart';
 class OrderDetailScreen extends StatefulWidget {
   final OrderHistoryItem order;
 
-  const OrderDetailScreen({super.key, required this.order});
+  const OrderDetailScreen({super.key});
 
   @override
   State<OrderDetailScreen> createState() => _OrderDetailScreenState();
@@ -297,7 +296,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
               // Payment Info
               const Text(
-                'PAYMENT & VERIFICATION INFORMATION',
+                'PAYMENT INFORMATION',
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: FemLyraColors.textSecondary, letterSpacing: 1.1),
               ),
               const SizedBox(height: 12),
@@ -312,9 +311,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         children: [
                           const Icon(Icons.lock_outline, color: FemLyraColors.primary, size: 20),
                           const SizedBox(width: 8),
-                          Text(
+                          const Text(
                             'Secure Payment Gateway',
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                         ],
                       ),
@@ -366,9 +365,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ],
                     ),
                   ),
-              ],
 
-              if (_order.type == 'LabTest') ...[
+                if (_order.type == 'LabTest') ...[
                   if (_order.details['report_url'] != null) ...[
                     const SizedBox(height: 20),
                     SizedBox(
