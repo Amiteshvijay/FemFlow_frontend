@@ -1,4 +1,5 @@
 import 'package:femlyra/core/config/brand_config.dart';
+
 import 'package:flutter/material.dart';
 import '../../core/theme/FemLyra_colors.dart';
 
@@ -18,7 +19,7 @@ class FemLyraBrandHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double iconSize = size == BrandHeaderSize.large ? 80 : 24;
+    final double iconSize = size == BrandHeaderSize.large ? 80 : 28;
     final double fontSize = size == BrandHeaderSize.large ? 28 : 18;
     final double spacing = size == BrandHeaderSize.large ? 16 : 8;
 
@@ -31,12 +32,15 @@ class FemLyraBrandHeader extends StatelessWidget {
       ),
       child: ClipOval(
         child: Image.asset(
-          'assets/icons/FemLyra_app_icon_1024.png',
+          'assets/icons/app_logo_final.png',
+          fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
-            return Icon(
-              Icons.water_drop,
-              color: size == BrandHeaderSize.large ? FemLyraColors.primary : Colors.white,
-              size: iconSize * 0.6,
+            return Center(
+              child: Icon(
+                Icons.water_drop_rounded,
+                color: size == BrandHeaderSize.large ? FemLyraColors.primary : Colors.white,
+                size: iconSize * 0.55,
+              ),
             );
           },
         ),

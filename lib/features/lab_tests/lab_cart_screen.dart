@@ -17,6 +17,14 @@ class _LabCartScreenState extends State<LabCartScreen> {
   final ApiClient _apiClient = ApiClient();
   bool _isCheckingOut = false;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<LabCartProvider>().fetchCart();
+    });
+  }
+
   Future<void> _handleCheckout(LabCartProvider cart) async {
     if (cart.items.isEmpty) return;
 

@@ -1,4 +1,6 @@
 import 'package:femlyra/core/config/brand_config.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme/FemLyra_colors.dart';
@@ -133,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Column(
                 children: [
                   Image.asset(
-                    'assets/icons/FemLyra_app_icon_1024.png',
+                    'assets/icons/app_logo_final.png',
                     height: 80,
                     errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 80, color: FemLyraColors.primary),
                   ),
@@ -147,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const Text(
-                    'BrandConfig.tagline',
+                    BrandConfig.tagline,
                     style: TextStyle(
                       fontSize: 16,
                       color: FemLyraColors.textSecondary,

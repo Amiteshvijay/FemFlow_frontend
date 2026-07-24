@@ -33,7 +33,7 @@ class PasswordGuidelines extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Password Requirements',
+            'Password Hints',
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.bold,

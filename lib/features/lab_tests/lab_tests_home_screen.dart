@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:femlyra/core/theme/FemLyra_colors.dart';
 import 'package:femlyra/shared/widgets/app_card.dart';
 import 'package:femlyra/features/lab_tests/providers/cart_provider.dart';
@@ -113,6 +114,7 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
+        if (!mounted) return;
         final result = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
@@ -133,9 +135,11 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
         if (result == true) {
           await Geolocator.openLocationSettings();
         }
-        setState(() {
-          _selectedLocation = "Delhi Enclave, Safdarjung";
-        });
+        if (mounted) {
+          setState(() {
+            _selectedLocation = "Delhi Enclave, Safdarjung";
+          });
+        }
         return;
       }
 
@@ -143,14 +147,17 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          setState(() {
-            _selectedLocation = "Permission Denied (Delhi)";
-          });
+          if (mounted) {
+            setState(() {
+              _selectedLocation = "Permission Denied (Delhi)";
+            });
+          }
           return;
         }
       }
 
       if (permission == LocationPermission.deniedForever) {
+        if (!mounted) return;
         final result = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
@@ -171,9 +178,11 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
         if (result == true) {
           await Geolocator.openAppSettings();
         }
-        setState(() {
-          _selectedLocation = "Delhi Enclave, Safdarjung";
-        });
+        if (mounted) {
+          setState(() {
+            _selectedLocation = "Delhi Enclave, Safdarjung";
+          });
+        }
         return;
       }
 
@@ -181,13 +190,56 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
         desiredAccuracy: LocationAccuracy.high,
       );
 
-      setState(() {
-        _selectedLocation = "Current Location (${position.latitude.toStringAsFixed(2)}, ${position.longitude.toStringAsFixed(2)})";
-      });
+      String formattedLocation = "";
+      try {
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+          position.latitude,
+          position.longitude,
+        );
+
+        if (placemarks.isNotEmpty) {
+          final place = placemarks.first;
+          final area = (place.subLocality != null && place.subLocality!.isNotEmpty)
+              ? place.subLocality!
+              : (place.thoroughfare != null && place.thoroughfare!.isNotEmpty)
+                  ? place.thoroughfare!
+                  : '';
+          final city = (place.locality != null && place.locality!.isNotEmpty)
+              ? place.locality!
+              : (place.subAdministrativeArea != null && place.subAdministrativeArea!.isNotEmpty)
+                  ? place.subAdministrativeArea!
+                  : '';
+          final state = place.administrativeArea ?? '';
+
+          if (area.isNotEmpty && city.isNotEmpty) {
+            formattedLocation = "$area, $city";
+          } else if (city.isNotEmpty && state.isNotEmpty) {
+            formattedLocation = "$city, $state";
+          } else if (city.isNotEmpty) {
+            formattedLocation = city;
+          } else if (area.isNotEmpty) {
+            formattedLocation = area;
+          }
+        }
+      } catch (e) {
+        // Fallback if reverse geocoding native service is unavailable
+      }
+
+      if (formattedLocation.isEmpty) {
+        formattedLocation = "Safdarjung, New Delhi";
+      }
+
+      if (mounted) {
+        setState(() {
+          _selectedLocation = formattedLocation;
+        });
+      }
     } catch (e) {
-      setState(() {
-        _selectedLocation = "Delhi Enclave, Safdarjung";
-      });
+      if (mounted) {
+        setState(() {
+          _selectedLocation = "Safdarjung, New Delhi";
+        });
+      }
     }
   }
 

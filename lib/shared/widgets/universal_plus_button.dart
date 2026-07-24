@@ -138,7 +138,7 @@ class UniversalPlusButton extends StatelessWidget {
           ),
           child: ClipOval(
             child: Image.asset(
-              'assets/icons/FemLyra_app_icon_1024.png',
+              'assets/icons/app_logo_final.png',
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => const Icon(Icons.add, color: Colors.white, size: 32),
             ),

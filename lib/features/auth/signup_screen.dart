@@ -218,7 +218,36 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(height: 16),
               _buildField('Email', _emailController, Icons.email_outlined),
               const SizedBox(height: 16),
-              _buildPasswordField('Password', _passwordController, showHint: true),
+              _buildPasswordField('Password', _passwordController),
+              const SizedBox(height: 6),
+              Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: () => setState(() => _showGuidelines = !_showGuidelines),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.help_outline_rounded,
+                          size: 15,
+                          color: _showGuidelines ? FemLyraColors.primary : Colors.grey.shade600,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Password Hints',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: _showGuidelines ? FemLyraColors.primary : FemLyraColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               if (_showGuidelines) ...[
                 const SizedBox(height: 8),
                 PasswordGuidelines(password: _passwordController.text),
@@ -281,31 +310,18 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildPasswordField(String label, TextEditingController controller, {bool showHint = false}) {
+  Widget _buildPasswordField(String label, TextEditingController controller) {
     return TextField(
       controller: controller,
       obscureText: !_isPasswordVisible,
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: const Icon(Icons.lock_outline),
-        suffixIcon: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (showHint)
-              IconButton(
-                icon: Icon(
-                  Icons.help_outline_rounded,
-                  color: _showGuidelines ? FemLyraColors.primary : Colors.grey,
-                ),
-                onPressed: () => setState(() => _showGuidelines = !_showGuidelines),
-              ),
-            IconButton(
-              icon: Icon(
-                _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-              ),
-              onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
-            ),
-          ],
+        suffixIcon: IconButton(
+          icon: Icon(
+            _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+          ),
+          onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
         ),
         filled: true,
         fillColor: Colors.white,

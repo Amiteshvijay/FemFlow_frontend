@@ -1,3 +1,5 @@
+import 'package:femlyra/core/config/brand_config.dart';
+
 import 'package:flutter/material.dart';
 import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/primary_button.dart';
@@ -28,14 +30,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       icon: Icons.calendar_month_rounded,
     ),
     OnboardingData(
-      title: 'Personalized support with FemAI',
-      subtitle: 'Ask questions, get gentle insights, and feel supported through every phase.',
-      icon: Icons.chat_bubble_outline_rounded,
-    ),
-    OnboardingData(
       title: 'Medical Disclaimer',
       subtitle: 'FemLyra is not a medical device and does not diagnose or treat conditions. Always consult a healthcare professional for medical advice or treatment.',
       icon: Icons.info_outline_rounded,
+    ),
+    OnboardingData(
+      title: 'Personalized support with FemAI',
+      subtitle: 'Ask questions, get gentle insights, and feel supported through every phase.',
+      icon: Icons.chat_bubble_outline_rounded,
     ),
   ];
 
@@ -55,6 +57,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isLastPage = _currentPage == _pages.length - 1;
+
     return Scaffold(
       backgroundColor: FemLyraColors.warmWhite,
       body: SafeArea(
@@ -68,7 +72,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const FemLyraBrandHeader(
                     size: BrandHeaderSize.compact,
                   ),
-                  if (_currentPage < 2)
+                  if (!isLastPage)
                     TextButton(
                       onPressed: _navigateToLogin,
                       child: const Text(
@@ -103,9 +107,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Column(
                 children: [
                   PrimaryButton(
-                    label: _currentPage == 2 ? 'Get Started' : 'Next',
+                    label: isLastPage ? 'Get Started' : 'Next',
                     onPressed: () {
-                      if (_currentPage < 2) {
+                      if (!isLastPage) {
                         _pageController.nextPage(
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
@@ -116,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  if (_currentPage == 2)
+                  if (isLastPage)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -154,7 +158,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           if (_currentPage == 0) ...[
             const Text(
-              'BrandConfig.tagline',
+              BrandConfig.tagline,
               style: TextStyle(
                 fontSize: 16,
                 color: FemLyraColors.textSecondary,

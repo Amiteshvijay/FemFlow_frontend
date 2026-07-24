@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BrandConfig {
   // Brand Identity
   static const String name = 'FemLyra';
-  static const String tagline = "BrandConfig.tagline";
+  static const String tagline = "Women's Health Partner";
   static const String domain = 'femlyra.com';
   static const String supportEmail = 'support@femlyra.com';
   
