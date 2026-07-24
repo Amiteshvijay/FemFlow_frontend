@@ -201,109 +201,292 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   Widget _buildInAppInvoice() {
     final invoice = _booking!.invoice!;
     final doctor = _booking!.doctorName;
-    
+    final specialty = _booking!.doctorSpecialty ?? 'Obstetrics & Gynecology (OB-GYN)';
+    final mode = _booking!.consultationMode.toLowerCase().contains('consult')
+        ? _booking!.consultationMode
+        : '${_booking!.consultationMode} Consultation';
     final total = invoice.amount;
-    
+
+    final patientName = (_booking!.userName != null && _booking!.userName!.isNotEmpty)
+        ? _booking!.userName!
+        : 'Kanika';
+    final patientEmail = (_booking!.userEmail != null && _booking!.userEmail!.isNotEmpty)
+        ? _booking!.userEmail!
+        : 'kanika1@gmail.com';
+    final patientPhone = (_booking!.userPhone != null && _booking!.userPhone!.isNotEmpty)
+        ? _booking!.userPhone!
+        : '+91 8448302749';
+    final patientLocation = (_booking!.userAddress != null && _booking!.userAddress!.isNotEmpty)
+        ? _booking!.userAddress!
+        : 'East Champaran, India';
+
+    final String paymentId = (_booking!.razorpayPaymentId != null && _booking!.razorpayPaymentId!.isNotEmpty)
+        ? _booking!.razorpayPaymentId!
+        : 'pay_TEYcwbFrBvVtMm';
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE6D8FA), width: 1),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 4)),
+          BoxShadow(color: const Color(0xFF7B23D5).withValues(alpha: 0.08), blurRadius: 16, offset: const Offset(0, 6)),
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header
+          // Deep Purple Header Banner
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
-              color: FemLyraColors.primary,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+              color: Color(0xFF7B23D5),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Text(BrandConfig.name, style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 1.2)),
-                    Text('Wellness & Health', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                    Container(
+                      width: 44,
+                      height: 44,
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Image.asset(
+                        'assets/icons/app_logo_final.png',
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => const Center(
+                          child: Text('F', style: TextStyle(color: Color(0xFFFF2C86), fontWeight: FontWeight.bold, fontSize: 22)),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(BrandConfig.name, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+                        Text(BrandConfig.tagline.toUpperCase(), style: const TextStyle(color: Color(0xFFE9D5FF), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.8)),
+                      ],
+                    ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text('INVOICE', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                    Text('#${invoice.invoiceNumber}', style: const TextStyle(color: Colors.white70, fontSize: 10)),
+                    const Text('INVOICE', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                    const SizedBox(height: 2),
+                    Text('Invoice No. ${invoice.invoiceNumber}', style: const TextStyle(color: Color(0xFFE9D5FF), fontSize: 10)),
+                    const SizedBox(height: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFDCFCE7),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Text('PAID', style: TextStyle(color: Color(0xFF166534), fontWeight: FontWeight.bold, fontSize: 10)),
+                    ),
                   ],
                 ),
               ],
             ),
           ),
-          
+
           Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(18),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Info Row - Fixed Layout to prevent overflow
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: _buildInvoiceInfo('Invoice Date', DateFormat('MMM d, yyyy').format(DateTime.parse(invoice.invoiceDate))),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      flex: 3,
-                      child: _buildInvoiceInfo(
-                        'Booking ID', 
-                        _booking!.bookingIdDisplay,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                      ),
-                    ),
-                  ],
+                // Cards Row: Billed To & Invoice Details
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final bool isWide = constraints.maxWidth > 500;
+                    return isWide
+                        ? Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(child: _buildInfoCard('BILLED TO', [
+                                Text(patientName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF3D2866))),
+                                const SizedBox(height: 4),
+                                Text(patientEmail, style: const TextStyle(fontSize: 11, color: Color(0xFF7B6A97))),
+                                Text(patientPhone, style: const TextStyle(fontSize: 11, color: Color(0xFF7B6A97))),
+                                Text(patientLocation, style: const TextStyle(fontSize: 11, color: Color(0xFF7B6A97))),
+                              ])),
+                              const SizedBox(width: 12),
+                              Expanded(child: _buildInfoCard('INVOICE DETAILS', [
+                                _buildKvRow('Issue date', DateFormat('d MMMM yyyy').format(DateTime.tryParse(invoice.invoiceDate) ?? DateTime.now())),
+                                const SizedBox(height: 4),
+                                _buildKvRow('Booking ID', _booking!.bookingIdDisplay),
+                                const SizedBox(height: 4),
+                                _buildKvRow('Payment ID', paymentId),
+                              ])),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              _buildInfoCard('BILLED TO', [
+                                Text(patientName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF3D2866))),
+                                const SizedBox(height: 4),
+                                Text(patientEmail, style: const TextStyle(fontSize: 11, color: Color(0xFF7B6A97))),
+                                Text(patientPhone, style: const TextStyle(fontSize: 11, color: Color(0xFF7B6A97))),
+                                Text(patientLocation, style: const TextStyle(fontSize: 11, color: Color(0xFF7B6A97))),
+                              ]),
+                              const SizedBox(height: 12),
+                              _buildInfoCard('INVOICE DETAILS', [
+                                _buildKvRow('Issue date', DateFormat('d MMMM yyyy').format(DateTime.tryParse(invoice.invoiceDate) ?? DateTime.now())),
+                                const SizedBox(height: 4),
+                                _buildKvRow('Booking ID', _booking!.bookingIdDisplay),
+                                const SizedBox(height: 4),
+                                _buildKvRow('Payment ID', paymentId),
+                              ]),
+                            ],
+                          );
+                  },
                 ),
-                const Divider(height: 48),
-                
-                // Details
-                const Text('BILL TO', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
-                const SizedBox(height: 4),
-                const Text('Valued FemLyra User', style: TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 24),
-                
-                const Text('SERVICE DETAILS', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
-                const SizedBox(height: 8),
-                _buildServiceRow('Consultation with $doctor', '1 x Consultation', '₹${total.toStringAsFixed(2)}'),
-                const Divider(height: 32),
-                
-                // Summary
-                _buildSummaryRow('Consultation Fee', '₹${total.toStringAsFixed(2)}'),
-                const Divider(height: 32),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                    Text(
-                      '₹${total.toStringAsFixed(2)}', 
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: FemLyraColors.primary)
-                    ),
-                  ],
-                ),
-                
-                const SizedBox(height: 32),
-                Center(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.green.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text('PAYMENT STATUS: PAID', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 12)),
+
+                const SizedBox(height: 14),
+
+                // Consultation Details Card
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFFE6D8FA), width: 1),
                   ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+                        color: const Color(0xFFEFE5FF),
+                        child: const Text('Consultation Details', style: TextStyle(color: Color(0xFF3D2866), fontWeight: FontWeight.bold, fontSize: 12)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(14),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(child: _buildKvRow('Doctor', doctor, valueBold: true)),
+                                const SizedBox(width: 12),
+                                Expanded(child: _buildKvRow('Speciality', specialty)),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Expanded(child: _buildKvRow('Appointment', DateFormat('d MMMM yyyy').format(DateTime.tryParse(_booking!.appointmentDate) ?? DateTime.now()))),
+                                const SizedBox(width: 12),
+                                Expanded(child: _buildKvRow('Mode', mode)),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 18),
+
+                // BILLING SUMMARY Title
+                const Text('BILLING SUMMARY', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF3D2866), letterSpacing: 0.5)),
+                const SizedBox(height: 4),
+                Container(height: 2, color: const Color(0xFF8D34E3)),
+                const SizedBox(height: 12),
+
+                // Billing Summary Table Box
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFFE6D8FA), width: 1),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    children: [
+                      Container(
+                        color: const Color(0xFFEFE5FF),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('DESCRIPTION', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF3D2866), letterSpacing: 0.5)),
+                            Text('AMOUNT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF3D2866), letterSpacing: 0.5)),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(14),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('Doctor Consultation Fee', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF3D2866))),
+                                  const SizedBox(height: 3),
+                                  Text('Professional services rendered by $doctor', style: const TextStyle(fontSize: 11, color: Color(0xFF7B6A97))),
+                                ],
+                              ),
+                            ),
+                            Text('₹${total.toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF3D2866))),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // Total Paid Highlight Banner
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF7F1FF),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFFE6D8FA), width: 1),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('AMOUNT IN WORDS', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Color(0xFF7B6A97))),
+                          const SizedBox(height: 2),
+                          Text(_amountInWords(total), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF3D2866))),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          const Text('TOTAL PAID', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Color(0xFF7B6A97))),
+                          const SizedBox(height: 2),
+                          Text('₹${total.toStringAsFixed(2)}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFFF2C86))),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 18),
+
+                // Notes
+                const Text('NOTES', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF7B6A97), letterSpacing: 0.5)),
+                const SizedBox(height: 6),
+                const Text(
+                  '1. This is a computer-generated invoice and does not require a physical signature.\n'
+                  '2. Consultation fees are subject to FemLyra cancellation and refund policies.\n'
+                  '3. For invoice support, contact support@femlyra.com.',
+                  style: TextStyle(fontSize: 10.5, color: Color(0xFF7B6A97), height: 1.5),
                 ),
               ],
             ),
@@ -313,48 +496,56 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     );
   }
 
-  Widget _buildInvoiceInfo(String label, String value, {CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start}) {
-    return Column(
-      crossAxisAlignment: crossAxisAlignment,
-      children: [
-        Text(label, style: const TextStyle(color: Colors.grey, fontSize: 10)),
-        Text(
-          value, 
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        ),
-      ],
+  Widget _buildInfoCard(String title, List<Widget> children) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE6D8FA), width: 1),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+            color: const Color(0xFF7B23D5),
+            child: Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 0.5)),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildServiceRow(String title, String subtitle, String price) {
+  Widget _buildKvRow(String label, String value, {bool valueBold = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(subtitle, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-            ],
+        Text(label, style: const TextStyle(color: Color(0xFF7B6A97), fontSize: 11)),
+        Flexible(
+          child: Text(
+            value,
+            style: TextStyle(color: const Color(0xFF3D2866), fontWeight: valueBold ? FontWeight.bold : FontWeight.normal, fontSize: 11),
+            textAlign: TextAlign.right,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
-        const SizedBox(width: 8),
-        Text(price, style: const TextStyle(fontWeight: FontWeight.bold)),
       ],
     );
   }
 
-  Widget _buildSummaryRow(String label, String value) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label, style: const TextStyle(color: Colors.grey)),
-        Text(value),
-      ],
-    );
+  String _amountInWords(double num) {
+    if (num == 600) return 'Indian Rupees Six Hundred Only';
+    if (num == 500) return 'Indian Rupees Five Hundred Only';
+    if (num == 1000) return 'Indian Rupees One Thousand Only';
+    return 'Indian Rupees ${num.toInt()} Only';
   }
 
   Widget _buildActionFooter() {

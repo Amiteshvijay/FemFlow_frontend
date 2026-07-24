@@ -241,6 +241,10 @@ class DoctorBooking {
   final int followUpsCount;
   final bool canFollowUp;
   final List<DoctorBookingSimple> followUps;
+  final String? userName;
+  final String? userEmail;
+  final String? userPhone;
+  final String? userAddress;
 
   DoctorBooking({
     required this.id,
@@ -268,6 +272,10 @@ class DoctorBooking {
     this.followUpsCount = 0,
     this.canFollowUp = false,
     this.followUps = const [],
+    this.userName,
+    this.userEmail,
+    this.userPhone,
+    this.userAddress,
   });
 
   factory DoctorBooking.fromJson(Map<String, dynamic> json) {
@@ -300,6 +308,10 @@ class DoctorBooking {
               ?.map((e) => DoctorBookingSimple.fromJson(e))
               .toList() ??
           const [],
+      userName: json['user_name'] ?? json['patient_name'] ?? json['user']?['full_name'],
+      userEmail: json['user_email'] ?? json['patient_email'] ?? json['user']?['email'],
+      userPhone: json['user_phone'] ?? json['patient_phone'] ?? json['user']?['mobile_number'],
+      userAddress: json['user_address'] ?? json['patient_address'] ?? json['user']?['address'],
     );
   }
 }
