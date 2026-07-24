@@ -78,12 +78,22 @@ class _AboutFemLyraScreenState extends State<AboutFemLyraScreen> {
                         height: 100,
                         errorBuilder: (context, error, stackTrace) => const Icon(Icons.water_drop, size: 100, color: FemLyraColors.primary),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 16),
+                      Text(
+                        _data?.appName ?? BrandConfig.name,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: FemLyraColors.primary,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
                       Text(
                         (_data?.tagline != null && _data!.tagline!.isNotEmpty) ? _data!.tagline! : BrandConfig.tagline,
-                        style: const TextStyle(fontSize: 16, color: FemLyraColors.textSecondary),
+                        style: const TextStyle(fontSize: 15, color: FemLyraColors.textSecondary, fontWeight: FontWeight.w500),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 36),
                       AppCard(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

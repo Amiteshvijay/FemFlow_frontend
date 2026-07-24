@@ -96,8 +96,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               orderNumber: _order.orderId,
               packageName: _order.displayName,
               amount: _order.amount,
-              upiLink: _order.upiLink,
-              qrCodeUrl: _order.qrCodeUrl,
             ),
           ),
         );
