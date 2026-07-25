@@ -63,13 +63,13 @@ class EndConversationSummaryDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pop(false),
           child: const Text("Resume", style: TextStyle(color: Colors.grey)),
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pop();
             onConfirmEnd();
+            Navigator.of(context).pop(true);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: FemLyraColors.primary,

@@ -37,6 +37,7 @@ class _FemAIConversationScreenState extends State<FemAIConversationScreen> {
   String _latestAiResponseText = '';
   int? _sessionId;
   int? _lastAiMessageId;
+  bool _isSubmitting = false;
 
   bool _showEmergencyCard = false;
   String _emergencyMessage = '';
@@ -48,7 +49,11 @@ class _FemAIConversationScreenState extends State<FemAIConversationScreen> {
   void initState() {
     super.initState();
     _selectedLanguage = ConversationLanguage.getByCode(widget.initialLanguageCode ?? 'hi-IN');
-    _ttsService.initialize();
+    _ttsService.initialize().then((_) {
+      if (mounted) {
+        _startAutoListening();
+      }
+    });
   }
 
   @override
@@ -86,21 +91,12 @@ class _FemAIConversationScreenState extends State<FemAIConversationScreen> {
         _selectedLanguage = result.selectedLanguage;
         _autoDetect = result.autoDetect;
       });
+      _startAutoListening();
     }
   }
 
-  Future<void> _toggleListening() async {
-    if (_state == FemAIConversationState.listening) {
-      await _ttsService.stopListening();
-      if (_userTranscript.isNotEmpty) {
-        _submitTranscript(_userTranscript);
-      } else {
-        setState(() {
-          _state = FemAIConversationState.idle;
-        });
-      }
-      return;
-    }
+  Future<void> _startAutoListening() async {
+    if (!mounted || _state == FemAIConversationState.ended || _isSubmitting) return;
 
     if (_state == FemAIConversationState.speaking) {
       await _ttsService.stopSpeaking();
@@ -114,7 +110,7 @@ class _FemAIConversationScreenState extends State<FemAIConversationScreen> {
     await _ttsService.startListening(
       localeId: _selectedLanguage.localeId,
       onResult: (text, isFinal) {
-        if (mounted) {
+        if (mounted && _state == FemAIConversationState.listening && !_isSubmitting) {
           setState(() {
             _userTranscript = text;
           });
@@ -124,12 +120,14 @@ class _FemAIConversationScreenState extends State<FemAIConversationScreen> {
         }
       },
       onListeningComplete: () {
-        if (mounted && _state == FemAIConversationState.listening) {
+        if (mounted && _state == FemAIConversationState.listening && !_isSubmitting) {
           if (_userTranscript.trim().isNotEmpty) {
             _submitTranscript(_userTranscript);
           } else {
-            setState(() {
-              _state = FemAIConversationState.idle;
+            Future.delayed(const Duration(milliseconds: 600), () {
+              if (mounted && _state == FemAIConversationState.listening && !_isSubmitting) {
+                _startAutoListening();
+              }
             });
           }
         }
@@ -137,14 +135,31 @@ class _FemAIConversationScreenState extends State<FemAIConversationScreen> {
     );
   }
 
+  Future<void> _toggleListening() async {
+    if (_state == FemAIConversationState.listening) {
+      await _ttsService.stopListening();
+      if (_userTranscript.isNotEmpty && !_isSubmitting) {
+        _submitTranscript(_userTranscript);
+      } else {
+        setState(() {
+          _state = FemAIConversationState.idle;
+        });
+      }
+      return;
+    }
+
+    await _startAutoListening();
+  }
+
   Future<void> _submitTranscript(String transcriptText) async {
     final trimmed = transcriptText.trim();
-    if (trimmed.isEmpty) return;
+    if (trimmed.isEmpty || _isSubmitting) return;
 
+    _isSubmitting = true;
     await _ttsService.stopListening();
 
     setState(() {
-      _userTranscript = trimmed;
+      _userTranscript = '';
       _state = FemAIConversationState.thinking;
     });
 
@@ -172,6 +187,7 @@ class _FemAIConversationScreenState extends State<FemAIConversationScreen> {
       setState(() {
         _latestAiResponseText = aiText;
         _turns.add({'user': trimmed, 'ai': aiText});
+        _userTranscript = '';
         if (riskLevel == 'emergency' && emergencyMsg.isNotEmpty) {
           _showEmergencyCard = true;
           _emergencyMessage = emergencyMsg;
@@ -195,22 +211,27 @@ class _FemAIConversationScreenState extends State<FemAIConversationScreen> {
           }
         },
         onDone: () {
-          if (mounted) {
+          if (mounted && _state != FemAIConversationState.ended) {
             setState(() {
               _state = FemAIConversationState.idle;
             });
+            // Automatically resume listening for the next voice query
+            _startAutoListening();
           }
         },
       );
     } catch (e) {
       if (mounted) {
         setState(() {
+          _userTranscript = '';
           _state = FemAIConversationState.error;
         });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${e.toString()}'), backgroundColor: Colors.redAccent),
         );
       }
+    } finally {
+      _isSubmitting = false;
     }
   }
 
@@ -243,20 +264,27 @@ class _FemAIConversationScreenState extends State<FemAIConversationScreen> {
     });
   }
 
-  void _endConversation() {
-    showDialog(
+  Future<void> _endConversation() async {
+    await _ttsService.stopListening();
+    await _ttsService.stopSpeaking();
+
+    if (!mounted) return;
+
+    final confirmEnd = await showDialog<bool>(
       context: context,
       builder: (context) => EndConversationSummaryDialog(
         totalTurns: _turns.length,
         languageName: _selectedLanguage.name,
-        onConfirmEnd: () {
-          setState(() {
-            _state = FemAIConversationState.ended;
-          });
-          Navigator.of(context).pop();
-        },
+        onConfirmEnd: () {},
       ),
     );
+
+    if (confirmEnd == true && mounted) {
+      setState(() {
+        _state = FemAIConversationState.ended;
+      });
+      Navigator.of(context).pop();
+    }
   }
 
   void _reportResponse() {
@@ -518,7 +546,7 @@ class _FemAIConversationScreenState extends State<FemAIConversationScreen> {
                           Text(
                             _state == FemAIConversationState.listening
                                 ? "Stop & Process"
-                                : "🎤 Speak",
+                                : "Speak",
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,

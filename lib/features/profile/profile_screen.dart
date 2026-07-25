@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'screens/saved_addresses_screen.dart';
 import 'screens/order_history_screen.dart';
 import '../../core/theme/FemLyra_colors.dart';
 import '../../shared/widgets/app_card.dart';
@@ -332,6 +333,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 MaterialPageRoute(builder: (context) => PersonalInfoScreen(profile: _profile)),
               );
               if (result == true) _fetchProfile();
+            },
+          ),
+          _buildMenuItem(
+            context,
+            icon: Icons.location_on_outlined,
+            label: 'Saved Addresses',
+            showDivider: true,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SavedAddressesScreen()),
+              );
             },
           ),
           if (!isPartner) ...[

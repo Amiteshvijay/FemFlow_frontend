@@ -1,9 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SpeechTtsService {
   final stt.SpeechToText _speech = stt.SpeechToText();
+  final FlutterTts _tts = FlutterTts();
+
   bool _isSpeechInitialized = false;
+  bool _isTtsInitialized = false;
   bool _isListening = false;
   bool _isSpeaking = false;
 
@@ -11,6 +15,18 @@ class SpeechTtsService {
   bool get isSpeaking => _isSpeaking;
 
   Future<bool> initialize() async {
+    if (!_isTtsInitialized) {
+      try {
+        await _tts.setSpeechRate(0.48);
+        await _tts.setVolume(1.0);
+        await _tts.setPitch(1.0);
+        await _tts.awaitSpeakCompletion(true);
+        _isTtsInitialized = true;
+      } catch (e) {
+        debugPrint('Error initializing FlutterTts: $e');
+      }
+    }
+
     if (_isSpeechInitialized) return true;
     try {
       _isSpeechInitialized = await _speech.initialize(
@@ -64,26 +80,60 @@ class SpeechTtsService {
     required Function() onStart,
     required Function() onDone,
   }) async {
+    await stopSpeaking();
+    await initialize();
+
     _isSpeaking = true;
     onStart();
 
-    // Standard duration simulation / voice engine handler for mobile web & native
-    final wordCount = text.split(' ').length;
-    final estimatedSeconds = (wordCount / 2.5).clamp(3.0, 20.0);
+    String ttsLang = languageCode;
+    if (languageCode == 'hi') ttsLang = 'hi-IN';
+    if (languageCode == 'en') ttsLang = 'en-IN';
 
-    debugPrint('FemAI Speaking ($languageCode): $text');
+    try {
+      await _tts.setLanguage(ttsLang);
+    } catch (e) {
+      debugPrint('Error setting TTS language $ttsLang: $e');
+    }
 
-    // Simulate completion or allow manual stop
-    Future.delayed(Duration(seconds: estimatedSeconds.round()), () {
+    _tts.setStartHandler(() {
+      _isSpeaking = true;
+      onStart();
+    });
+
+    _tts.setCompletionHandler(() {
       if (_isSpeaking) {
         _isSpeaking = false;
         onDone();
       }
     });
+
+    _tts.setErrorHandler((msg) {
+      debugPrint('TTS Error: $msg');
+      if (_isSpeaking) {
+        _isSpeaking = false;
+        onDone();
+      }
+    });
+
+    try {
+      final result = await _tts.speak(text);
+      if (result == 0) {
+        _isSpeaking = false;
+        onDone();
+      }
+    } catch (e) {
+      debugPrint('TTS speak exception: $e');
+      _isSpeaking = false;
+      onDone();
+    }
   }
 
   Future<void> stopSpeaking() async {
     _isSpeaking = false;
+    try {
+      await _tts.stop();
+    } catch (_) {}
   }
 
   Future<void> replay({

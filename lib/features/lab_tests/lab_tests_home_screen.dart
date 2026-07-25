@@ -6,6 +6,9 @@ import 'package:femlyra/core/theme/FemLyra_colors.dart';
 import 'package:femlyra/shared/widgets/app_card.dart';
 import 'package:femlyra/features/lab_tests/providers/cart_provider.dart';
 import 'package:femlyra/features/lab_tests/lab_cart_screen.dart';
+import '../profile/data/address_service.dart';
+import '../profile/models/user_address.dart';
+import '../profile/screens/saved_addresses_screen.dart';
 
 class LabTestsHomeScreen extends StatefulWidget {
   final bool useCurrentLocation;
@@ -258,76 +261,119 @@ class _LabTestsHomeScreenState extends State<LabTestsHomeScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Select Location',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => Navigator.pop(context),
-                  )
-                ],
-              ),
-              const SizedBox(height: 16),
-              OutlinedButton.icon(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _detectCurrentLocation();
-                },
-                icon: const Icon(Icons.my_location, color: FemLyraColors.primary),
-                label: const Text('Use Current Location', style: TextStyle(color: FemLyraColors.primary)),
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 48),
-                  side: const BorderSide(color: FemLyraColors.primary),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        return FutureBuilder<List<UserAddress>>(
+          future: AddressService().getAddresses(),
+          builder: (context, snapshot) {
+            final addresses = snapshot.data ?? [];
+            return Container(
+              padding: EdgeInsets.fromLTRB(24, 24, 24, MediaQuery.of(context).padding.bottom + 24),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Select Location',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () => Navigator.pop(context),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    OutlinedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _detectCurrentLocation();
+                      },
+                      icon: const Icon(Icons.my_location, color: FemLyraColors.primary),
+                      label: const Text('Use Current Location', style: TextStyle(color: FemLyraColors.primary)),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 48),
+                        side: const BorderSide(color: FemLyraColors.primary),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Saved Addresses', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
+                        TextButton(
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const SavedAddressesScreen()),
+                            );
+                            _showLocationBottomSheet();
+                          },
+                          child: const Text('+ Add / Edit', style: TextStyle(color: FemLyraColors.primary, fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    if (snapshot.connectionState == ConnectionState.waiting)
+                      const Center(child: Padding(padding: EdgeInsets.all(16), child: CircularProgressIndicator(strokeWidth: 2, color: FemLyraColors.primary)))
+                    else if (addresses.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          'No saved addresses yet. Tap "+ Add / Edit" to save your home or office address.',
+                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                        ),
+                      )
+                    else
+                      Column(
+                        children: addresses.map((addr) {
+                          final iconData = addr.label == 'office'
+                              ? Icons.work_outline
+                              : addr.label == 'other'
+                                  ? Icons.location_on_outlined
+                                  : Icons.home_outlined;
+                          return ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: Icon(iconData, color: FemLyraColors.primary),
+                            title: Row(
+                              children: [
+                                Text(addr.displayTitle, style: const TextStyle(fontWeight: FontWeight.bold)),
+                                if (addr.isDefault) ...[
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(color: FemLyraColors.primary, borderRadius: BorderRadius.circular(10)),
+                                    child: const Text('Default', style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
+                                  ),
+                                ],
+                              ],
+                            ),
+                            subtitle: Text(addr.formattedAddress, maxLines: 2, overflow: TextOverflow.ellipsis),
+                            onTap: () {
+                              setState(() {
+                                _selectedLocation = "${addr.displayTitle} - ${addr.pincode}, ${addr.city}";
+                              });
+                              Navigator.pop(context);
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    const SizedBox(height: 8),
+                    const Divider(color: FemLyraColors.border),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Note: Your location is only used to list serviceable labs and show accurate prices.',
+                      style: TextStyle(fontSize: 11, color: FemLyraColors.textMuted),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 16),
-              const Text('Saved Addresses', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary)),
-              const SizedBox(height: 12),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.home_outlined, color: FemLyraColors.primary),
-                title: const Text('Home'),
-                subtitle: const Text('H-12, Green Park, New Delhi - 110016'),
-                onTap: () {
-                  setState(() {
-                    _selectedLocation = "Home - 110016, Green Park";
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.work_outline, color: FemLyraColors.primary),
-                title: const Text('Office'),
-                subtitle: const Text('Building 4B, Cyber City, Gurugram - 122002'),
-                onTap: () {
-                  setState(() {
-                    _selectedLocation = "Office - 122002, Gurugram";
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              const SizedBox(height: 8),
-              const Divider(color: FemLyraColors.border),
-              const SizedBox(height: 8),
-              const Text(
-                'Note: Your location is only used to list serviceable labs and show accurate prices.',
-                style: TextStyle(fontSize: 11, color: FemLyraColors.textMuted),
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
+            );
+          },
         );
       },
     );
