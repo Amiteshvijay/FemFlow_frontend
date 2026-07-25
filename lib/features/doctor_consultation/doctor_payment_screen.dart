@@ -1,5 +1,3 @@
-import 'package:femlyra/core/config/brand_config.dart';
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +6,6 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:femlyra/core/theme/FemLyra_colors.dart';
 import 'package:femlyra/features/doctor_consultation/models/doctor_models.dart';
 import 'package:femlyra/features/doctor_consultation/data/doctor_consultation_service.dart';
-import 'package:femlyra/features/shell/main_shell.dart';
 import 'package:femlyra/features/auth/providers/auth_provider.dart';
 import 'doctor_payment_success_screen.dart';
 

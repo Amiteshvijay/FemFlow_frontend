@@ -4,6 +4,7 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:share_plus/share_plus.dart';
 import '../../core/theme/FemLyra_colors.dart';
 import 'data/chat_service.dart';
+import 'femai_conversation_screen.dart';
 
 class FemAIChatScreen extends StatefulWidget {
   final String? initialMessage;
@@ -550,7 +551,6 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
           _isTyping = false;
         });
         _scrollToBottom();
-        _loadSessions();
       }
     } catch (e) {
       if (mounted) {
@@ -560,6 +560,83 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
         );
       }
     }
+  }
+
+  Widget _buildTalkToFemAICard() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            FemLyraColors.softBlush,
+            FemLyraColors.softBlush.withValues(alpha: 0.4),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: FemLyraColors.primary.withOpacity(0.2)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: const BoxDecoration(
+              color: FemLyraColors.primary,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.record_voice_over_rounded, color: Colors.white, size: 24),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Talk to FemAI",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: FemLyraColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "Speak naturally about your health, cycle, pregnancy, nutrition or wellness.",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[700],
+                    height: 1.3,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => FemAIConversationScreen(
+                          dayContext: widget.dayContext,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.mic_rounded, size: 16),
+                  label: const Text("Start Conversation", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: FemLyraColors.primary,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -604,6 +681,7 @@ class _FemAIChatScreenState extends State<FemAIChatScreen> {
       ),
       body: Column(
         children: [
+          _buildTalkToFemAICard(),
           Expanded(
             child: Stack(
               children: [

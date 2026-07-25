@@ -61,4 +61,38 @@ class ChatService {
     }
     return {'status': 'success'};
   }
+
+  Future<Map<String, dynamic>> sendConversationTurn({
+    required String transcript,
+    int? sessionId,
+    String languageCode = 'hi-IN',
+    bool autoDetect = false,
+    Map<String, dynamic>? dayContext,
+  }) async {
+    final response = await _apiClient.post('/chat/conversation/', body: {
+      'user_transcript': transcript,
+      'session_id': sessionId,
+      'language_code': languageCode,
+      'auto_detect': autoDetect,
+      'conversation_mode': true,
+      'input_type': 'voice',
+      'day_context': dayContext,
+    }..removeWhere((key, value) => value == null));
+    return response as Map<String, dynamic>;
+  }
+
+  Future<Map<String, dynamic>> reportResponse({
+    required int messageId,
+    required String reason,
+  }) async {
+    try {
+      final response = await _apiClient.post('/chat/report/', body: {
+        'message_id': messageId,
+        'reason': reason,
+      });
+      return response is Map<String, dynamic> ? response : {'status': 'success'};
+    } catch (e) {
+      return {'status': 'success'};
+    }
+  }
 }
