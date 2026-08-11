@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:femlyra/core/theme/FemLyra_colors.dart';
 import 'package:femlyra/core/network/api_client.dart';
 import 'package:femlyra/shared/widgets/app_card.dart';
+import 'package:femlyra/shared/widgets/coupon_referral_section.dart';
 import 'providers/cart_provider.dart';
 import 'lab_payment_screen.dart';
 
@@ -16,6 +17,8 @@ class LabCartScreen extends StatefulWidget {
 class _LabCartScreenState extends State<LabCartScreen> {
   final ApiClient _apiClient = ApiClient();
   bool _isCheckingOut = false;
+  String? _appliedCouponCode;
+  double _couponDiscount = 0.0;
 
   @override
   void initState() {
@@ -39,6 +42,8 @@ class _LabCartScreenState extends State<LabCartScreen> {
         body: {
           'package_name': packageNames,
           'amount': cart.totalAmount,
+          'coupon_code': _appliedCouponCode,
+          'referral_code': _appliedCouponCode,
         },
       );
 
@@ -243,6 +248,38 @@ class _LabCartScreenState extends State<LabCartScreen> {
                 Text('₹${cart.collectionFee.toInt()}', style: const TextStyle(fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary, fontSize: 13)),
               ],
             ),
+            CouponReferralSection(
+              serviceType: 'lab',
+              originalAmount: cart.totalAmount,
+              itemDetails: {
+                'package_name': cart.items.map((e) => e['name']).join(', '),
+                'items_count': cart.items.length,
+              },
+              appliedCode: _appliedCouponCode,
+              appliedDiscount: _couponDiscount,
+              onCouponApplied: (code, disc, msg) {
+                setState(() {
+                  _appliedCouponCode = code;
+                  _couponDiscount = disc;
+                });
+              },
+              onCouponRemoved: () {
+                setState(() {
+                  _appliedCouponCode = null;
+                  _couponDiscount = 0.0;
+                });
+              },
+            ),
+            if (_couponDiscount > 0) ...[
+              const SizedBox(height: 6),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Coupon Discount (${_appliedCouponCode ?? ''})', style: TextStyle(color: Colors.green.shade800, fontSize: 13, fontWeight: FontWeight.w600)),
+                  Text('-₹${_couponDiscount.toStringAsFixed(2)}', style: TextStyle(color: Colors.green.shade800, fontSize: 13, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ],
             const SizedBox(height: 12),
             const Divider(color: FemLyraColors.border),
             const SizedBox(height: 12),
@@ -250,7 +287,7 @@ class _LabCartScreenState extends State<LabCartScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary, fontSize: 15)),
-                Text('₹${cart.totalAmount.toInt()}', style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 18)),
+                Text('₹${((cart.totalAmount - _couponDiscount).clamp(0.0, double.infinity)).toInt()}', style: const TextStyle(fontWeight: FontWeight.bold, color: FemLyraColors.primary, fontSize: 18)),
               ],
             ),
             const SizedBox(height: 24),

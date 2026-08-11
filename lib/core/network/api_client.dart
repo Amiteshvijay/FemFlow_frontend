@@ -83,11 +83,13 @@ class ApiClient {
       } else if (body != null) {
         if (body is Map) {
           if (body.containsKey('error')) {
-            detailCode = body['error'];
+            detailCode = body['error'] is String ? body['error'] : null;
             message = body['message'] ?? message;
           } else if (body.containsKey('detail')) {
-            message = body['detail'];
-            detailCode = body['detail_code']; // Optional backend field
+            message = body['detail'] is String ? body['detail'] : message;
+            detailCode = body['detail_code'] is String ? body['detail_code'] : null;
+          } else if (body.containsKey('message')) {
+            message = body['message'] is String ? body['message'] : message;
           } else if (body.isNotEmpty) {
             // Handle field-level validation errors
             final errors = <String>[];

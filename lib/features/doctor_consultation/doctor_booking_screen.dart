@@ -7,6 +7,7 @@ import 'data/doctor_consultation_service.dart';
 import 'models/doctor_models.dart';
 import 'doctor_payment_success_screen.dart';
 import 'doctor_payment_screen.dart';
+import '../../shared/widgets/coupon_referral_section.dart';
 
 class DoctorBookingScreen extends StatefulWidget {
   final DoctorProfile doctor;
@@ -39,6 +40,9 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
   int _freeBookingsCount = 0;
   DateTime? _latestFreeBookingDate;
   bool _isLoadingBookingHistory = true;
+
+  String? _appliedCouponCode;
+  double _couponDiscount = 0.0;
 
   @override
   void initState() {
@@ -165,6 +169,7 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
         userNotes: _notesController.text,
         isCommunityCare: useCommunityCare,
         originalBookingId: widget.originalBookingId,
+        couponCode: _appliedCouponCode,
       );
 
       _currentBookingId = bookingResponse['booking_id'];
@@ -232,7 +237,8 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
 
     final consultationFee = widget.followUpFee ?? widget.doctor.consultationFee;
     final platformFee = consultationFee * 0.005;
-    final totalAmount = consultationFee + platformFee;
+    final grossTotal = consultationFee + platformFee;
+    final totalAmount = (grossTotal - _couponDiscount).clamp(0.0, double.infinity);
     final platformFeeStr = platformFee % 1 == 0 ? platformFee.toInt().toString() : platformFee.toStringAsFixed(2);
     final totalAmountStr = totalAmount % 1 == 0 ? totalAmount.toInt().toString() : totalAmount.toStringAsFixed(2);
 
@@ -642,6 +648,40 @@ class _DoctorBookingScreenState extends State<DoctorBookingScreen> {
                             Text('₹$platformFeeStr', style: const TextStyle(color: Colors.black87)),
                           ],
                         ),
+                        if (!isFree) ...[
+                          CouponReferralSection(
+                            serviceType: 'doctor',
+                            originalAmount: grossTotal,
+                            itemDetails: {
+                              'doctor_id': widget.doctor.id,
+                              'speciality': widget.doctor.speciality,
+                            },
+                            appliedCode: _appliedCouponCode,
+                            appliedDiscount: _couponDiscount,
+                            onCouponApplied: (code, disc, msg) {
+                              setState(() {
+                                _appliedCouponCode = code;
+                                _couponDiscount = disc;
+                              });
+                            },
+                            onCouponRemoved: () {
+                              setState(() {
+                                _appliedCouponCode = null;
+                                _couponDiscount = 0.0;
+                              });
+                            },
+                          ),
+                        ],
+                        if (_couponDiscount > 0) ...[
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Coupon Discount (${_appliedCouponCode ?? ''})', style: const TextStyle(color: Colors.green, fontWeight: FontWeight.w600)),
+                              Text('-₹${_couponDiscount.toStringAsFixed(2)}', style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ],
                         const Divider(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

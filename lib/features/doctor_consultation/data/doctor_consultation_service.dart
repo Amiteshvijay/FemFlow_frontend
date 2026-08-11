@@ -55,6 +55,7 @@ class DoctorConsultationService {
     String? userNotes,
     bool isCommunityCare = false,
     int? originalBookingId,
+    String? couponCode,
   }) async {
     final response = await _apiClient.post('/doctor-consultation/bookings/', body: {
       'doctor_id': doctorId,
@@ -64,6 +65,8 @@ class DoctorConsultationService {
       'user_notes': userNotes,
       'is_community_care': isCommunityCare,
       'original_booking_id': originalBookingId,
+      'coupon_code': couponCode,
+      'referral_code': couponCode,
     });
     return response;
   }
