@@ -278,9 +278,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       _service.updatePaymentStage(orderData['order_id'], 'initiated');
       _service.updatePaymentStage(orderData['order_id'], 'checkout_viewed');
       _startCountdown();
-      
-      // Auto-launch Razorpay checkout
-      _launchRazorpayCheckout();
     } catch (e, stack) {
       debugPrint('DEBUG: UPI Order Creation Error: $e');
       debugPrint('DEBUG: Stack Trace: $stack');
