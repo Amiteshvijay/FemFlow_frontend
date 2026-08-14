@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../../core/theme/FemLyra_colors.dart';
+import '../../../shared/widgets/coupon_referral_section.dart';
 import '../models/subscription_models.dart';
 import '../providers/subscription_provider.dart';
 import '../data/subscription_service.dart';
@@ -27,6 +28,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   String _statusMessage = 'Initializing secure payment...';
   bool _showRetryButton = false;
   Map<String, dynamic>? _orderData;
+  String? _appliedCouponCode;
+  double _couponDiscount = 0.0;
 
   Timer? _countdownTimer;
   int _secondsRemaining = 180; // 3 minutes
@@ -213,9 +216,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
     final userEmail = authProvider.profile?.email ?? '';
     final userContact = authProvider.profile?.mobileNumber ?? '';
 
+    final String rzpKey = (_orderData?['key_id'] != null && _orderData!['key_id'].toString().isNotEmpty)
+        ? _orderData!['key_id'].toString()
+        : 'rzp_live_TEWkipIUyLDq64';
+
+    final double baseAmount = (_orderData!['amount'] as num).toDouble();
+    final double finalAmount = (baseAmount - _couponDiscount).clamp(0.0, double.infinity);
+
     var options = {
-      'key': _orderData!['key_id'],
-      'amount': (_orderData!['amount'] * 100).toInt(),
+      'key': rzpKey,
+      'amount': (finalAmount * 100).toInt(),
       'name': 'FemLyra Premium',
       'description': 'Subscription to ${widget.plan.name}',
       'order_id': _orderData!['order_id'],
@@ -411,9 +421,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Total Amount: ₹${amount.toString()}',
+                      'Total Amount: ₹${(((amount as num).toDouble() - _couponDiscount).clamp(0.0, double.infinity)).toStringAsFixed(2)}',
                       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FemLyraColors.textPrimary),
                     ),
+                    if (_couponDiscount > 0) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        'Coupon Discount (${_appliedCouponCode ?? ''}): -₹${_couponDiscount.toStringAsFixed(2)}',
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.green.shade800),
+                      ),
+                    ],
                     const SizedBox(height: 4),
                     Text(
                       'Order Ref: $orderId',
@@ -422,7 +439,30 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 16),
+              CouponReferralSection(
+                serviceType: 'premium',
+                originalAmount: (amount as num).toDouble(),
+                itemDetails: {
+                  'plan_id': widget.plan.id,
+                  'plan_key': widget.plan.planKey,
+                },
+                appliedCode: _appliedCouponCode,
+                appliedDiscount: _couponDiscount,
+                onCouponApplied: (code, disc, msg) {
+                  setState(() {
+                    _appliedCouponCode = code;
+                    _couponDiscount = disc;
+                  });
+                },
+                onCouponRemoved: () {
+                  setState(() {
+                    _appliedCouponCode = null;
+                    _couponDiscount = 0.0;
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
               // Razorpay Checkout launch button
               SizedBox(
                 width: double.infinity,

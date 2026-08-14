@@ -103,13 +103,34 @@ class _LabCartScreenState extends State<LabCartScreen> {
           return Column(
             children: [
               Expanded(
-                child: ListView.builder(
+                child: ListView(
                   padding: const EdgeInsets.all(20),
-                  itemCount: cart.items.length,
-                  itemBuilder: (context, idx) {
-                    final item = cart.items[idx];
-                    return _buildCartItemCard(item, cart);
-                  },
+                  children: [
+                    ...cart.items.map((item) => _buildCartItemCard(item, cart)),
+                    const SizedBox(height: 8),
+                    CouponReferralSection(
+                      serviceType: 'lab',
+                      originalAmount: cart.totalAmount,
+                      itemDetails: {
+                        'package_name': cart.items.map((e) => e['name']).join(', '),
+                        'items_count': cart.items.length,
+                      },
+                      appliedCode: _appliedCouponCode,
+                      appliedDiscount: _couponDiscount,
+                      onCouponApplied: (code, disc, msg) {
+                        setState(() {
+                          _appliedCouponCode = code;
+                          _couponDiscount = disc;
+                        });
+                      },
+                      onCouponRemoved: () {
+                        setState(() {
+                          _appliedCouponCode = null;
+                          _couponDiscount = 0.0;
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
               _buildPriceSummary(cart),
@@ -247,28 +268,6 @@ class _LabCartScreenState extends State<LabCartScreen> {
                 const Text('Home Collection Charges', style: TextStyle(color: FemLyraColors.textSecondary, fontSize: 13)),
                 Text('₹${cart.collectionFee.toInt()}', style: const TextStyle(fontWeight: FontWeight.w600, color: FemLyraColors.textPrimary, fontSize: 13)),
               ],
-            ),
-            CouponReferralSection(
-              serviceType: 'lab',
-              originalAmount: cart.totalAmount,
-              itemDetails: {
-                'package_name': cart.items.map((e) => e['name']).join(', '),
-                'items_count': cart.items.length,
-              },
-              appliedCode: _appliedCouponCode,
-              appliedDiscount: _couponDiscount,
-              onCouponApplied: (code, disc, msg) {
-                setState(() {
-                  _appliedCouponCode = code;
-                  _couponDiscount = disc;
-                });
-              },
-              onCouponRemoved: () {
-                setState(() {
-                  _appliedCouponCode = null;
-                  _couponDiscount = 0.0;
-                });
-              },
             ),
             if (_couponDiscount > 0) ...[
               const SizedBox(height: 6),
