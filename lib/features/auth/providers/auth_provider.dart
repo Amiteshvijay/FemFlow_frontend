@@ -17,10 +17,12 @@ class AuthProvider extends ChangeNotifier {
 
   AuthStatus _status = AuthStatus.loading;
   bool _onboardingCompleted = false;
+  bool _showSignupScreen = false;
   profile_data.UserProfile? _profile;
 
   AuthStatus get status => _status;
   bool get onboardingCompleted => _onboardingCompleted;
+  bool get showSignupScreen => _showSignupScreen;
   profile_data.UserProfile? get profile => _profile;
 
   void updateSubscriptionProvider(SubscriptionProvider provider) {
@@ -81,10 +83,11 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> completeOnboarding() async {
+  Future<void> completeOnboarding({bool showSignup = false}) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('onboarding_completed', true);
     _onboardingCompleted = true;
+    _showSignupScreen = showSignup;
     notifyListeners();
   }
 

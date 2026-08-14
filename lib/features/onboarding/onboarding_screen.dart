@@ -48,11 +48,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _navigateToSignup() {
-    context.read<AuthProvider>().completeOnboarding();
+    context.read<AuthProvider>().completeOnboarding(showSignup: true);
   }
 
   void _navigateToLogin() {
-    context.read<AuthProvider>().completeOnboarding();
+    context.read<AuthProvider>().completeOnboarding(showSignup: false);
   }
 
   @override

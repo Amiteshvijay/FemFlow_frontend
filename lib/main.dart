@@ -7,6 +7,7 @@ import 'package:femlyra/core/theme/FemLyra_theme.dart';
 import 'package:femlyra/features/onboarding/onboarding_screen.dart';
 import 'package:femlyra/features/shell/main_shell.dart';
 import 'package:femlyra/features/auth/login_screen.dart';
+import 'package:femlyra/features/auth/signup_screen.dart';
 import 'package:femlyra/core/theme/FemLyra_colors.dart';
 import 'package:femlyra/core/security/app_lock_service.dart';
 import 'package:femlyra/features/app_lock/screens/unlock_screen.dart';
@@ -164,7 +165,7 @@ class _AuthGateState extends State<AuthGate> {
         if (auth.status == AuthStatus.unauthenticated) {
           NotificationService.isAuthenticated = false;
           if (auth.onboardingCompleted) {
-            return const LoginScreen();
+            return auth.showSignupScreen ? const SignupScreen() : const LoginScreen();
           }
           return const OnboardingScreen();
         }
